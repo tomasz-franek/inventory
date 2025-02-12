@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/structures.xml
+  - include:
+      file: db/changelog/initial-data.xml
+  - property:
+      name: now
+      value: now()
+      dbms: h2
+  - property:
+      name: schemaName
+      value: inventory_schema

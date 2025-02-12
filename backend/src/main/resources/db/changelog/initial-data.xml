@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="tfranek" id="inventory-data-001">
+        <comment>Initialize table category</comment>
+        <insert tableName="category" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.category_seq')"/>
+            <column name="name" value="Food"/>
+            <column name="active" value="1"/>
+        </insert>
+        <insert tableName="category" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.category_seq')"/>
+            <column name="name" value="Clothes"/>
+            <column name="active" value="1"/>
+            <column name="optlock" value="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="tfranek" id="inventory-data-002">
+        <comment>Initialize table product</comment>
+        <insert tableName="product" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.product_seq')"/>
+            <column name="name" value="Bean"/>
+            <column name="category_id" value="1"/>
+            <column name="active" value="1"/>
+            <column name="fragile" value="0"/>
+            <column name="optlock" value="0"/>
+        </insert>
+        <insert tableName="product" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.product_seq')"/>
+            <column name="name" value="Sugar"/>
+            <column name="category_id" value="1"/>
+            <column name="active" value="1"/>
+            <column name="fragile" value="1"/>
+            <column name="optlock" value="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="tfranek" id="inventory-data-003">
+        <comment>Initialize table inventory</comment>
+        <insert tableName="inventory" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.inventory_seq')"/>
+            <column name="name" value="House"/>
+            <column name="description" value="House"/>
+            <column name="optlock" value="0"/>
+        </insert>
+        <insert tableName="inventory" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.inventory_seq')"/>
+            <column name="name" value="Garage"/>
+            <column name="description" value="Garage"/>
+            <column name="optlock" value="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="tfranek" id="inventory-data-004">
+        <comment>Initialize table unit</comment>
+        <insert tableName="unit" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.unit_seq')"/>
+            <column name="name" value="Kilogram"/>
+            <column name="symbol" value="Kg"/>
+            <column name="optlock" value="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="tfranek" id="inventory-data-005">
+        <comment>Initialize table storage</comment>
+        <insert tableName="storage" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
+            <column name="product_id" value="1"/>
+            <column name="unit_id" value="1"/>
+            <column name="items" value="10"/>
+            <column name="insert_date" value="now()"/>
+            <column name="count" value="2"/>
+            <column name="price" value="2.99"/>
+            <column name="optlock" value="0"/>
+        </insert>
+    </changeSet>
+    <changeSet author="tfranek" id="inventory-data-006">
+        <comment>Initialize table shopping</comment>
+        <insert tableName="shopping" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.shopping_seq')"/>
+            <column name="product_id" value="1"/>
+            <column name="unit_id" value="1"/>
+            <column name="name" value="Wash powder"/>
+            <column name="items" value="2"/>
+            <column name="count" value="4"/>
+            <column name="optlock" value="0"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

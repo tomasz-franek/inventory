@@ -1,0 +1,801 @@
+openapi: "3.0.0"
+info:
+  title: Inventory App
+  description: This is a REST API for Inventory application.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+paths:
+  /inventories:
+    get:
+      summary: get all inventories
+      operationId: getAllInventories
+      tags:
+        - inventories
+      responses:
+        '200':
+          description: All Inventories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Inventory'
+    post:
+      summary: save Inventory
+      operationId: saveInventory
+      tags:
+        - inventories
+      requestBody:
+        description: new Inventory object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Inventory'
+      responses:
+        '201':
+          description: saved Inventory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseId'
+  /inventories/{inventoryId}:
+    get:
+      operationId: getInventory
+      summary: Get Inventory object
+      tags:
+        - inventories
+      parameters:
+        - name: inventoryId
+          in: path
+          required: true
+          description: The ID of the Inventory to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Inventory not found
+        '200':
+          description: Inventory object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+    patch:
+      operationId: updateInventory
+      summary: Update Inventory object
+      tags:
+        - inventories
+      parameters:
+        - name: inventoryId
+          in: path
+          required: true
+          description: The ID of the Inventory to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Inventory object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Inventory'
+      responses:
+        '204':
+          description: Inventory updated
+        '400':
+          description: Unable to update Inventory
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: deleteInventory
+      summary: Delete Inventory
+      tags:
+        - inventories
+      parameters:
+        - name: inventoryId
+          in: path
+          required: true
+          description: The ID of the Inventory to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Inventory deleted
+        '404':
+          description: Inventory not found
+  /products:
+    get:
+      summary: get all products
+      operationId: getAllProducts
+      tags:
+        - products
+      responses:
+        '200':
+          description: All Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      summary: save product
+      operationId: saveProduct
+      tags:
+        - products
+      requestBody:
+        description: new product object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: saved product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseId'
+  /products/{productId}:
+    get:
+      operationId: getProduct
+      summary: Get Product object
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The ID of the Product to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Product not found
+        '200':
+          description: Product object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    patch:
+      operationId: updateProduct
+      summary: Update Product object
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The ID of the Product to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Product object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '204':
+          description: Product updated
+        '400':
+          description: Unable to update Product
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: deleteProduct
+      summary: Delete Product
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The ID of the Product to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Product deleted
+        '404':
+          description: Product not found
+  /categories:
+    get:
+      summary: get all categories
+      operationId: getAllCategories
+      tags:
+        - categories
+      responses:
+        '200':
+          description: All Categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+    post:
+      summary: save category
+      operationId: saveCategory
+      tags:
+        - categories
+      requestBody:
+        description: new category object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '201':
+          description: saved category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseId'
+  /categories/{categoryId}:
+    get:
+      operationId: getCategory
+      summary: Get Category object
+      tags:
+        - categories
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          description: The ID of the Category to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Category not found
+        '200':
+          description: Category object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+    patch:
+      operationId: updateCategory
+      summary: Update Category object
+      tags:
+        - categories
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          description: The ID of the Category to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Category object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '204':
+          description: Category updated
+        '400':
+          description: Unable to update Category
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: deleteCategory
+      summary: Delete Category
+      tags:
+        - categories
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          description: The ID of the Category to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Category deleted
+        '404':
+          description: Category not found
+  /units:
+    get:
+      summary: get all units
+      operationId: getAllUnits
+      tags:
+        - units
+      responses:
+        '200':
+          description: All units
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Unit'
+  /units/defaults:
+    get:
+      summary: get all units defaults
+      operationId: getAllUnitDefaults
+      tags:
+        - units
+      responses:
+        '200':
+          description: All units defaults
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnitDefault'
+  /units/{unitId}:
+    get:
+      operationId: getUnit
+      summary: Get Unit object
+      tags:
+        - units
+      parameters:
+        - name: unitId
+          in: path
+          required: true
+          description: The ID of the Unit to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Unit not found
+        '200':
+          description: Unit object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unit'
+  /storages:
+    get:
+      summary: get all storages
+      operationId: getAllStorages
+      tags:
+        - storages
+      responses:
+        '200':
+          description: All storages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Storage'
+    post:
+      summary: save Storage
+      operationId: saveStorage
+      tags:
+        - storages
+      requestBody:
+        description: new Storage object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Storage'
+      responses:
+        '201':
+          description: saved Storage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseId'
+  /storages/{storageId}:
+    get:
+      operationId: getStorage
+      summary: Get Storage object
+      tags:
+        - storages
+      parameters:
+        - name: storageId
+          in: path
+          required: true
+          description: The ID of the Storage to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Storage not found
+        '200':
+          description: Storage object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Storage'
+    patch:
+      operationId: updateStorage
+      summary: Update Storage object
+      tags:
+        - storages
+      parameters:
+        - name: storageId
+          in: path
+          required: true
+          description: The ID of the Storage to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Storage object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Storage'
+      responses:
+        '204':
+          description: Storage updated
+        '400':
+          description: Unable to update Storage
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: deleteStorage
+      summary: Delete Storage
+      tags:
+        - storages
+      parameters:
+        - name: storageId
+          in: path
+          required: true
+          description: The ID of the Storage to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Storage deleted
+        '404':
+          description: Storage not found
+  /shopping:
+    get:
+      summary: get all shopping's
+      operationId: getAllShopping
+      tags:
+        - shopping
+      responses:
+        '200':
+          description: All shopping's
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shopping'
+    post:
+      summary: save Shopping
+      operationId: saveShopping
+      tags:
+        - shopping
+      requestBody:
+        description: new Shopping object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shopping'
+      responses:
+        '201':
+          description: saved Shopping
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseId'
+  /shopping/{shoppingId}:
+    get:
+      operationId: getShopping
+      summary: Get Shopping object
+      tags:
+        - shopping
+      parameters:
+        - name: shoppingId
+          in: path
+          required: true
+          description: The ID of the Shopping to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Shopping not found
+        '200':
+          description: Shopping object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shopping'
+    patch:
+      operationId: updateShopping
+      summary: Update Shopping object
+      tags:
+        - shopping
+      parameters:
+        - name: shoppingId
+          in: path
+          required: true
+          description: The ID of the Shopping to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Shopping object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shopping'
+      responses:
+        '204':
+          description: Shopping updated
+        '400':
+          description: Unable to update Shopping
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: deleteShopping
+      summary: Delete Shopping
+      tags:
+        - shopping
+      parameters:
+        - name: shoppingId
+          in: path
+          required: true
+          description: The ID of the Shopping to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Shopping deleted
+        '404':
+          description: Shopping not found
+
+components:
+  schemas:
+    Inventory:
+      type: object
+      required:
+        - name
+        - optLock
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          maxLength: 45
+        description:
+          type: string
+          maxLength: 200
+        active:
+          type: integer
+          format: int32
+        optLock:
+          type: integer
+          format: int32
+
+    Product:
+      type: object
+      required:
+        - name
+        - idCategory
+        - optLock
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          maxLength: 45
+        active:
+          type: integer
+          format: int32
+        fragile:
+          type: integer
+          format: int32
+        idCategory:
+          type: integer
+          format: int64
+        optLock:
+          type: integer
+          format: int32
+
+    Category:
+      type: object
+      required:
+        - name
+        - active
+        - optLock
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          maxLength: 100
+        active:
+          type: integer
+          format: int32
+        optLock:
+          type: integer
+          format: int32
+
+    Unit:
+      type: object
+      required:
+        - name
+        - symbol
+        - optLock
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          maxLength: 100
+        symbol:
+          type: string
+          maxLength: 5
+        rounding:
+          type: integer
+          format: int32
+        optLock:
+          type: integer
+          format: int32
+
+    Storage:
+      type: object
+      required:
+        - idProduct
+        - items
+        - insertDate
+        - price
+        - used
+        - optLock
+      properties:
+        id:
+          type: integer
+          format: int64
+        idProduct:
+          type: integer
+          format: int64
+        items:
+          type: integer
+          format: int32
+        insertDate:
+          type: string
+          format: date
+        validDate:
+          type: string
+          format: date
+        idUnit:
+          type: integer
+          format: int64
+        count:
+          type: number
+        used:
+          type: number
+        endDate:
+          type: string
+          format: date
+        price:
+          type: number
+        optLock:
+          type: integer
+          format: int32
+    Item:
+      type: object
+      required:
+        - idStorage
+        - insertDate
+        - optLock
+      properties:
+        id:
+          type: integer
+          format: int64
+        idStorage:
+          type: integer
+          format: int64
+        idInventory:
+          type: integer
+          format: int64
+        insertDate:
+          type: string
+          format: date
+        validDate:
+          type: string
+          format: date
+        used:
+          type: number
+        endDate:
+          type: string
+          format: date
+        optLock:
+          type: integer
+          format: int32
+
+    UnitDefault:
+      type: object
+      required:
+        - idProduct
+        - optLock
+      properties:
+        id:
+          type: integer
+          format: int64
+        idProduct:
+          type: integer
+          format: int64
+        idUnit:
+          type: integer
+          format: int64
+        count:
+          type: number
+        optLock:
+          type: integer
+          format: int32
+
+    Shopping:
+      type: object
+      required:
+        - name
+        - items
+        - optLock
+      properties:
+        id:
+          type: integer
+          format: int64
+        idUnit:
+          type: integer
+          format: int64
+        idProduct:
+          type: integer
+          format: int64
+        name:
+          type: string
+          maxLength: 45
+        count:
+          type: number
+        items:
+          type: number
+        optLock:
+          type: integer
+          format: int32
+    ResponseId:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="tfranek" id="structures-001">
+        <comment>Create tariff_portal schema in database</comment>
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS ${schemaName};
+        </sql>
+    </changeSet>
+    <changeSet author="tfranek" id="structures-002">
+        <comment>Create 'inventory' table</comment>
+        <createTable tableName="inventory" schemaName="${schemaName}">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="inventory_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)">
+            </column>
+            <column name="active" type="int" defaultValue="1"/>
+            <column name="optlock" type="int">
+                <constraints notNullConstraintName="inventory_optlock"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="inventory_seq"
+                        startValue="1"
+                        incrementBy="1"
+                        schemaName="${schemaName}"/>
+    </changeSet>
+
+    <changeSet author="tfranek" id="structures-003">
+        <comment>Create 'category' table</comment>
+        <createTable tableName="category" schemaName="${schemaName}">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="category_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="int" defaultValue="1">
+            </column>
+            <column name="optlock" type="int">
+                <constraints notNullConstraintName="category_optlock"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="category_seq"
+                        startValue="1"
+                        incrementBy="1"
+                        schemaName="${schemaName}"/>
+    </changeSet>
+
+    <changeSet author="tfranek" id="structures-004">
+        <comment>Create 'product' table</comment>
+        <createTable tableName="product" schemaName="${schemaName}">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="product_pk"/>
+            </column>
+            <column name="category_id" type="BIGINT">
+                <constraints foreignKeyName="product_category_fk"
+                             referencedTableName="category"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="int" defaultValue="1"/>
+            <column name="fragile" type="int" defaultValue="0"/>
+            <column name="limit_max" type="int" defaultValue="365"/>
+            <column name="limit_med" type="int" defaultValue="180"/>
+            <column name="limit_min" type="int" defaultValue="90"/>
+            <column name="optlock" type="int">
+                <constraints notNullConstraintName="product_optlock"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="product_seq"
+                        startValue="1"
+                        incrementBy="1"
+                        schemaName="${schemaName}"/>
+    </changeSet>
+
+    <changeSet author="tfranek" id="structures-005">
+        <comment>Create 'unit' table</comment>
+        <createTable tableName="unit" schemaName="${schemaName}">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="unit_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="symbol" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rounding" type="INTEGER" defaultValue="0"/>
+            <column name="optlock" type="int">
+                <constraints notNullConstraintName="unit_optlock"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="unit_seq"
+                        startValue="1"
+                        incrementBy="1"
+                        schemaName="${schemaName}"/>
+    </changeSet>
+
+    <changeSet author="tfranek" id="structures-006">
+        <comment>Create 'storage' table</comment>
+        <createTable tableName="storage" schemaName="${schemaName}">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="storage_pk"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints foreignKeyName="storage_product_fk"
+                             referencedTableName="product"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="unit_id" type="BIGINT">
+                <constraints foreignKeyName="storage_unit_fk"
+                             referencedTableName="unit"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="items" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="insert_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valid_date" type="date"/>
+            <column name="count" type="decimal(10,4)"/>
+            <column name="used" type="decimal(10,4)" defaultValue="0.0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="date"/>
+            <column name="price" type="decimal(10,4)" defaultValue="0.0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="optlock" type="int">
+                <constraints notNullConstraintName="storage_optlock"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="storage_seq"
+                        startValue="1"
+                        incrementBy="1"
+                        schemaName="${schemaName}"/>
+    </changeSet>
+
+    <changeSet author="tfranek" id="structures-007">
+        <comment>Create 'item' table</comment>
+        <createTable tableName="item" schemaName="${schemaName}">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="item_pk"/>
+            </column>
+            <column name="storage_id" type="BIGINT">
+                <constraints foreignKeyName="item_storage_fk"
+                             referencedTableName="storage"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="inventory_id" type="BIGINT">
+                <constraints foreignKeyName="item_inventory_fk"
+                             referencedTableName="inventory"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="insert_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valid_date" type="date"/>
+            <column name="used" type="decimal(10,4)" defaultValue="0.0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="date"/>
+            <column name="optlock" type="int">
+                <constraints notNullConstraintName="item_optlock"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="item_seq"
+                        startValue="1"
+                        incrementBy="1"
+                        schemaName="${schemaName}"/>
+    </changeSet>
+
+    <changeSet author="tfranek" id="structures-008">
+        <comment>Create 'unit_default' table</comment>
+        <createTable tableName="unit_default" schemaName="${schemaName}">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="unit_default_pk"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints foreignKeyName="unit_default_product_fk"
+                             referencedTableName="product"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="unit_id" type="BIGINT">
+                <constraints foreignKeyName="unit_default_unit_fk"
+                             referencedTableName="unit"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="count" type="decimal(10,4)"/>
+            <column name="optlock" type="int">
+                <constraints notNullConstraintName="unit_default_optlock"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="unit_default_seq"
+                        startValue="1"
+                        incrementBy="1"
+                        schemaName="${schemaName}"/>
+    </changeSet>
+
+    <changeSet author="tfranek" id="structures-009">
+        <comment>Create 'shopping' table</comment>
+        <createTable tableName="shopping" schemaName="${schemaName}">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="shopping_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="items" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="count" type="decimal(10,4)"/>
+            <column name="unit_id" type="BIGINT">
+                <constraints foreignKeyName="shopping_unit_fk"
+                             referencedTableName="unit"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints foreignKeyName="shopping_product_fk"
+                             referencedTableName="product"
+                             referencedTableSchemaName="${schemaName}"
+                             referencedColumnNames="id"
+                />
+            </column>
+            <column name="optlock" type="int">
+                <constraints notNullConstraintName="shoping_optlock"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="shopping_seq"
+                        startValue="1"
+                        incrementBy="1"
+                        schemaName="${schemaName}"/>
+    </changeSet>
+</databaseChangeLog>

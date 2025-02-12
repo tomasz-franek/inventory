@@ -25,4 +25,4 @@ replay_pid*
 /api/src/main/java/
 target/
 api/.openapi-generator
-.idea/
+/.idea/

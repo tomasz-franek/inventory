@@ -1,0 +1,24 @@
+<h2>Inventories</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Active</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let inventory of inventories$" class="inventory">
+  <tr>
+    <td>{{ inventory.name }}</td>
+    <td>{{ inventory.active }}</td>
+    <td>
+      <p class="d-inline-flex gap-1">
+        <button type="button" class="btn btn-outline-primary" (click)="updateInventory(inventory)">Update</button>
+        <button type="button" class="btn btn-outline-danger" (click)="deleteInventory(inventory)">Delete</button>
+      </p>
+    </td>
+  </tr>
+  </tbody>
+
+</table>
+<button (click)="addNewInventory()">Add New Inventory</button>
