@@ -6,13 +6,13 @@ export const initialProductState: ProductState = {
   productEdit:undefined
 };
 
-export function productReducer(state:ProductState = initialProductState, action: any): ProductState {
+export function productReducer(state: ProductState = initialProductState, action: any): ProductState {
   switch (action.type) {
     case saveProduct.type:
       if (action.product.id !== undefined) {
         return {
           ...state,
-          products: state.products.map(product => (product.id === action.product.id ? action.product : product))
+          products: state.products.map(product => (product.idProduct === action.product.id ? action.product : product))
         };
       } else {
         return {

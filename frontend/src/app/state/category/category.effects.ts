@@ -50,8 +50,8 @@ export class CategoryEffects {
   });
 
   private _getCreateOrUpdateObservable(category: Category): Observable<any> {
-    if (category.id !== null && category.id !== undefined) {
-      return this._apiService.updateCategory(category.id, category);
+    if (category.idCategory !== null && category.idCategory !== undefined) {
+      return this._apiService.updateCategory(category.idCategory, category);
     }
     category.optLock = category.optLock || 0;
     return this._apiService.createCategory(category);

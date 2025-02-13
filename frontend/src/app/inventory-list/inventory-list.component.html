@@ -7,7 +7,7 @@
     <th>Action</th>
   </tr>
   </thead>
-  <tbody *ngFor="let inventory of inventories$" class="inventory">
+  <tbody *ngFor="let inventory of inventories$ | async" class="inventory">
   <tr>
     <td>{{ inventory.name }}</td>
     <td>{{ inventory.active }}</td>

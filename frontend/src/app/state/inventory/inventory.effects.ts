@@ -50,8 +50,8 @@ export class InventoryEffects {
   });
 
   private _getCreateOrUpdateObservable(inventory: Inventory): Observable<any> {
-    if (inventory.id !== null && inventory.id !== undefined) {
-      return this._apiService.updateInventory(inventory.id, inventory);
+    if (inventory.idInventory !== null && inventory.idInventory !== undefined) {
+      return this._apiService.updateInventory(inventory.idInventory, inventory);
     }
     inventory.optLock = inventory.optLock || 0;
     return this._apiService.createInventory(inventory);

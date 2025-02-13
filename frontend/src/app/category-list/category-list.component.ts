@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Category} from '../api';
 import {retrievedCategoryList, saveCategory} from '../state/category/category.action';
 import {CommonModule, NgForOf} from '@angular/common';
-import {Store} from "@ngrx/store"
-import {Features} from '../../features';
+import {Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {CategoryState} from '../state/category/category.selectors';
+import {Observable} from 'rxjs';
+import {getCategoriesList} from '../state/category/category.selectors';
 
 @Component({
   selector: 'app-category-list',
@@ -17,13 +17,11 @@ import {CategoryState} from '../state/category/category.selectors';
   templateUrl: './category-list.component.html'
 })
 export class CategoryListComponent implements OnInit {
-  categories$: Category[] = [];
+  protected categories$!: Observable<Category[]>;
 
 
-  constructor(private store: Store<CategoryState>,
+  constructor(private store: Store,
               private router: Router,) {
-    this.store.select(Features.categories).subscribe((data:any) => {
-      this.categories$ = data.categories;});
   }
 
   addNewCategory() {
@@ -31,7 +29,8 @@ export class CategoryListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(retrievedCategoryList());
+    this.store.dispatch(retrievedCategoryList())
+    this.categories$ = this.store.select(getCategoriesList);
   }
 
   updateCategory(category: Category) {
@@ -41,7 +40,7 @@ export class CategoryListComponent implements OnInit {
 
   deleteCategory(category: Category) {
     const updatedCategory: Category = { ...category, name: 'Updated Category', active: 0};
-    if(updatedCategory.id) {
+    if (updatedCategory.idCategory) {
       this.store.dispatch(saveCategory({category:updatedCategory}));
     }
   }

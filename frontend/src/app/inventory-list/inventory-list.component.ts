@@ -3,9 +3,9 @@ import {CommonModule} from '@angular/common';
 import {Inventory} from '../api';
 import {ApiService} from '../services/api.service';
 import {Store} from '@ngrx/store';
-import {Features} from '../../features';
 import {retrievedInventoryList, saveInventory} from '../state/inventory/inventory.action';
-import {InventoryState} from '../state/inventory/inventory.selectors';
+import {Observable} from 'rxjs';
+import {getInventoriesList} from '../state/inventory/inventory.selectors';
 
 @Component({
   selector: 'app-inventory-list',
@@ -16,13 +16,11 @@ import {InventoryState} from '../state/inventory/inventory.selectors';
   styleUrl: './inventory-list.component.css'
 })
 export class InventoryListComponent implements OnInit {
-  inventories$: Inventory[] = [];
+  inventories$!: Observable<Inventory[]>;
 
 
   constructor(private apiService: ApiService,
-              private store: Store<InventoryState>) {
-    this.store.select(Features.inventories).subscribe((data:any) => {
-      this.inventories$ = data.inventories;});
+              private store: Store) {
   }
 
   addNewInventory() {
@@ -37,8 +35,10 @@ export class InventoryListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(retrievedInventoryList());
+    this.store.dispatch(retrievedInventoryList())
+    this.inventories$ = this.store.select(getInventoriesList);
   }
+
 
   updateInventory(inventory: Inventory) {
     const updatedInventory: Inventory = { ...inventory, name: 'Updated Inventory', active: 1};
@@ -47,7 +47,7 @@ export class InventoryListComponent implements OnInit {
 
   deleteInventory(inventory: Inventory) {
     const updatedInventory: Inventory = { ...inventory, name: 'Updated Inventory', active: 0};
-    if(updatedInventory.id) {
+    if (updatedInventory.idInventory) {
       this.store.dispatch(saveInventory({inventory:updatedInventory}));
     }
   }

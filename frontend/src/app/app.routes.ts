@@ -11,6 +11,8 @@ import {CategoryAddComponent} from './category-add/category-add.component';
 import {ProductEffects} from './state/product/product.effects';
 import {ProductListComponent} from './product-list/product-list.component';
 import {ProductAddComponent} from './product-add/product-add.component';
+import {StorageEffects} from './state/storage/storage.effects';
+import {StoragesListComponent} from './storages-list/storages-list.component';
 
 export const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
@@ -39,6 +41,11 @@ export const appRoutes: Routes = [
     path: 'product-add', providers: [
       provideEffects(ProductEffects),
     ], component: ProductAddComponent
+  },
+  {
+    path: 'storages', providers: [
+      provideEffects(StorageEffects),
+    ], component: StoragesListComponent
   },
   {path: '**', component: PageNotFoundComponent}
 

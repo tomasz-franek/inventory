@@ -7,7 +7,7 @@
     <th>Action</th>
   </tr>
   </thead>
-  <tbody *ngFor="let product of products$" class="product">
+  <tbody *ngFor="let product of products$ |async" class="product">
   <tr>
     <td>{{ product.name }}</td>
     <td>{{ product.active }}</td>

@@ -50,8 +50,8 @@ export class ProductEffects {
   });
 
   private _getCreateOrUpdateObservable(product: Product): Observable<any> {
-    if (product.id !== null && product.id !== undefined) {
-      return this._apiService.updateProduct(product.id, product);
+    if (product.idProduct !== null && product.idProduct !== undefined) {
+      return this._apiService.updateProduct(product.idProduct, product);
     }
     product.optLock = product.optLock || 0;
     return this._apiService.createProduct(product);

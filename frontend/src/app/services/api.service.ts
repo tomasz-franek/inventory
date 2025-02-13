@@ -1,6 +1,16 @@
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {CategoriesService, Category, InventoriesService, Inventory, Product, ProductsService, ResponseId} from '../api';
+import {
+  CategoriesService,
+  Category,
+  InventoriesService,
+  Inventory,
+  Product,
+  ProductsService,
+  ResponseId,
+  Storage,
+  StoragesService,
+} from '../api';
 
 @Injectable({
   providedIn: "root"
@@ -9,6 +19,7 @@ export class ApiService {
   private categoriesService: CategoriesService = inject(CategoriesService);
   private inventoriesService: InventoriesService = inject(InventoriesService);
   private productService: ProductsService = inject(ProductsService);
+  private storagesService: StoragesService = inject(StoragesService);
 
   constructor() {
   }
@@ -17,8 +28,8 @@ export class ApiService {
     return this.categoriesService.getAllCategories();
   }
 
-  updateCategory(id: number, category: Category): Observable<Category> {
-    return this.categoriesService.updateCategory(id, category);
+  updateCategory(idCategory: number, category: Category): Observable<Category> {
+    return this.categoriesService.updateCategory(idCategory, category);
   }
 
   createCategory(category: Category): Observable<ResponseId> {
@@ -33,8 +44,8 @@ export class ApiService {
     return this.inventoriesService.saveInventory(inventory);
   }
 
-  updateInventory(id: number, inventory: Inventory): Observable<ResponseId> {
-    return this.inventoriesService.updateInventory(id, inventory);
+  updateInventory(idInventory: number, inventory: Inventory): Observable<ResponseId> {
+    return this.inventoriesService.updateInventory(idInventory, inventory);
   }
 
   getProducts(): Observable<Product[]> {
@@ -45,7 +56,19 @@ export class ApiService {
     return this.productService.saveProduct(product);
   }
 
-  updateProduct(id: number, product: Product): Observable<ResponseId> {
-    return this.productService.updateProduct(id, product);
+  updateProduct(idProduct: number, product: Product): Observable<ResponseId> {
+    return this.productService.updateProduct(idProduct, product);
+  }
+
+  getStorages(): Observable<Storage[]> {
+    return this.storagesService.getAllStorages();
+  }
+
+  createStorage(storage: Storage): Observable<ResponseId> {
+    return this.storagesService.saveStorage(storage);
+  }
+
+  updateStorage(idStorage: number, storage: Storage): Observable<ResponseId> {
+    return this.storagesService.updateStorage(idStorage, storage);
   }
 }

@@ -12,7 +12,7 @@ export function inventoryReducer(state = initialInventoryState, action: any): In
       if (action.inventory.id !== undefined) {
         return {
           ...state,
-          inventories: state.inventories.map(inventory => (inventory.id === action.inventory.id ? action.inventory : inventory))
+          inventories: state.inventories.map(inventory => (inventory.idInventory === action.inventory.id ? action.inventory : inventory))
         };
       } else {
         return {

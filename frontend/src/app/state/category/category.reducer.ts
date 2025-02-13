@@ -12,7 +12,7 @@ export function categoryReducer(state = initialCategoryState, action: any): Cate
       if (action.category.id !== undefined) {
         return {
           ...state,
-          categories: state.categories.map(category => (category.id === action.category.id ? action.category : category))
+          categories: state.categories.map(category => (category.idCategory === action.category.id ? action.category : category))
         };
       } else {
         return {

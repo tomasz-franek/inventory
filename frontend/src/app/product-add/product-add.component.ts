@@ -5,11 +5,9 @@ import {Category, Product} from '../api';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {saveProduct} from '../state/product/product.action';
-import {retrievedCategoryList} from '../state/category/category.action';
-import {ProductState} from '../state/product/product.selectors';
-import {Features} from '../../features';
-import {CategoryState} from '../state/category/category.selectors';
-import {NgForOf} from '@angular/common';
+import {AsyncPipe, NgForOf} from '@angular/common';
+import {getCategoriesList} from '../state/category/category.selectors';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-product-add',
@@ -17,15 +15,16 @@ import {NgForOf} from '@angular/common';
     ReactiveFormsModule,
     TranslatePipe,
     FormsModule,
-    NgForOf
+    NgForOf,
+    AsyncPipe
   ],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
 })
 export class ProductAddComponent implements OnInit {
-  protected categories$: Category[] = [];
+  protected categories$!: Observable<Category[]>;
   protected product$: Product = {
-    id: undefined,
+    idProduct: undefined,
     name: '',
     active: 1,
     idCategory:0,
@@ -33,10 +32,7 @@ export class ProductAddComponent implements OnInit {
   };
 
   constructor(private router: Router,
-              private storeProduct: Store<ProductState>,
-              private storeCategory: Store<CategoryState>) {
-    this.storeCategory.select(Features.categories).subscribe((data:any) => {
-      this.categories$ = data.categories;});
+              private store: Store) {
   }
 
   backToProducts() {
@@ -44,11 +40,11 @@ export class ProductAddComponent implements OnInit {
   }
 
   save() {
-    this.storeProduct.dispatch(saveProduct({product:this.product$}));
+    this.store.dispatch(saveProduct({product: this.product$}));
     this.router.navigate(['products']);
   }
 
   ngOnInit(): void {
-    this.storeCategory.dispatch(retrievedCategoryList());
+    this.store.select(getCategoriesList);
   }
 }

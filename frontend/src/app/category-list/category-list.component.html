@@ -7,7 +7,7 @@
     <th>Action</th>
   </tr>
   </thead>
-  <tbody *ngFor="let category of categories$" class="category">
+  <tbody *ngFor="let category of categories$ | async" class="category">
   <tr>
     <td>{{ category.name }}</td>
     <td>{{ category.active }}</td>

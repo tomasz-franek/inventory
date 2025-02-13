@@ -11,6 +11,7 @@ import {CategoryEffects} from './state/category/category.effects';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {provideTranslateService, TranslateLoader} from '@ngx-translate/core';
 import {productReducer} from './state/product/product.reducer';
+import {storageReducer} from './state/storage/storage.reducer';
 
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
   new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
       categories: categoryReducer,
       inventories: inventoryReducer,
       products: productReducer,
+      storages: storageReducer,
     }),
     provideEffects([CategoryEffects]),
     provideStoreDevtools({

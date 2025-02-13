@@ -11,7 +11,8 @@
         <div class="col-3">
           <select [(ngModel)]="product$.idCategory" class="form-select" required id="category">
             <option [value]="0">{{'SELECT'|translate}}</option>
-            <option *ngFor="let category of categories$" [value]="category.id">{{category.name}}</option>
+            <option *ngFor="let category of categories$|async" [value]="category.idCategory">{{ category.name }}
+            </option>
           </select>
         </div>
       </div>

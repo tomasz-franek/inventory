@@ -1,29 +1,27 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForOf} from '@angular/common';
+import {AsyncPipe, NgForOf} from '@angular/common';
 import {Product} from '../api';
 import {Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {Features} from '../../features';
 import {retrievedProductList, saveProduct} from '../state/product/product.action';
-import {ProductState} from '../state/product/product.selectors';
+import {Observable} from 'rxjs';
+import {getProductsList} from '../state/product/product.selectors';
 
 @Component({
   selector: 'app-product-list',
   imports: [
-    NgForOf
+    NgForOf,
+    AsyncPipe
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit {
-  products$: Product[] = [];
+  products$!: Observable<Product[]>;
 
 
-  constructor(private store: Store<ProductState>,
+  constructor(private store: Store,
               private router: Router,) {
-    this.store.select(Features.products).subscribe((data: any) => {
-      this.products$ = data.products;
-    });
   }
 
   addNewProduct() {
@@ -31,7 +29,8 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(retrievedProductList());
+    this.store.dispatch(retrievedProductList())
+    this.products$ = this.store.select(getProductsList);
   }
 
   updateProduct(product: Product) {
@@ -41,7 +40,7 @@ export class ProductListComponent implements OnInit {
 
   deleteProduct(product: Product) {
     const updatedProduct: Product = {...product, name: 'Updated Product', active: 0};
-    if (updatedProduct.id) {
+    if (updatedProduct.idProduct) {
       this.store.dispatch(saveProduct({product: updatedProduct}));
     }
   }

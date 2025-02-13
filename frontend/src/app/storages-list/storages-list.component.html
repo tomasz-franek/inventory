@@ -1,0 +1,114 @@
+<div class="container">
+  <div class="row mb-2">
+    <h3><i class="bi bi-inbox"></i> {{'MENU.MANAGEMENT.STORAGES'|translate}}</h3>
+  </div>
+  <div class="row mb-2">
+    <div class="col-3">
+      <button (click)="add()" class="btn btn-default btn-outline-primary" id="addButton"
+              title="{{'ADD'|translate}}"><i class="bi bi-plus"></i> {{'ADD'|translate}}
+      </button>
+    </div>
+    <div class="col-8">
+    <span><input (ngModelChange)="hideUsed($event)" [(ngModel)]="filter$.hideUsed" class="form-check-input"
+                 name="hideUsed" id="hideUsed"
+                 type="checkbox"/>{{'HIDE_USED'|translate}}</span>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-3">
+      <select (ngModelChange)="updateFilterCategory($event)" [ngModel]="filter$.idCategory" class="form-select" id="category">
+        <option [value]="0">{{'FILTER'|translate}} {{'CATEGORY'|translate}}</option>
+        <option *ngFor="let filterCategory of categories$ | async" [value]="filterCategory.idCategory">{{filterCategory.name}}
+        </option>
+      </select>
+    </div>
+    <div class="col-3">
+      <select (ngModelChange)="updateFilterProduct($event)" [ngModel]="filter$.idProduct" class="form-select" id="product">
+        <option [value]="0">{{'FILTER'|translate}} {{'PRODUCT'|translate}}</option>
+        <option *ngFor="let filterProduct of products$ | async" [value]="filterProduct.idProduct">{{filterProduct.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div  class="row mb-2">
+    <table class="table inventory-table table-striped table-condensed" id="table">
+      <thead>
+      <tr class="cursor-pointer">
+        <th class="text-bold text-center"></th>
+        <th class="text-bold text-center">
+          {{'NAME'|translate}}
+        </th>
+        <th class="text-bold text-center">
+          {{'BUY_DATE'|translate}}
+        </th>
+        <th class="text-bold text-center">
+          {{'END_DATE'|translate}}
+        </th>
+        <th class="text-bold text-center">
+          {{'VALID_DATE'|translate}}
+        </th>
+        <th class="text-bold text-center">
+         {{'ITEMS'|translate}}
+        </th>
+        <th class="text-bold text-center">
+          {{'PRICE'|translate}}
+        </th>
+        <th class="text-bold text-center">
+          {{'USED'|translate}}
+        </th>
+        <th class="text-bold text-center">{{'ACTION'|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of storages$|async; let rowNr = index">
+        <td [textContent]="rowNr + 1" class="text-center"></td>
+        <td class="text-left">
+          <span [ngClass]="activeTextColor(row.used < 100 )" [textContent]="row.idStorage"></span>
+        </td>
+        <td [textContent]="row.insertDate" class="text-center"></td>
+        <td [textContent]="row.endDate" class="text-center"></td>
+        <td [textContent]="row.validDate" class="text-center"></td>
+        <td [textContent]="row.items" class="text-center"></td>
+        <td class="text-right"> {{row.price | number: '1.2-2'}}</td>
+        <td class="text-center"> <span> {{row.used | number: '1.2-2' }}% </span><progress max="100" value="{{row.used}}" ></progress>
+        </td>
+        <td class="text-center">
+          <button (click)="editStorage(row)" data-bs-target="#editStorage" data-bs-toggle="modal"
+                  title="{{'EDIT'|translate}}" id="edit" type="button"
+                  class="btn btn-outline-primary"><i class="bi bi-pencil"></i></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal fade" id="editStorage">
+    <div class="modal-dialog col-3">
+      <form class="modal-content">
+        <div class="modal-header">{{'EDIT'|translate}}&nbsp; <strong><span id="name"
+                                                                           [textContent]="editStore$.productName"></span></strong>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <label class="col-2">{{'PRICE'|translate}}</label>
+            <input [(ngModel)]="editStore$.price" class="form-control" id="price" type="number"
+                   min="0" name="price"
+                   placeholder="{{'PRICE'|translate}}"
+                   pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"/>
+          </div>
+          <div class="modal-footer">
+            <button (click)="clearEditStore()" class="btn btn-outline-danger" data-bs-dismiss="modal">
+              <i class="bi bi-arrow-left"></i>
+              {{'BACK'|translate}}</button>
+            <button class="btn btn-outline-primary" data-bs-dismiss="modal"
+                    (click)="updateStorage()"
+                    [disabled]="editStore$.price == 0">
+              {{'SAVE'|translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
