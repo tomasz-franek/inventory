@@ -9,8 +9,8 @@ import inventory.app.api.model.Shopping;
 @Mapper(componentModel = "spring")
 public interface ShoppingMapping {
 
-  @Mapping(target = "idProduct",source = "product.id")
-  @Mapping(target = "idUnit",source = "unit.id")
+  @Mapping(target = "idProduct", source = "product.id")
+  @Mapping(target = "idUnit", source = "unit.id")
   Shopping toDto(ShoppingEntity entity);
 
   @NoIdMapping

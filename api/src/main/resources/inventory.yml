@@ -588,7 +588,7 @@ components:
         - name
         - optLock
       properties:
-        id:
+        idInventory:
           type: integer
           format: int64
         name:
@@ -611,7 +611,7 @@ components:
         - idCategory
         - optLock
       properties:
-        id:
+        idProduct:
           type: integer
           format: int64
         name:
@@ -646,7 +646,7 @@ components:
         - active
         - optLock
       properties:
-        id:
+        idCategory:
           type: integer
           format: int64
         name:
@@ -666,7 +666,7 @@ components:
         - symbol
         - optLock
       properties:
-        id:
+        idUnit:
           type: integer
           format: int64
         name:
@@ -692,7 +692,7 @@ components:
         - used
         - optLock
       properties:
-        id:
+        idStorage:
           type: integer
           format: int64
         idProduct:
@@ -722,6 +722,7 @@ components:
         optLock:
           type: integer
           format: int32
+
     Item:
       type: object
       required:
@@ -729,7 +730,7 @@ components:
         - insertDate
         - optLock
       properties:
-        id:
+        idItem:
           type: integer
           format: int64
         idStorage:
@@ -759,7 +760,7 @@ components:
         - idProduct
         - optLock
       properties:
-        id:
+        idUnitDefault:
           type: integer
           format: int64
         idProduct:
@@ -781,7 +782,7 @@ components:
         - items
         - optLock
       properties:
-        id:
+        idShopping:
           type: integer
           format: int64
         idUnit:
@@ -800,6 +801,7 @@ components:
         optLock:
           type: integer
           format: int32
+
     ResponseId:
       type: object
       required:
@@ -808,3 +810,18 @@ components:
         id:
           type: integer
           format: int64
+
+    Properties:
+      type: object
+      required:
+        - idUser
+      properties:
+        idUser:
+          type: integer
+          format: int64
+        currency:
+          type: string
+          maxLength: 3
+        language:
+          type: string
+          maxLength: 2

@@ -11,6 +11,7 @@ import inventory.app.api.model.Storage;
 public interface StorageMapper {
   @Mapping(target = "idProduct", source = "product.id")
   @Mapping(target = "idUnit", source = "unit.id")
+  @Mapping(target = "idStorage", source = "id")
   Storage toDto(StorageEntity entity);
 
   @NoIdMapping

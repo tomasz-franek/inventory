@@ -37,7 +37,7 @@ class StoragesControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].idStorage").value(1))
                 .andExpect(jsonPath("$[0].idProduct").value(1))
                 .andExpect(jsonPath("$[0].idUnit").value(1));
     }
@@ -50,7 +50,7 @@ class StoragesControllerTest {
                                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.idStorage").value(1))
                 .andExpect(jsonPath("$.idProduct").value(1))
                 .andExpect(jsonPath("$.idUnit").value(1));
     }
