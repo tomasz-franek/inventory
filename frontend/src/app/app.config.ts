@@ -10,6 +10,7 @@ import {provideEffects} from '@ngrx/effects';
 import {CategoryEffects} from './state/category/category.effects';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {provideTranslateService, TranslateLoader} from '@ngx-translate/core';
+import {productReducer} from './state/product/product.reducer';
 
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
   new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -21,7 +22,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideStore({
       categories: categoryReducer,
-      inventories: inventoryReducer
+      inventories: inventoryReducer,
+      products: productReducer,
     }),
     provideEffects([CategoryEffects]),
     provideStoreDevtools({

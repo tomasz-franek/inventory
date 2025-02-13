@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {CategoriesService, Category, InventoriesService, Inventory, ResponseId} from '../api';
+import {CategoriesService, Category, InventoriesService, Inventory, Product, ProductsService, ResponseId} from '../api';
 
 @Injectable({
   providedIn: "root"
@@ -8,6 +8,7 @@ import {CategoriesService, Category, InventoriesService, Inventory, ResponseId} 
 export class ApiService {
   private categoriesService: CategoriesService = inject(CategoriesService);
   private inventoriesService: InventoriesService = inject(InventoriesService);
+  private productService: ProductsService = inject(ProductsService);
 
   constructor() {
   }
@@ -34,5 +35,17 @@ export class ApiService {
 
   updateInventory(id: number, inventory: Inventory): Observable<ResponseId> {
     return this.inventoriesService.updateInventory(id, inventory);
+  }
+
+  getProducts(): Observable<Product[]> {
+    return this.productService.getAllProducts();
+  }
+
+  createProduct(product: Product): Observable<ResponseId> {
+    return this.productService.saveProduct(product);
+  }
+
+  updateProduct(id: number, product: Product): Observable<ResponseId> {
+    return this.productService.updateProduct(id, product);
   }
 }

@@ -3,9 +3,9 @@ import {Category} from '../api';
 import {retrievedCategoryList, saveCategory} from '../state/category/category.action';
 import {CommonModule, NgForOf} from '@angular/common';
 import {Store} from "@ngrx/store"
-import {AppState} from '../state/category/category.reducer';
 import {Features} from '../../features';
 import {Router} from '@angular/router';
+import {CategoryState} from '../state/category/category.selectors';
 
 @Component({
   selector: 'app-category-list',
@@ -20,7 +20,7 @@ export class CategoryListComponent implements OnInit {
   categories$: Category[] = [];
 
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<CategoryState>,
               private router: Router,) {
     this.store.select(Features.categories).subscribe((data:any) => {
       this.categories$ = data.categories;});

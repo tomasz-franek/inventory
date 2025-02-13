@@ -1,7 +1,12 @@
-import {AppState, initialState} from '../category/category.reducer';
 import {retrievedInventoryListActionSuccess, saveInventory} from './inventory.action';
+import {InventoryState} from './inventory.selectors';
 
-export function inventoryReducer(state = initialState, action: any): AppState {
+export const initialInventoryState: InventoryState = {
+  inventories: [],
+  inventoryEdit: undefined
+};
+
+export function inventoryReducer(state = initialInventoryState, action: any): InventoryState {
   switch (action.type) {
     case saveInventory.type:
       if (action.inventory.id !== undefined) {

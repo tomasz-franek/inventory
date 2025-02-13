@@ -5,9 +5,9 @@ import {Category} from '../api';
 import {FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {AppState} from '../state/category/category.reducer';
 import {saveCategory} from '../state/category/category.action';
 import {Features} from '../../features';
+import {CategoryState} from '../state/category/category.selectors';
 
 @Component({
   selector: 'app-category-add',
@@ -27,7 +27,7 @@ export class CategoryAddComponent implements OnInit {
   };
 
   constructor(private router: Router,
-              private store: Store<AppState>) {
+              private store: Store<CategoryState>) {
   }
 
   backToCategories() {

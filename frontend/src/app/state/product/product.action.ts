@@ -1,0 +1,17 @@
+import {createAction, props} from '@ngrx/store';
+import {Product} from '../../api';
+import {HttpErrorResponse} from '@angular/common/http';
+
+export const retrievedProductList = createAction('[Product] Call Product list');
+export const retrievedProductListActionSuccess = createAction('[Product] Retrieved Product list', props<{
+  products: Product[]
+}>());
+export const retrievedProductListActionError = createAction('[Product] Product list Error', props<{
+  error: HttpErrorResponse
+}>());
+
+export const saveProduct = createAction('[Product] Save Product', props<{ product: Product }>());
+export const saveProductActionSuccess = createAction('[Product] Save ProductSuccess');
+export const saveProductActionError = createAction('[Product] Save ProductError', props<{
+  error: HttpErrorResponse
+}>());

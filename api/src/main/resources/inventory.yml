@@ -626,6 +626,15 @@ components:
         idCategory:
           type: integer
           format: int64
+        limitMin:
+          type: integer
+          format: int64
+        limitMed:
+          type: integer
+          format: int64
+        limitMax:
+          type: integer
+          format: int64
         optLock:
           type: integer
           format: int32

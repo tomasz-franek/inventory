@@ -5,7 +5,7 @@ import {ApiService} from '../services/api.service';
 import {Store} from '@ngrx/store';
 import {Features} from '../../features';
 import {retrievedInventoryList, saveInventory} from '../state/inventory/inventory.action';
-import {AppState} from '../state/category/category.reducer';
+import {InventoryState} from '../state/inventory/inventory.selectors';
 
 @Component({
   selector: 'app-inventory-list',
@@ -20,7 +20,7 @@ export class InventoryListComponent implements OnInit {
 
 
   constructor(private apiService: ApiService,
-              private store: Store<AppState>) {
+              private store: Store<InventoryState>) {
     this.store.select(Features.inventories).subscribe((data:any) => {
       this.inventories$ = data.inventories;});
   }

@@ -1,0 +1,24 @@
+<h2>Products</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Active</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let product of products$" class="product">
+  <tr>
+    <td>{{ product.name }}</td>
+    <td>{{ product.active }}</td>
+    <td>
+      <p class="d-inline-flex gap-1">
+        <button type="button" class="btn btn-outline-primary" (click)="updateProduct(product)">Update</button>
+        <button type="button" class="btn btn-outline-danger" (click)="deleteProduct(product)">Delete</button>
+      </p>
+    </td>
+  </tr>
+  </tbody>
+
+</table>
+<button (click)="addNewProduct()">Add New Product</button>

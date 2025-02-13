@@ -1,21 +1,12 @@
-import {Category, Inventory} from '../../api';
 import {retrievedCategoryListActionSuccess, saveCategory} from './category.action';
+import {CategoryState} from './category.selectors';
 
-export interface AppState {
-  categories: Category[],
-  categoryEdit: Category | undefined
-  inventories: Inventory[],
-  inventoryEdit: Inventory | undefined
-}
-
-export const initialState: AppState = {
+export const initialCategoryState: CategoryState = {
   categories: [],
-  categoryEdit: undefined,
-  inventories: [],
-  inventoryEdit: undefined
+  categoryEdit: undefined
 };
 
-export function categoryReducer(state = initialState, action: any): AppState {
+export function categoryReducer(state = initialCategoryState, action: any): CategoryState {
   switch (action.type) {
     case saveCategory.type:
       if (action.category.id !== undefined) {
