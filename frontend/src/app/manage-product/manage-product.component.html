@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="row">
+    <h3><i class="bi bi-calculator"></i> {{'MENU.MANAGEMENT.MANAGE'|translate}}</h3>
+  </div>
+  <div class="mb-2">
+    <select [(ngModel)]="idInventory" class="form-select col-3 mb-2" required id="inventories">
+      <option [value]="0">{{'SELECT'|translate}}</option>
+      <option *ngFor="let inventory of inventories" [value]="inventory.idInventory">{{inventory.name}}</option>
+    </select>
+    <button (click)="addAllToInventory()" id="moveInventory"
+            [disabled]="idInventory ==0 || items.length == 0" class="mb-2 btn btn-outline-primary">
+      {{'MOVE_INVENTORY'|translate}}
+    </button>
+  </div>
+  <div>
+    <table class="table inventory-table table-striped table-condensed"           >
+      <thead>
+      <tr>
+        <th class="text-bold text-center"></th>
+        <th class="text-bold text-center" >{{'NAME'|translate}}</th>
+        <th class="text-bold text-center" >{{'ITEMS'|translate}}</th>
+        <th class="text-bold text-center">{{'ACTION'|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of items; let rowNr = index">
+        <td [textContent]="rowNr + 1" class="text-center"></td>
+<!--        <td [textContent]="row.name" class="text-left"></td>-->
+<!--        <td [textContent]="row.ids.length" class="text-center"></td>-->
+        <td class="text-center">
+          <button (click)="selectItemRow()" class="btn btn-outline-primary" data-bs-target="#move-inventory" id="edit"
+                  data-bs-toggle="modal" title="{{'EDIT'|translate}}"><i class="bi-pencil"></i> {{'EDIT'|translate}}
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="modal fade" id="move-inventory">
+    <div class="modal-dialog col-3">
+      <form class="modal-content">
+        <div class="modal-header">
+          {{'MENU.MANAGEMENT.MOVE_TO_INV'|translate}} <span [textContent]="inventory.name"></span>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <select [(ngModel)]="rowIdInventory" class="form-select" name="rowIdInventory" required id="inventory">
+            <option [value]="0">{{'SELECT'|translate}}</option>
+            <option *ngFor="let inventory of inventories" [value]="inventory.idInventory">{{inventory.name}}</option>
+          </select>
+          <div class="row">
+            <label class="col-3 mb-2">{{'ITEMS'|translate}} <span
+              [textContent]="storage.selectedItems"></span></label>
+            <input [(ngModel)]="storage.selectedItems" class="form-range col-3" max="{{storage.ids.length}}" min="1"
+                   name="used" id="used" step="1"
+                   type="range"/>
+          </div>
+          <div class="modal-footer">
+            <button (click)="moveCancel()" class="btn btn-outline-danger" data-bs-dismiss="modal">
+              <i class="bi bi-arrow-left"></i>
+              {{'BACK'|translate}}</button>
+            <button (click)="addItemToInventory()" data-bs-dismiss="modal"
+                    [disabled]="rowIdInventory === 0"
+                    class="ms-2 btn btn-outline-primary">
+              {{'SAVE'|translate}}
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

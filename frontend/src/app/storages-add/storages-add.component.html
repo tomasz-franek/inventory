@@ -1,1 +1,140 @@
-<p>storages-add works!</p>
+<div class="container">
+  <div class="row mb-2">
+    <div class="col-8">
+      <label class="col-6">{{ 'CATEGORY'|translate }}</label>
+      <label class="col-6">{{ 'PRODUCT'|translate }}</label>
+    </div>
+    <div class="row mb-2">
+      <div class="col-8">
+        <div class="row">
+          <div class="col-6">
+            <select (change)="updateProducts()" [(ngModel)]="idCategory" class="form-select" id="category" required>
+              <option [value]="0">{{ 'SELECT'|translate }} {{ 'CATEGORY'|translate }}</option>
+              <option *ngFor="let category of categories" [value]="category.idCategory">{{ category.name }}</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <select (change)="filterProducts()" [(ngModel)]="storageSave.idProduct" class="form-select" id="product"
+                    required>
+              <option [value]="0">{{ 'SELECT'|translate }} {{ 'PRODUCT'|translate }}</option>
+              <option *ngFor="let product of products" [value]="product.idProduct">{{ product.name }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-8">
+      <div class="row">
+        <label class="col-6">{{ 'BUY_DATE'|translate }}</label>
+        <label class="col-6">{{ 'VALID_DATE'|translate }}</label>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <input (bsValueChange)="onChangeInsertDate($event)" [(ngModel)]="insertDate"
+                 [bsConfig]="insertDatePickerOptions" autocomplete="off" bsDatepicker
+                 class="form-control" id="buyDate"
+                 name="insertDate" placeholder="{{'BUY_DATE'|translate}}"
+                 type="text">
+        </div>
+        <div class="col-6">
+          <input (bsValueChange)="onValidDateChanged($event)" [(ngModel)]="validDate"
+                 [bsConfig]="validDatePickerOptions" autocomplete="off" bsDatepicker
+                 class="form-control" id="validDate"
+                 name="validDate" placeholder="{{'VALID_DATE'|translate}}"
+                 type="text">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <label class="col-6">{{ 'UNIT'|translate }}
+      <input (change)="updateCheckbox()" [(ngModel)]="unitsCheckbox" class="checkbox" id="unit" type="checkbox"/>
+    </label>
+  </div>
+  <div class="row mb-2">
+    <div class="col-3">
+      <input [(ngModel)]="storageSave.count" [disabled]="!unitsCheckbox" class="input" id="count"
+             name="count"
+             pattern="/^[0-9]+(\.[0-9]{1,4})?$/" placeholder="{{'UNIT'|translate}}"
+             step="0.0001" type="number"/>
+    </div>
+    <div class="col-3">
+      <select [(ngModel)]="storageSave.idUnit" [disabled]="!unitsCheckbox" class="form-select"
+              required>
+        <option [ngValue]="">{{ 'SELECT'|translate }}</option>
+        <option *ngFor="let unit of units" [ngValue]="unit.idUnit" class="col-3">{{ unit.name }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-6">
+      <div class="row">
+        <label class="col-6">{{ 'ITEMS'|translate }}</label>
+        <label class="col-6">{{ 'MOVE_INVENTORY'|translate }} {{ 'NOT_REQUIRED'|translate }}</label>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <input [(ngModel)]="storageSave.items" class="input" id="items" max="50" min="1" required type="number"/>
+        </div>
+        <div class="col-6">
+          <select [(ngModel)]="storageSave.idInventory" class="form-select" id="moveInventory" required>
+            <option [value]="0" selected>{{ 'MOVE_INVENTORY'|translate }}</option>
+            <option *ngFor="let inventory of inventories" [value]="inventory.idInventory">{{ inventory.name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <label class="col-8">{{ 'PRICE'|translate }}
+      <span *ngIf="productPrices.idProduct != 0" id="minPrice"> {{ 'MIN'|translate }}
+        : {{ productPrices.minPrice| number : '1.2-2' }}</span>
+      <button (click)="setPrice(productPrices.minPrice)" *ngIf="productPrices.idProduct != 0"
+              class="btn btn-outline-primary me-2 ms-2"
+              id="minPriceButton"
+              type="button"><i class="bi bi-arrow-down"></i>
+      </button>
+      <span *ngIf="productPrices.idProduct != 0" id="avgPrice">, {{ 'AVG'|translate }}
+        : {{ productPrices.averagePrice | number : '1.2-2' }}</span>
+      <button (click)="setPrice(productPrices.averagePrice)" *ngIf="productPrices.idProduct != 0"
+              class="btn btn-outline-primary me-2 ms-2"
+              id="avgPriceButton"
+              type="button"><i class="bi bi-arrow-down"></i>
+      </button>
+      <span *ngIf="productPrices.idProduct != 0" id="maxPrice">, {{ 'MAX'|translate }}
+        : {{ productPrices.maxPrice| number : '1.2-2' }}</span>
+      <button (click)="setPrice(productPrices.maxPrice)" *ngIf="productPrices.idProduct != 0"
+              class="btn btn-outline-primary me-2 ms-2"
+              id="maxPriceButton"
+              type="button"><i class="bi bi-arrow-down"></i>
+      </button>
+      <span *ngIf="productPrices.idProduct != 0" id="lastPrice">, {{ 'LAST'|translate }}
+        : {{ productPrices.lastPrice| number : '1.2-2' }}</span>
+      <button (click)="setPrice(productPrices.lastPrice)" *ngIf="productPrices.idProduct != 0"
+              class="btn btn-outline-primary me-2 ms-2"
+              id="lastPriceButton"
+              type="button"><i class="bi bi-arrow-down"></i>
+      </button>
+      <input [(ngModel)]="storageSave.price" class="input col-6 form-control mt-2" id="price" name="price"
+             pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+             placeholder="{{'PRICE'|translate}}"
+             step="0.01" type="number"/>
+    </label>
+  </div>
+  <div class="row mt-2">
+    <button (click)="close()" class="col col-2 btn btn-outline-danger me-2" id="back">
+      <i class="bi bi-arrow-left"></i>{{ 'BACK'|translate }}
+    </button>
+    <button (click)="saveStorage(false)" [disabled]="saveButtonDisabled"
+            class="col col-2 btn btn-outline-primary me-2"
+            id="save">{{ 'SAVE'|translate }}
+    </button>
+    <button (click)="saveStorage(true)" [disabled]="saveButtonDisabled"
+            class="col col-2 btn btn btn-outline-primary me-2"
+            id="saveAndAdd"><i
+      class="bi bi-plus-circle"></i> {{ 'SAVE_AND_ADD'|translate }}
+    </button>
+  </div>
+</div>

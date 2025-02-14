@@ -13,6 +13,10 @@ import {ProductListComponent} from './product-list/product-list.component';
 import {ProductAddComponent} from './product-add/product-add.component';
 import {StorageEffects} from './state/storage/storage.effects';
 import {StoragesListComponent} from './storages-list/storages-list.component';
+import {StoragesAddComponent} from './storages-add/storages-add.component';
+import {ManageProductComponent} from './manage-product/manage-product.component';
+import {ManageInventoryComponent} from './manage-inventory/manage-inventory.component';
+import {UserPropertiesComponent} from './user-properties/user-properties.component';
 
 export const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
@@ -46,6 +50,24 @@ export const appRoutes: Routes = [
     path: 'storages', providers: [
       provideEffects(StorageEffects),
     ], component: StoragesListComponent
+  },
+  {
+    path: 'storages-add', providers: [
+      provideEffects(StorageEffects),
+    ], component: StoragesAddComponent
+  },
+  {
+    path: 'manage-product', providers: [
+      provideEffects(ProductEffects),
+    ], component: ManageProductComponent
+  },
+  {
+    path: 'manage-inventory', providers: [
+      provideEffects(InventoryEffects),
+    ], component: ManageInventoryComponent
+  },
+  {
+    path: 'user-properties', providers: [], component: UserPropertiesComponent
   },
   {path: '**', component: PageNotFoundComponent}
 

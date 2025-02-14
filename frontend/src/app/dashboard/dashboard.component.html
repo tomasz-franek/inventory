@@ -1,1 +1,31 @@
-<h4>dashboard works!</h4>
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <full-calendar [options]="calendarOptions" id="calendar"></full-calendar>
+    </div>
+    <div class="col-4">
+      <h4><i class="bi bi-bag"></i> {{ 'MENU.MANAGEMENT.SHOPPING'|translate }}</h4>
+      <ul id="shoppingList">
+        <li *ngFor="let item of shopping">
+          <!--          <span *ngIf="item.price == undefined" class="text-align-left">{{ item.items }}-->
+          <!--            x {{ item.name }} {{ unit(item) }}-->
+          <!--          </span>-->
+          <!--          <span *ngIf="item.price" class="text-align-left" id="price">-->
+          <!--            {{ item.items }} x {{ item.name }} {{ unit(item) }} {{ 'MIN'|translate }}-->
+          <!--            : {{ item.price.minPrice | number : '1.2-2' }},-->
+          <!--            {{ 'AVG'|translate }} : {{ item.price.averagePrice | number : '1.2-2' }}, {{ 'MAX'|translate }} :-->
+          <!--            {{ item.price.maxPrice | number : '1.2-2' }}, {{ 'LAST'|translate }}-->
+          <!--            : {{ item.price.lastPrice | number : '1.2-2' }}-->
+          <!--          </span>-->
+          <button (click)="edit(item)"
+                  class="btn btn-small"><i class="text-success bi bi-pencil"></i></button>
+          <button (click)="confirmDelete(item.idShopping)"
+                  class="btn btn-small "><i class="text-danger bi bi-trash"></i></button>
+        </li>
+      </ul>
+      <button (click)="addShopping()" class="btn btn-default btn-outline-primary" data-bs-toggle="tooltip"
+              id="add" title="{{'ADD'|translate}}"><i class="bi bi-plus"></i> {{ 'ADD'|translate }}
+      </button>
+    </div>
+  </div>
+</div>

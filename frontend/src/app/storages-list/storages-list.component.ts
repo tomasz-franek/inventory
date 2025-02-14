@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
-import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Category, Product, Properties, Storage} from '../api';
 import {getStoragesList} from '../state/storage/storage.selectors';
@@ -13,6 +12,7 @@ import {AsyncPipe, DecimalPipe, NgClass, NgForOf} from '@angular/common';
 import {retrievedCategoryList} from '../state/category/category.action';
 import {retrievedProductList} from '../state/product/product.action';
 import {retrievedStorageList} from '../state/storage/storage.action';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-storages-list',
@@ -82,13 +82,13 @@ export class StoragesListComponent implements OnInit {
   }
 
   add() {
-    // if (this.filter.idCategory > 0) {
-    //   this.environment.category = this.categories.find(element => element.idCategory == this.filter.idCategory) || null;
+    // if (this.filter$.idCategory > 0) {
+    //   this.environment.category = this.categories$.find(element => element.idCategory == this.filter$.idCategory) || null;
     // }
     // if (this.filter.idProduct > 0) {
-    //   this.environment.product = this.products.find(element => element.idProduct == this.filter.idProduct) || null;
+    //   this.environment.product = this.products$.find(element => element.idProduct == this.filter$.idProduct) || null;
     // }
-    // this.router.navigateByUrl('storages/add');
+    this.router.navigate(['storages-add']);
   }
 
   activeTextColor(active: boolean) {
@@ -98,12 +98,7 @@ export class StoragesListComponent implements OnInit {
       return 'text';
     }
   }
-  onSorted(event: any) {
-    //this.sortService.sortArray(this.storages, event);
-  }
-  // onSorted(event: ColumnSortedEvent) {
-  //   this.sortService.sortArray(this.storages, event);
-  // }
+
 
   updateFilterProduct(event: number) {
     // this.filter.idProduct = Number(event);
