@@ -17,6 +17,18 @@ import {StoragesAddComponent} from './storages-add/storages-add.component';
 import {ManageProductComponent} from './manage-product/manage-product.component';
 import {ManageInventoryComponent} from './manage-inventory/manage-inventory.component';
 import {UserPropertiesComponent} from './user-properties/user-properties.component';
+import {ConsumeProductComponent} from './consume-product/consume-product.component';
+import {ShoppingPrepareComponent} from './shopping-prepare/shopping-prepare.component';
+import {ExpiredProductsComponent} from './expired-products/expired-products.component';
+import {LastUsedComponent} from './last-used/last-used.component';
+import {ProductPredictionComponent} from './product-prediction/product-prediction.component';
+import {AvailabilityComponent} from './availability/availability.component';
+import {NextDaysExpiredComponent} from './next-days-expired/next-days-expired.component';
+import {SumStorageComponent} from './sum-storage/sum-storage.component';
+import {ValueHistoryComponent} from './value-history/value-history.component';
+import {PriceHistoryComponent} from './price-history/price-history.component';
+import {SumCategoriesComponent} from './sum-categories/sum-categories.component';
+import {DatabaseBackupComponent} from './database-backup/database-backup.component';
 
 export const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
@@ -65,6 +77,71 @@ export const appRoutes: Routes = [
     path: 'manage-inventory', providers: [
       provideEffects(InventoryEffects),
     ], component: ManageInventoryComponent
+  },
+  {
+    path: 'consume-product', providers: [
+      provideEffects(ProductEffects),
+    ], component: ConsumeProductComponent
+  },
+  {
+    path: 'shopping', providers: [
+      provideEffects(ProductEffects),
+    ], component: ShoppingPrepareComponent
+  },
+  {
+    path: 'expired-products', providers: [
+      provideEffects(ProductEffects),
+    ], component: ExpiredProductsComponent
+  },
+  {
+    path: 'last-used', providers: [
+      provideEffects(ProductEffects),
+    ], component: LastUsedComponent
+  },
+  {
+    path: 'product-prediction', providers: [
+      provideEffects(ProductEffects),
+    ], component: ProductPredictionComponent
+  },
+  {
+    path: 'product-prediction', providers: [
+      provideEffects(ProductEffects),
+    ], component: ProductPredictionComponent
+  },
+  {
+    path: 'availability', providers: [
+      provideEffects(ProductEffects),
+    ], component: AvailabilityComponent
+  },
+  {
+    path: 'next-expired', providers: [
+      provideEffects(ProductEffects),
+    ], component: NextDaysExpiredComponent
+  },
+  {
+    path: 'sum-storage', providers: [
+      provideEffects(ProductEffects),
+    ], component: SumStorageComponent
+  },
+  {
+    path: 'value-history', providers: [
+      provideEffects(ProductEffects),
+    ], component: ValueHistoryComponent
+  },
+  {
+    path: 'price-history', providers: [
+      provideEffects(ProductEffects),
+    ], component: PriceHistoryComponent
+  },
+  {
+    path: 'sum-categories', providers: [
+      provideEffects(ProductEffects),
+    ], component: SumCategoriesComponent
+  },
+  {
+    path: 'backup-db', providers: [
+      provideEffects(ProductEffects),
+    ], component: DatabaseBackupComponent
   },
   {
     path: 'user-properties', providers: [], component: UserPropertiesComponent

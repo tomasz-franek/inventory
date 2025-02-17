@@ -1,1 +1,119 @@
-<p>consume-product works!</p>
+<div class="container">
+  <div class="row mb-2">
+    <h3><i class="bi bi-receipt"></i> {{ 'MENU.MANAGEMENT.CONSUME'|translate }}</h3>
+  </div>
+  <div class="row mb-2">
+    <div class="col-3">
+      <select (change)="updateFilterInventory($event)" class="form-select" id="inventory">
+        <option [value]="0">{{ 'FILTER'|translate }} {{ 'INVENTORY'|translate }}</option>
+        <option *ngFor="let filterInventory of inventories"
+                [value]="filterInventory.idInventory">{{ filterInventory.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-3">
+      <select (change)="updateFilterCategories($event)" class="form-select" id="category">
+        <option [value]="0">{{ 'FILTER'|translate }} {{ 'CATEGORY'|translate }}</option>
+        <option *ngFor="let filterCategory of categories" [value]="filterCategory.idCategory">{{ filterCategory.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-3">
+      <select (change)="updateFilterProducts($event)" class="form-select" id="product">
+        <option [value]="0">{{ 'FILTER'|translate }} {{ 'PRODUCT'|translate }}</option>
+        <option *ngFor="let filterProduct of products" [value]="filterProduct.idProduct">{{ filterProduct.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <table class="table inventory-table table-striped table-condensed">
+      <thead style="border : 1px">
+      <tr style="border : 1px">
+        <th class="text-bold text-center"></th>
+        <th class="text-bold text-center">{{ 'NAME'|translate }}</th>
+        <th class="text-bold text-center"> {{ 'BUY_DATE'|translate }}</th>
+        <th class="text-bold text-center"> {{ 'VALID_DATE'|translate }}</th>
+        <th class="text-bold text-center"> {{ 'INVENTORY'|translate }}</th>
+        <th class="text-bold text-center"> {{ 'USED'|translate }}</th>
+        <th class="text-bold text-center"> {{ 'PRICE'|translate }}</th>
+        <th class="text-bold text-center">{{ 'ACTION'|translate }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of consumeProducts; let rowNr = index">
+        <td [textContent]="rowNr + 1" class="text-center"></td>
+        <td [textContent]="row.productName" class="text-left"></td>
+        <td [textContent]="row.insertDate" class="text-center"></td>
+        <td [ngStyle]="{'color' : expired(row.validDate)}" [textContent]="row.validDate" class="text-center"></td>
+        <td [textContent]="row.inventoryName" class="text-center"></td>
+        <td class="text-end">
+          <span [textContent]="row.used + '%'" class="me-2"></span>
+          <progress max="100" value="{{row.used}}"></progress>
+
+        </td>
+        <td class="text-center"> {{ row.price | number :'1.2-2' }} {{ properties.currency }}</td>
+        <td class="text-center">
+          <button (click)="selectProductToConsume(row)" class="btn btn-default btn-outline-success me-2"
+                  data-bs-target="#consumeProduct" data-bs-toggle="modal"
+                  id="consume"
+                  title="{{'CONSUME'|translate}}"><i class="bi bi-water"></i> {{ 'CONSUME'|translate }}
+          </button>
+          <button (click)="addToShopping(row)" class="btn btn-default btn-outline-primary" data-bs-toggle="tooltip"
+                  id="addShopping" title="{{'ADD'|translate}}"><i class="bi bi-plus"></i> {{ 'ADD'|translate }}
+          </button>
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal fade" id="consumeProduct">
+    <div class="modal-dialog col-6">
+      <form class="modal-content">
+        <div class="modal-header">
+          {{ 'MENU.MANAGEMENT.CONSUME'|translate }} <strong class="ms-2"><span [textContent]="rowToConsume.productName"
+                                                                               id="modalProductName"></span></strong>
+          <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" id="closeModal" type="button"></button>
+        </div>
+        <div class="modal-body">
+          <label class="col-2">{{ 'END_DATE'|translate }} </label>
+          <div class="row mb-2">
+            <input #dateInput (bsValueChange)="onChangeConsumeDate($event)"
+                   [bsConfig]="consumeDatePickerOptions" [bsValue]="consumeDate" autocomplete="off"
+                   bsDatepicker class="form-control" id="consumeDate"
+                   name="consumeDate" placeholder="{{'END_DATE'|translate}}"
+                   type="text">
+          </div>
+          <div class="row">
+            <button (click)="currentDate()" class="btn btn-outline-primary col-2" id="currentDate"><i
+              class="bi bi-calendar"></i>
+            </button>
+            <button (click)="addDay(-1)" class="btn btn-outline-primary col-2 ms-2" id="prevDate"><i
+              class="bi bi-dash"></i>
+            </button>
+            <button (click)="addDay(1)" class="btn btn-outline-primary col-2 ms-2" id="nextDate"><i
+              class="bi - bi-plus"></i>
+            </button>
+          </div>
+          <div class="row mb-2">
+            <label class="col-6">{{ 'USED'|translate }} <span [textContent]="rowToConsume.used + '%'"></span></label>
+            <input [(ngModel)]="rowToConsume.used" class="col-6" id="used" max="100" min="{{rowToConsume.sliderMin}}"
+                   name="used" step="1"
+                   type="range"/>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-danger me-2" data-bs-dismiss="modal" id="back">
+            <i class="bi bi-arrow-left"></i>
+            {{ 'BACK'|translate }}
+          </button>
+          <button (click)="consumeProduct()" class="btn btn-outline-primary" data-bs-dismiss="modal"
+                  id="consumeButton">{{ 'CONSUME'|translate }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

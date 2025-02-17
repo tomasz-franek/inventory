@@ -1,0 +1,51 @@
+<div class="container">
+  <h3><i class="bi bi-chat-left-heart"></i> {{'MENU.MANAGEMENT.SHOPPING'|translate}}</h3>
+  <div class="row mb-2">
+    <button (click)="addShopping()" class="btn btn-default btn-outline-primary col-2" id="add"
+            data-bs-toggle="tooltip" title="{{'ADD'|translate}}"><i class="bi bi-plus"></i> {{'ADD'|translate}}
+    </button>
+<!--    <app-download-file [documentName]="'shopping.pdf'" [title]="'GET_PDF'" class="col-3"-->
+<!--                       [url]="'report/pdf/shopping'"></app-download-file>-->
+  </div>
+  <div class="row">
+    <table id="table">
+      <thead>
+      <tr>
+        <th class="text-bold text-center"></th>
+        <th class="text-bold text-center" >          {{'NAME'|translate}}
+        </th>
+        <th class="text-bold text-center">{{'PRICE'|translate}}</th>
+        <th class="text-bold text-center">{{'EXP_DATE'|translate}}</th>
+        <th class="text-bold text-center" >{{'ITEMS'|translate}}</th>
+        <th class="text-bold text-center">{{'UNIT'|translate}}</th>
+        <th class="text-bold text-center">{{'ACTION'|translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of shoppingList; let rowNr = index">
+        <td [textContent]="rowNr+1" class="text-center"></td>
+        <td [textContent]="row.name" class="text-left"></td>
+<!--        <td *ngIf="row.price != null" class="text-center">-->
+<!--          <div>-->
+<!--            <label class="text-bold text-center me-2"><i class="bi bi-align-bottom"></i> {{row.price.minPrice| number :'1.2-2'}} {{properties.currency}}</label>-->
+<!--            <label class="text-bold text-center me-2"> <i class="bi bi-align-middle"></i> {{row.price.averagePrice | number : '1.2-2'}} {{this.properties.currency}}</label>-->
+<!--            <label class="text-bold text-center me-2"><i class="bi bi-align-top"></i> {{row.price.maxPrice| number : '1.2-2'}} {{properties.currency}}</label>-->
+<!--            <label class="text-bold text-center me-2">{{'LAST'|translate}} : {{row.price.lastPrice| number : '1.2-2'}} {{properties.currency}}</label>-->
+<!--          </div>-->
+<!--        </td>-->
+<!--        <td *ngIf="row.price == undefined" class="text-center">-</td>-->
+<!--        <td *ngIf="row.price != undefined" class="text-center">{{row.price.useBeforeDate}}</td>-->
+<!--        <td *ngIf="row.price == undefined" class="text-center">-</td>-->
+        <td [textContent]="row.items" class="text-center"></td>
+        <td class="text-center">{{row.count}} {{unitName( row.idUnit )}}</td>
+        <td class="text-center">
+          <button (click)="edit(row)" id="edit"
+                  class="btn btn-outline-primary"><i class="bi bi-pencil"></i></button>
+          <button (click)="confirmDelete(row)" id="trash"
+                  class="ms-2 btn btn-outline-danger"><i class="bi bi-trash"></i></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

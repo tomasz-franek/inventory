@@ -10,6 +10,9 @@ import {
   ResponseId,
   Storage,
   StoragesService,
+  Unit,
+  UnitDefault,
+  UnitsService,
 } from '../api';
 
 @Injectable({
@@ -20,6 +23,7 @@ export class ApiService {
   private inventoriesService: InventoriesService = inject(InventoriesService);
   private productService: ProductsService = inject(ProductsService);
   private storagesService: StoragesService = inject(StoragesService);
+  private unitsService: UnitsService = inject(UnitsService);
 
   constructor() {
   }
@@ -70,5 +74,17 @@ export class ApiService {
 
   updateStorage(idStorage: number, storage: Storage): Observable<ResponseId> {
     return this.storagesService.updateStorage(idStorage, storage);
+  }
+
+  getUnits(): Observable<Unit[]> {
+    return this.unitsService.getAllUnits();
+  }
+
+  getDefaultUnits(): Observable<UnitDefault[]> {
+    return this.unitsService.getAllUnitDefaults();
+  }
+
+  getUnit(idUnit: number): Observable<Unit> {
+    return this.unitsService.getUnit(idUnit);
   }
 }
