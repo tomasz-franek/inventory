@@ -15,7 +15,5 @@ export class InventoryStore {
   public usedPrice?: number = 0;
   public notUsedPrice?: number = 0;
 
-
-  constructor() {
-  }
+  constructor() {}
 }

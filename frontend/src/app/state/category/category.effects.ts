@@ -1,39 +1,32 @@
-import {inject, Injectable} from '@angular/core';
-import {ApiService} from '../../services/api.service';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   retrievedCategoryList,
   retrievedCategoryListActionError,
   retrievedCategoryListActionSuccess,
   saveCategory,
   saveCategoryActionError,
-  saveCategoryActionSuccess
+  saveCategoryActionSuccess,
 } from './category.action';
-import {catchError, concatMap, map, mergeMap, Observable} from 'rxjs';
-import {Category} from '../../api';
+import {
+  catchError,
+  concatMap,
+  map,
+  mergeMap,
+  Observable,
+  withLatestFrom,
+} from 'rxjs';
+import { Category } from '../../api';
+import { Store } from '@ngrx/store';
+import { ApiService } from '../../services/api.service';
 
 @Injectable()
 export class CategoryEffects {
-  private _actions$: Actions = inject(Actions);
-  private _apiService: ApiService = inject(ApiService);
+  private store$ = inject(Store);
+  private _apiService$ = inject(ApiService);
 
-  loadCategories$ = createEffect(() => {
-    return this._actions$.pipe(
-      ofType(retrievedCategoryList),
-      mergeMap(() => {
-          return this._apiService.getCategories().pipe(map((data) => {
-            return retrievedCategoryListActionSuccess({categories: data});
-          }));
-        }
-      ),
-      catchError((error: any) => {
-        return [retrievedCategoryListActionError({error})];
-      })
-    );
-  });
-
-  save$ = createEffect(() => {
-    return this._actions$.pipe(
+  save$ = createEffect(() =>
+    inject(Actions).pipe(
       ofType(saveCategory),
       mergeMap((action) => {
         const category = Object.assign({}, action.category);
@@ -42,19 +35,35 @@ export class CategoryEffects {
             return [saveCategoryActionSuccess];
           }),
           catchError((error: any) => {
-            return [saveCategoryActionError({error})];
+            return [saveCategoryActionError({ error })];
           })
         );
       })
-    );
-  });
+    )
+  );
+
+  loadCategories$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrievedCategoryList),
+      withLatestFrom(this.store$.select(retrievedCategoryList)),
+      mergeMap(() => {
+        return this._apiService$.getCategories().pipe(
+          map((data) => {
+            return retrievedCategoryListActionSuccess({ categories: data });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrievedCategoryListActionError({ error })];
+      })
+    )
+  );
 
   private _getCreateOrUpdateObservable(category: Category): Observable<any> {
-    if (category.idCategory !== null && category.idCategory !== undefined) {
-      return this._apiService.updateCategory(category.idCategory, category);
+    if (category.idCategory !== undefined) {
+      return this._apiService$.updateCategory(category.idCategory, category);
     }
     category.optLock = category.optLock || 0;
-    return this._apiService.createCategory(category);
+    return this._apiService$.createCategory(category);
   }
 }
-

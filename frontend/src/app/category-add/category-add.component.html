@@ -2,23 +2,48 @@
   <div class="row mb-2">
     <fieldset class="fieldset">
       <div class="row mb-2">
-        <label class="form-label col-2">{{'NAME'|translate}}</label>
-        <input [(ngModel)]="category.name" class="input col-3" maxlength="45" minlength="1"
-               placeholder="{{'NAME'|translate}}" required type="text"/>
+        <label class="form-label col-2">{{ 'NAME' | translate }}</label>
+        <input
+          [(ngModel)]="category.name"
+          class="input col-3"
+          maxlength="45"
+          minlength="1"
+          placeholder="{{ 'NAME' | translate }}"
+          required
+          type="text"
+        />
       </div>
       <div class="row mb-2">
         <div class="col-2">
-          <span><input [(ngModel)]="category.active" class="checkbox" name="Active" id="active"
-                       type="checkbox"/> {{'ACTIVE'|translate}}</span>
+          <span>
+            <input
+              [(ngModel)]="category.active"
+              class="checkbox"
+              name="Active"
+              id="active"
+              type="checkbox"
+            />
+            {{ 'ACTIVE' | translate }}
+          </span>
         </div>
       </div>
       <div class="row mb-2">
-        <button (click)="backToCategories()" class="btn btn-outline-danger col-2 me-2" id="back">
+        <button
+          (click)="backToCategories()"
+          class="btn btn-outline-danger col-2 me-2"
+          id="back"
+        >
           <i class="bi bi-arrow-left"></i>
-          {{'BACK'|translate}}</button>
-        <button (click)="save()" class="ms-2 btn btn-outline-primary col-2 me-2" id="save" [disabled]="category.name.length == 0">
+          {{ 'BACK' | translate }}
+        </button>
+        <button
+          (click)="save()"
+          class="ms-2 btn btn-outline-primary col-2 me-2"
+          id="save"
+          [disabled]="category.name.length == 0"
+        >
           <i class="bi bi-save"></i>
-          {{'SAVE'|translate}}
+          {{ 'SAVE' | translate }}
         </button>
       </div>
     </fieldset>

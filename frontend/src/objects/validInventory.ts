@@ -1,4 +1,4 @@
-import {Valid} from './valid';
+import { Valid } from './valid';
 
 export class ValidInventory {
   public idProduct: number = 0;

@@ -1,34 +1,51 @@
 <div class="container">
   <div class="row mb-2">
-    <h3><i class="bi bi-circle-square"></i> {{'MENU.PROPERTIES.USER_PROPERTIES'| translate}}</h3>
+    <h3>
+      <i class="bi bi-circle-square"></i>
+      {{ 'MENU.PROPERTIES.USER_PROPERTIES' | translate }}
+    </h3>
   </div>
   <div class="row mb-2">
     <fieldset class="fieldset">
       <div class="row mb-2">
         <div class="col-2">
-          <label class="form-label col-2">{{'LANGUAGE'|translate}}</label>
+          <label class="form-label col-2">{{ 'LANGUAGE' | translate }}</label>
         </div>
         <div class="col-3">
-          <select [(ngModel)]="properties.language" class="form-select col-3" id="language">
-            <option value="en">{{'LANGUAGE_EN'|translate}}</option>
-            <option value="pl">{{'LANGUAGE_PL'|translate}}</option>
+          <select
+            [(ngModel)]="properties$.language"
+            class="form-select col-3"
+            id="language"
+          >
+            <option value="en">{{ 'LANGUAGE_EN' | translate }}</option>
+            <option value="pl">{{ 'LANGUAGE_PL' | translate }}</option>
           </select>
         </div>
       </div>
       <div class="row mb-2">
         <div class="col-2">
-          <label class="form-label col-2">{{'CURRENCY'|translate}}</label>
+          <label class="form-label col-2">{{ 'CURRENCY' | translate }}</label>
         </div>
         <div class="col-3">
-          <select [(ngModel)]="properties.currency" class="form-select col-3" id="currency">
-            <option *ngFor="let currency of currencies" [value]="currency">{{currency}}</option>
+          <select
+            [(ngModel)]="properties$.currency"
+            class="form-select col-3"
+            id="currency"
+          >
+            <option *ngFor="let currency of currencies" [value]="currency">
+              {{ currency }}
+            </option>
           </select>
         </div>
       </div>
       <div class="row mb-2">
-        <button (click)="update()" class="mt-2 btn btn-outline-danger col-2" id="update">
+        <button
+          (click)="update()"
+          class="mt-2 btn btn-outline-danger col-2"
+          id="update"
+        >
           <i class="bi bi-save"></i>
-          {{'SAVE'|translate}}
+          {{ 'SAVE' | translate }}
         </button>
       </div>
     </fieldset>

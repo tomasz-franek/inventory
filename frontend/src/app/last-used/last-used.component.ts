@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-last-used',
   imports: [],
   templateUrl: './last-used.component.html',
-  styleUrl: './last-used.component.css'
+  styleUrl: './last-used.component.css',
 })
-export class LastUsedComponent {
-
-}
+export class LastUsedComponent {}

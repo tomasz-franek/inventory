@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-expired-products',
   imports: [],
   templateUrl: './expired-products.component.html',
-  styleUrl: './expired-products.component.css'
+  styleUrl: './expired-products.component.css',
 })
-export class ExpiredProductsComponent {
-
-}
+export class ExpiredProductsComponent {}

@@ -1,4 +1,4 @@
-import {Product, Storage} from '../app/api';
+import { Product, Storage } from '../app/api';
 
 export class StoragesFilter {
   public idCategory: number = 0;

@@ -1,30 +1,38 @@
-import {retrievedCategoryListActionSuccess, saveCategory} from './category.action';
-import {CategoryState} from './category.selectors';
+import { CategoryState } from './category.selectors';
+import {
+  retrievedCategoryListActionSuccess,
+  saveCategory,
+} from './category.action';
 
 export const initialCategoryState: CategoryState = {
   categories: [],
-  categoryEdit: undefined
+  categoryEdit: undefined,
 };
 
-export function categoryReducer(state = initialCategoryState, action: any): CategoryState {
+export function categoryReducer(
+  state = initialCategoryState,
+  action: any
+): CategoryState {
   switch (action.type) {
     case saveCategory.type:
       if (action.category.id !== undefined) {
         return {
           ...state,
-          categories: state.categories.map(category => (category.idCategory === action.category.id ? action.category : category))
+          categories: state.categories.map((category) =>
+            category.idCategory === action.category.id
+              ? action.category
+              : category
+          ),
         };
       } else {
         return {
-          ...state, categories: [...state.categories, action.category]
+          ...state,
+          categories: [...state.categories, action.category],
         };
-
       }
     case retrievedCategoryListActionSuccess.type:
-      return {...state, categories: action.categories};
+      return { ...state, categories: action.categories };
     default:
       return state;
   }
 }
-
-

@@ -1,23 +1,18 @@
-import {Component} from '@angular/core';
-import {TranslatePipe} from '@ngx-translate/core';
-import {FormsModule} from '@angular/forms';
-import {NgForOf, NgIf} from '@angular/common';
-import {Category, Product} from '../api';
-import {ValidInventory} from '../../objects/validInventory';
+import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { NgForOf, NgIf } from '@angular/common';
+import { Category, Product } from '../api';
+import { ValidInventory } from '../../objects/validInventory';
 
 @Component({
   selector: 'app-manage-inventory',
-  imports: [
-    TranslatePipe,
-    FormsModule,
-    NgForOf,
-    NgIf
-  ],
+  imports: [TranslatePipe, FormsModule, NgForOf, NgIf],
   templateUrl: './manage-inventory.component.html',
-  styleUrl: './manage-inventory.component.css'
+  styleUrl: './manage-inventory.component.css',
 })
 export class ManageInventoryComponent {
-  public filter: any = {idProduct: 0, idCategory: 0};
+  public filter: any = { idProduct: 0, idCategory: 0 };
   public inventory: any = [];
   public products: Product[] = [];
   public categories: Category[] = [];
@@ -25,15 +20,11 @@ export class ManageInventoryComponent {
   private allInventory: ValidInventory[] = [];
   private progress: number = 0;
 
-  countItems(validList: any):string {
+  countItems(validList: any): string {
     return '';
   }
 
-  updateFilterProducts($event: any) {
+  updateFilterProducts($event: any) {}
 
-  }
-
-  updateListProducts($event: any) {
-
-  }
+  updateListProducts($event: any) {}
 }

@@ -1,14 +1,13 @@
 export const systemCurrencies: string[] = ['PLN', 'EUR', 'USD', 'GBP', 'CHF'];
 
 export const reportPeriods = [
-  {value: 30, label: 'MONTHS.M_1'},
-  {value: 60, label: 'MONTHS.M_2'},
-  {value: 90, label: 'MONTHS.M_3'},
-  {value: 180, label: 'MONTHS.M_6'},
-  {value: 365, label: 'MONTHS.M_12'},
-  {value: 720, label: 'MONTHS.M_24'}
+  { value: 30, label: 'MONTHS.M_1' },
+  { value: 60, label: 'MONTHS.M_2' },
+  { value: 90, label: 'MONTHS.M_3' },
+  { value: 180, label: 'MONTHS.M_6' },
+  { value: 365, label: 'MONTHS.M_12' },
+  { value: 720, label: 'MONTHS.M_24' },
 ];
-
 
 export enum chartColorsEnum {
   red = 'rgb(255, 99, 132)',
@@ -19,5 +18,5 @@ export enum chartColorsEnum {
   purple = 'rgb(153, 102, 255)',
   grey = 'rgb(201, 203, 207)',
   royal = 'rgb(65,105,225)',
-  chocolate = 'rgb(210,105,30)'
+  chocolate = 'rgb(210,105,30)',
 }

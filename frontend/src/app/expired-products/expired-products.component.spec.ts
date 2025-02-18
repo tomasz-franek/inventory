@@ -8,9 +8,8 @@ describe('ExpiredProductsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ExpiredProductsComponent]
-    })
-    .compileComponents();
+      imports: [ExpiredProductsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ExpiredProductsComponent);
     component = fixture.componentInstance;

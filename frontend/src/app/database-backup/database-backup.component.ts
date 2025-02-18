@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-database-backup',
   imports: [],
   templateUrl: './database-backup.component.html',
-  styleUrl: './database-backup.component.css'
+  styleUrl: './database-backup.component.css',
 })
-export class DatabaseBackupComponent {
-
-}
+export class DatabaseBackupComponent {}

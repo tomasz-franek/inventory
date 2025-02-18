@@ -1,16 +1,16 @@
-import {inject, Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {ApiService} from '../../services/api.service';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ApiService } from '../../services/api.service';
 import {
   retrievedStorageList,
   retrievedStorageListActionError,
   retrievedStorageListActionSuccess,
   saveStorage,
   saveStorageActionError,
-  saveStorageActionSuccess
+  saveStorageActionSuccess,
 } from './storage.action';
-import {catchError, concatMap, map, mergeMap, Observable} from 'rxjs';
-import {Storage} from '../../api';
+import { catchError, concatMap, map, mergeMap, Observable } from 'rxjs';
+import { Storage } from '../../api';
 
 @Injectable()
 export class StorageEffects {
@@ -25,7 +25,7 @@ export class StorageEffects {
             return [saveStorageActionSuccess];
           }),
           catchError((error: any) => {
-            return [saveStorageActionError({error})];
+            return [saveStorageActionError({ error })];
           })
         );
       })
@@ -36,13 +36,14 @@ export class StorageEffects {
     return this._actions$.pipe(
       ofType(retrievedStorageList),
       mergeMap(() => {
-          return this._apiService.getStorages().pipe(map((data) => {
-            return retrievedStorageListActionSuccess({storages: data});
-          }));
-        }
-      ),
+        return this._apiService.getStorages().pipe(
+          map((data) => {
+            return retrievedStorageListActionSuccess({ storages: data });
+          })
+        );
+      }),
       catchError((error: any) => {
-        return [retrievedStorageListActionError({error})];
+        return [retrievedStorageListActionError({ error })];
       })
     );
   });
@@ -55,4 +56,3 @@ export class StorageEffects {
     return this._apiService.createStorage(storage);
   }
 }
-

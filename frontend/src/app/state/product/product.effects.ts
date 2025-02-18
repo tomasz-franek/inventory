@@ -1,16 +1,16 @@
-import {inject, Injectable} from '@angular/core';
-import {ApiService} from '../../services/api.service';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
+import { ApiService } from '../../services/api.service';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   retrievedProductList,
   retrievedProductListActionError,
   retrievedProductListActionSuccess,
   saveProduct,
   saveProductActionError,
-  saveProductActionSuccess
+  saveProductActionSuccess,
 } from './product.action';
-import {catchError, concatMap, map, mergeMap, Observable} from 'rxjs';
-import {Product} from '../../api';
+import { catchError, concatMap, map, mergeMap, Observable } from 'rxjs';
+import { Product } from '../../api';
 
 @Injectable()
 export class ProductEffects {
@@ -21,13 +21,14 @@ export class ProductEffects {
     return this._actions$.pipe(
       ofType(retrievedProductList),
       mergeMap(() => {
-          return this._apiService.getProducts().pipe(map((data) => {
-            return retrievedProductListActionSuccess({products: data});
-          }));
-        }
-      ),
+        return this._apiService.getProducts().pipe(
+          map((data) => {
+            return retrievedProductListActionSuccess({ products: data });
+          })
+        );
+      }),
       catchError((error: any) => {
-        return [retrievedProductListActionError({error})];
+        return [retrievedProductListActionError({ error })];
       })
     );
   });
@@ -42,7 +43,7 @@ export class ProductEffects {
             return [saveProductActionSuccess];
           }),
           catchError((error: any) => {
-            return [saveProductActionError({error})];
+            return [saveProductActionError({ error })];
           })
         );
       })
@@ -57,4 +58,3 @@ export class ProductEffects {
     return this._apiService.createProduct(product);
   }
 }
-

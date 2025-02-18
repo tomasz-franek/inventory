@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-sum-categories',
   imports: [],
   templateUrl: './sum-categories.component.html',
-  styleUrl: './sum-categories.component.css'
+  styleUrl: './sum-categories.component.css',
 })
-export class SumCategoriesComponent {
-
-}
+export class SumCategoriesComponent {}

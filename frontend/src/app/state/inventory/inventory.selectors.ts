@@ -1,14 +1,20 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {Inventory} from '../../api';
-import {Features} from '../../../features';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Inventory } from '../../api';
+import { Features } from '../../../features';
 
 export interface InventoryState {
-  inventories: Inventory[],
-  inventoryEdit: Inventory | undefined
+  inventories: Inventory[];
+  inventoryEdit: Inventory | undefined;
 }
 
-const selectInventoriesFutureState = createFeatureSelector<InventoryState>(Features.inventories);
-export const getInventoriesList = createSelector(selectInventoriesFutureState, (state) => state.inventories
+const selectInventoriesFutureState = createFeatureSelector<InventoryState>(
+  Features.inventories
+);
+export const getInventoriesList = createSelector(
+  selectInventoriesFutureState,
+  (state) => state.inventories
 );
 export const selectInventoryById = (id: number) =>
-  createSelector(selectInventoriesFutureState, appState => appState.inventories.find(inventory => inventory.idInventory === id));
+  createSelector(selectInventoriesFutureState, (appState) =>
+    appState.inventories.find((inventory) => inventory.idInventory === id)
+  );

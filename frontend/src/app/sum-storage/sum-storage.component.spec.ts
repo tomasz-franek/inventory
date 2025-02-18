@@ -8,9 +8,8 @@ describe('SumStorageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SumStorageComponent]
-    })
-    .compileComponents();
+      imports: [SumStorageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SumStorageComponent);
     component = fixture.componentInstance;

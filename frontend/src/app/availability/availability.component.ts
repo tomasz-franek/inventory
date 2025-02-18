@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-availability',
   imports: [],
   templateUrl: './availability.component.html',
-  styleUrl: './availability.component.css'
+  styleUrl: './availability.component.css',
 })
-export class AvailabilityComponent {
-
-}
+export class AvailabilityComponent {}

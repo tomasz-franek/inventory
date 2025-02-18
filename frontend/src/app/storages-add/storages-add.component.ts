@@ -1,12 +1,23 @@
-import {Component, OnInit} from '@angular/core';
-import {TranslatePipe} from '@ngx-translate/core';
-import {Category, Inventory, Product, Properties, Shopping, Unit, UnitDefault} from '../api';
-import {FormsModule} from '@angular/forms';
-import {DecimalPipe, NgForOf, NgIf} from '@angular/common';
-import {Price} from '../../objects/price';
-import {StorageSave} from '../../objects/storageSave';
-import {BsDatepickerConfig, BsDatepickerDirective} from 'ngx-bootstrap/datepicker';
-import {provideAnimations} from '@angular/platform-browser/animations';
+import { Component, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import {
+  Category,
+  Inventory,
+  Product,
+  Property,
+  Shopping,
+  Unit,
+  UnitDefault,
+} from '../api';
+import { FormsModule } from '@angular/forms';
+import { DecimalPipe, NgForOf, NgIf } from '@angular/common';
+import { Price } from '../../objects/price';
+import { StorageSave } from '../../objects/storageSave';
+import {
+  BsDatepickerConfig,
+  BsDatepickerDirective,
+} from 'ngx-bootstrap/datepicker';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-storages-add',
@@ -16,11 +27,11 @@ import {provideAnimations} from '@angular/platform-browser/animations';
     DecimalPipe,
     NgForOf,
     BsDatepickerDirective,
-    NgIf
+    NgIf,
   ],
   providers: [provideAnimations()],
   templateUrl: './storages-add.component.html',
-  styleUrl: './storages-add.component.css'
+  styleUrl: './storages-add.component.css',
 })
 export class StoragesAddComponent implements OnInit {
   //public storage: Storage = {};
@@ -32,13 +43,16 @@ export class StoragesAddComponent implements OnInit {
   public units: Unit[] = [];
   public unitDefault: UnitDefault = {
     idProduct: 0,
-    optLock: 0
+    optLock: 0,
   };
   public unitsCheckbox: boolean = false;
   public inventories: Inventory[] = [];
   public shoppingList: Shopping[] = [];
-  public properties: Properties = {
-    idUser: 0
+  public properties: Property = {
+    currency: '',
+    idProperty: 0,
+    language: '',
+    idUser: 0,
   };
   public saveButtonDisabled: boolean = true;
   public validEndDate: boolean = false;
@@ -51,40 +65,23 @@ export class StoragesAddComponent implements OnInit {
   private unitDefaults: UnitDefault[] = [];
   private locales = {};
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  updateProducts() {
+  updateProducts() {}
 
-  }
+  filterProducts() {}
 
-  filterProducts() {
+  onChangeInsertDate($event: any) {}
 
-  }
+  onValidDateChanged($event: any) {}
 
-  onChangeInsertDate($event: any) {
+  updateCheckbox() {}
 
-  }
+  setPrice(minPrice: number) {}
 
-  onValidDateChanged($event: any) {
+  close() {}
 
-  }
-
-  updateCheckbox() {
-
-  }
-
-  setPrice(minPrice: number) {
-
-  }
-
-  close() {
-  }
-
-  saveStorage(update: boolean) {
-
-  }
+  saveStorage(update: boolean) {}
 }

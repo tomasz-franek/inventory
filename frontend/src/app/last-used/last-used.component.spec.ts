@@ -8,9 +8,8 @@ describe('LastUsedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LastUsedComponent]
-    })
-    .compileComponents();
+      imports: [LastUsedComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LastUsedComponent);
     component = fixture.componentInstance;

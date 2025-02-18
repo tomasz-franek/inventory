@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {TranslatePipe} from "@ngx-translate/core";
-import {Category, Product} from '../api';
-import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {saveProduct} from '../state/product/product.action';
-import {AsyncPipe, NgForOf} from '@angular/common';
-import {getCategoriesList} from '../state/category/category.selectors';
-import {Observable} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Category, Product } from '../api';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { saveProduct } from '../state/product/product.action';
+import { AsyncPipe, NgForOf } from '@angular/common';
+import { getCategoriesList } from '../state/category/category.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-add',
@@ -16,10 +16,10 @@ import {Observable} from 'rxjs';
     TranslatePipe,
     FormsModule,
     NgForOf,
-    AsyncPipe
+    AsyncPipe,
   ],
   templateUrl: './product-add.component.html',
-  styleUrl: './product-add.component.css'
+  styleUrl: './product-add.component.css',
 })
 export class ProductAddComponent implements OnInit {
   protected categories$!: Observable<Category[]>;
@@ -27,20 +27,21 @@ export class ProductAddComponent implements OnInit {
     idProduct: undefined,
     name: '',
     active: 1,
-    idCategory:0,
-    optLock: 0
+    idCategory: 0,
+    optLock: 0,
   };
 
-  constructor(private router: Router,
-              private store: Store) {
-  }
+  constructor(
+    private router: Router,
+    private store: Store
+  ) {}
 
   backToProducts() {
     this.router.navigate(['products']);
   }
 
   save() {
-    this.store.dispatch(saveProduct({product: this.product$}));
+    this.store.dispatch(saveProduct({ product: this.product$ }));
     this.router.navigate(['products']);
   }
 

@@ -1,16 +1,16 @@
-import {inject, Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {ApiService} from '../../services/api.service';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ApiService } from '../../services/api.service';
 import {
   retrievedInventoryList,
   retrievedInventoryListActionError,
   retrievedInventoryListActionSuccess,
   saveInventory,
   saveInventoryActionError,
-  saveInventoryActionSuccess
+  saveInventoryActionSuccess,
 } from './inventory.action';
-import {catchError, concatMap, map, mergeMap, Observable} from 'rxjs';
-import {Inventory} from '../../api';
+import { catchError, concatMap, map, mergeMap, Observable } from 'rxjs';
+import { Inventory } from '../../api';
 
 @Injectable()
 export class InventoryEffects {
@@ -21,13 +21,14 @@ export class InventoryEffects {
     return this._actions$.pipe(
       ofType(retrievedInventoryList),
       mergeMap(() => {
-          return this._apiService.getInventories().pipe(map((data) => {
-            return retrievedInventoryListActionSuccess({inventories: data});
-          }));
-        }
-      ),
+        return this._apiService.getInventories().pipe(
+          map((data) => {
+            return retrievedInventoryListActionSuccess({ inventories: data });
+          })
+        );
+      }),
       catchError((error: any) => {
-        return [retrievedInventoryListActionError({error})];
+        return [retrievedInventoryListActionError({ error })];
       })
     );
   });
@@ -42,7 +43,7 @@ export class InventoryEffects {
             return [saveInventoryActionSuccess];
           }),
           catchError((error: any) => {
-            return [saveInventoryActionError({error})];
+            return [saveInventoryActionError({ error })];
           })
         );
       })
@@ -57,4 +58,3 @@ export class InventoryEffects {
     return this._apiService.createInventory(inventory);
   }
 }
-

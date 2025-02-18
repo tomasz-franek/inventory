@@ -1,5 +1,5 @@
-import {inject, Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   CategoriesService,
   Category,
@@ -7,6 +7,8 @@ import {
   Inventory,
   Product,
   ProductsService,
+  Property,
+  PropertyService,
   ResponseId,
   Storage,
   StoragesService,
@@ -16,7 +18,7 @@ import {
 } from '../api';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class ApiService {
   private categoriesService: CategoriesService = inject(CategoriesService);
@@ -24,9 +26,9 @@ export class ApiService {
   private productService: ProductsService = inject(ProductsService);
   private storagesService: StoragesService = inject(StoragesService);
   private unitsService: UnitsService = inject(UnitsService);
+  private propertyService: PropertyService = inject(PropertyService);
 
-  constructor() {
-  }
+  constructor() {}
 
   getCategories(): Observable<Category[]> {
     return this.categoriesService.getAllCategories();
@@ -48,7 +50,10 @@ export class ApiService {
     return this.inventoriesService.saveInventory(inventory);
   }
 
-  updateInventory(idInventory: number, inventory: Inventory): Observable<ResponseId> {
+  updateInventory(
+    idInventory: number,
+    inventory: Inventory
+  ): Observable<ResponseId> {
     return this.inventoriesService.updateInventory(idInventory, inventory);
   }
 
@@ -86,5 +91,9 @@ export class ApiService {
 
   getUnit(idUnit: number): Observable<Unit> {
     return this.unitsService.getUnit(idUnit);
+  }
+
+  getProperty(idUnit: number): Observable<Property> {
+    return this.propertyService.getProperty(idUnit);
   }
 }

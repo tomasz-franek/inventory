@@ -1,24 +1,35 @@
 <h2>Categories</h2>
 <table class="table">
   <thead>
-  <tr>
-    <th>Name</th>
-    <th>Active</th>
-    <th>Action</th>
-  </tr>
+    <tr>
+      <th>Name</th>
+      <th>Active</th>
+      <th>Action</th>
+    </tr>
   </thead>
   <tbody *ngFor="let category of categories$ | async" class="category">
-  <tr>
-    <td>{{ category.name }}</td>
-    <td>{{ category.active }}</td>
-    <td>
-      <p class="d-inline-flex gap-1">
-      <button type="button" class="btn btn-outline-primary" (click)="updateCategory(category)">Update</button>
-      <button type="button" class="btn btn-outline-danger" (click)="deleteCategory(category)">Delete</button>
-      </p>
-    </td>
-  </tr>
+    <tr>
+      <td>{{ category.name }}</td>
+      <td>{{ category.active }}</td>
+      <td>
+        <p class="d-inline-flex gap-1">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="updateCategory(category)"
+          >
+            Update
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            (click)="deleteCategory(category)"
+          >
+            Delete
+          </button>
+        </p>
+      </td>
+    </tr>
   </tbody>
-
 </table>
 <button (click)="addNewCategory()">Add New Category</button>

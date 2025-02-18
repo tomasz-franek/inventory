@@ -8,9 +8,8 @@ describe('NextDaysExpiredComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NextDaysExpiredComponent]
-    })
-    .compileComponents();
+      imports: [NextDaysExpiredComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NextDaysExpiredComponent);
     component = fixture.componentInstance;

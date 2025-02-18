@@ -1,29 +1,23 @@
-import {Component, OnInit} from '@angular/core';
-import {Properties} from '../api';
-import {systemCurrencies} from '../../objects/definedValues';
-import {FormsModule} from '@angular/forms';
-import {TranslatePipe} from '@ngx-translate/core';
-import {NgForOf} from '@angular/common';
+import { Component } from '@angular/core';
+import { systemCurrencies } from '../../objects/definedValues';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
+import { NgForOf } from '@angular/common';
+import { Property } from '../api';
+import { Store } from '@ngrx/store';
+import { PropertyState } from '../state/property/property.selectors';
 
 @Component({
   selector: 'app-user-properties',
-  imports: [
-    FormsModule,
-    TranslatePipe,
-    NgForOf
-  ],
+  imports: [FormsModule, TranslatePipe, NgForOf],
   templateUrl: './user-properties.component.html',
-  styleUrl: './user-properties.component.css'
+  styleUrl: './user-properties.component.css',
 })
-export class UserPropertiesComponent implements OnInit {
-  public properties: Properties = {idUser: 0};
+export class UserPropertiesComponent {
+  properties$: Property = { idProperty: 0, idUser: 0 };
   public currencies = systemCurrencies;
 
-  ngOnInit() {
-    this.properties = JSON.parse(localStorage.getItem('properties') || '{}');
-  }
+  constructor(private _store: Store<PropertyState>) {}
 
-  update() {
-
-  }
+  update() {}
 }

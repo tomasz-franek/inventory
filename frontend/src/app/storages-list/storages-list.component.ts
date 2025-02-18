@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {TranslatePipe} from '@ngx-translate/core';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-import {Category, Product, Properties, Storage} from '../api';
-import {getStoragesList} from '../state/storage/storage.selectors';
-import {getProductsList} from '../state/product/product.selectors';
-import {getCategoriesList} from '../state/category/category.selectors';
-import {FormsModule} from '@angular/forms';
-import {StoragesFilter} from '../../objects/storagesFilter';
-import {AsyncPipe, DecimalPipe, NgClass, NgForOf} from '@angular/common';
-import {retrievedCategoryList} from '../state/category/category.action';
-import {retrievedProductList} from '../state/product/product.action';
-import {retrievedStorageList} from '../state/storage/storage.action';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Category, Product, Property, Storage } from '../api';
+import { getStoragesList } from '../state/storage/storage.selectors';
+import { getProductsList } from '../state/product/product.selectors';
+import { getCategoriesList } from '../state/category/category.selectors';
+import { FormsModule } from '@angular/forms';
+import { StoragesFilter } from '../../objects/storagesFilter';
+import { AsyncPipe, DecimalPipe, NgClass, NgForOf } from '@angular/common';
+import { retrievedCategoryList } from '../state/category/category.action';
+import { retrievedProductList } from '../state/product/product.action';
+import { retrievedStorageList } from '../state/storage/storage.action';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-storages-list',
@@ -22,27 +22,34 @@ import {Router} from '@angular/router';
     NgClass,
     DecimalPipe,
     NgForOf,
-    AsyncPipe
+    AsyncPipe,
   ],
   templateUrl: './storages-list.component.html',
-  styleUrl: './storages-list.component.css'
+  styleUrl: './storages-list.component.css',
 })
 export class StoragesListComponent implements OnInit {
-  protected storages$! : Observable<Storage[]>;
-  protected products$! : Observable<Product[]>;
-  protected categories$! : Observable<Category[]>;
-  protected filter$:StoragesFilter = {idCategory:0,idProduct:0,allStorages:[],allProducts:[],hideUsed:false};
-  protected editStore$ = {idStorage: 0, price: 0, productName: ''};
-  protected properties$!: Observable<Properties>;
+  protected storages$!: Observable<Storage[]>;
+  protected products$!: Observable<Product[]>;
+  protected categories$!: Observable<Category[]>;
+  protected filter$: StoragesFilter = {
+    idCategory: 0,
+    idProduct: 0,
+    allStorages: [],
+    allProducts: [],
+    hideUsed: false,
+  };
+  protected editStore$ = { idStorage: 0, price: 0, productName: '' };
+  protected properties$!: Observable<Property>;
 
-  constructor(private store: Store,
-              private router: Router,) {
-  }
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.store.dispatch(retrievedProductList());
     this.store.dispatch(retrievedCategoryList());
-    this.store.dispatch(retrievedStorageList())
+    this.store.dispatch(retrievedStorageList());
     this.storages$ = this.store.select(getStoragesList);
     this.products$ = this.store.select(getProductsList);
     this.categories$ = this.store.select(getCategoriesList);
@@ -99,13 +106,12 @@ export class StoragesListComponent implements OnInit {
     }
   }
 
-
   updateFilterProduct(event: number) {
     // this.filter.idProduct = Number(event);
     // this.storages = new StoragesPipe().transform(this.filter);
   }
 
-  hideUsed(event:boolean){
+  hideUsed(event: boolean) {
     // this.filter.hideUsed = event;
     // this.updateFilterProduct(this.filter.idProduct);
   }
