@@ -580,6 +580,58 @@ paths:
         '404':
           description: Shopping not found
 
+  /properties/{userId}:
+    get:
+      operationId: getProperty
+      summary: Get Property object
+      tags:
+        - property
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the User to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Property not found
+        '200':
+          description: Property object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+    patch:
+      operationId: updateProperty
+      summary: Update Property object
+      tags:
+        - property
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the Property to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Property object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '204':
+          description: Property updated
+        '400':
+          description: Unable to update Property
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     Inventory:
@@ -811,11 +863,15 @@ components:
           type: integer
           format: int64
 
-    Properties:
+    Property:
       type: object
       required:
         - idUser
+        - idProperty
       properties:
+        idProperty:
+          type: integer
+          format: int64
         idUser:
           type: integer
           format: int64

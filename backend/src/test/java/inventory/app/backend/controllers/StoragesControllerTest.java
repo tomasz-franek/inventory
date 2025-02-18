@@ -1,8 +1,7 @@
-package inventory.app.backend.controller;
+package inventory.app.backend.controllers;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,48 +21,52 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-class CategoryControllerTest {
-    public static final String CATEGORIES_ENDPOINT_PATH = "/categories";
+class StoragesControllerTest {
+    public static final String STORAGES_ENDPOINT_PATH = "/storages";
     @Autowired
     private MockMvc mockMvc;
+
     public static final Long CORRECT_ID = 1L;
     public static final Long WRONG_ID = 999L;
 
     @Test
-    public void getAllCategories_Should_ReturnResponse_When_MethodIsCalled()
+    public void getAllStorages_Should_ReturnResponse_When_MethodIsCalled()
             throws Exception {
-        mockMvc.perform(
-                        get(CATEGORIES_ENDPOINT_PATH)
-                                .accept(APPLICATION_JSON))
+        mockMvc.perform(get(STORAGES_ENDPOINT_PATH).accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(2))))
-                .andExpect(jsonPath("$[0].name").value("Food"))
-                .andExpect(jsonPath("$[1].name").value("Clothes"));
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$[0].idStorage").value(1))
+                .andExpect(jsonPath("$[0].idProduct").value(1))
+                .andExpect(jsonPath("$[0].idUnit").value(1));
     }
 
     @Test
-    public void getCategory_Should_ReturnResponse_When_MethodIsCalledWithCorrectId()
+    public void getStorage_Should_ReturnResponse_When_MethodIsCalledWithCorrectId()
             throws Exception {
         mockMvc.perform(
-                        get(CATEGORIES_ENDPOINT_PATH + "/{categoryId}", CORRECT_ID)
+                        get(STORAGES_ENDPOINT_PATH + "/{storageId}", CORRECT_ID)
                                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("Food"))
-                .andExpect(jsonPath("$.active").value(1));
+                .andExpect(jsonPath("$.idStorage").value(1))
+                .andExpect(jsonPath("$.idProduct").value(1))
+                .andExpect(jsonPath("$.idUnit").value(1));
     }
 
     @Test
-    public void saveCategory_Should_ReturnId_When_MethodIsCalled()
+    public void saveStorage_Should_ReturnId_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
-                        post(CATEGORIES_ENDPOINT_PATH)
+                        post(STORAGES_ENDPOINT_PATH)
                                 .content("""
                                         {
-                                            "name":"Medicines",
-                                            "active":1,
+                                            "idProduct":"2",
+                                            "idUnit":1,
+                                            "price":1.99,
+                                            "insertDate":"2023-02-02",
+                                            "used":0.0,
                                             "optLock":0
                                         }
                                         """)
@@ -75,15 +78,16 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void updateCategory_Should_ReturnId_When_MethodIsCalled()
+    public void updateStorage_Should_ReturnId_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
-                        patch(CATEGORIES_ENDPOINT_PATH + "/{categoryId}",
+                        patch(STORAGES_ENDPOINT_PATH + "/{storageId}",
                                 CORRECT_ID)
                                 .content("""
                                         {
-                                            "name":"Food",
-                                            "active":1,
+                                            "price":2.12,
+                                            "insertDate":"2023-02-05",
+                                            "used":1.0,
                                             "optLock":0
                                         }
                                         """)
@@ -93,14 +97,14 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void updateCategory_Should_ReturnError_When_MethodIsCalledWithWrongId()
+    public void updateStorage_Should_ReturnError_When_MethodIsCalledWithWrongId()
             throws Exception {
         mockMvc.perform(
-                        patch(CATEGORIES_ENDPOINT_PATH + "/{categoryId}",
+                        patch(STORAGES_ENDPOINT_PATH + "/{storageId}",
                                 WRONG_ID)
                                 .content("""
                                         {
-                                            "name":"Medicines",
+                                            "name":"Wash powder",
                                             "active":1,
                                             "optLock":0
                                         }
@@ -110,69 +114,20 @@ class CategoryControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().string(
-                        "Category with id = '" + WRONG_ID + "' not found."));
+                        "Storage with id = '" + WRONG_ID + "' not found."));
     }
 
     @Test
-    public void updateCategory_Should_ReturnError_When_MethodIsCalledWithTooLongString()
+    public void updateStorage_Should_ReturnError_When_MethodIsCalledWithNullValues()
             throws Exception {
         mockMvc.perform(
-                        patch(CATEGORIES_ENDPOINT_PATH + "/{categoryId}",
-                                CORRECT_ID)
-                                .content(String.format("""
-                                                {
-                                                    "name":"%s",
-                                                    "active":1,
-                                                    "optLock":0
-                                                }
-                                                """,
-                                        StringUtils.repeat('1', 1000)
-                                ))
-                                .accept(APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(1)))
-                .andExpect(jsonPath("$.errors[0].message").value(
-                        "Column 'name' can contain a maximum of 100 character(s) but it contains 1000"));
-    }
-
-    @Test
-    public void saveCategory_Should_ReturnError_When_MethodIsCalledWithTooLongString()
-            throws Exception {
-        mockMvc.perform(
-                        post(CATEGORIES_ENDPOINT_PATH)
-                                .content(String.format("""
-                                                {
-                                                    "name":"%s",
-                                                    "active":1,
-                                                    "optLock":0
-                                                }
-                                                """,
-                                        StringUtils.repeat('1', 1000)
-                                ))
-                                .accept(APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(1)))
-                .andExpect(jsonPath("$.errors[0].message").value(
-                        "Column 'name' can contain a maximum of 100 character(s) but it contains 1000"));
-    }
-
-    @Test
-    public void updateCategory_Should_ReturnError_When_MethodIsCalledWithNullValues()
-            throws Exception {
-        mockMvc.perform(
-                        patch(CATEGORIES_ENDPOINT_PATH + "/{categoryId}",
+                        patch(STORAGES_ENDPOINT_PATH + "/{storageId}",
                                 CORRECT_ID)
                                 .content(
                                         """
                                                 {
-                                                    "name":null,
-                                                    "active":null,
+                                                    "idProduct":1,
+                                                    "idUnit":1,
                                                     "optLock":0
                                                 }
                                                 """)
@@ -181,21 +136,25 @@ class CategoryControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors", hasSize(3)))
                 .andExpect(jsonPath("$.errors[0].message").value(
-                        "Value in the column 'name' is null"));
+                        "Value in the column 'insertDate' is null"))
+                .andExpect(jsonPath("$.errors[1].message").value(
+                        "Value in the column 'used' is null"))
+                .andExpect(jsonPath("$.errors[2].message").value(
+                        "Value in the column 'price' is null"));
     }
 
     @Test
-    public void saveCategory_Should_ReturnError_When_MethodIsCalledWithNullValues()
+    public void saveStorage_Should_ReturnError_When_MethodIsCalledWithNullValues()
             throws Exception {
         mockMvc.perform(
-                        post(CATEGORIES_ENDPOINT_PATH)
+                        post(STORAGES_ENDPOINT_PATH)
                                 .content(
                                         """
                                                 {
-                                                    "name":null,
-                                                    "active":null,
+                                                    "idProduct":1,
+                                                    "idUnit":1,
                                                     "optLock":0
                                                 }
                                                 """)
@@ -204,21 +163,53 @@ class CategoryControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors", hasSize(3)))
                 .andExpect(jsonPath("$.errors[0].message").value(
-                        "Value in the column 'name' is null"));
+                        "Value in the column 'insertDate' is null"))
+                .andExpect(jsonPath("$.errors[1].message").value(
+                        "Value in the column 'used' is null"))
+                .andExpect(jsonPath("$.errors[2].message").value(
+                        "Value in the column 'price' is null"));
     }
 
     @Test
-    public void deleteCategory_Should_ReturnNoContent_When_MethodIsCalledWithCorrectId()
+    public void saveStorage_Should_ReturnError_When_MethodIsCalledWithNullProductIdAndUnitId()
+            throws Exception {
+        mockMvc.perform(
+                        post(STORAGES_ENDPOINT_PATH)
+                                .content(
+                                        """
+                                                {
+                                                    "idProduct":null,
+                                                    "idUnit":null,
+                                                    "price":0.0
+                                                }
+                                                """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors[0].message").value(
+                        "idProduct is null"))
+                .andExpect(jsonPath("$.errors[1].message").value(
+                        "idUnit is null"));
+    }
+
+    @Test
+    public void deleteStorage_Should_ReturnNoContent_When_MethodIsCalledWithCorrectId()
             throws Exception {
         //when
         ResultActions actions = mockMvc.perform(
-                        post(CATEGORIES_ENDPOINT_PATH)
+                        post(STORAGES_ENDPOINT_PATH)
                                 .content("""
                                         {
-                                            "name":"Lekarstwa",
-                                            "active":1,
+                                            "idProduct":"2",
+                                            "idUnit":1,
+                                            "price":2.04,
+                                            "insertDate":"2023-02-02",
+                                            "used":0.0,
                                             "optLock":0
                                         }
                                         """)
@@ -233,7 +224,7 @@ class CategoryControllerTest {
 
         //then
         mockMvc.perform(
-                        delete(CATEGORIES_ENDPOINT_PATH + "/{categoryId}",
+                        delete(STORAGES_ENDPOINT_PATH + "/{storageId}",
                                 id)
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
@@ -241,27 +232,26 @@ class CategoryControllerTest {
                 .andExpect(content().string(""));
 
         mockMvc.perform(
-                        get(CATEGORIES_ENDPOINT_PATH + "/{categoryId}",
+                        get(STORAGES_ENDPOINT_PATH + "/{storageId}",
                                 id)
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(
-                        "Category with id = '" + id + "' not found."));
+                        "Storage with id = '" + id + "' not found."));
     }
 
     @Test
-    public void deleteCategory_Should_ReturnError_When_MethodIsCalledWithWrongId()
+    public void deleteStorage_Should_ReturnError_When_MethodIsCalledWithWrongId()
             throws Exception {
         mockMvc.perform(
-                        delete(CATEGORIES_ENDPOINT_PATH + "/{categoryId}",
+                        delete(STORAGES_ENDPOINT_PATH + "/{storageId}",
                                 WRONG_ID)
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().string(
-                        "Category with id = '" + WRONG_ID + "' not found."));
+                        "Storage with id = '" + WRONG_ID + "' not found."));
     }
-
 }

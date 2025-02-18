@@ -7,7 +7,7 @@ import inventory.app.backend.entities.ShoppingEntity;
 import inventory.app.api.model.Shopping;
 
 @Mapper(componentModel = "spring")
-public interface ShoppingMapping {
+public interface ShoppingMapper {
 
   @Mapping(target = "idProduct", source = "product.id")
   @Mapping(target = "idUnit", source = "unit.id")

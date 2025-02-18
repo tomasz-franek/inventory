@@ -1,4 +1,4 @@
-package inventory.app.backend.controller;
+package inventory.app.backend.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

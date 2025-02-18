@@ -1,4 +1,4 @@
-package inventory.app.backend.controller;
+package inventory.app.backend.controllers;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,50 +21,47 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-class InventoryControllerTest {
-    public static final String INVENTORIES_ENDPOINT_PATH = "/inventories";
-
-    public static final Long CORRECT_ID = 1L;
-    public static final Long WRONG_ID = 999L;
+class ProductControllerTest {
+    public static final String PRODUCTS_ENDPOINT_PATH = "/products";
     @Autowired
     private MockMvc mockMvc;
 
+    public static final Long CORRECT_ID = 1L;
+    public static final Long WRONG_ID = 999L;
+
     @Test
-    public void getAllInventories_Should_ReturnResponse_When_MethodIsCalled()
+    public void getAllProducts_Should_ReturnResponse_When_MethodIsCalled()
             throws Exception {
-        mockMvc.perform(
-                        get(INVENTORIES_ENDPOINT_PATH)
-                                .accept(APPLICATION_JSON))
+        mockMvc.perform(get(PRODUCTS_ENDPOINT_PATH).accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(2))))
-                .andExpect(jsonPath("$[0].name").value("House"))
-                .andExpect(jsonPath("$[1].name").value("Garage"));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name").value("Bean"))
+                .andExpect(jsonPath("$[1].name").value("Sugar"));
     }
 
     @Test
-    public void getInventory_Should_ReturnResponse_When_MethodIsCalledWithCorrectId()
+    public void getProduct_Should_ReturnResponse_When_MethodIsCalledWithCorrectId()
             throws Exception {
         mockMvc.perform(
-                        get(INVENTORIES_ENDPOINT_PATH + "/{inventoryId}", CORRECT_ID)
+                        get(PRODUCTS_ENDPOINT_PATH + "/{productId}", CORRECT_ID)
                                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("House"))
-                .andExpect(jsonPath("$.description").value("House"))
+                .andExpect(jsonPath("$.name").value("Bean"))
                 .andExpect(jsonPath("$.active").value(1));
     }
 
     @Test
-    public void saveInventory_Should_ReturnId_When_MethodIsCalled()
+    public void saveProduct_Should_ReturnId_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
-                        post(INVENTORIES_ENDPOINT_PATH)
+                        post(PRODUCTS_ENDPOINT_PATH)
                                 .content("""
                                         {
-                                            "name":"Garaż",
-                                            "description":"Garaż",
+                                            "name":"Wash powder",
+                                            "idCategory":1,
                                             "active":1,
                                             "optLock":0
                                         }
@@ -78,15 +74,14 @@ class InventoryControllerTest {
     }
 
     @Test
-    public void updateInventory_Should_ReturnId_When_MethodIsCalled()
+    public void updateProduct_Should_ReturnId_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
-                        patch(INVENTORIES_ENDPOINT_PATH + "/{inventoryId}",
+                        patch(PRODUCTS_ENDPOINT_PATH + "/{productId}",
                                 CORRECT_ID)
                                 .content("""
                                         {
-                                            "name":"Garaż",
-                                            "description":"Garaż",
+                                            "name":"Oil",
                                             "active":1,
                                             "optLock":0
                                         }
@@ -97,15 +92,14 @@ class InventoryControllerTest {
     }
 
     @Test
-    public void updateInventory_Should_ReturnError_When_MethodIsCalledWithWrongId()
+    public void updateProduct_Should_ReturnError_When_MethodIsCalledWithWrongId()
             throws Exception {
         mockMvc.perform(
-                        patch(INVENTORIES_ENDPOINT_PATH + "/{inventoryId}",
+                        patch(PRODUCTS_ENDPOINT_PATH + "/{productId}",
                                 WRONG_ID)
                                 .content("""
                                         {
-                                            "name":"Garaż",
-                                            "description":"Garaż",
+                                            "name":"Wash powder",
                                             "active":1,
                                             "optLock":0
                                         }
@@ -115,77 +109,69 @@ class InventoryControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().string(
-                        "Inventory with id = '" + WRONG_ID + "' not found."));
+                        "Product with id = '" + WRONG_ID + "' not found."));
     }
 
     @Test
-    public void updateInventory_Should_ReturnError_When_MethodIsCalledWithTooLongString()
+    public void updateProduct_Should_ReturnError_When_MethodIsCalledWithTooLongString()
             throws Exception {
         mockMvc.perform(
-                        patch(INVENTORIES_ENDPOINT_PATH + "/{inventoryId}",
+                        patch(PRODUCTS_ENDPOINT_PATH + "/{productId}",
                                 CORRECT_ID)
                                 .content(String.format("""
                                                 {
                                                     "name":"%s",
-                                                    "description":"%s",
                                                     "active":1,
                                                     "optLock":0
                                                 }
                                                 """,
-                                        StringUtils.repeat('1', 1000),
-                                        StringUtils.repeat('2', 1000)
+                                        StringUtils.repeat('1', 1000)
                                 ))
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].message").value(
-                        "Column 'name' can contain a maximum of 45 character(s) but it contains 1000"))
-                .andExpect(jsonPath("$.errors[1].message").value(
-                        "Column 'description' can contain a maximum of 200 character(s) but it contains 1000"));
+                        "Column 'name' can contain a maximum of 45 character(s) but it contains 1000"));
     }
 
     @Test
-    public void saveInventory_Should_ReturnError_When_MethodIsCalledWithTooLongString()
+    public void saveProduct_Should_ReturnError_When_MethodIsCalledWithTooLongString()
             throws Exception {
         mockMvc.perform(
-                        post(INVENTORIES_ENDPOINT_PATH)
+                        post(PRODUCTS_ENDPOINT_PATH)
                                 .content(String.format("""
                                                 {
                                                     "name":"%s",
-                                                    "description":"%s",
+                                                    "idCategory":1,
                                                     "active":1,
                                                     "optLock":0
                                                 }
                                                 """,
-                                        StringUtils.repeat('1', 1000),
-                                        StringUtils.repeat('2', 1000)
+                                        StringUtils.repeat('1', 1000)
                                 ))
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].message").value(
-                        "Column 'name' can contain a maximum of 45 character(s) but it contains 1000"))
-                .andExpect(jsonPath("$.errors[1].message").value(
-                        "Column 'description' can contain a maximum of 200 character(s) but it contains 1000"));
+                        "Column 'name' can contain a maximum of 45 character(s) but it contains 1000"));
     }
 
     @Test
-    public void updateInventory_Should_ReturnError_When_MethodIsCalledWithNullValues()
+    public void updateProduct_Should_ReturnError_When_MethodIsCalledWithNullValues()
             throws Exception {
         mockMvc.perform(
-                        patch(INVENTORIES_ENDPOINT_PATH + "/{inventoryId}",
+                        patch(PRODUCTS_ENDPOINT_PATH + "/{productId}",
                                 CORRECT_ID)
                                 .content(
                                         """
                                                 {
                                                     "name":null,
-                                                    "description":null,
                                                     "active":null,
                                                     "optLock":0
                                                 }
@@ -201,15 +187,15 @@ class InventoryControllerTest {
     }
 
     @Test
-    public void saveInventory_Should_ReturnError_When_MethodIsCalledWithNullValues()
+    public void saveProduct_Should_ReturnError_When_MethodIsCalledWithNullValues()
             throws Exception {
         mockMvc.perform(
-                        post(INVENTORIES_ENDPOINT_PATH)
+                        post(PRODUCTS_ENDPOINT_PATH)
                                 .content(
                                         """
                                                 {
                                                     "name":null,
-                                                    "description":null,
+                                                    "idCategory":1,
                                                     "active":null,
                                                     "optLock":0
                                                 }
@@ -225,15 +211,37 @@ class InventoryControllerTest {
     }
 
     @Test
-    public void deleteInventory_Should_ReturnNoContent_When_MethodIsCalledWithCorrectId()
+    public void saveProduct_Should_ReturnError_When_MethodIsCalledWithNullCategoryId()
+            throws Exception {
+        mockMvc.perform(
+                        post(PRODUCTS_ENDPOINT_PATH)
+                                .content(
+                                        """
+                                                {
+                                                    "name":null,
+                                                    "active":null
+                                                }
+                                                """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0].message").value(
+                        "idCategory is null"));
+    }
+
+    @Test
+    public void deleteProduct_Should_ReturnNoContent_When_MethodIsCalledWithCorrectId()
             throws Exception {
         //when
         ResultActions actions = mockMvc.perform(
-                        post(INVENTORIES_ENDPOINT_PATH)
+                        post(PRODUCTS_ENDPOINT_PATH)
                                 .content("""
                                         {
-                                            "name":"Garaż",
-                                            "description":"Garaż",
+                                            "name":"Wash powder",
+                                            "idCategory":1,
                                             "active":1,
                                             "optLock":0
                                         }
@@ -249,7 +257,7 @@ class InventoryControllerTest {
 
         //then
         mockMvc.perform(
-                        delete(INVENTORIES_ENDPOINT_PATH + "/{inventoryId}",
+                        delete(PRODUCTS_ENDPOINT_PATH + "/{productId}",
                                 id)
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
@@ -257,26 +265,26 @@ class InventoryControllerTest {
                 .andExpect(content().string(""));
 
         mockMvc.perform(
-                        get(INVENTORIES_ENDPOINT_PATH + "/{inventoryId}",
+                        get(PRODUCTS_ENDPOINT_PATH + "/{productId}",
                                 id)
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(
-                        "Inventory with id = '" + id + "' not found."));
+                        "Product with id = '" + id + "' not found."));
     }
 
     @Test
-    public void deleteInventory_Should_ReturnError_When_MethodIsCalledWithWrongId()
+    public void deleteProduct_Should_ReturnError_When_MethodIsCalledWithWrongId()
             throws Exception {
         mockMvc.perform(
-                        delete(INVENTORIES_ENDPOINT_PATH + "/{inventoryId}",
+                        delete(PRODUCTS_ENDPOINT_PATH + "/{productId}",
                                 WRONG_ID)
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().string(
-                        "Inventory with id = '" + WRONG_ID + "' not found."));
+                        "Product with id = '" + WRONG_ID + "' not found."));
     }
 }

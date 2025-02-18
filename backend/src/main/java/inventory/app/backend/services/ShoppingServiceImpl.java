@@ -7,7 +7,7 @@ import inventory.app.backend.entities.ShoppingEntity;
 import inventory.app.backend.entities.UnitEntity;
 import inventory.app.backend.exceptions.NotFoundEntityException;
 import inventory.app.backend.exceptions.ValidationException;
-import inventory.app.backend.mappers.ShoppingMapping;
+import inventory.app.backend.mappers.ShoppingMapper;
 import inventory.app.api.model.Product;
 import inventory.app.api.model.ResponseId;
 import inventory.app.api.model.Shopping;
@@ -32,7 +32,7 @@ public class ShoppingServiceImpl implements ShoppingService {
 
     private final UnitRepository unitRepository;
 
-    private final ShoppingMapping mapper;
+    private final ShoppingMapper mapper;
 
     private final Validators validators;
 
