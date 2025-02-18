@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="category$ | async as category">
   <div class="row mb-2">
     <fieldset class="fieldset">
       <div class="row mb-2">
@@ -37,7 +37,7 @@
           {{ 'BACK' | translate }}
         </button>
         <button
-          (click)="save()"
+          (click)="save($any($event))"
           class="ms-2 btn btn-outline-primary col-2 me-2"
           id="save"
           [disabled]="category.name.length == 0"

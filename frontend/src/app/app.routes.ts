@@ -47,6 +47,11 @@ export const appRoutes: Routes = [
     component: CategoryAddComponent,
   },
   {
+    path: 'category-add/:id',
+    providers: [provideEffects(CategoryEffects)],
+    component: CategoryAddComponent,
+  },
+  {
     path: 'inventories',
     providers: [provideEffects(InventoryEffects)],
     component: InventoryListComponent,

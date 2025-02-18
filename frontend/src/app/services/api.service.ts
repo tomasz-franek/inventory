@@ -34,6 +34,10 @@ export class ApiService {
     return this.categoriesService.getAllCategories();
   }
 
+  getCategory(categoryId: number): Observable<Category> {
+    return this.categoriesService.getCategory(categoryId);
+  }
+
   updateCategory(idCategory: number, category: Category): Observable<Category> {
     return this.categoriesService.updateCategory(idCategory, category);
   }

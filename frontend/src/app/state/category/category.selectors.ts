@@ -4,7 +4,7 @@ import { Features } from '../../../features';
 
 export interface CategoryState {
   categories: Category[];
-  categoryEdit: Category | undefined;
+  categoryEdit: Category;
 }
 
 export const selectCategoriesFutureState = createFeatureSelector<CategoryState>(
@@ -20,3 +20,15 @@ export const selectCategoryById = (id: number) =>
   createSelector(selectCategoriesFutureState, (appState) =>
     appState.categories.find((category) => category.idCategory === id)
   );
+
+export const newCategorySelector = createSelector(
+  selectCategoriesFutureState,
+  () => {
+    return {} as Category;
+  }
+);
+
+export const editCategorySelector = createSelector(
+  selectCategoriesFutureState,
+  (state) => state.categoryEdit
+);

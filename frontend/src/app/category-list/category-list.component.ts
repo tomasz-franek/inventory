@@ -1,12 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Category } from '../api';
 import {
+  navigateToCategoryEdit,
+  navigateToCategoryNew,
   retrievedCategoryList,
   saveCategory,
 } from '../state/category/category.action';
 import { CommonModule, NgForOf } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { getCategoriesList } from '../state/category/category.selectors';
 
@@ -20,12 +21,11 @@ export class CategoryListComponent implements OnInit {
   private _store$: Store = inject(Store);
   protected categories$: Observable<Category[]> =
     this._store$.select(getCategoriesList);
-  private _router: Router = inject(Router);
 
   constructor() {}
 
   addNewCategory() {
-    this._router.navigate(['category-add']);
+    this._store$.dispatch(navigateToCategoryNew());
   }
 
   ngOnInit(): void {
@@ -33,22 +33,13 @@ export class CategoryListComponent implements OnInit {
   }
 
   updateCategory(category: Category) {
-    const updatedCategory: Category = {
-      ...category,
-      name: 'Updated Category',
-      active: 1,
-    };
-    this._store$.dispatch(saveCategory({ category: updatedCategory }));
+    this._store$.dispatch(navigateToCategoryEdit({ category }));
   }
 
   deleteCategory(category: Category) {
-    const updatedCategory: Category = {
-      ...category,
-      name: 'Updated Category',
-      active: 0,
-    };
-    if (updatedCategory.idCategory) {
-      this._store$.dispatch(saveCategory({ category: updatedCategory }));
+    category.active = 0;
+    if (category.idCategory) {
+      this._store$.dispatch(saveCategory({ category }));
     }
   }
 }

@@ -11,11 +11,31 @@ export const retrievedCategoryListActionSuccess = createAction(
     categories: Category[];
   }>()
 );
+
+export const retrievedCategoryActionSuccess = createAction(
+  '[Category] Load Category Success Action',
+  props<{ category: Category }>()
+);
+export const navigateToCategoryList = createAction(
+  '[Category] Navigate Category list'
+);
+export const navigateToCategoryNew = createAction(
+  '[Category] Navigate Category New'
+);
+export const navigateToCategoryEdit = createAction(
+  '[Category] Navigate Category Edit',
+  props<{ category: Category }>()
+);
 export const retrievedCategoryListActionError = createAction(
   '[Category] Category list Error',
   props<{
     error: HttpErrorResponse;
   }>()
+);
+
+export const loadCategoryAction = createAction(
+  '[Category] Load Category',
+  props<{ id: number }>()
 );
 
 export const saveCategory = createAction(

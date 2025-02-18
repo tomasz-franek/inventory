@@ -1,12 +1,17 @@
 import { CategoryState } from './category.selectors';
 import {
+  retrievedCategoryActionSuccess,
   retrievedCategoryListActionSuccess,
   saveCategory,
 } from './category.action';
 
 export const initialCategoryState: CategoryState = {
   categories: [],
-  categoryEdit: undefined,
+  categoryEdit: {
+    name: '',
+    active: 0,
+    optLock: 0,
+  },
 };
 
 export function categoryReducer(
@@ -32,6 +37,8 @@ export function categoryReducer(
       }
     case retrievedCategoryListActionSuccess.type:
       return { ...state, categories: action.categories };
+    case retrievedCategoryActionSuccess.type:
+      return { ...state, categoryEdit: action.category };
     default:
       return state;
   }

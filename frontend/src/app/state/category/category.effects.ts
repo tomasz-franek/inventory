@@ -1,6 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  loadCategoryAction,
+  navigateToCategoryEdit,
+  navigateToCategoryList,
+  navigateToCategoryNew,
+  retrievedCategoryActionSuccess,
   retrievedCategoryList,
   retrievedCategoryListActionError,
   retrievedCategoryListActionSuccess,
@@ -14,16 +19,19 @@ import {
   map,
   mergeMap,
   Observable,
+  tap,
   withLatestFrom,
 } from 'rxjs';
 import { Category } from '../../api';
 import { Store } from '@ngrx/store';
 import { ApiService } from '../../services/api.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CategoryEffects {
   private store$ = inject(Store);
   private _apiService$ = inject(ApiService);
+  private router: Router = inject(Router);
 
   save$ = createEffect(() =>
     inject(Actions).pipe(
@@ -57,6 +65,57 @@ export class CategoryEffects {
         return [retrievedCategoryListActionError({ error })];
       })
     )
+  );
+
+  loadCategory$ = createEffect(() => {
+    return inject(Actions).pipe(
+      ofType(loadCategoryAction),
+      mergeMap((action) =>
+        this._apiService$.getCategory(action.id).pipe(
+          map((category) => {
+            return retrievedCategoryActionSuccess({
+              category: category,
+            });
+          })
+        )
+      )
+    );
+  });
+
+  openCategoryList$ = createEffect(
+    () => {
+      return inject(Actions).pipe(
+        ofType(navigateToCategoryList),
+        tap(() => {
+          this.router.navigate(['/categories']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  newCategory$ = createEffect(
+    () => {
+      return inject(Actions).pipe(
+        ofType(navigateToCategoryNew),
+        tap(() => {
+          this.router.navigate(['/category-add']);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  editCategory$ = createEffect(
+    () => {
+      return inject(Actions).pipe(
+        ofType(navigateToCategoryEdit),
+        tap((action) => {
+          this.router.navigate(['/category-add', action.category.idCategory]);
+        })
+      );
+    },
+    { dispatch: false }
   );
 
   private _getCreateOrUpdateObservable(category: Category): Observable<any> {
