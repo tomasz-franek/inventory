@@ -632,6 +632,86 @@ paths:
             application/json:
               schema:
                 type: string
+  /items:
+    get:
+      summary: get all Inventory Items
+      operationId: getAllItems
+      tags:
+        - items
+      responses:
+        '200':
+          description: All items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+    post:
+      summary: save Item
+      operationId: saveItem
+      tags:
+        - items
+      requestBody:
+        description: new Item object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '201':
+          description: saved Item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseId'
+  /items/{itemId}:
+    get:
+      operationId: getItem
+      summary: Get Item object
+      tags:
+        - items
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          description: The ID of the Item to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Item not found
+        '200':
+          description: Item object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+    patch:
+      summary: update Item
+      operationId: updateItem
+      tags:
+        - items
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          description: The ID of the Item to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: modified Item object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '201':
+          description: updated Item
 components:
   schemas:
     Inventory:

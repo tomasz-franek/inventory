@@ -37,9 +37,13 @@ export class CategoryListComponent implements OnInit {
   }
 
   deleteCategory(category: Category) {
-    category.active = 0;
-    if (category.idCategory) {
-      this._store$.dispatch(saveCategory({ category }));
+    const updatedCategory: Category = {
+      ...category,
+      active: 0,
+    };
+    if (updatedCategory.idCategory) {
+      this._store$.dispatch(saveCategory({ category: updatedCategory }));
+      this._store$.dispatch(retrievedCategoryList());
     }
   }
 }

@@ -47,6 +47,7 @@ export class CategoryAddComponent implements OnInit {
   }
 
   save(category: Category) {
+    debugger;
     this.store.dispatch(saveCategory({ category }));
     this._store$.dispatch(navigateToCategoryList());
   }

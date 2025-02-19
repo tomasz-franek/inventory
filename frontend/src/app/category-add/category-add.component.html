@@ -37,7 +37,7 @@
           {{ 'BACK' | translate }}
         </button>
         <button
-          (click)="save($any($event))"
+          (click)="save(category)"
           class="ms-2 btn btn-outline-primary col-2 me-2"
           id="save"
           [disabled]="category.name.length == 0"
