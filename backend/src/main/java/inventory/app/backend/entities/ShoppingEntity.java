@@ -43,6 +43,6 @@ public class ShoppingEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 
-    @Column(name = "optlock", nullable = false)
+    @Column(name = "opt_lock", nullable = false)
     private Integer optLock;
 }

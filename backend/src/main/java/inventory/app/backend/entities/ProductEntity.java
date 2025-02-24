@@ -43,6 +43,6 @@ public class ProductEntity {
     @Column(name = "limit_min", nullable = false)
     private int limitMin;
 
-    @Column(name = "optlock", nullable = false)
+    @Column(name = "opt_lock", nullable = false)
     private Integer optLock;
 }

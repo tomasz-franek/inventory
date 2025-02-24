@@ -2,7 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Category } from '../api';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
   loadCategoryAction,
@@ -10,7 +16,6 @@ import {
   saveCategory,
 } from '../state/category/category.action';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
 import {
   CategoryState,
   editCategorySelector,
@@ -19,37 +24,72 @@ import {
 
 @Component({
   selector: 'app-category-add',
-  imports: [CommonModule, TranslatePipe, FormsModule],
+  imports: [CommonModule, TranslatePipe, FormsModule, ReactiveFormsModule],
   templateUrl: './category-add.component.html',
   styleUrl: './category-add.component.css',
 })
 export class CategoryAddComponent implements OnInit {
   private _store$: Store = inject(Store);
-  protected category$: Observable<Category> = of({} as Category);
+  protected category$: Category = { active: 0, name: '', optLock: 0 };
+  private _categoryForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
-    private store: Store<CategoryState>
-  ) {}
+    private store: Store<CategoryState>,
+    private formBuilder: FormBuilder
+  ) {
+    this._categoryForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      active: [1, Validators.required],
+      id: [],
+      optLock: [],
+    });
+  }
 
   ngOnInit(): void {
     const id = this.routerId;
     if (id === null) {
-      this.category$ = this.store.select(newCategorySelector);
+      this.store.select(newCategorySelector).subscribe((category) => {
+        this.category$ = category;
+        this._categoryForm = this.formBuilder.group({
+          name: [this.category$.name, Validators.required],
+          active: [this.category$.active, Validators.required],
+          optLock: [this.category$.optLock],
+        });
+      });
     } else {
       this.store.dispatch(loadCategoryAction({ id: Number(id) }));
-      this.category$ = this.store.select(editCategorySelector);
+      this.store.select(editCategorySelector).subscribe((category) => {
+        this.category$ = category;
+        this._categoryForm = this.formBuilder.group({
+          name: [this.category$.name, Validators.required],
+          active: [this.category$.active, Validators.required],
+          optLock: [this.category$.optLock],
+        });
+      });
     }
+  }
+
+  get categoryForm(): FormGroup {
+    return this._categoryForm;
   }
 
   backToCategories() {
     this._store$.dispatch(navigateToCategoryList());
   }
 
-  save(category: Category) {
+  save() {
     debugger;
-    this.store.dispatch(saveCategory({ category }));
-    this._store$.dispatch(navigateToCategoryList());
+    console.log(this._categoryForm);
+    const updatedCategory: Category = {
+      ...this.category$,
+      name: this._categoryForm.value.name,
+      active: this._categoryForm.value.active,
+    };
+    if (this.category$ !== undefined) {
+      this.store.dispatch(saveCategory({ category: updatedCategory }));
+      this._store$.dispatch(navigateToCategoryList());
+    }
   }
 
   get routerId(): string | null {

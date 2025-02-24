@@ -27,6 +27,6 @@ public class CategoryEntity {
     @Column(name = "active")
     private int active;
 
-    @Column(name = "optlock", nullable = false)
+    @Column(name = "opt_lock", nullable = false)
     private Integer optLock;
 }

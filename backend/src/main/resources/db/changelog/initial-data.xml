@@ -10,12 +10,13 @@
             <column name="id" valueComputed="nextval('${schemaName}.category_seq')"/>
             <column name="name" value="Food"/>
             <column name="active" value="1"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="category" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.category_seq')"/>
             <column name="name" value="Clothes"/>
             <column name="active" value="1"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-002">
@@ -26,7 +27,7 @@
             <column name="category_id" value="1"/>
             <column name="active" value="1"/>
             <column name="fragile" value="0"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="product" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.product_seq')"/>
@@ -34,7 +35,7 @@
             <column name="category_id" value="1"/>
             <column name="active" value="1"/>
             <column name="fragile" value="1"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="product" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.product_seq')"/>
@@ -42,7 +43,7 @@
             <column name="category_id" value="2"/>
             <column name="active" value="1"/>
             <column name="fragile" value="1"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="product" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.product_seq')"/>
@@ -50,7 +51,7 @@
             <column name="category_id" value="2"/>
             <column name="active" value="1"/>
             <column name="fragile" value="1"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-003">
@@ -59,13 +60,13 @@
             <column name="id" valueComputed="nextval('${schemaName}.inventory_seq')"/>
             <column name="name" value="House"/>
             <column name="description" value="House"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="inventory" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.inventory_seq')"/>
             <column name="name" value="Garage"/>
             <column name="description" value="Garage"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-004">
@@ -74,19 +75,19 @@
             <column name="id" valueComputed="nextval('${schemaName}.unit_seq')"/>
             <column name="name" value="Kilogram"/>
             <column name="symbol" value="Kg"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="unit" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.unit_seq')"/>
             <column name="name" value="Liter"/>
             <column name="symbol" value="L"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="unit" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.unit_seq')"/>
             <column name="name" value="Pieces"/>
             <column name="symbol" value="Pcs"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-005">
@@ -99,7 +100,7 @@
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="storage" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
@@ -109,7 +110,7 @@
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="storage" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
@@ -119,7 +120,7 @@
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="storage" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
@@ -129,7 +130,7 @@
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="storage" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
@@ -139,7 +140,7 @@
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-006">
@@ -151,7 +152,7 @@
             <column name="name" value="Wash powder"/>
             <column name="items" value="2"/>
             <column name="count" value="4"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-007">
@@ -161,7 +162,7 @@
             <column name="language" value="EN"/>
             <column name="currency" value="USD"/>
             <column name="user_id" value="1"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-008">
@@ -174,7 +175,7 @@
             <column name="valid_date" value="now()"/>
             <column name="end_date" value="now()"/>
             <column name="used" value="1"/>
-            <column name="optlock" value="0"/>
+            <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

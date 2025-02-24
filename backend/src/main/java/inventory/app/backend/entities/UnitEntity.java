@@ -30,6 +30,6 @@ public class UnitEntity {
     @Column(name = "rounding")
     private Integer rounding;
 
-    @Column(name = "optlock", nullable = false)
+    @Column(name = "opt_lock", nullable = false)
     private Integer optLock;
 }

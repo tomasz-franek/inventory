@@ -46,6 +46,6 @@ public class ItemEntity {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Column(name = "optlock", nullable = false)
+    @Column(name = "opt_lock", nullable = false)
     private Integer optLock;
 }

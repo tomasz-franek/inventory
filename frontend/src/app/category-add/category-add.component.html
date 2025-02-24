@@ -1,10 +1,11 @@
-<div class="container" *ngIf="category$ | async as category">
+<form [formGroup]="categoryForm">
   <div class="row mb-2">
     <fieldset class="fieldset">
       <div class="row mb-2">
         <label class="form-label col-2">{{ 'NAME' | translate }}</label>
         <input
-          [(ngModel)]="category.name"
+          formControlName="name"
+          ngModel
           class="input col-3"
           maxlength="45"
           minlength="1"
@@ -17,7 +18,7 @@
         <div class="col-2">
           <span>
             <input
-              [(ngModel)]="category.active"
+              formControlName="active"
               class="checkbox"
               name="Active"
               id="active"
@@ -37,10 +38,10 @@
           {{ 'BACK' | translate }}
         </button>
         <button
-          (click)="save(category)"
+          (click)="save()"
           class="ms-2 btn btn-outline-primary col-2 me-2"
           id="save"
-          [disabled]="category.name.length == 0"
+          [disabled]="category$.name.length == 0"
         >
           <i class="bi bi-save"></i>
           {{ 'SAVE' | translate }}
@@ -48,4 +49,4 @@
       </div>
     </fieldset>
   </div>
-</div>
+</form>

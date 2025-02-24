@@ -33,6 +33,8 @@ export const retrievedCategoryListActionError = createAction(
   }>()
 );
 
+export const nameChange = createAction('[Category] Change Name');
+
 export const loadCategoryAction = createAction(
   '[Category] Load Category',
   props<{ id: number }>()
