@@ -1,18 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Category, Product, Property, Storage } from '../api';
-import { getStoragesList } from '../state/storage/storage.selectors';
-import { getProductsList } from '../state/product/product.selectors';
-import { getCategoriesList } from '../state/category/category.selectors';
+import {
+  getSelectedStoragesList,
+  StorageState,
+} from '../state/storage/storage.selectors';
+import {
+  filterProductByCategory,
+  getProductsList,
+  ProductState,
+  selectProductById,
+} from '../state/product/product.selectors';
+import {
+  CategoryState,
+  getCategoriesList,
+} from '../state/category/category.selectors';
 import { FormsModule } from '@angular/forms';
 import { StoragesFilter } from '../../objects/storagesFilter';
 import { AsyncPipe, DecimalPipe, NgClass, NgForOf } from '@angular/common';
 import { retrievedCategoryList } from '../state/category/category.action';
-import { retrievedProductList } from '../state/product/product.action';
-import { retrievedStorageList } from '../state/storage/storage.action';
-import { Router } from '@angular/router';
+import {
+  retrievedProductList,
+  setProductCategoryId,
+} from '../state/product/product.action';
+import {
+  navigateToStorageNew,
+  retrievedStorageList,
+  selectStorageByCategoryAndProduct,
+  setHideUsed,
+  setStorageCategoryId,
+  setStorageEdit,
+  setStorageProductId,
+} from '../state/storage/storage.action';
 
 @Component({
   selector: 'app-storages-list',
@@ -28,6 +49,9 @@ import { Router } from '@angular/router';
   styleUrl: './storages-list.component.css',
 })
 export class StoragesListComponent implements OnInit {
+  private _storeProduct$: Store<ProductState> = inject(Store);
+  private _storeCategory$: Store<CategoryState> = inject(Store);
+  private _storeStorage$: Store<StorageState> = inject(Store);
   protected storages$!: Observable<Storage[]>;
   protected products$!: Observable<Product[]>;
   protected categories$!: Observable<Category[]>;
@@ -41,61 +65,31 @@ export class StoragesListComponent implements OnInit {
   protected editStore$ = { idStorage: 0, price: 0, productName: '' };
   protected properties$!: Observable<Property>;
 
-  constructor(
-    private store: Store,
-    private router: Router
-  ) {}
+  constructor() {}
 
   ngOnInit() {
-    this.store.dispatch(retrievedProductList());
-    this.store.dispatch(retrievedCategoryList());
-    this.store.dispatch(retrievedStorageList());
-    this.storages$ = this.store.select(getStoragesList);
-    this.products$ = this.store.select(getProductsList);
-    this.categories$ = this.store.select(getCategoriesList);
-    // this.properties = JSON.parse(localStorage.getItem('properties') || '{}') as Properties;
-    // this.progress = 0;
-    // this.filter.allProducts = [];
-    // this.storages = [];
-    // this.filter.allStorages = [];
-    // this.startProgress();
-    //
-    // zip(
-    //
-    //   this.dataService.readStorages(),
-    //   this.dataService.readProducts(),
-    //   this.dataService.readCategories()
-    // ).subscribe({
-    //   next: (data) => {
-    //     if (data[0].length > 0) {
-    //       this.storages = data[0];
-    //       this.filter.allStorages = data[0];
-    //     }
-    //     if (data[1].length > 0) {
-    //       this.filter.allProducts = data[1];
-    //       this.setProductNames();
-    //     }
-    //     this.updateFilterProduct(0);
-    //     this.categories = data[2];
-    //     this.setProductNames();
-    //     this.updateFilterCategory(0);
-    //   }, error: (error: HttpErrorResponse) => {
-    //     this.alertService.error(error.statusText);
-    //   },
-    //   complete:()=>{
-    //     this.completeProgress();
-    //   }
-    // });
+    this._storeStorage$.dispatch(setHideUsed({ hideUsed: true }));
+    this._storeProduct$.dispatch(retrievedProductList());
+    this._storeCategory$.dispatch(retrievedCategoryList());
+    this._storeStorage$.dispatch(retrievedStorageList());
+    this.storages$ = this._storeStorage$.select(getSelectedStoragesList);
+    this.products$ = this._storeProduct$.select(getProductsList);
+    this.categories$ = this._storeCategory$.select(getCategoriesList);
+    this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
 
-  add() {
-    // if (this.filter$.idCategory > 0) {
-    //   this.environment.category = this.categories$.find(element => element.idCategory == this.filter$.idCategory) || null;
-    // }
-    // if (this.filter.idProduct > 0) {
-    //   this.environment.product = this.products$.find(element => element.idProduct == this.filter$.idProduct) || null;
-    // }
-    this.router.navigate(['storages-add']);
+  addNewStorage() {
+    const storageEdit: Storage = {
+      idProduct: this.filter$.idProduct,
+      idCategory: this.filter$.idCategory,
+      insertDate: '',
+      items: 1,
+      optLock: 0,
+      price: 0,
+      used: 0,
+    };
+    this._storeStorage$.dispatch(setStorageEdit({ storageEdit }));
+    this._storeProduct$.dispatch(navigateToStorageNew());
   }
 
   activeTextColor(active: boolean) {
@@ -107,35 +101,27 @@ export class StoragesListComponent implements OnInit {
   }
 
   updateFilterProduct(event: number) {
-    // this.filter.idProduct = Number(event);
-    // this.storages = new StoragesPipe().transform(this.filter);
+    let idProduct: number = Number(event);
+    this.filter$.idProduct = idProduct;
+    this._storeStorage$.dispatch(setStorageProductId({ idProduct }));
+    this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
 
-  hideUsed(event: boolean) {
-    // this.filter.hideUsed = event;
-    // this.updateFilterProduct(this.filter.idProduct);
+  hideUsed(event: any) {
+    let hideUsed = event.target.checked;
+    this._storeStorage$.dispatch(setHideUsed({ hideUsed }));
+    this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
 
   updateFilterCategory(event: number) {
-    // let newCategory: number = Number(event);
-    // if (newCategory > 0 && newCategory != this.filter.idCategory) {
-    //   let product = this.filter.allProducts.find(p => p.idProduct == this.filter.idProduct && p.idCategory == newCategory);
-    //   if (!product) {
-    //     this.filter.idProduct = 0;
-    //   }
-    // }
-    // this.filter.idCategory = newCategory;
-    // if (this.filter.idCategory != 0) {
-    //   this.products = [];
-    //   this.products = this.filter.allProducts.filter(el => el.idCategory === this.filter.idCategory);
-    // } else {
-    //   this.products = this.filter.allProducts;
-    // }
-    // this.updateFilterProduct(this.filter.idProduct);
-  }
-
-  setProductNames() {
-    //new StoragesPipe().setProductNames(this.filter);
+    let idCategory: number = Number(event);
+    this._storeStorage$.dispatch(setStorageCategoryId({ idCategory }));
+    this.filter$.idCategory = idCategory;
+    this.filter$.idProduct = 0;
+    this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
+    this._storeStorage$.dispatch(setStorageProductId({ idProduct: 0 }));
+    this.products$ = this._storeProduct$.select(filterProductByCategory);
+    this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
 
   editStorage(row: Storage) {
@@ -164,5 +150,9 @@ export class StoragesListComponent implements OnInit {
 
   clearEditStore() {
     // this.editStore = {idStorage: 0, price: 0, productName: ''};
+  }
+
+  getProductName(idProduct: number): Observable<Product | undefined> {
+    return this._storeProduct$.select(selectProductById(idProduct));
   }
 }

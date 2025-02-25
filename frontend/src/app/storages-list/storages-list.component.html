@@ -8,7 +8,7 @@
   <div class="row mb-2">
     <div class="col-3">
       <button
-        (click)="add()"
+        (click)="addNewStorage()"
         class="btn btn-default btn-outline-primary"
         id="addButton"
         title="{{ 'ADD' | translate }}"
@@ -20,9 +20,9 @@
     <div class="col-8">
       <span>
         <input
-          (ngModelChange)="hideUsed($event)"
-          [(ngModel)]="filter$.hideUsed"
+          (change)="hideUsed($event)"
           class="form-check-input"
+          checked="checked"
           name="hideUsed"
           id="hideUsed"
           type="checkbox"
@@ -107,7 +107,7 @@
           <td class="text-left">
             <span
               [ngClass]="activeTextColor(row.used < 100)"
-              [textContent]="row.idStorage"
+              [textContent]="(getProductName(row.idProduct)|async)?.name"
             ></span>
           </td>
           <td [textContent]="row.insertDate" class="text-center"></td>

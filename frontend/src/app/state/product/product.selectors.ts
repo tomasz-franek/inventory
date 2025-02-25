@@ -6,7 +6,7 @@ import { setActiveCategory } from '../category/category.action';
 export interface ProductState {
   products: Product[];
   productEdit: Product;
-  categoryId: number;
+  idCategory: number;
   active: boolean;
 }
 
@@ -43,9 +43,9 @@ export const filterProductByCategory = createSelector(
   selectProductsFutureState,
   setActiveCategory,
   (state) => {
-    if (state.categoryId != 0) {
+    if (state.idCategory != 0) {
       return state.products.filter(
-        (product) => product.idCategory == state.categoryId
+        (product) => product.idCategory == state.idCategory
       );
     } else {
       return state.products;

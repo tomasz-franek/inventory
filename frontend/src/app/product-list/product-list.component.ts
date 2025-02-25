@@ -7,7 +7,7 @@ import {
   navigateToProductNew,
   retrievedProductList,
   setActiveProduct,
-  setCategoryId,
+  setProductCategoryId,
 } from '../state/product/product.action';
 import { Observable } from 'rxjs';
 import {
@@ -59,9 +59,9 @@ export class ProductListComponent implements OnInit {
   }
 
   filterCategories($event: any) {
-    let categoryId: number = $event.target.value;
+    let idCategory: number = $event.target.value;
 
-    this._storeProduct$.dispatch(setCategoryId({ categoryId }));
+    this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
     this.products$ = this._storeProduct$.select(filterProductByCategory);
   }
 

@@ -3,7 +3,7 @@ import {
   retrievedProductListActionSuccess,
   saveProduct,
   setActiveProduct,
-  setCategoryId,
+  setProductCategoryId,
 } from './product.action';
 import { ProductState } from './product.selectors';
 
@@ -16,7 +16,7 @@ export const initialProductState: ProductState = {
     optLock: 0,
     fragile: false,
   },
-  categoryId: 0,
+  idCategory: 0,
   active: true,
 };
 
@@ -43,8 +43,8 @@ export function productReducer(
       return { ...state, products: action.products };
     case setActiveProduct.type:
       return { ...state, active: action.active };
-    case setCategoryId.type:
-      return { ...state, categoryId: action.categoryId };
+    case setProductCategoryId.type:
+      return { ...state, idCategory: action.idCategory };
     case retrievedProductActionSuccess.type:
       return { ...state, productEdit: action.product };
     default:

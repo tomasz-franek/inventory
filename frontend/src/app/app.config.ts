@@ -14,6 +14,7 @@ import { categoryReducer } from './state/category/category.reducer';
 import { inventoryReducer } from './state/inventory/inventory.reducer';
 import { productReducer } from './state/product/product.reducer';
 import { storageReducer } from './state/storage/storage.reducer';
+import { unitReducer } from './state/unit/unit.reducer';
 
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (
   http: HttpClient
@@ -29,6 +30,7 @@ export const appConfig: ApplicationConfig = {
       inventories: inventoryReducer,
       products: productReducer,
       storages: storageReducer,
+      units: unitReducer,
     }),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

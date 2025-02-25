@@ -53,6 +53,14 @@
             <column name="fragile" value="false"/>
             <column name="opt_lock" value="0"/>
         </insert>
+        <insert tableName="product" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.product_seq')"/>
+            <column name="name" value="Milk"/>
+            <column name="category_id" value="1"/>
+            <column name="active" value="1"/>
+            <column name="fragile" value="true"/>
+            <column name="opt_lock" value="0"/>
+        </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-003">
         <comment>Initialize table inventory</comment>
@@ -119,7 +127,18 @@
             <column name="items" value="10"/>
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
-            <column name="price" value="2.99"/>
+            <column name="price" value="3.99"/>
+            <column name="opt_lock" value="0"/>
+            <column name="used" value="25"/>
+        </insert>
+        <insert tableName="storage" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
+            <column name="product_id" value="3"/>
+            <column name="unit_id" value="3"/>
+            <column name="items" value="10"/>
+            <column name="insert_date" value="now()"/>
+            <column name="count" value="2"/>
+            <column name="price" value="4.99"/>
             <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="storage" schemaName="${schemaName}">
@@ -134,13 +153,27 @@
         </insert>
         <insert tableName="storage" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
-            <column name="product_id" value="3"/>
-            <column name="unit_id" value="3"/>
-            <column name="items" value="10"/>
+            <column name="product_id" value="5"/>
+            <column name="unit_id" value="2"/>
+            <column name="items" value="2"/>
+            <column name="insert_date" value="now()"/>
+            <column name="end_date" value="now()"/>
+            <column name="valid_date" value="now()"/>
+            <column name="count" value="2"/>
+            <column name="price" value="2.99"/>
+            <column name="opt_lock" value="0"/>
+            <column name="used" value="10"/>
+        </insert>
+        <insert tableName="storage" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
+            <column name="product_id" value="5"/>
+            <column name="unit_id" value="2"/>
+            <column name="items" value="2"/>
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
             <column name="opt_lock" value="0"/>
+            <column name="used" value="100"/>
         </insert>
     </changeSet>
     <changeSet author="tfranek" id="inventory-data-006">

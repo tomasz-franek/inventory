@@ -829,6 +829,9 @@ components:
         idProduct:
           type: integer
           format: int64
+        idCategory:
+          type: integer
+          format: int64
         items:
           type: integer
           format: int32

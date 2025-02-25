@@ -30,6 +30,7 @@ import { PriceHistoryComponent } from './price-history/price-history.component';
 import { SumCategoriesComponent } from './sum-categories/sum-categories.component';
 import { DatabaseBackupComponent } from './database-backup/database-backup.component';
 import { InventoryAddComponent } from './inventory-add/inventory-add.component';
+import { UnitEffects } from './state/unit/unit.effects';
 
 export const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
@@ -84,12 +85,33 @@ export const appRoutes: Routes = [
   },
   {
     path: 'storages',
-    providers: [provideEffects(StorageEffects)],
+    providers: [
+      provideEffects(StorageEffects, ProductEffects, CategoryEffects),
+    ],
     component: StoragesListComponent,
   },
   {
     path: 'storages-add',
-    providers: [provideEffects(StorageEffects)],
+    providers: [
+      provideEffects(
+        StorageEffects,
+        ProductEffects,
+        CategoryEffects,
+        UnitEffects
+      ),
+    ],
+    component: StoragesAddComponent,
+  },
+  {
+    path: 'storages-add/:id',
+    providers: [
+      provideEffects(
+        StorageEffects,
+        ProductEffects,
+        CategoryEffects,
+        UnitEffects
+      ),
+    ],
     component: StoragesAddComponent,
   },
   {

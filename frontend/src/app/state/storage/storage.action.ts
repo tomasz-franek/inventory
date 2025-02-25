@@ -29,3 +29,38 @@ export const saveStorageActionError = createAction(
     error: HttpErrorResponse;
   }>()
 );
+
+export const setStorageEdit = createAction(
+  '[Storage] Set Storage Edit',
+  props<{ storageEdit: Storage }>()
+);
+export const navigateToStorageNew = createAction(
+  '[Storage] Navigate to Storage New'
+);
+
+export const navigateToStorageEdit = createAction(
+  '[Storage] Navigate to Storage Edit',
+  props<{ storage: Storage }>()
+);
+
+export const navigateToStorageList = createAction(
+  '[Storage] Navigate to Storage'
+);
+
+export const selectStorageByCategoryAndProduct = createAction(
+  '[Storage] Select Storage by Category And Product'
+);
+
+export const setStorageCategoryId = createAction(
+  '[Storage] Set CategoryId',
+  props<{ idCategory: number }>()
+);
+export const setStorageProductId = createAction(
+  '[Storage] Set ProductId',
+  props<{ idProduct: number }>()
+);
+
+export const setHideUsed = createAction(
+  '[Storage] Set Hide Used',
+  props<{ hideUsed: boolean }>()
+);

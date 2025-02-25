@@ -1,4 +1,4 @@
-<div class="container">
+<form [formGroup]="storageForm">
   <div class="row mb-2">
     <div class="col-8">
       <label class="col-6">{{ 'CATEGORY' | translate }}</label>
@@ -9,8 +9,8 @@
         <div class="row">
           <div class="col-6">
             <select
-              (change)="updateProducts()"
-              [(ngModel)]="idCategory"
+              (change)="changeCategory($event)"
+              formControlName="idCategory"
               class="form-select"
               id="category"
               required
@@ -19,7 +19,7 @@
                 {{ 'SELECT' | translate }} {{ 'CATEGORY' | translate }}
               </option>
               <option
-                *ngFor="let category of categories"
+                *ngFor="let category of categories$ | async"
                 [value]="category.idCategory"
               >
                 {{ category.name }}
@@ -28,8 +28,8 @@
           </div>
           <div class="col-6">
             <select
-              (change)="filterProducts()"
-              [(ngModel)]="storageSave.idProduct"
+              (change)="changeProduct($event)"
+              formControlName="idProduct"
               class="form-select"
               id="product"
               required
@@ -38,7 +38,7 @@
                 {{ 'SELECT' | translate }} {{ 'PRODUCT' | translate }}
               </option>
               <option
-                *ngFor="let product of products"
+                *ngFor="let product of products$ | async"
                 [value]="product.idProduct"
               >
                 {{ product.name }}
@@ -59,7 +59,7 @@
         <div class="col-6">
           <input
             (bsValueChange)="onChangeInsertDate($event)"
-            [(ngModel)]="insertDate"
+            formControlName="insertDate"
             [bsConfig]="insertDatePickerOptions"
             autocomplete="off"
             bsDatepicker
@@ -73,7 +73,7 @@
         <div class="col-6">
           <input
             (bsValueChange)="onValidDateChanged($event)"
-            [(ngModel)]="validDate"
+            formControlName="validDate"
             [bsConfig]="validDatePickerOptions"
             autocomplete="off"
             bsDatepicker
@@ -91,8 +91,8 @@
     <label class="col-6">
       {{ 'UNIT' | translate }}
       <input
-        (change)="updateCheckbox()"
-        [(ngModel)]="unitsCheckbox"
+        (change)="updateCheckbox($event)"
+        formControlName="unitsCheckbox"
         class="checkbox"
         id="unit"
         type="checkbox"
@@ -102,8 +102,7 @@
   <div class="row mb-2">
     <div class="col-3">
       <input
-        [(ngModel)]="storageSave.count"
-        [disabled]="!unitsCheckbox"
+        formControlName="count"
         class="input"
         id="count"
         name="count"
@@ -115,14 +114,13 @@
     </div>
     <div class="col-3">
       <select
-        [(ngModel)]="storageSave.idUnit"
-        [disabled]="!unitsCheckbox"
+        formControlName="idUnit"
         class="form-select"
         required
       >
         <option [ngValue]="">{{ 'SELECT' | translate }}</option>
         <option
-          *ngFor="let unit of units"
+          *ngFor="let unit of units$ | async"
           [ngValue]="unit.idUnit"
           class="col-3"
         >
@@ -142,7 +140,7 @@
       <div class="row">
         <div class="col-6">
           <input
-            [(ngModel)]="storageSave.items"
+            formControlName="items"
             class="input"
             id="items"
             max="50"
@@ -153,7 +151,7 @@
         </div>
         <div class="col-6">
           <select
-            [(ngModel)]="storageSave.idInventory"
+            formControlName="idInventory"
             class="form-select"
             id="moveInventory"
             required
@@ -227,7 +225,7 @@
         <i class="bi bi-arrow-down"></i>
       </button>
       <input
-        [(ngModel)]="storageSave.price"
+        formControlName="price"
         class="input col-6 form-control mt-2"
         id="price"
         name="price"
@@ -265,4 +263,4 @@
       {{ 'SAVE_AND_ADD' | translate }}
     </button>
   </div>
-</div>
+</form>

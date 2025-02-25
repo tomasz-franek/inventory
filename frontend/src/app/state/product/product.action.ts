@@ -55,7 +55,7 @@ export const navigateToProductEdit = createAction(
   props<{ product: Product }>()
 );
 
-export const setCategoryId = createAction(
-  '[Product] SetCategoryId',
-  props<{ categoryId: number }>()
+export const setProductCategoryId = createAction(
+  '[Product] Set CategoryId',
+  props<{ idCategory: number }>()
 );
