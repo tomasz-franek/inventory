@@ -1,12 +1,23 @@
 import {
+  retrievedProductActionSuccess,
   retrievedProductListActionSuccess,
   saveProduct,
+  setActiveProduct,
+  setCategoryId,
 } from './product.action';
 import { ProductState } from './product.selectors';
 
 export const initialProductState: ProductState = {
   products: [],
-  productEdit: undefined,
+  productEdit: {
+    name: '',
+    active: false,
+    idCategory: 0,
+    optLock: 0,
+    fragile: false,
+  },
+  categoryId: 0,
+  active: true,
 };
 
 export function productReducer(
@@ -30,6 +41,12 @@ export function productReducer(
       }
     case retrievedProductListActionSuccess.type:
       return { ...state, products: action.products };
+    case setActiveProduct.type:
+      return { ...state, active: action.active };
+    case setCategoryId.type:
+      return { ...state, categoryId: action.categoryId };
+    case retrievedProductActionSuccess.type:
+      return { ...state, productEdit: action.product };
     default:
       return state;
   }

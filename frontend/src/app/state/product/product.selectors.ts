@@ -1,10 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Product } from '../../api';
 import { Features } from '../../../features';
+import { setActiveCategory } from '../category/category.action';
 
 export interface ProductState {
   products: Product[];
-  productEdit: Product | undefined;
+  productEdit: Product;
+  categoryId: number;
+  active: boolean;
 }
 
 const selectProductsFutureState = createFeatureSelector<ProductState>(
@@ -19,3 +22,45 @@ export const selectProductById = (id: number) =>
   createSelector(selectProductsFutureState, (appState) =>
     appState.products.find((product) => product.idProduct === id)
   );
+
+export const selectActiveProduct = createSelector(
+  selectProductsFutureState,
+  (state) => state.active
+);
+export const filterProduct = createSelector(
+  selectProductsFutureState,
+  selectActiveProduct,
+  (state, active) => {
+    if (active) {
+      return state.products.filter((product) => product.active);
+    } else {
+      return state.products;
+    }
+  }
+);
+
+export const filterProductByCategory = createSelector(
+  selectProductsFutureState,
+  setActiveCategory,
+  (state) => {
+    if (state.categoryId != 0) {
+      return state.products.filter(
+        (product) => product.idCategory == state.categoryId
+      );
+    } else {
+      return state.products;
+    }
+  }
+);
+
+export const newProductSelector = createSelector(
+  selectProductsFutureState,
+  () => {
+    return {} as Product;
+  }
+);
+
+export const editProductSelector = createSelector(
+  selectProductsFutureState,
+  (state) => state.productEdit
+);

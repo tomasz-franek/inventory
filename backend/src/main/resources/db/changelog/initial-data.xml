@@ -26,7 +26,7 @@
             <column name="name" value="Bean"/>
             <column name="category_id" value="1"/>
             <column name="active" value="1"/>
-            <column name="fragile" value="0"/>
+            <column name="fragile" value="true"/>
             <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="product" schemaName="${schemaName}">
@@ -34,7 +34,7 @@
             <column name="name" value="Sugar"/>
             <column name="category_id" value="1"/>
             <column name="active" value="1"/>
-            <column name="fragile" value="1"/>
+            <column name="fragile" value="true"/>
             <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="product" schemaName="${schemaName}">
@@ -42,15 +42,15 @@
             <column name="name" value="T-shirt"/>
             <column name="category_id" value="2"/>
             <column name="active" value="true"/>
-            <column name="fragile" value="1"/>
+            <column name="fragile" value="false"/>
             <column name="opt_lock" value="0"/>
         </insert>
         <insert tableName="product" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.product_seq')"/>
             <column name="name" value="Socks"/>
             <column name="category_id" value="2"/>
-            <column name="active" value="1"/>
-            <column name="fragile" value="1"/>
+            <column name="active" value="0"/>
+            <column name="fragile" value="false"/>
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>

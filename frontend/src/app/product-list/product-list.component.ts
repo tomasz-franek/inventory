@@ -1,55 +1,85 @@
-import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, NgForOf } from '@angular/common';
-import { Product } from '../api';
+import { Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe, NgClass, NgForOf } from '@angular/common';
+import { Category, Product } from '../api';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import {
+  navigateToProductEdit,
+  navigateToProductNew,
   retrievedProductList,
-  saveProduct,
+  setActiveProduct,
+  setCategoryId,
 } from '../state/product/product.action';
 import { Observable } from 'rxjs';
-import { getProductsList } from '../state/product/product.selectors';
+import {
+  filterProduct,
+  filterProductByCategory,
+  getProductsList,
+  ProductState,
+} from '../state/product/product.selectors';
+import { TranslatePipe } from '@ngx-translate/core';
+import {
+  CategoryState,
+  getCategoriesList,
+  selectCategoryById,
+} from '../state/category/category.selectors';
+import { retrievedCategoryList } from '../state/category/category.action';
 
 @Component({
   selector: 'app-product-list',
-  imports: [NgForOf, AsyncPipe],
+  imports: [NgForOf, AsyncPipe, TranslatePipe, NgClass],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
-  products$!: Observable<Product[]>;
+  private _storeProduct$: Store<ProductState> = inject(Store);
+  private _storeCategory$: Store<CategoryState> = inject(Store);
+  protected products$!: Observable<Product[]>;
+  protected categories$!: Observable<Category[]>;
+  protected onlyActive: boolean = true;
+  public filter: { categories: Category[]; idCategory: number } = {
+    categories: [],
+    idCategory: 0,
+  };
 
-  constructor(
-    private store: Store,
-    private router: Router
-  ) {}
+  constructor() {}
 
   addNewProduct() {
-    this.router.navigate(['product-add']);
+    this._storeProduct$.dispatch(navigateToProductNew());
   }
 
   ngOnInit(): void {
-    this.store.dispatch(retrievedProductList());
-    this.products$ = this.store.select(getProductsList);
+    this._storeProduct$.dispatch(retrievedProductList());
+    this.products$ = this._storeProduct$.select(getProductsList);
+    this._storeCategory$.dispatch(retrievedCategoryList());
+    this.categories$ = this._storeCategory$.select(getCategoriesList);
   }
 
   updateProduct(product: Product) {
-    const updatedProduct: Product = {
-      ...product,
-      name: 'Updated Product',
-      active: true,
-    };
-    this.store.dispatch(saveProduct({ product: updatedProduct }));
+    this._storeProduct$.dispatch(navigateToProductEdit({ product }));
   }
 
-  deleteProduct(product: Product) {
-    const updatedProduct: Product = {
-      ...product,
-      name: 'Updated Product',
-      active: false,
-    };
-    if (updatedProduct.idProduct) {
-      this.store.dispatch(saveProduct({ product: updatedProduct }));
+  filterCategories($event: any) {
+    let categoryId: number = $event.target.value;
+
+    this._storeProduct$.dispatch(setCategoryId({ categoryId }));
+    this.products$ = this._storeProduct$.select(filterProductByCategory);
+  }
+
+  filterActive($event: any) {
+    this.onlyActive = $event.target.checked;
+    this._storeProduct$.dispatch(setActiveProduct({ active: this.onlyActive }));
+    this.products$ = this._storeProduct$.select(filterProduct);
+  }
+
+  categoryName(idCategory: number): Observable<Category | undefined> {
+    return this._storeCategory$.select(selectCategoryById(idCategory));
+  }
+
+  activeTextColor(active: boolean) {
+    if (!active) {
+      return 'text-danger';
+    } else {
+      return 'text';
     }
   }
 }

@@ -1,35 +1,76 @@
-<h2>Products</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Active</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody *ngFor="let product of products$ | async" class="product">
-    <tr>
-      <td>{{ product.name }}</td>
-      <td>{{ product.active }}</td>
-      <td>
-        <p class="d-inline-flex gap-1">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="updateProduct(product)"
-          >
-            Update
+<div class="container">
+  <div class="row mb-2">
+    <h3><i class="bi bi-phone"></i> {{ 'MENU.DICTIONARY.PRODUCTS'|translate }}</h3>
+  </div>
+  <div class="row mb-2">
+    <div class="col-2">
+      <button (click)="addNewProduct()" class="btn btn-default btn-outline-primary" id="add"
+              data-bs-toggle="tooltip" title="{{'ADD'|translate}}"><i class="bi bi-plus"></i> {{ 'ADD'|translate }}
+      </button>
+    </div>
+    <div class="col-4">
+      <select (change)="filterCategories($event)" class="form-select"
+              id="category">
+        <option [value]="0">{{ 'ALL'|translate }}</option>
+        <option *ngFor="let filterCategory of categories$ | async" [value]="filterCategory.idCategory">
+          {{ filterCategory.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-2">
+    <span><input class="checkbox" name="Active" type="checkbox" id="active"
+                 (change)="filterActive($event)" [defaultChecked]="true"/> {{ 'ACTIVE'|translate }}</span>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <table class="table inventory-table table-striped table-condensed">
+      <thead>
+      <tr>
+        <th class="text-bold text-center"></th>
+        <th class="text-bold text-center">
+          {{ 'NAME'|translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'FRAGILE'|translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'ACTIVE'|translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'CATEGORY'|translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'DAYS.MIN'|translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'DAYS.MED'|translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'DAYS.MAX'|translate }}
+        </th>
+        <th class="text-bold text-center">{{ 'ACTION'|translate }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of products$ | async ; let rowNr = index">
+        <td [textContent]="rowNr +1" class="text-center"></td>
+        <td [textContent]="row.name" class="text-left" [ngClass]="activeTextColor(row.active)"></td>
+        <td class="text-center checkbox-column">
+          <input [checked]="row.fragile" class="checkbox" disabled type="checkbox" id="fragile"></td>
+        <td class="text-center checkbox-column">
+          <input [checked]="row.active" class="checkbox" disabled type="checkbox" id="activeCheckbox"></td>
+        <td [textContent]="(categoryName(row.idCategory) |async)?.name" class="text-center"></td>
+        <td [textContent]="row.limitMin" class="text-center"></td>
+        <td [textContent]="row.limitMed" class="text-center"></td>
+        <td [textContent]="row.limitMax" class="text-center"></td>
+
+        <td class="text-center">
+          <button (click)="updateProduct(row)" class="btn btn-default btn-outline-primary" id="edit"
+                  data-bs-toggle="tooltip" title="{{'EDIT'|translate}}"><i class="bi bi-pen"></i> {{ 'EDIT'|translate }}
           </button>
-          <button
-            type="button"
-            class="btn btn-outline-danger"
-            (click)="deleteProduct(product)"
-          >
-            Delete
-          </button>
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<button (click)="addNewProduct()">Add New Product</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

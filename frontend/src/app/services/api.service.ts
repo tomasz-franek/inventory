@@ -69,6 +69,10 @@ export class ApiService {
     return this.productService.getAllProducts();
   }
 
+  getProduct(productId: number): Observable<Product> {
+    return this.productService.getProduct(productId);
+  }
+
   createProduct(product: Product): Observable<ResponseId> {
     return this.productService.saveProduct(product);
   }

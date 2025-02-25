@@ -69,7 +69,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="active" type="boolean" defaultValue="true"/>
-            <column name="fragile" type="int" defaultValue="0"/>
+            <column name="fragile" type="boolean" defaultValue="false"/>
             <column name="limit_max" type="int" defaultValue="365"/>
             <column name="limit_med" type="int" defaultValue="180"/>
             <column name="limit_min" type="int" defaultValue="90"/>

@@ -1,10 +1,10 @@
-<div class="container">
+<form [formGroup]="productForm">
   <div class="row mb-2">
     <fieldset class="fieldset">
       <div class="row mb-2">
         <label class="form-label col-2">{{ 'NAME' | translate }}</label>
         <input
-          [(ngModel)]="product$.name"
+          formControlName="name"
           class="input col-3"
           maxlength="45"
           minlength="1"
@@ -17,10 +17,11 @@
         <label class="form-label col-2">{{ 'CATEGORY' | translate }}</label>
         <div class="col-3">
           <select
-            [(ngModel)]="product$.idCategory"
+            formControlName="idCategory"
             class="form-select"
             required
             id="category"
+            name="idCategory"
           >
             <option [value]="0">{{ 'SELECT' | translate }}</option>
             <option
@@ -36,9 +37,8 @@
         <label class="form-label col-2">{{ 'ACTIVE' | translate }}</label>
         <div class="col-2">
           <input
-            [(ngModel)]="product$.active"
+            formControlName="active"
             class="checkbox"
-            name="Active"
             type="checkbox"
             id="active"
           />
@@ -48,9 +48,8 @@
         <label class="form-label col-2">{{ 'FRAGILE' | translate }}</label>
         <div class="col-2">
           <input
-            [(ngModel)]="product$.fragile"
+            formControlName="fragile"
             class="checkbox"
-            name="Fragile"
             type="checkbox"
             id="fragile"
           />
@@ -59,9 +58,8 @@
       <div class="row mb-2">
         <label class="form-label col-2">{{ 'DAYS.MIN' | translate }}</label>
         <input
-          [(ngModel)]="product$.limitMin"
+          formControlName="limitMin"
           class="input col-3"
-          name="limitMin"
           required
           type="number"
           id="minDays"
@@ -70,9 +68,8 @@
       <div class="row mb-2">
         <label class="form-label col-2">{{ 'DAYS.MED' | translate }}</label>
         <input
-          [(ngModel)]="product$.limitMed"
+          formControlName="limitMed"
           class="input col-3"
-          name="limitMed"
           required
           type="number"
           id="medDays"
@@ -81,7 +78,7 @@
       <div class="row mb-2">
         <label class="form-label col-2">{{ 'DAYS.MAX' | translate }}</label>
         <input
-          [(ngModel)]="product$.limitMax"
+          formControlName="limitMax"
           class="input col-3"
           name="limitMax"
           required
@@ -102,7 +99,7 @@
           (click)="save()"
           class="ms-2 btn btn-outline-primary col-2 me-2"
           id="save"
-          [disabled]="product$.idCategory == 0 || product$.name.length == 0"
+          [disabled]="productForm.invalid"
         >
           <i class="bi bi-save"></i>
           {{ 'SAVE' | translate }}
@@ -110,4 +107,4 @@
       </div>
     </fieldset>
   </div>
-</div>
+</form>

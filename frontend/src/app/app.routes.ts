@@ -69,12 +69,17 @@ export const appRoutes: Routes = [
   },
   {
     path: 'products',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ProductEffects, CategoryEffects)],
     component: ProductListComponent,
   },
   {
     path: 'product-add',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ProductEffects, CategoryEffects)],
+    component: ProductAddComponent,
+  },
+  {
+    path: 'product-add/:id',
+    providers: [provideEffects(ProductEffects, CategoryEffects)],
     component: ProductAddComponent,
   },
   {

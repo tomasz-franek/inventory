@@ -34,7 +34,7 @@ public class ProductEntity {
     private boolean active;
 
     @Column(name = "fragile")
-    private int fragile;
+    private boolean fragile;
 
     @Column(name = "limit_max", nullable = false)
     private int limitMax;

@@ -16,6 +16,11 @@ export const retrievedProductListActionError = createAction(
   }>()
 );
 
+export const loadProductAction = createAction(
+  '[Product] Load Product',
+  props<{ id: number }>()
+);
+
 export const saveProduct = createAction(
   '[Product] Save Product',
   props<{ product: Product }>()
@@ -28,4 +33,29 @@ export const saveProductActionError = createAction(
   props<{
     error: HttpErrorResponse;
   }>()
+);
+
+export const setActiveProduct = createAction(
+  '[Product] SetActive Product',
+  props<{ active: boolean }>()
+);
+
+export const navigateToProductList = createAction(
+  '[Product] Navigate Product list'
+);
+export const navigateToProductNew = createAction(
+  '[Product] Navigate Product New'
+);
+export const retrievedProductActionSuccess = createAction(
+  '[Product] Load Product Success Action',
+  props<{ product: Product }>()
+);
+export const navigateToProductEdit = createAction(
+  '[Product] Navigate Product Edit',
+  props<{ product: Product }>()
+);
+
+export const setCategoryId = createAction(
+  '[Product] SetCategoryId',
+  props<{ categoryId: number }>()
 );

@@ -743,6 +743,7 @@ components:
         - idCategory
         - optLock
         - active
+        - fragile
       properties:
         idProduct:
           type: integer
@@ -753,8 +754,7 @@ components:
         active:
           type: boolean
         fragile:
-          type: integer
-          format: int32
+          type: boolean
         idCategory:
           type: integer
           format: int64
