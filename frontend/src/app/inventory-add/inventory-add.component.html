@@ -1,0 +1,32 @@
+<form [formGroup]="inventoryForm">
+  <div class="row mb-2">
+    <fieldset class="fieldset">
+      <div class="row mb-2 mt-2">
+        <label class="form-label col-2">{{'NAME'|translate}}</label>
+        <input formControlName="name" class="input col-3" maxlength="45" minlength="1"
+               placeholder="{{'NAME'|translate}}" required type="text"/>
+      </div>
+      <div class="row mb-2">
+        <label class="col-2">{{'DESCRIPTION'|translate}}</label>
+        <input formControlName="description" class="input col-3" maxlength="200"
+               placeholder="{{'DESCRIPTION'|translate}}"
+               required type="text"/>
+      </div>
+      <div class="row mb-2">
+        <div class="col-2">
+          <span><input formControlName="active" class="checkbox" name="Active"
+                       type="checkbox"/> {{'ACTIVE'|translate}}</span>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <button (click)="backToInventories()" class="btn btn-outline-danger col-2 me-2" id="back">
+          <i class="bi bi-arrow-left"></i>
+          {{'BACK'|translate}}</button>
+        <button (click)="save()" [disabled]="inventoryForm.value.name.length == 0 || inventoryForm.value.description == 0"
+                class="btn btn-outline-primary col-2" id="save">
+          <i class="bi bi-save ms-2 me-2"></i>{{'SAVE'|translate}}
+        </button>
+      </div>
+    </fieldset>
+  </div>
+</form>

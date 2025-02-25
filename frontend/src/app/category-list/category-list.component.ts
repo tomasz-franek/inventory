@@ -4,7 +4,7 @@ import {
   navigateToCategoryEdit,
   navigateToCategoryNew,
   retrievedCategoryList,
-  setActive,
+  setActiveCategory,
 } from '../state/category/category.action';
 import { CommonModule, NgForOf } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -35,6 +35,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._store$.dispatch(setActiveCategory({ active: this.onlyActive }));
     this._store$.dispatch(retrievedCategoryList());
   }
 
@@ -44,7 +45,7 @@ export class CategoryListComponent implements OnInit {
 
   filterCategories($event: any) {
     this.onlyActive = $event.target.checked;
-    this._store$.dispatch(setActive({ active: this.onlyActive ? 1 : 0 }));
+    this._store$.dispatch(setActiveCategory({ active: this.onlyActive }));
     this.categories$ = this._store$.select(filterCategory);
   }
 

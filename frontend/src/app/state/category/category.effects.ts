@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class CategoryEffects {
   private store$ = inject(Store);
-  private _apiService$ = inject(ApiService);
+  private _apiService$: ApiService = inject(ApiService);
   private router: Router = inject(Router);
 
   save$ = createEffect(() =>

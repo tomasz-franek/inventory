@@ -29,6 +29,7 @@ import { ValueHistoryComponent } from './value-history/value-history.component';
 import { PriceHistoryComponent } from './price-history/price-history.component';
 import { SumCategoriesComponent } from './sum-categories/sum-categories.component';
 import { DatabaseBackupComponent } from './database-backup/database-backup.component';
+import { InventoryAddComponent } from './inventory-add/inventory-add.component';
 
 export const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
@@ -55,6 +56,16 @@ export const appRoutes: Routes = [
     path: 'inventories',
     providers: [provideEffects(InventoryEffects)],
     component: InventoryListComponent,
+  },
+  {
+    path: 'inventory-add',
+    providers: [provideEffects(InventoryEffects)],
+    component: InventoryAddComponent,
+  },
+  {
+    path: 'inventory-add/:id',
+    providers: [provideEffects(InventoryEffects)],
+    component: InventoryAddComponent,
   },
   {
     path: 'products',

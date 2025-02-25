@@ -8,7 +8,7 @@
               data-bs-toggle="tooltip" title="{{'ADD'|translate}}"><i class="bi bi-plus"></i> {{ 'ADD'|translate }}
       </button>
       <span><input (change)="filterCategories($event)" class="ms-2 checkbox" name="Active" id="active"
-                   [defaultChecked]="false"
+                   [defaultChecked]="true"
                    type="checkbox"/> {{ 'ACTIVE'|translate }}</span>
     </div>
   </div>
@@ -25,7 +25,9 @@
     <tr>
       <td [textContent]="rowNr + 1" class="text-center"></td>
       <td class="text-left"><span [ngClass]="activeTextColor(category.active)">{{ category.name }}</span></td>
-      <td>{{ category.active }}</td>
+      <td class="text-center checkbox-column">
+        <input type="checkbox" [checked]="category.active" disabled/>
+      </td>
       <td class="text-center">
         <button (click)="editCategory(category)" class="btn btn-small" id="edit"><i
           class="text-primary bi bi-pencil"></i>

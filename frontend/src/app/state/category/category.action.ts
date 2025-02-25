@@ -27,9 +27,9 @@ export const navigateToCategoryEdit = createAction(
   props<{ category: Category }>()
 );
 
-export const setActive = createAction(
+export const setActiveCategory = createAction(
   '[Category] SetActive',
-  props<{ active: number }>()
+  props<{ active: boolean }>()
 );
 export const retrievedCategoryListActionError = createAction(
   '[Category] Category list Error',

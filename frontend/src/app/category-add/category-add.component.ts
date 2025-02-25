@@ -51,9 +51,9 @@ export class CategoryAddComponent implements OnInit {
         this.category$ = category;
         this._categoryForm = this.formBuilder.group({
           id: undefined,
-          name: [this.category$.name, Validators.required],
-          active: [this.category$.active, Validators.required],
-          optLock: [this.category$.optLock],
+          name: ['', Validators.required],
+          active: [true, Validators.required],
+          optLock: [0],
         });
       });
     } else {

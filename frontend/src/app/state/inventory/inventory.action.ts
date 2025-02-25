@@ -18,6 +18,31 @@ export const retrievedInventoryListActionError = createAction(
   }>()
 );
 
+export const setActiveInventory = createAction(
+  '[Inventory] SetActive',
+  props<{ active: boolean }>()
+);
+
+export const loadInventoryAction = createAction(
+  '[Inventory] Load Inventory',
+  props<{ id: number }>()
+);
+
+export const navigateToInventoryList = createAction(
+  '[Inventory] Navigate Inventory list'
+);
+export const navigateToInventoryNew = createAction(
+  '[Inventory] Navigate Inventory New'
+);
+export const retrievedInventoryActionSuccess = createAction(
+  '[Inventory] Load Inventory Success Action',
+  props<{ inventory: Inventory }>()
+);
+export const navigateToInventoryEdit = createAction(
+  '[Inventory] Navigate Inventory Edit',
+  props<{ inventory: Inventory }>()
+);
+
 export const saveInventory = createAction(
   '[Inventory] Save Inventory',
   props<{ inventory: Inventory }>()

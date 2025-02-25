@@ -50,6 +50,10 @@ export class ApiService {
     return this.inventoriesService.getAllInventories();
   }
 
+  getInventory(inventoryId: number): Observable<Inventory> {
+    return this.inventoriesService.getInventory(inventoryId);
+  }
+
   createInventory(inventory: Inventory): Observable<ResponseId> {
     return this.inventoriesService.saveInventory(inventory);
   }

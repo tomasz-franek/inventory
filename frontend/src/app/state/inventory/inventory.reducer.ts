@@ -1,12 +1,19 @@
 import {
+  retrievedInventoryActionSuccess,
   retrievedInventoryListActionSuccess,
   saveInventory,
+  setActiveInventory,
 } from './inventory.action';
 import { InventoryState } from './inventory.selectors';
 
 export const initialInventoryState: InventoryState = {
   inventories: [],
-  inventoryEdit: undefined,
+  inventoryEdit: {
+    name: '',
+    active: false,
+    optLock: 0,
+  },
+  active: true,
 };
 
 export function inventoryReducer(
@@ -32,6 +39,10 @@ export function inventoryReducer(
       }
     case retrievedInventoryListActionSuccess.type:
       return { ...state, inventories: action.inventories };
+    case retrievedInventoryActionSuccess.type:
+      return { ...state, inventoryEdit: action.inventory };
+    case setActiveInventory.type:
+      return { ...state, active: action.active };
     default:
       return state;
   }

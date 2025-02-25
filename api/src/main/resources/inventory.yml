@@ -719,6 +719,7 @@ components:
       required:
         - name
         - optLock
+        - active
       properties:
         idInventory:
           type: integer
@@ -741,6 +742,7 @@ components:
         - name
         - idCategory
         - optLock
+        - active
       properties:
         idProduct:
           type: integer

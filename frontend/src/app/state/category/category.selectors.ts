@@ -17,19 +17,19 @@ export const getCategoriesList = createSelector(
   (state) => state.categories
 );
 
-export const selectActive = createSelector(
+export const selectActiveCategory = createSelector(
   selectCategoriesFutureState,
   (state) => state.active
 );
 
 export const filterCategory = createSelector(
   selectCategoriesFutureState,
-  selectActive,
+  selectActiveCategory,
   (state, active) => {
     if (active) {
-      return state.categories;
-    } else {
       return state.categories.filter((category) => category.active);
+    } else {
+      return state.categories;
     }
   }
 );
