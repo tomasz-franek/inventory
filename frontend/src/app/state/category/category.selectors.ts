@@ -5,6 +5,7 @@ import { Features } from '../../../features';
 export interface CategoryState {
   categories: Category[];
   categoryEdit: Category;
+  active: boolean;
 }
 
 export const selectCategoriesFutureState = createFeatureSelector<CategoryState>(
@@ -14,6 +15,23 @@ export const selectCategoriesFutureState = createFeatureSelector<CategoryState>(
 export const getCategoriesList = createSelector(
   selectCategoriesFutureState,
   (state) => state.categories
+);
+
+export const selectActive = createSelector(
+  selectCategoriesFutureState,
+  (state) => state.active
+);
+
+export const filterCategory = createSelector(
+  selectCategoriesFutureState,
+  selectActive,
+  (state, active) => {
+    if (active) {
+      return state.categories;
+    } else {
+      return state.categories.filter((category) => category.active);
+    }
+  }
 );
 
 export const selectCategoryById = (id: number) =>

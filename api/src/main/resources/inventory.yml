@@ -730,8 +730,7 @@ components:
           type: string
           maxLength: 200
         active:
-          type: integer
-          format: int32
+          type: boolean
         optLock:
           type: integer
           format: int32
@@ -750,8 +749,7 @@ components:
           type: string
           maxLength: 45
         active:
-          type: integer
-          format: int32
+          type: boolean
         fragile:
           type: integer
           format: int32
@@ -785,8 +783,7 @@ components:
           type: string
           maxLength: 100
         active:
-          type: integer
-          format: int32
+          type: boolean
         optLock:
           type: integer
           format: int32

@@ -26,7 +26,7 @@ export class ProductAddComponent implements OnInit {
   protected product$: Product = {
     idProduct: undefined,
     name: '',
-    active: 1,
+    active: true,
     idCategory: 0,
     optLock: 0,
   };

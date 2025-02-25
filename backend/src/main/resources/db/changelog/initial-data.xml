@@ -41,7 +41,7 @@
             <column name="id" valueComputed="nextval('${schemaName}.product_seq')"/>
             <column name="name" value="T-shirt"/>
             <column name="category_id" value="2"/>
-            <column name="active" value="1"/>
+            <column name="active" value="true"/>
             <column name="fragile" value="1"/>
             <column name="opt_lock" value="0"/>
         </insert>

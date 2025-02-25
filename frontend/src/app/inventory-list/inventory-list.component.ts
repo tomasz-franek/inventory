@@ -32,7 +32,7 @@ export class InventoryListComponent implements OnInit {
   addNewInventory() {
     const newInventory: Inventory = {
       name: 'New Inventory',
-      active: 1,
+      active: true,
       optLock: 0,
     };
     this.store.dispatch(saveInventory({ inventory: newInventory }));
@@ -47,7 +47,7 @@ export class InventoryListComponent implements OnInit {
     const updatedInventory: Inventory = {
       ...inventory,
       name: 'Updated Inventory',
-      active: 1,
+      active: true,
     };
     this.store.dispatch(saveInventory({ inventory: updatedInventory }));
   }
@@ -56,7 +56,7 @@ export class InventoryListComponent implements OnInit {
     const updatedInventory: Inventory = {
       ...inventory,
       name: 'Updated Inventory',
-      active: 0,
+      active: false,
     };
     if (updatedInventory.idInventory) {
       this.store.dispatch(saveInventory({ inventory: updatedInventory }));

@@ -56,7 +56,7 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value("Bean"))
-                .andExpect(jsonPath("$.active").value(1));
+                .andExpect(jsonPath("$.active").value(true));
     }
 
     @Test

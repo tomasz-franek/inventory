@@ -37,7 +37,7 @@ export class ProductListComponent implements OnInit {
     const updatedProduct: Product = {
       ...product,
       name: 'Updated Product',
-      active: 1,
+      active: true,
     };
     this.store.dispatch(saveProduct({ product: updatedProduct }));
   }
@@ -46,7 +46,7 @@ export class ProductListComponent implements OnInit {
     const updatedProduct: Product = {
       ...product,
       name: 'Updated Product',
-      active: 0,
+      active: false,
     };
     if (updatedProduct.idProduct) {
       this.store.dispatch(saveProduct({ product: updatedProduct }));

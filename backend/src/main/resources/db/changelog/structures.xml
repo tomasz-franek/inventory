@@ -21,7 +21,7 @@
             </column>
             <column name="description" type="VARCHAR(200)">
             </column>
-            <column name="active" type="int" defaultValue="1"/>
+            <column name="active" type="boolean" defaultValue="true"/>
             <column name="opt_lock" type="int">
                 <constraints notNullConstraintName="inventory_optlock"/>
             </column>
@@ -41,8 +41,7 @@
             <column name="name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="active" type="int" defaultValue="1">
-            </column>
+            <column name="active" type="boolean" defaultValue="true"/>
             <column name="opt_lock" type="int">
                 <constraints notNullConstraintName="category_optlock"/>
             </column>
@@ -69,7 +68,7 @@
             <column name="name" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
-            <column name="active" type="int" defaultValue="1"/>
+            <column name="active" type="boolean" defaultValue="true"/>
             <column name="fragile" type="int" defaultValue="0"/>
             <column name="limit_max" type="int" defaultValue="365"/>
             <column name="limit_med" type="int" defaultValue="180"/>

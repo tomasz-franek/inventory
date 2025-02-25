@@ -31,7 +31,7 @@ public class ProductEntity {
     private String name;
 
     @Column(name = "active")
-    private int active;
+    private boolean active;
 
     @Column(name = "fragile")
     private int fragile;

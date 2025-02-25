@@ -17,7 +17,6 @@ import {
 } from '../state/category/category.action';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CategoryState,
   editCategorySelector,
   newCategorySelector,
 } from '../state/category/category.selectors';
@@ -30,12 +29,11 @@ import {
 })
 export class CategoryAddComponent implements OnInit {
   private _store$: Store = inject(Store);
-  protected category$: Category = { active: 0, name: '', optLock: 0 };
-  private _categoryForm: FormGroup;
+  protected category$: Category = { active: false, name: '', optLock: 0 };
+  protected _categoryForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
-    private store: Store<CategoryState>,
     private formBuilder: FormBuilder
   ) {
     this._categoryForm = this.formBuilder.group({
@@ -49,19 +47,21 @@ export class CategoryAddComponent implements OnInit {
   ngOnInit(): void {
     const id = this.routerId;
     if (id === null) {
-      this.store.select(newCategorySelector).subscribe((category) => {
+      this._store$.select(newCategorySelector).subscribe((category) => {
         this.category$ = category;
         this._categoryForm = this.formBuilder.group({
+          id: undefined,
           name: [this.category$.name, Validators.required],
           active: [this.category$.active, Validators.required],
           optLock: [this.category$.optLock],
         });
       });
     } else {
-      this.store.dispatch(loadCategoryAction({ id: Number(id) }));
-      this.store.select(editCategorySelector).subscribe((category) => {
+      this._store$.dispatch(loadCategoryAction({ id: Number(id) }));
+      this._store$.select(editCategorySelector).subscribe((category) => {
         this.category$ = category;
         this._categoryForm = this.formBuilder.group({
+          id: this.category$.idCategory,
           name: [this.category$.name, Validators.required],
           active: [this.category$.active, Validators.required],
           optLock: [this.category$.optLock],
@@ -79,16 +79,13 @@ export class CategoryAddComponent implements OnInit {
   }
 
   save() {
-    debugger;
-    console.log(this._categoryForm);
     const updatedCategory: Category = {
       ...this.category$,
       name: this._categoryForm.value.name,
       active: this._categoryForm.value.active,
     };
-    if (this.category$ !== undefined) {
-      this.store.dispatch(saveCategory({ category: updatedCategory }));
-      this._store$.dispatch(navigateToCategoryList());
+    if (this._categoryForm.value.id !== undefined) {
+      this._store$.dispatch(saveCategory({ category: updatedCategory }));
     }
   }
 

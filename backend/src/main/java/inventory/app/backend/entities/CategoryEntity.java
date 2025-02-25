@@ -25,7 +25,7 @@ public class CategoryEntity {
     private String name;
 
     @Column(name = "active")
-    private int active;
+    private boolean active;
 
     @Column(name = "opt_lock", nullable = false)
     private Integer optLock;

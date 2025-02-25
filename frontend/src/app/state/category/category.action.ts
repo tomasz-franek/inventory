@@ -26,14 +26,17 @@ export const navigateToCategoryEdit = createAction(
   '[Category] Navigate Category Edit',
   props<{ category: Category }>()
 );
+
+export const setActive = createAction(
+  '[Category] SetActive',
+  props<{ active: number }>()
+);
 export const retrievedCategoryListActionError = createAction(
   '[Category] Category list Error',
   props<{
     error: HttpErrorResponse;
   }>()
 );
-
-export const nameChange = createAction('[Category] Change Name');
 
 export const loadCategoryAction = createAction(
   '[Category] Load Category',

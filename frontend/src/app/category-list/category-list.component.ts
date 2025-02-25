@@ -4,21 +4,27 @@ import {
   navigateToCategoryEdit,
   navigateToCategoryNew,
   retrievedCategoryList,
-  saveCategory,
+  setActive,
 } from '../state/category/category.action';
 import { CommonModule, NgForOf } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { getCategoriesList } from '../state/category/category.selectors';
+import { TranslatePipe } from '@ngx-translate/core';
+import {
+  CategoryState,
+  filterCategory,
+  getCategoriesList,
+} from '../state/category/category.selectors';
 
 @Component({
   selector: 'app-category-list',
   styleUrl: './category-list.component.css',
-  imports: [NgForOf, CommonModule],
+  imports: [NgForOf, CommonModule, TranslatePipe],
   templateUrl: './category-list.component.html',
 })
 export class CategoryListComponent implements OnInit {
-  private _store$: Store = inject(Store);
+  private _store$: Store<CategoryState> = inject(Store);
+  protected onlyActive = true;
   protected categories$: Observable<Category[]> =
     this._store$.select(getCategoriesList);
 
@@ -32,18 +38,21 @@ export class CategoryListComponent implements OnInit {
     this._store$.dispatch(retrievedCategoryList());
   }
 
-  updateCategory(category: Category) {
+  editCategory(category: Category) {
     this._store$.dispatch(navigateToCategoryEdit({ category }));
   }
 
-  deleteCategory(category: Category) {
-    const updatedCategory: Category = {
-      ...category,
-      active: 0,
-    };
-    if (updatedCategory.idCategory) {
-      this._store$.dispatch(saveCategory({ category: updatedCategory }));
-      this._store$.dispatch(retrievedCategoryList());
+  filterCategories($event: any) {
+    this.onlyActive = $event.target.checked;
+    this._store$.dispatch(setActive({ active: this.onlyActive ? 1 : 0 }));
+    this.categories$ = this._store$.select(filterCategory);
+  }
+
+  activeTextColor(active: boolean) {
+    if (!active) {
+      return 'text-danger';
+    } else {
+      return 'text';
     }
   }
 }

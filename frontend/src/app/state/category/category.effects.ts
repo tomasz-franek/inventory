@@ -40,7 +40,7 @@ export class CategoryEffects {
         const category = Object.assign({}, action.category);
         return this._getCreateOrUpdateObservable(category).pipe(
           concatMap(() => {
-            return [saveCategoryActionSuccess];
+            return [saveCategoryActionSuccess(), navigateToCategoryList()];
           }),
           catchError((error: any) => {
             return [saveCategoryActionError({ error })];
