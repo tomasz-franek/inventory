@@ -34,7 +34,9 @@ import {
   navigateToStorageList,
   selectStorageByCategoryAndProduct,
   setStorageCategoryId,
+  setStorageInventoryId,
   setStorageProductId,
+  setStorageUnitId,
 } from '../state/storage/storage.action';
 import {
   filterProductByCategory,
@@ -53,6 +55,11 @@ import { retrievedCategoryList } from '../state/category/category.action';
 import { Observable } from 'rxjs';
 import { getUnitsList, UnitState } from '../state/unit/unit.selectors';
 import { retrieveUnitList } from '../state/unit/unit.action';
+import {
+  getInventoriesList,
+  InventoryState,
+} from '../state/inventory/inventory.selectors';
+import { retrievedInventoryList } from '../state/inventory/inventory.action';
 
 @Component({
   selector: 'app-storages-add',
@@ -75,8 +82,10 @@ export class StoragesAddComponent implements OnInit {
   private _storeCategory$: Store<CategoryState> = inject(Store);
   private _storeStorage$: Store<StorageState> = inject(Store);
   private _storeUnit$: Store<UnitState> = inject(Store);
+  private _storeInventory$: Store<InventoryState> = inject(Store);
   protected products$!: Observable<Product[]>;
   protected categories$!: Observable<Category[]>;
+  public inventories$!: Observable<Inventory[]>;
   public units$!: Observable<Unit[]>;
   public storageSave: StorageSave = new StorageSave();
   public idCategory: number = 0;
@@ -86,7 +95,6 @@ export class StoragesAddComponent implements OnInit {
     optLock: 0,
   };
   public unitsCheckbox: boolean = false;
-  public inventories: Inventory[] = [];
   public shoppingList: Shopping[] = [];
   public properties: Property = {
     currency: '',
@@ -108,9 +116,11 @@ export class StoragesAddComponent implements OnInit {
     this._storeProduct$.dispatch(retrievedProductList());
     this._storeCategory$.dispatch(retrievedCategoryList());
     this._storeUnit$.dispatch(retrieveUnitList());
+    this._storeInventory$.dispatch(retrievedInventoryList());
     this.products$ = this._storeProduct$.select(getProductsList);
     this.categories$ = this._storeCategory$.select(getCategoriesList);
     this.units$ = this._storeUnit$.select(getUnitsList);
+    this.inventories$ = this._storeInventory$.select(getInventoriesList);
     this._storeStorage$.select(selectStorageEdit).subscribe((storageEdit) => {
       this._storageForm = this.formBuilder.group({
         idStorage: 0,
@@ -124,7 +134,7 @@ export class StoragesAddComponent implements OnInit {
           Validators.required
         ),
         items: 0,
-        idInventory: 0,
+        idInventory: new FormControl({ value: 0, disabled: false }),
         price: 0,
         unitsCheckbox: new FormControl({ value: false, disabled: false }),
       });
@@ -181,6 +191,7 @@ export class StoragesAddComponent implements OnInit {
     } else {
       this._storageForm.get('count')?.disable();
       this._storageForm.get('idUnit')?.disable();
+      this._storeProduct$.dispatch(setStorageUnitId({ idUnit: 0 }));
     }
   }
 
@@ -191,4 +202,18 @@ export class StoragesAddComponent implements OnInit {
   }
 
   saveStorage(update: boolean) {}
+
+  changeInventory($event: any) {
+    let idInventory: number = Number($event.target.value);
+    console.log(idInventory);
+    this._storageForm.value.idInventory = idInventory;
+    this._storeProduct$.dispatch(setStorageInventoryId({ idInventory }));
+  }
+
+  changeUnit($event: any) {
+    let idUnit: number = Number($event.target.value);
+    console.log(idUnit);
+    this._storageForm.value.idUnit = idUnit;
+    this._storeProduct$.dispatch(setStorageUnitId({ idUnit }));
+  }
 }

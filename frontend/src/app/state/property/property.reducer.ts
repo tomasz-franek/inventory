@@ -2,7 +2,12 @@ import { PropertyState } from './property.selectors';
 import { retrievedPropertyForUserActionSuccess } from './property.action';
 
 export const initialPropertyState: PropertyState = {
-  property: undefined,
+  property: {
+    idProperty: 0,
+    idUser: 0,
+    currency: '',
+    language: '',
+  },
   idUser: 1,
 };
 

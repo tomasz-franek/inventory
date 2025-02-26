@@ -4,7 +4,7 @@ import { Property } from '../../api';
 
 export const retrievedPropertyForUser = createAction(
   '[Property] Call Property',
-  props<{ idUser: number }>
+  props<{ idUser: number }>()
 );
 export const retrievedPropertyForUserActionSuccess = createAction(
   '[Property] Retrieved Property',
@@ -14,6 +14,22 @@ export const retrievedPropertyForUserActionSuccess = createAction(
 );
 export const retrievedPropertyForUserActionError = createAction(
   '[Property] Property Error',
+  props<{
+    error: HttpErrorResponse;
+  }>()
+);
+
+export const saveProperty = createAction(
+  '[Property] Save Property',
+  props<{ property: Property }>()
+);
+
+export const savePropertySuccess = createAction(
+  '[Property] Save Property Success'
+);
+
+export const savePropertyActionError = createAction(
+  '[Property] Save Property Error',
   props<{
     error: HttpErrorResponse;
   }>()

@@ -42,7 +42,7 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$", hasSize(5)))
                 .andExpect(jsonPath("$[0].name").value("Bean"))
                 .andExpect(jsonPath("$[1].name").value("Sugar"));
     }

@@ -18,4 +18,10 @@ public class PropertyController implements PropertiesApi {
     public ResponseEntity<Property> getProperty(Long userId) {
         return ResponseEntity.ok(propertyService.getPropertyByUserId(userId));
     }
+
+    @Override
+    public ResponseEntity<Void> updateProperty(Long userId, Property property) {
+        propertyService.updateProperty(userId, property);
+        return ResponseEntity.noContent().build();
+    }
 }

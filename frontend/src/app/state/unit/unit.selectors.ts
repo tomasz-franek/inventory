@@ -12,3 +12,8 @@ export const getUnitsList = createSelector(
   selectUnitsFutureState,
   (state) => state.units
 );
+
+export const selectUnitById = (id: number) =>
+  createSelector(selectUnitsFutureState, (appState) =>
+    appState.units.find((unit) => unit.idUnit === id)
+  );

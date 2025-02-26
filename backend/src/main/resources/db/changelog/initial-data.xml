@@ -192,7 +192,7 @@
         <comment>Initialize table property</comment>
         <insert tableName="property" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.property_seq')"/>
-            <column name="language" value="EN"/>
+            <column name="language" value="en"/>
             <column name="currency" value="USD"/>
             <column name="user_id" value="1"/>
             <column name="opt_lock" value="0"/>

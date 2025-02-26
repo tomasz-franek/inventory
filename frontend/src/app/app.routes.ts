@@ -18,7 +18,7 @@ import { ManageProductComponent } from './manage-product/manage-product.componen
 import { ManageInventoryComponent } from './manage-inventory/manage-inventory.component';
 import { UserPropertiesComponent } from './user-properties/user-properties.component';
 import { ConsumeProductComponent } from './consume-product/consume-product.component';
-import { ShoppingPrepareComponent } from './shopping-prepare/shopping-prepare.component';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ExpiredProductsComponent } from './expired-products/expired-products.component';
 import { LastUsedComponent } from './last-used/last-used.component';
 import { ProductPredictionComponent } from './product-prediction/product-prediction.component';
@@ -31,6 +31,9 @@ import { SumCategoriesComponent } from './sum-categories/sum-categories.componen
 import { DatabaseBackupComponent } from './database-backup/database-backup.component';
 import { InventoryAddComponent } from './inventory-add/inventory-add.component';
 import { UnitEffects } from './state/unit/unit.effects';
+import { PropertyEffects } from './state/property/property.effects';
+import { ShoppingAddComponent } from './shopping-add/shopping-add.component';
+import { ShoppingEffects } from './state/shopping/shopping.effects';
 
 export const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
@@ -97,7 +100,8 @@ export const appRoutes: Routes = [
         StorageEffects,
         ProductEffects,
         CategoryEffects,
-        UnitEffects
+        UnitEffects,
+        InventoryEffects
       ),
     ],
     component: StoragesAddComponent,
@@ -109,7 +113,8 @@ export const appRoutes: Routes = [
         StorageEffects,
         ProductEffects,
         CategoryEffects,
-        UnitEffects
+        UnitEffects,
+        InventoryEffects
       ),
     ],
     component: StoragesAddComponent,
@@ -131,8 +136,18 @@ export const appRoutes: Routes = [
   },
   {
     path: 'shopping',
-    providers: [provideEffects(ProductEffects)],
-    component: ShoppingPrepareComponent,
+    providers: [provideEffects(ProductEffects, ShoppingEffects, UnitEffects)],
+    component: ShoppingListComponent,
+  },
+  {
+    path: 'shopping-add',
+    providers: [provideEffects(ShoppingEffects, UnitEffects)],
+    component: ShoppingAddComponent,
+  },
+  {
+    path: 'shopping-add/:id',
+    providers: [provideEffects(ShoppingEffects, UnitEffects)],
+    component: ShoppingAddComponent,
   },
   {
     path: 'expired-products',
@@ -191,7 +206,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'user-properties',
-    providers: [],
+    providers: [provideEffects(PropertyEffects)],
     component: UserPropertiesComponent,
   },
   { path: '**', component: PageNotFoundComponent },

@@ -59,7 +59,15 @@ export const setStorageProductId = createAction(
   '[Storage] Set ProductId',
   props<{ idProduct: number }>()
 );
+export const setStorageInventoryId = createAction(
+  '[Storage] Set InventoryId',
+  props<{ idInventory: number }>()
+);
 
+export const setStorageUnitId = createAction(
+  '[Storage] Set UnitId',
+  props<{ idUnit: number }>()
+);
 export const setHideUsed = createAction(
   '[Storage] Set Hide Used',
   props<{ hideUsed: boolean }>()

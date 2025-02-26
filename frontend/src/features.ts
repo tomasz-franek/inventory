@@ -3,6 +3,7 @@ export enum Features {
   inventories = 'inventories',
   products = 'products',
   storages = 'storages',
-  property = 'property',
+  properties = 'properties',
   units = 'units',
+  shopping = 'shopping',
 }

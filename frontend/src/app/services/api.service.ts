@@ -10,6 +10,8 @@ import {
   Property,
   PropertyService,
   ResponseId,
+  Shopping,
+  ShoppingService,
   Storage,
   StoragesService,
   Unit,
@@ -27,6 +29,7 @@ export class ApiService {
   private storagesService: StoragesService = inject(StoragesService);
   private unitsService: UnitsService = inject(UnitsService);
   private propertyService: PropertyService = inject(PropertyService);
+  private shoppingService: ShoppingService = inject(ShoppingService);
 
   constructor() {}
 
@@ -105,7 +108,19 @@ export class ApiService {
     return this.unitsService.getUnit(idUnit);
   }
 
-  getProperty(idUnit: number): Observable<Property> {
-    return this.propertyService.getProperty(idUnit);
+  getProperty(idUser: number): Observable<Property> {
+    return this.propertyService.getProperty(idUser);
+  }
+
+  updateProperty(property: Property): Observable<ResponseId> {
+    return this.propertyService.updateProperty(property.idUser, property);
+  }
+
+  createProperty(property: Property): Observable<ResponseId> {
+    return this.propertyService.updateProperty(property.idUser, property);
+  }
+
+  getShoppingList(): Observable<Shopping[]> {
+    return this.shoppingService.getAllShopping();
   }
 }

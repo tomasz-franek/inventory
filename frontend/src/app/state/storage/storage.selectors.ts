@@ -7,6 +7,8 @@ export interface StorageState {
   storageEdit: Storage | undefined;
   selectedCategoryId: number;
   selectedProductId: number;
+  selectedInventoryId: number;
+  selectedUnitId: number;
   selectedStorages: Storage[];
   hideUsed: boolean;
 }

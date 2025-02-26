@@ -31,7 +31,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of shoppingList; let rowNr = index">
+      <tr *ngFor="let row of shoppingList$ | async; let rowNr = index">
           <td [textContent]="rowNr + 1" class="text-center"></td>
           <td [textContent]="row.name" class="text-left"></td>
           <!--        <td *ngIf="row.price != null" class="text-center">-->
@@ -47,7 +47,7 @@
           <!--        <td *ngIf="row.price == undefined" class="text-center">-</td>-->
           <td [textContent]="row.items" class="text-center"></td>
           <td class="text-center">
-            {{ row.count }} {{ unitName(row.idUnit) }}
+            {{ row.count }} {{ (unitName(row.idUnit)|async)?.symbol }}
           </td>
           <td class="text-center">
             <button
@@ -58,7 +58,7 @@
               <i class="bi bi-pencil"></i>
             </button>
             <button
-              (click)="confirmDelete(row)"
+              (click)="deleteShopping(row)"
               id="trash"
               class="ms-2 btn btn-outline-danger"
             >

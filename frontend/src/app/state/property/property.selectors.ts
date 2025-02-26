@@ -3,12 +3,12 @@ import { Features } from '../../../features';
 import { Property } from '../../api';
 
 export interface PropertyState {
-  property: Property | undefined;
+  property: Property;
   idUser: number;
 }
 
 const selectPropertyFutureState = createFeatureSelector<PropertyState>(
-  Features.property
+  Features.properties
 );
 export const getProperty = createSelector(
   selectPropertyFutureState,

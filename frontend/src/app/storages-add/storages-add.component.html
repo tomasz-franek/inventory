@@ -116,13 +116,13 @@
       <select
         formControlName="idUnit"
         class="form-select"
+        (change)="changeUnit($event)"
         required
       >
-        <option [ngValue]="">{{ 'SELECT' | translate }}</option>
+        <option [value]="0" selected>{{ 'SELECT' | translate }}</option>
         <option
           *ngFor="let unit of units$ | async"
-          [ngValue]="unit.idUnit"
-          class="col-3"
+          [value]="unit.idUnit"
         >
           {{ unit.name }}
         </option>
@@ -152,6 +152,7 @@
         <div class="col-6">
           <select
             formControlName="idInventory"
+            (change)="changeInventory($event)"
             class="form-select"
             id="moveInventory"
             required
@@ -160,7 +161,7 @@
               {{ 'MOVE_INVENTORY' | translate }}
             </option>
             <option
-              *ngFor="let inventory of inventories"
+              *ngFor="let inventory of inventories$|async"
               [value]="inventory.idInventory"
             >
               {{ inventory.name }}

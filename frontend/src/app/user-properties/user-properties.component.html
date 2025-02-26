@@ -1,4 +1,4 @@
-<div class="container">
+<form [formGroup]="propertyForm">
   <div class="row mb-2">
     <h3>
       <i class="bi bi-circle-square"></i>
@@ -13,7 +13,7 @@
         </div>
         <div class="col-3">
           <select
-            [(ngModel)]="properties$.language"
+            formControlName="language"
             class="form-select col-3"
             id="language"
           >
@@ -28,7 +28,7 @@
         </div>
         <div class="col-3">
           <select
-            [(ngModel)]="properties$.currency"
+            formControlName="currency"
             class="form-select col-3"
             id="currency"
           >
@@ -40,7 +40,8 @@
       </div>
       <div class="row mb-2">
         <button
-          (click)="update()"
+          (click)="updateProperties()"
+          [disabled]="propertyForm.invalid"
           class="mt-2 btn btn-outline-danger col-2"
           id="update"
         >
@@ -50,4 +51,4 @@
       </div>
     </fieldset>
   </div>
-</div>
+</form>

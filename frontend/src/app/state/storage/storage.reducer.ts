@@ -6,7 +6,9 @@ import {
   setHideUsed,
   setStorageCategoryId,
   setStorageEdit,
+  setStorageInventoryId,
   setStorageProductId,
+  setStorageUnitId,
 } from './storage.action';
 
 export const initialStorageState: StorageState = {
@@ -14,6 +16,8 @@ export const initialStorageState: StorageState = {
   storageEdit: undefined,
   selectedCategoryId: 0,
   selectedProductId: 0,
+  selectedInventoryId: 0,
+  selectedUnitId: 0,
   selectedStorages: [],
   hideUsed: true,
 };
@@ -68,6 +72,10 @@ export function storageReducer(
       return { ...state, selectedProductId: action.idProduct };
     case setHideUsed.type:
       return { ...state, hideUsed: action.hideUsed };
+    case setStorageInventoryId.type:
+      return { ...state, selectedInventoryId: action.inventoryId };
+    case setStorageUnitId.type:
+      return { ...state, selectedUnitId: action.idUnit };
     default:
       return state;
   }
