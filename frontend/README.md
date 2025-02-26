@@ -1,7 +1,3 @@
-# Inventory Application
-
-Application for managing a home goods inventory.
-
 ## Frontend
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.5 with [@ngrx/store](https://github.com/ngrx/platform) version 19.0.1.
@@ -16,11 +12,4 @@ To execute unit tests with the [Karma](https://karma-runner.github.io) test runn
 
 ```bash
 ng test
-```
-
-## Running backend
-
-```bash
-cd \backend
-mvn spring-boot:run
 ```
