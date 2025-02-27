@@ -4,7 +4,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Running frontend
 ```bash
-ng run start
+npm run start
 ```
 ## Running unit tests
 
