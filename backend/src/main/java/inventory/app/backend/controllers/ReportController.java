@@ -1,0 +1,23 @@
+package inventory.app.backend.controllers;
+
+import inventory.app.api.ReportApi;
+import inventory.app.api.model.InventoryReportData;
+import inventory.app.backend.services.ReportService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequiredArgsConstructor
+public class ReportController implements ReportApi {
+    private final ReportService reportService;
+
+    @Override
+    public ResponseEntity<List<InventoryReportData>> getInventoryReportData(Long idInventory) {
+        return ResponseEntity.ok(reportService.getInventoryReportData(idInventory));
+    }
+}

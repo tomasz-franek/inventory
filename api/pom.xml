@@ -52,6 +52,7 @@
                 <plugin>
                     <groupId>org.openapitools</groupId>
                     <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>7.11.0</version>
                     <configuration>
                         <generatorName>spring</generatorName>
                         <apiPackage>inventory.app.api</apiPackage>
@@ -66,6 +67,7 @@
                             <delegatePattern>true</delegatePattern>
                             <interfaceOnly>true</interfaceOnly>
                             <openApiNullable>false</openApiNullable>
+                            <generateConstructorWithAllArgs>true</generateConstructorWithAllArgs>
                         </configOptions>
                         <typeMappings>
                             <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>

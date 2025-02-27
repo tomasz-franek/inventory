@@ -1,4 +1,4 @@
-<div class="container">
+<form [formGroup]="manageInventory">
   <div class="row mb-2">
     <h3>
       <i class="bi bi-leaf"></i>
@@ -8,8 +8,8 @@
   <div class="row mb-2">
     <div class="col-4">
       <select
-        (ngModelChange)="updateFilterProducts($event)"
-        [(ngModel)]="filter.idCategory"
+        (change)="updateFilterCategory($event)"
+        formControlName="idCategory"
         class="form-select"
         id="category"
       >
@@ -17,7 +17,7 @@
           {{ 'FILTER' | translate }} {{ 'CATEGORY' | translate }}
         </option>
         <option
-          *ngFor="let filterCategory of categories"
+          *ngFor="let filterCategory of _categories$|async"
           [value]="filterCategory.idCategory"
         >
           {{ filterCategory.name }}
@@ -26,8 +26,8 @@
     </div>
     <div class="col-4">
       <select
-        (ngModelChange)="updateListProducts($event)"
-        [(ngModel)]="filter.idProduct"
+        (change)="updateFilterProduct($event)"
+        formControlName="idProduct"
         class="form-select"
         id="product"
       >
@@ -35,7 +35,7 @@
           {{ 'FILTER' | translate }} {{ 'PRODUCT' | translate }}
         </option>
         <option
-          *ngFor="let filterProduct of products"
+          *ngFor="let filterProduct of _products$ |async"
           [value]="filterProduct.idProduct"
         >
           {{ filterProduct.name }}
@@ -78,7 +78,6 @@
             <div *ngFor="let valid of row.validList" class="table-condensed">
               <b><span [textContent]="valid.count"></span></b>
               <span *ngIf="valid.validDate" class="text-center">
-                &nbsp;
                 <span [textContent]="valid.validDate"></span>
               </span>
             </div>
@@ -87,4 +86,4 @@
       </tbody>
     </table>
   </div>
-</div>
+</form>

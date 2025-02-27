@@ -127,7 +127,9 @@ export const appRoutes: Routes = [
   },
   {
     path: 'manage-inventory',
-    providers: [provideEffects(InventoryEffects)],
+    providers: [
+      provideEffects(InventoryEffects, CategoryEffects, ProductEffects),
+    ],
     component: ManageInventoryComponent,
   },
   {

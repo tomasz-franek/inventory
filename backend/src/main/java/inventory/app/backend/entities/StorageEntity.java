@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,6 +39,9 @@ public class StorageEntity {
 
     @Column(name = "items", nullable = false)
     private int items;
+
+    @OneToMany(mappedBy = "storage")
+    private List<ItemEntity> itemsList;
 
     @Column(name = "insert_date", nullable = false)
     private LocalDate insertDate;
