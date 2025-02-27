@@ -8,14 +8,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequiredArgsConstructor
 public class ItemController implements ItemsApi {
-    private ItemService itemService;
+    private final ItemService itemService;
 
     @Override
     public ResponseEntity<List<Item>> getAllItems() {
@@ -24,7 +26,13 @@ public class ItemController implements ItemsApi {
 
     @Override
     public ResponseEntity<ResponseId> saveItem(Item item) {
-        return ResponseEntity.ok(itemService.saveItem(item));
+        ResponseId responseId = itemService.saveItem(item);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(responseId.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(responseId);
     }
 
     @Override
@@ -32,4 +40,12 @@ public class ItemController implements ItemsApi {
         itemService.updateItem(itemId, item);
         return ResponseEntity.noContent().build();
     }
+
+    @Override
+    public ResponseEntity<Void> updateItemByInventoryId(Long idItem, Long idInventory) {
+        itemService.updateItemByInventoryId(idItem, idInventory);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

@@ -126,7 +126,7 @@
             <column name="unit_id" value="1"/>
             <column name="items" value="10"/>
             <column name="insert_date" value="now()"/>
-            <column name="count" value="2"/>
+            <column name="count" value="25"/>
             <column name="price" value="3.99"/>
             <column name="opt_lock" value="0"/>
             <column name="used" value="25"/>
@@ -208,6 +208,15 @@
             <column name="valid_date" value="now()"/>
             <column name="end_date" value="now()"/>
             <column name="used" value="1"/>
+            <column name="opt_lock" value="0"/>
+        </insert>
+        <insert tableName="item" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.item_seq')"/>
+            <column name="storage_id" value="3"/>
+            <column name="insert_date" value="now()"/>
+            <column name="valid_date" value="now()"/>
+            <column name="end_date" value="now()"/>
+            <column name="used" value="14"/>
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>

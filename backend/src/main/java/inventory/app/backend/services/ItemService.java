@@ -8,9 +8,11 @@ import java.util.List;
 public interface ItemService {
   List<Item> findAll();
 
-  Item getItem(Long itemId);
+  Item getItem(Long idItem);
 
   ResponseId saveItem(Item item);
 
-  void updateItem(Long itemId, Item item);
+  void updateItem(Long idItem, Item item);
+
+  void updateItemByInventoryId(Long idItem, Long idInventory);
 }

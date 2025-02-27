@@ -1,12 +1,17 @@
 package inventory.app.backend.services;
 
+import inventory.app.api.model.Inventory;
 import inventory.app.api.model.Item;
 import inventory.app.api.model.ResponseId;
+import inventory.app.backend.entities.InventoryEntity;
 import inventory.app.backend.entities.ItemEntity;
+import inventory.app.backend.entities.StorageEntity;
 import inventory.app.backend.exceptions.NotFoundEntityException;
 import inventory.app.backend.exceptions.ValidationException;
 import inventory.app.backend.mappers.ItemMapper;
+import inventory.app.backend.repositories.InventoryRepository;
 import inventory.app.backend.repositories.ItemRepository;
+import inventory.app.backend.repositories.StorageRepository;
 import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.Validators;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +27,10 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
 
+    private final InventoryRepository inventoryRepository;
+
+    private final StorageRepository storageRepository;
+
     private final ItemMapper mapper;
 
     private final Validators validators;
@@ -36,9 +45,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item getItem(Long itemId) {
-        ItemEntity itemEntity = itemRepository.findById(itemId).orElseThrow(
-                () -> new NotFoundEntityException(Item.class, itemId));
+    public Item getItem(Long idItem) {
+        ItemEntity itemEntity = itemRepository.findById(idItem).orElseThrow(
+                () -> new NotFoundEntityException(Item.class, idItem));
         return mapper.toDto(itemEntity);
     }
 
@@ -47,8 +56,18 @@ public class ItemServiceImpl implements ItemService {
         ValidationResult validationResult = new ValidationResult();
         Supplier<ValidationResult.Context> contextSupplier = ValidationResult.Context.contextSupplier(item);
 
-        ItemEntity itemEntity = mapper.toEntity(item);
+        StorageEntity storageEntity = storageRepository.findById(item.getIdStorage()).orElseThrow(
+                () -> new NotFoundEntityException(StorageEntity.class, item.getIdStorage()));
 
+        ItemEntity itemEntity = mapper.toEntity(item);
+        itemEntity.setStorage(storageEntity);
+
+        if (item.getIdInventory() != null) {
+            InventoryEntity inventoryEntity = inventoryRepository.findById(item.getIdInventory()).orElseThrow(
+                    () -> new NotFoundEntityException(Inventory.class, item.getIdInventory()));
+            itemEntity.setInventory(inventoryEntity);
+
+        }
         validators.validate(validationResult,
                 validators.validateTextDataLength(itemEntity),
                 validators.validateValuesInNotNullColumns(itemEntity, contextSupplier)
@@ -64,12 +83,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateItem(Long itemId, Item item) {
+    public void updateItem(Long idItem, Item item) {
         ValidationResult validationResult = new ValidationResult();
         Supplier<ValidationResult.Context> contextSupplier = ValidationResult.Context.contextSupplier(item);
 
-        ItemEntity itemEntity = itemRepository.findById(itemId).orElseThrow(
-                () -> new NotFoundEntityException(item.getClass(), itemId));
+        ItemEntity itemEntity = itemRepository.findById(idItem).orElseThrow(
+                () -> new NotFoundEntityException(item.getClass(), idItem));
 
         mapper.updateItemEntityWithItem(itemEntity, item);
 
@@ -81,6 +100,17 @@ public class ItemServiceImpl implements ItemService {
         if (validationResult.isFailing()) {
             throw new ValidationException("Validation itemEntity error ", validationResult);
         }
+        itemRepository.save(itemEntity);
+    }
+
+    @Override
+    public void updateItemByInventoryId(Long idItem, Long idInventory) {
+        ItemEntity itemEntity = itemRepository.findById(idItem).orElseThrow(
+                () -> new NotFoundEntityException(Item.class, idItem));
+        InventoryEntity inventoryEntity = inventoryRepository.findById(idInventory).orElseThrow(
+                () -> new NotFoundEntityException(Inventory.class, idInventory));
+
+        itemEntity.setInventory(inventoryEntity);
         itemRepository.save(itemEntity);
     }
 }

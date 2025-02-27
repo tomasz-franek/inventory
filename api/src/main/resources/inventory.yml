@@ -712,6 +712,45 @@ paths:
       responses:
         '201':
           description: updated Item
+  /items/update/{idItem}/inventory/{idInventory}:
+    patch:
+      summary: update Item with InventoryId
+      operationId: updateItemByInventoryId
+      tags:
+        - items
+      parameters:
+        - name: idItem
+          in: path
+          required: true
+          description: The ID of the Item to update
+          schema:
+            type: integer
+            format: int64
+        - name: idInventory
+          in: path
+          required: true
+          description: The ID of the Inventory
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '201':
+          description: updated Item
+  /dictionary/itemsWithoutInventory:
+    get:
+      summary: read Items not assigned to any Inventory
+      operationId: itemsWithoutInventory
+      tags:
+        - dictionary
+      responses:
+        '200':
+          description: list of Items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
 components:
   schemas:
     Inventory:
@@ -848,6 +887,9 @@ components:
           type: number
         used:
           type: number
+          description: Percent of used product between 0% and 100%
+          minimum: 0
+          maximum: 100
         endDate:
           type: string
           format: date
@@ -893,7 +935,7 @@ components:
         ids:
           type: array
           items:
-            type: string
+            type: number
 
     UnitDefault:
       type: object
@@ -986,3 +1028,18 @@ components:
         language:
           type: string
           maxLength: 2
+
+    ItemWithoutInventory:
+      type: object
+      properties:
+        idItem:
+          type: integer
+          format: int64
+        idStorage:
+          type: integer
+          format: int64
+        name:
+          type: string
+        validDate:
+          type: string
+          format: date

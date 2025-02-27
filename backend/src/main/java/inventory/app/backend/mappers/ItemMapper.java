@@ -9,6 +9,8 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface ItemMapper {
     @Mapping(target = "idItem", source = "id")
+    @Mapping(target = "name", source = "storage.product.name")
+    @Mapping(target = "idStorage", source = "storage.id")
     Item toDto(ItemEntity entity);
 
     @NoIdMapping

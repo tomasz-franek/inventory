@@ -34,6 +34,7 @@ import { UnitEffects } from './state/unit/unit.effects';
 import { PropertyEffects } from './state/property/property.effects';
 import { ShoppingAddComponent } from './shopping-add/shopping-add.component';
 import { ShoppingEffects } from './state/shopping/shopping.effects';
+import { ItemsEffects } from './state/item/item.effects';
 
 export const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
@@ -121,7 +122,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'manage-product',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(InventoryEffects, ItemsEffects)],
     component: ManageProductComponent,
   },
   {

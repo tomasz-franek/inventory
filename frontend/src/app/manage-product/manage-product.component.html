@@ -1,4 +1,4 @@
-<div class="container">
+<form [formGroup]="manageProduct">
   <div class="row">
     <h3>
       <i class="bi bi-calculator"></i>
@@ -7,14 +7,14 @@
   </div>
   <div class="mb-2">
     <select
-      [(ngModel)]="idInventory"
+      formControlName="idInventory"
       class="form-select col-3 mb-2"
       required
       id="inventories"
     >
       <option [value]="0">{{ 'SELECT' | translate }}</option>
       <option
-        *ngFor="let inventory of inventories"
+        *ngFor="let inventory of inventories$|async"
         [value]="inventory.idInventory"
       >
         {{ inventory.name }}
@@ -23,7 +23,7 @@
     <button
       (click)="addAllToInventory()"
       id="moveInventory"
-      [disabled]="idInventory == 0 || items.length == 0"
+      [disabled]="(manageProduct.value)?.idInventory == 0 || (items$|async)?.length == 0"
       class="mb-2 btn btn-outline-primary"
     >
       {{ 'MOVE_INVENTORY' | translate }}
@@ -40,13 +40,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of items; let rowNr = index">
+      <tr *ngFor="let row of items$ | async; let rowNr = index">
           <td [textContent]="rowNr + 1" class="text-center"></td>
           <td [textContent]="row.name" class="text-left"></td>
           <td [textContent]="row.ids?.length" class="text-center"></td>
           <td class="text-center">
             <button
-              (click)="selectItemRow()"
+              (click)="selectItemRow(row)"
               class="btn btn-outline-primary"
               data-bs-target="#move-inventory"
               id="edit"
@@ -86,7 +86,7 @@
           >
             <option [value]="0">{{ 'SELECT' | translate }}</option>
             <option
-              *ngFor="let inventory of inventories"
+              *ngFor="let inventory of inventories$|async"
               [value]="inventory.idInventory"
             >
               {{ inventory.name }}
@@ -110,7 +110,7 @@
           </div>
           <div class="modal-footer">
             <button
-              (click)="moveCancel()"
+              (click)="backToDashboard()"
               class="btn btn-outline-danger"
               data-bs-dismiss="modal"
             >
@@ -130,4 +130,4 @@
       </form>
     </div>
   </div>
-</div>
+</form>

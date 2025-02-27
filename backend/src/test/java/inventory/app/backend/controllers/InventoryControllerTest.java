@@ -69,8 +69,8 @@ class InventoryControllerTest {
                         post(INVENTORIES_ENDPOINT_PATH)
                                 .content("""
                                         {
-                                            "name":"Garaż",
-                                            "description":"Garaż",
+                                            "name":"Garage",
+                                            "description":"Garage",
                                             "active":1,
                                             "optLock":0
                                         }
@@ -90,8 +90,8 @@ class InventoryControllerTest {
                                 CORRECT_ID)
                                 .content("""
                                         {
-                                            "name":"Garaż",
-                                            "description":"Garaż",
+                                            "name":"Garage",
+                                            "description":"Garage",
                                             "active":1,
                                             "optLock":0
                                         }
@@ -109,8 +109,8 @@ class InventoryControllerTest {
                                 WRONG_ID)
                                 .content("""
                                         {
-                                            "name":"Garaż",
-                                            "description":"Garaż",
+                                            "name":"Garage",
+                                            "description":"Garage",
                                             "active":1,
                                             "optLock":0
                                         }
@@ -237,8 +237,8 @@ class InventoryControllerTest {
                         post(INVENTORIES_ENDPOINT_PATH)
                                 .content("""
                                         {
-                                            "name":"Garaż",
-                                            "description":"Garaż",
+                                            "name":"Garage",
+                                            "description":"Garage",
                                             "active":1,
                                             "optLock":0
                                         }

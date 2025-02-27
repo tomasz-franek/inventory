@@ -3,8 +3,10 @@ import { Observable } from 'rxjs';
 import {
   CategoriesService,
   Category,
+  DictionaryService,
   InventoriesService,
   Inventory,
+  Item,
   Product,
   ProductsService,
   Property,
@@ -30,6 +32,7 @@ export class ApiService {
   private unitsService: UnitsService = inject(UnitsService);
   private propertyService: PropertyService = inject(PropertyService);
   private shoppingService: ShoppingService = inject(ShoppingService);
+  private dictionaryService: DictionaryService = inject(DictionaryService);
 
   constructor() {}
 
@@ -122,5 +125,9 @@ export class ApiService {
 
   getShoppingList(): Observable<Shopping[]> {
     return this.shoppingService.getAllShopping();
+  }
+
+  getItemsWithoutInventory(): Observable<Item[]> {
+    return this.dictionaryService.itemsWithoutInventory();
   }
 }

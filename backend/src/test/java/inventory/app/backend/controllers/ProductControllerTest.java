@@ -80,7 +80,7 @@ class ProductControllerTest {
     }
 
     @Test
-    public void updateProduct_Should_ReturnId_When_MethodIsCalled()
+    public void updateProduct_Should_ReturnNoContent_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
                         patch(PRODUCTS_ENDPOINT_PATH + "/{productId}",
