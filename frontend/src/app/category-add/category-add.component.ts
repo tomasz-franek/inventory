@@ -30,7 +30,7 @@ import {
 export class CategoryAddComponent implements OnInit {
   private _store$: Store = inject(Store);
   protected category$: Category = { active: false, name: '', optLock: 0 };
-  protected _categoryForm: FormGroup;
+  private _categoryForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
