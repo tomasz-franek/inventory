@@ -13,6 +13,7 @@ import {
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import { TagInputModule } from 'ngx-chips';
     BrowserModule,
     AppRoutingModule,
     TagInputModule,
+    BsDatepickerModule,
     BrowserAnimationsModule,
     AppComponent,
     StoreModule,

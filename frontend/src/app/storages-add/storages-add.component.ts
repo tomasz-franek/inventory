@@ -1,14 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import {
-  Category,
-  Inventory,
-  Product,
-  Property,
-  Shopping,
-  Unit,
-  UnitDefault,
-} from '../api';
+import { Category, Inventory, Product, Property, Storage, Unit } from '../api';
 import {
   FormBuilder,
   FormControl,
@@ -19,11 +11,7 @@ import {
 } from '@angular/forms';
 import { AsyncPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { Price } from '../../objects/price';
-import { StorageSave } from '../../objects/storageSave';
-import {
-  BsDatepickerConfig,
-  BsDatepickerDirective,
-} from 'ngx-bootstrap/datepicker';
+import { BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Store } from '@ngrx/store';
 import {
@@ -32,8 +20,6 @@ import {
 } from '../state/storage/storage.selectors';
 import {
   navigateToStorageList,
-  selectStorageByCategoryAndProduct,
-  setStorageCategoryId,
   setStorageInventoryId,
   setStorageProductId,
   setStorageUnitId,
@@ -68,10 +54,10 @@ import { retrievedInventoryList } from '../state/inventory/inventory.action';
     FormsModule,
     DecimalPipe,
     NgForOf,
-    BsDatepickerDirective,
     NgIf,
     AsyncPipe,
     ReactiveFormsModule,
+    BsDatepickerDirective,
   ],
   providers: [provideAnimations()],
   templateUrl: './storages-add.component.html',
@@ -87,15 +73,9 @@ export class StoragesAddComponent implements OnInit {
   protected categories$!: Observable<Category[]>;
   public inventories$!: Observable<Inventory[]>;
   public units$!: Observable<Unit[]>;
-  public storageSave: StorageSave = new StorageSave();
   public idCategory: number = 0;
   public productPrices: Price = new Price();
-  public unitDefault: UnitDefault = {
-    idProduct: 0,
-    optLock: 0,
-  };
-  public unitsCheckbox: boolean = false;
-  public shoppingList: Shopping[] = [];
+  public today = new Date();
   public properties: Property = {
     currency: '',
     idProperty: 0,
@@ -103,14 +83,23 @@ export class StoragesAddComponent implements OnInit {
     idUser: 0,
   };
   public saveButtonDisabled: boolean = true;
-  public validEndDate: boolean = false;
-  public validDate: Date | null = null;
-  public insertDate: Date = new Date();
-  public validDatePickerOptions: BsDatepickerConfig | undefined;
-  public insertDatePickerOptions: BsDatepickerConfig | undefined;
-  protected _storageForm!: FormGroup;
+  private _storageForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+    this._storageForm = this.formBuilder.group({
+      idStorage: [0, []],
+      idProduct: [0, [Validators.required, Validators.min(1)]],
+      idCategory: [0, [Validators.required, Validators.min(1)]],
+      idUnit: new FormControl({ value: 0, disabled: true }),
+      buyDate: null,
+      validDate: null,
+      count: new FormControl({ value: 0, disabled: true }, Validators.required),
+      items: [0, [Validators.required, Validators.min(1)]],
+      idInventory: 0,
+      price: 0,
+      unitsCheckbox: new FormControl({ value: false, disabled: false }),
+    });
+  }
 
   ngOnInit(): void {
     this._storeProduct$.dispatch(retrievedProductList());
@@ -122,41 +111,21 @@ export class StoragesAddComponent implements OnInit {
     this.units$ = this._storeUnit$.select(getUnitsList);
     this.inventories$ = this._storeInventory$.select(getInventoriesList);
     this._storeStorage$.select(selectStorageEdit).subscribe((storageEdit) => {
-      this._storageForm = this.formBuilder.group({
-        idStorage: 0,
-        idProduct: [storageEdit?.idProduct, Validators.required],
-        idCategory: [storageEdit?.idCategory, Validators.required],
-        idUnit: new FormControl({ value: 0, disabled: true }),
-        insertDate: '',
-        validDate: '',
-        count: new FormControl(
-          { value: 0, disabled: true },
-          Validators.required
-        ),
-        items: 0,
-        idInventory: new FormControl({ value: 0, disabled: false }),
-        price: 0,
-        unitsCheckbox: new FormControl({ value: false, disabled: false }),
-      });
       if (storageEdit?.idCategory != undefined && storageEdit?.idCategory > 0) {
+        this._storageForm.value.idCategory = storageEdit.idCategory;
         this._storageForm.get('idCategory')?.disable();
       }
       let idCategory: number =
         storageEdit != undefined && storageEdit.idCategory != undefined
           ? storageEdit.idCategory
           : 0;
-      this._storeStorage$.dispatch(setStorageCategoryId({ idCategory }));
       this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
       this.products$ = this._storeProduct$.select(filterProductByCategory);
 
       if (storageEdit?.idProduct != undefined && storageEdit?.idProduct > 0) {
+        this._storageForm.value.idProduct = storageEdit.idProduct;
         this._storageForm.get('idProduct')?.disable();
       }
-      let idProduct: number =
-        storageEdit != undefined ? storageEdit.idProduct : 0;
-      this._storeStorage$.dispatch(setStorageProductId({ idProduct }));
-
-      this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
     });
   }
 
@@ -166,22 +135,30 @@ export class StoragesAddComponent implements OnInit {
 
   changeCategory($event: any) {
     let idCategory: number = Number($event.target.value);
-    this._storageForm.value.idCategory = idCategory;
-    this._storeProduct$.dispatch(setStorageCategoryId({ idCategory }));
-    this._storeProduct$.dispatch(setStorageProductId({ idProduct: 0 }));
-    this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
+    this.storageForm.get('idCategory')?.setValue(idCategory);
+    this.storageForm.get('idProduct')?.setValue(Number(0));
+    this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
+    this.products$ = this._storeProduct$.select(filterProductByCategory);
   }
 
   changeProduct($event: any) {
     let idProduct: number = Number($event.target.value);
     this._storageForm.value.idProduct = idProduct;
     this._storeProduct$.dispatch(setStorageProductId({ idProduct }));
-    this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
+    this.saveButtonDisabled = this.storageForm.invalid;
   }
 
-  onChangeInsertDate($event: any) {}
+  onChangeBuyDate($event: Date) {
+    console.log(this._storageForm.value);
+    this._storageForm.value.buyDate = $event;
+    this.saveButtonDisabled = this.storageForm.valid;
+    console.log(this.saveButtonDisabled);
+  }
 
-  onValidDateChanged($event: any) {}
+  onValidDateChanged($event: Date) {
+    this._storageForm.value.validDate = $event;
+    this.saveButtonDisabled = this.storageForm.invalid;
+  }
 
   updateCheckbox($event: any) {
     let checkbox: boolean = $event.target.checked;
@@ -193,26 +170,39 @@ export class StoragesAddComponent implements OnInit {
       this._storageForm.get('idUnit')?.disable();
       this._storeProduct$.dispatch(setStorageUnitId({ idUnit: 0 }));
     }
+    this.saveButtonDisabled = this.storageForm.invalid;
   }
 
-  setPrice(minPrice: number) {}
+  setPrice(minPrice: number) {
+    this._storageForm.value.price;
+    this.saveButtonDisabled = this.storageForm.invalid;
+  }
 
   close() {
     this._storeStorage$.dispatch(navigateToStorageList());
   }
 
-  saveStorage(update: boolean) {}
+  saveStorage(update: boolean) {
+    const newStorage: Storage = {
+      idProduct: 0,
+      insertDate: this.storageForm.value.buyDate.toDateString(),
+      validDate: this.storageForm.value.validDate?.toDateString(),
+      items: this._storageForm.value.items,
+      optLock: 0,
+      price: this._storageForm.value.price,
+      used: 0,
+    };
+    //this._storeStorage$.subscribe(saveStorage({ storage: newStorage }));
+  }
 
   changeInventory($event: any) {
     let idInventory: number = Number($event.target.value);
-    console.log(idInventory);
     this._storageForm.value.idInventory = idInventory;
     this._storeProduct$.dispatch(setStorageInventoryId({ idInventory }));
   }
 
   changeUnit($event: any) {
     let idUnit: number = Number($event.target.value);
-    console.log(idUnit);
     this._storageForm.value.idUnit = idUnit;
     this._storeProduct$.dispatch(setStorageUnitId({ idUnit }));
   }

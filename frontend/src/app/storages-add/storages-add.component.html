@@ -58,14 +58,12 @@
       <div class="row">
         <div class="col-6">
           <input
-            (bsValueChange)="onChangeInsertDate($event)"
-            formControlName="insertDate"
-            [bsConfig]="insertDatePickerOptions"
-            autocomplete="off"
+            (bsValueChange)="onChangeBuyDate($event)"
+            formControlName="buyDate"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',  returnFocusToInput: true}"
+            [maxDate]="today"
             bsDatepicker
             class="form-control"
-            id="buyDate"
-            name="insertDate"
             placeholder="{{ 'BUY_DATE' | translate }}"
             type="text"
           />
@@ -74,14 +72,10 @@
           <input
             (bsValueChange)="onValidDateChanged($event)"
             formControlName="validDate"
-            [bsConfig]="validDatePickerOptions"
-            autocomplete="off"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}"
             bsDatepicker
             class="form-control"
-            id="validDate"
-            name="validDate"
             placeholder="{{ 'VALID_DATE' | translate }}"
-            type="text"
           />
         </div>
       </div>
@@ -130,7 +124,7 @@
     </div>
   </div>
   <div class="row mb-2">
-    <div class="col-6">
+    <div class="col-8">
       <div class="row">
         <label class="col-6">{{ 'ITEMS' | translate }}</label>
         <label class="col-6">
