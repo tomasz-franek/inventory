@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
 import { Category, Product } from '../api';
 import { ValidInventory } from '../../objects/validInventory';
+import { DownloadFileComponent } from '../download-file/download-file.component';
 
 @Component({
   selector: 'app-manage-inventory',
-  imports: [TranslatePipe, FormsModule, NgForOf, NgIf],
+  imports: [TranslatePipe, FormsModule, NgForOf, NgIf, DownloadFileComponent],
   templateUrl: './manage-inventory.component.html',
   styleUrl: './manage-inventory.component.css',
 })

@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -7,16 +8,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgForOf } from '@angular/common';
 import { Observable } from 'rxjs';
-import { Product, Unit } from '../api';
+import { Product, Storage, Unit } from '../api';
 import { Store } from '@ngrx/store';
 import { getUnitsList, UnitState } from '../state/unit/unit.selectors';
 import { retrieveUnitList } from '../state/unit/unit.action';
 import { TagInputModule } from 'ngx-chips';
 import { StorageState } from '../state/storage/storage.selectors';
 import { navigateToShoppingList } from '../state/shopping/shopping.action';
+import { saveStorage } from '../state/storage/storage.action';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-shopping-add',
@@ -26,22 +28,24 @@ import { navigateToShoppingList } from '../state/shopping/shopping.action';
     TranslatePipe,
     AsyncPipe,
     TagInputModule,
+    NgForOf,
   ],
+  animations: [provideNoopAnimations()],
   templateUrl: './shopping-add.component.html',
   styleUrl: './shopping-add.component.css',
 })
 export class ShoppingAddComponent implements OnInit {
   private _shoppingForm: FormGroup;
-  protected unitsCheckbox: boolean = false;
+  protected _unitsCheckbox$: boolean = false;
   private _storeUnit$: Store<UnitState> = inject(Store);
   private _storeStorage$: Store<StorageState> = inject(Store);
-  public units$!: Observable<Unit[]>;
+  protected units$!: Observable<Unit[]>;
   placeholder: string;
   public tags: Product[] = [];
   public products: Product[] = [];
+  private tagsArray: FormArray;
 
   constructor(
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private translate: TranslateService
   ) {
@@ -49,11 +53,12 @@ export class ShoppingAddComponent implements OnInit {
     this._storeUnit$.dispatch(retrieveUnitList());
 
     this.units$ = this._storeUnit$.select(getUnitsList);
+    this.tagsArray = this.formBuilder.array(this.tags);
     this._shoppingForm = this.formBuilder.group({
       items: [0, Validators.required],
       count: 0,
       idUnit: 0,
-      tags: ['', Validators.required],
+      productTags: this.tagsArray,
     });
   }
 
@@ -65,10 +70,33 @@ export class ShoppingAddComponent implements OnInit {
     this._storeStorage$.dispatch(navigateToShoppingList());
   }
 
-  saveStorage() {}
+  saveStorage() {
+    this._shoppingForm.value.productTags.forEach((product: Product) => {
+      const newStorage: Storage = {
+        idProduct: product.idProduct != undefined ? product.idProduct : 0,
+        insertDate: '',
+        items: this._shoppingForm.value.items,
+        optLock: 0,
+        price: 0,
+        used: 0,
+      };
+      this._storeStorage$.dispatch(saveStorage({ storage: newStorage }));
+    });
+  }
 
   ngOnInit(): void {
     this._storeUnit$.dispatch(retrieveUnitList());
     this.units$ = this._storeUnit$.select(getUnitsList);
+  }
+
+  unitsCheckboxChange($event: any) {
+    this._unitsCheckbox$ = $event.target.checked;
+    if (this._unitsCheckbox$) {
+      this._shoppingForm.get('idUnit')?.enable();
+      this._shoppingForm.get('count')?.enable();
+    } else {
+      this._shoppingForm.get('idUnit')?.disable();
+      this._shoppingForm.get('count')?.disable();
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { NgForOf } from '@angular/common';
+import { DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { Property, Shopping, Unit } from '../api';
 import { CalendarOptions } from '@fullcalendar/core';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FullCalendarModule, TranslatePipe, NgForOf],
+  imports: [FullCalendarModule, TranslatePipe, NgForOf, DecimalPipe, NgIf],
 
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',

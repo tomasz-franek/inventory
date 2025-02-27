@@ -10,12 +10,17 @@ import {
   TranslateService,
   TranslateStore,
 } from '@ngx-translate/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TagInputModule } from 'ngx-chips';
 
 @NgModule({
   declarations: [],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    TagInputModule,
+    BrowserAnimationsModule,
     AppComponent,
     StoreModule,
     CategoryListComponent,
@@ -26,4 +31,6 @@ import {
 })
 export class AppModule {}
 
-bootstrapApplication(AppComponent);
+bootstrapApplication(AppComponent, {
+  providers: [provideAnimationsAsync()],
+});

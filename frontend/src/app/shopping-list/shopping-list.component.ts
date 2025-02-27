@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Property, Shopping, Unit } from '../api';
 import {
@@ -18,10 +18,18 @@ import {
   UnitState,
 } from '../state/unit/unit.selectors';
 import { retrieveUnitList } from '../state/unit/unit.action';
+import { DownloadFileComponent } from '../download-file/download-file.component';
 
 @Component({
   selector: 'app-shopping-list',
-  imports: [NgForOf, TranslatePipe, AsyncPipe],
+  imports: [
+    NgForOf,
+    TranslatePipe,
+    AsyncPipe,
+    DecimalPipe,
+    NgIf,
+    DownloadFileComponent,
+  ],
   templateUrl: './shopping-list.component.html',
   styleUrl: './shopping-list.component.css',
 })

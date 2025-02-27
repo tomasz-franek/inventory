@@ -867,6 +867,9 @@ components:
         idItem:
           type: integer
           format: int64
+        name:
+          type: string
+          maxLength: 100
         idStorage:
           type: integer
           format: int64
@@ -887,6 +890,10 @@ components:
         optLock:
           type: integer
           format: int32
+        ids:
+          type: array
+          items:
+            type: string
 
     UnitDefault:
       type: object
@@ -935,7 +942,23 @@ components:
         optLock:
           type: integer
           format: int32
+        price:
+          $ref: '#/components/schemas/Price'
 
+    Price:
+      type: object
+      properties:
+        useBeforeDate:
+          type: string
+          format: date
+        minPrice:
+          type: number
+        maxPrice:
+          type: number
+        averagePrice:
+          type: number
+        lastPrice:
+          type: number
     ResponseId:
       type: object
       required:

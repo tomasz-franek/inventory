@@ -10,16 +10,16 @@
       </h4>
       <ul id="shoppingList">
         <li *ngFor="let item of shopping">
-          <!--          <span *ngIf="item.price == undefined" class="text-align-left">{{ item.items }}-->
-          <!--            x {{ item.name }} {{ unit(item) }}-->
-          <!--          </span>-->
-          <!--          <span *ngIf="item.price" class="text-align-left" id="price">-->
-          <!--            {{ item.items }} x {{ item.name }} {{ unit(item) }} {{ 'MIN'|translate }}-->
-          <!--            : {{ item.price.minPrice | number : '1.2-2' }},-->
-          <!--            {{ 'AVG'|translate }} : {{ item.price.averagePrice | number : '1.2-2' }}, {{ 'MAX'|translate }} :-->
-          <!--            {{ item.price.maxPrice | number : '1.2-2' }}, {{ 'LAST'|translate }}-->
-          <!--            : {{ item.price.lastPrice | number : '1.2-2' }}-->
-          <!--          </span>-->
+                    <span *ngIf="item.price == undefined" class="text-align-left">{{ item.items }}
+                      x {{ item.name }} {{ unit(item) }}
+                    </span>
+          <span *ngIf="item.price" class="text-align-left" id="price">
+                      {{ item.items }} x {{ item.name }} {{ unit(item) }} {{ 'MIN'|translate }}
+            : {{ item.price.minPrice | number : '1.2-2' }},
+            {{ 'AVG'|translate }} : {{ item.price.averagePrice | number : '1.2-2' }}, {{ 'MAX'|translate }} :
+            {{ item.price.maxPrice | number : '1.2-2' }}, {{ 'LAST'|translate }}
+            : {{ item.price.lastPrice | number : '1.2-2' }}
+                    </span>
           <button (click)="edit(item)" class="btn btn-small">
             <i class="text-success bi bi-pencil"></i>
           </button>

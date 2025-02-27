@@ -14,8 +14,8 @@
       <i class="bi bi-plus"></i>
       {{ 'ADD' | translate }}
     </button>
-    <!--    <app-download-file [documentName]="'shopping.pdf'" [title]="'GET_PDF'" class="col-3"-->
-    <!--                       [url]="'report/pdf/shopping'"></app-download-file>-->
+    <app-download-file [documentName]="'shopping.pdf'" [title]="'GET_PDF'" class="col-3"
+                       [url]="'report/pdf/shopping'"></app-download-file>
   </div>
   <div class="row">
     <table id="table">
@@ -34,17 +34,21 @@
       <tr *ngFor="let row of shoppingList$ | async; let rowNr = index">
           <td [textContent]="rowNr + 1" class="text-center"></td>
           <td [textContent]="row.name" class="text-left"></td>
-          <!--        <td *ngIf="row.price != null" class="text-center">-->
-          <!--          <div>-->
-          <!--            <label class="text-bold text-center me-2"><i class="bi bi-align-bottom"></i> {{row.price.minPrice| number :'1.2-2'}} {{properties.currency}}</label>-->
-          <!--            <label class="text-bold text-center me-2"> <i class="bi bi-align-middle"></i> {{row.price.averagePrice | number : '1.2-2'}} {{this.properties.currency}}</label>-->
-          <!--            <label class="text-bold text-center me-2"><i class="bi bi-align-top"></i> {{row.price.maxPrice| number : '1.2-2'}} {{properties.currency}}</label>-->
-          <!--            <label class="text-bold text-center me-2">{{'LAST'|translate}} : {{row.price.lastPrice| number : '1.2-2'}} {{properties.currency}}</label>-->
-          <!--          </div>-->
-          <!--        </td>-->
-          <!--        <td *ngIf="row.price == undefined" class="text-center">-</td>-->
-          <!--        <td *ngIf="row.price != undefined" class="text-center">{{row.price.useBeforeDate}}</td>-->
-          <!--        <td *ngIf="row.price == undefined" class="text-center">-</td>-->
+        <td *ngIf="row.price != null" class="text-center">
+          <div>
+            <label class="text-bold text-center me-2"><i
+              class="bi bi-align-bottom"></i> {{ row.price.minPrice| number :'1.2-2' }} {{ properties.currency }}</label>
+            <label class="text-bold text-center me-2"> <i
+              class="bi bi-align-middle"></i> {{ row.price.averagePrice | number : '1.2-2' }} {{ this.properties.currency }}</label>
+            <label class="text-bold text-center me-2"><i
+              class="bi bi-align-top"></i> {{ row.price.maxPrice| number : '1.2-2' }} {{ properties.currency }}</label>
+            <label class="text-bold text-center me-2">{{ 'LAST'|translate }}
+              : {{ row.price.lastPrice| number : '1.2-2' }} {{ properties.currency }}</label>
+          </div>
+        </td>
+        <td *ngIf="row.price == undefined" class="text-center">-</td>
+        <td *ngIf="row.price != undefined" class="text-center">{{ row.price.useBeforeDate }}</td>
+        <td *ngIf="row.price == undefined" class="text-center">-</td>
           <td [textContent]="row.items" class="text-center"></td>
           <td class="text-center">
             {{ row.count }} {{ (unitName(row.idUnit)|async)?.symbol }}

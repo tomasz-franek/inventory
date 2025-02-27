@@ -42,8 +42,8 @@
       <tbody>
         <tr *ngFor="let row of items; let rowNr = index">
           <td [textContent]="rowNr + 1" class="text-center"></td>
-          <!--        <td [textContent]="row.name" class="text-left"></td>-->
-          <!--        <td [textContent]="row.ids.length" class="text-center"></td>-->
+          <td [textContent]="row.name" class="text-left"></td>
+          <td [textContent]="row.ids?.length" class="text-center"></td>
           <td class="text-center">
             <button
               (click)="selectItemRow()"
