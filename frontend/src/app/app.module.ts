@@ -14,6 +14,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgxEchartsModule } from 'ngx-echarts';
+import * as echarts from 'echarts/core';
+import { BarChart } from 'echarts/charts';
+import { GridComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([BarChart, GridComponent, CanvasRenderer]);
 
 @NgModule({
   declarations: [],
@@ -27,6 +34,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     StoreModule,
     CategoryListComponent,
     InventoryListComponent,
+    NgxEchartsModule.forRoot({ echarts }),
   ],
   exports: [TranslateModule],
   providers: [TranslateService, TranslateStore],

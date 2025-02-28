@@ -1,1 +1,27 @@
-<p>availability works!</p>
+<form [formGroup]="availabilityForm">
+  <div class="row mb-2">
+    <h3><i class="bi bi-clock-history"></i> {{ 'MENU.REPORTS.AVAILABILITY'|translate }}</h3>
+  </div>
+  <div class="row mb-2">
+    <div class="col-3">
+      <select (change)="clearChart()" formControlName="period" class="form-select mb-4" id="period">
+        <option *ngFor="let period of periods" [value]="period.value">{{ period.label|translate }}</option>
+      </select>
+    </div>
+    <div class="col-3">
+      <select (change)="updateDiagram($event)" formControlName="idProduct" class="form-select col-3" id="product">
+        <option [value]="0">{{ 'SELECT'|translate }}</option>
+        <option *ngFor="let filterProduct of products$|async" [value]="filterProduct.idProduct">{{ filterProduct.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-3">
+      <button (click)="clearChart()" id="clear"
+              class="btn btn-outline-primary">{{ 'CLEAR_CHART'|translate }}
+      </button>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div echarts id="chart" style="min-width: 800px; min-height: 600px;"></div>
+  </div>
+</form>

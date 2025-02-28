@@ -182,7 +182,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'availability',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ProductEffects, ReportEffects)],
     component: AvailabilityComponent,
   },
   {

@@ -128,5 +128,18 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
     }
 
+    @Test
+    @Disabled("need test data")
+    void getProductAvailabilityForPeriod_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "availability/{idProduct}/{period}", 1, 1)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
+    }
+
 
 }

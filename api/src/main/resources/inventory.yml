@@ -902,6 +902,36 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductPredictionData'
+  /report/availability/{idProduct}/{period}:
+    get:
+      summary: get prediction for products
+      operationId: getProductAvailabilityForPeriod
+      tags:
+        - report
+      parameters:
+        - name: idProduct
+          in: path
+          required: true
+          description: The ID of the Product
+          schema:
+            type: integer
+            format: int64
+        - name: period
+          in: path
+          required: true
+          description: Period in Days
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: list of Last used Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductAvailabilityData'
 components:
   schemas:
     Inventory:
@@ -1289,3 +1319,16 @@ components:
         limitMin:
           type: integer
           format: int32
+    ProductAvailabilityData:
+      type: object
+      required:
+        - availabilityDate
+      properties:
+        availabilityDate:
+          type: string
+          format: date
+        count:
+          type: integer
+          format: int32
+        productName:
+          type: string

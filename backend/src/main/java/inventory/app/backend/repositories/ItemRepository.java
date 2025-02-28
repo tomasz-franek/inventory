@@ -43,4 +43,11 @@ public interface ItemRepository extends CrudRepository<ItemEntity,Long>,
             @Param("idInventory") Long idInventory,
             @Param("idCategory") Long idCategory,
             @Param("idProduct") Long idProduct);
+
+    @Query("SELECT i " +
+            "FROM ItemEntity i " +
+            "JOIN FETCH i.storage s " +
+            "JOIN FETCH s.product p " +
+            "WHERE p.id =:idProduct ")
+    List<ItemEntity> findByProductId(@Param("idProduct") Long idProduct);
 }

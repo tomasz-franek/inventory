@@ -12,6 +12,7 @@ import {
   Item,
   LastUsedData,
   Product,
+  ProductAvailabilityData,
   ProductPredictionData,
   ProductsService,
   Property,
@@ -184,5 +185,15 @@ export class ApiService {
 
   getStoragePrediction(): Observable<ProductPredictionData[]> {
     return this.reportService.getStoragePrediction();
+  }
+
+  getProductAvailabilityForPeriod(
+    idProduct: number,
+    period: number
+  ): Observable<ProductAvailabilityData[]> {
+    return this.reportService.getProductAvailabilityForPeriod(
+      idProduct,
+      period
+    );
   }
 }

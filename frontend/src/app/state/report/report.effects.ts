@@ -1,16 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs';
 import {
+  readProductAvailabilityForPeriod,
   retrieveExpiredInventoryReportData,
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportData,
   retrieveInventoryReportDataSuccess,
   retrieveLastUsedReportData,
   retrieveLastUsedReportDataSuccess,
+  retrieveProductAvailabilityDataSuccess,
   retrieveProductPredictionData,
   retrieveProductPredictionDataSuccess,
   retrieveReportDataError,
@@ -18,9 +18,7 @@ import {
 
 @Injectable()
 export class ReportEffects {
-  private store$ = inject(Store);
   private _apiService$: ApiService = inject(ApiService);
-  private router: Router = inject(Router);
 
   loadInventoryReportData$ = createEffect(() =>
     inject(Actions).pipe(
@@ -91,6 +89,26 @@ export class ReportEffects {
             });
           })
         );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+
+  loadAvailabilityForProduct$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(readProductAvailabilityForPeriod),
+      mergeMap((action) => {
+        return this._apiService$
+          .getProductAvailabilityForPeriod(action.idProduct, action.period)
+          .pipe(
+            map((data) => {
+              return retrieveProductAvailabilityDataSuccess({
+                availability: data,
+              });
+            })
+          );
       }),
       catchError((error: any) => {
         return [retrieveReportDataError({ error })];
