@@ -34,10 +34,10 @@ import {
   getCategoriesList,
 } from '../state/category/category.selectors';
 import {
-  retrievedProductList,
+  retrieveProductList,
   setProductCategoryId,
 } from '../state/product/product.action';
-import { retrievedCategoryList } from '../state/category/category.action';
+import { retrieveCategoryList } from '../state/category/category.action';
 import { Observable } from 'rxjs';
 import { getUnitsList, UnitState } from '../state/unit/unit.selectors';
 import { retrieveUnitList } from '../state/unit/unit.action';
@@ -45,7 +45,7 @@ import {
   getInventoriesList,
   InventoryState,
 } from '../state/inventory/inventory.selectors';
-import { retrievedInventoryList } from '../state/inventory/inventory.action';
+import { retrieveInventoryList } from '../state/inventory/inventory.action';
 
 @Component({
   selector: 'app-storages-add',
@@ -102,10 +102,10 @@ export class StoragesAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._storeProduct$.dispatch(retrievedProductList());
-    this._storeCategory$.dispatch(retrievedCategoryList());
+    this._storeProduct$.dispatch(retrieveProductList());
+    this._storeCategory$.dispatch(retrieveCategoryList());
     this._storeUnit$.dispatch(retrieveUnitList());
-    this._storeInventory$.dispatch(retrievedInventoryList());
+    this._storeInventory$.dispatch(retrieveInventoryList());
     this.products$ = this._storeProduct$.select(getProductsList);
     this.categories$ = this._storeCategory$.select(getCategoriesList);
     this.units$ = this._storeUnit$.select(getUnitsList);

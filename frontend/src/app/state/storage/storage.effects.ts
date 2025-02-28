@@ -5,9 +5,9 @@ import {
   navigateToStorageEdit,
   navigateToStorageList,
   navigateToStorageNew,
-  retrievedStorageList,
   retrievedStorageListActionError,
   retrievedStorageListActionSuccess,
+  retrieveStorageList,
   saveStorage,
   saveStorageActionError,
   saveStorageActionSuccess,
@@ -78,7 +78,7 @@ export class StorageEffects {
 
   loadStorages$ = createEffect(() => {
     return inject(Actions).pipe(
-      ofType(retrievedStorageList),
+      ofType(retrieveStorageList),
       mergeMap(() => {
         return this._apiService$.getStorages().pipe(
           map((data) => {

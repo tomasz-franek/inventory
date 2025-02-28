@@ -20,20 +20,20 @@ import {
 import { FormsModule } from '@angular/forms';
 import { StoragesFilter } from '../../objects/storagesFilter';
 import { AsyncPipe, DecimalPipe, NgClass, NgForOf } from '@angular/common';
-import { retrievedCategoryList } from '../state/category/category.action';
 import {
-  retrievedProductList,
+  retrieveProductList,
   setProductCategoryId,
 } from '../state/product/product.action';
 import {
   navigateToStorageNew,
-  retrievedStorageList,
+  retrieveStorageList,
   selectStorageByCategoryAndProduct,
   setHideUsed,
   setStorageCategoryId,
   setStorageEdit,
   setStorageProductId,
 } from '../state/storage/storage.action';
+import { retrieveCategoryList } from '../state/category/category.action';
 
 @Component({
   selector: 'app-storages-list',
@@ -69,9 +69,9 @@ export class StoragesListComponent implements OnInit {
 
   ngOnInit() {
     this._storeStorage$.dispatch(setHideUsed({ hideUsed: true }));
-    this._storeProduct$.dispatch(retrievedProductList());
-    this._storeCategory$.dispatch(retrievedCategoryList());
-    this._storeStorage$.dispatch(retrievedStorageList());
+    this._storeProduct$.dispatch(retrieveProductList());
+    this._storeCategory$.dispatch(retrieveCategoryList());
+    this._storeStorage$.dispatch(retrieveStorageList());
     this.storages$ = this._storeStorage$.select(getSelectedStoragesList);
     this.products$ = this._storeProduct$.select(getProductsList);
     this.categories$ = this._storeCategory$.select(getCategoriesList);

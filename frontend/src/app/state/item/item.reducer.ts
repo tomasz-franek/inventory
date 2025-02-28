@@ -4,6 +4,7 @@ import { retrievedItemsWithoutInventoryListActionSuccess } from './item.action';
 export const initialItemState: ItemState = {
   items: [],
   itemsWithoutInventoryList: [],
+  consumeProductList: [],
 };
 
 export function itemReducer(state = initialItemState, action: any): ItemState {

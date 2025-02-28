@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  retrievedPropertyForUser,
   retrievedPropertyForUserActionError,
   retrievedPropertyForUserActionSuccess,
+  retrievePropertyForUser,
   saveProperty,
   savePropertyActionError,
   savePropertySuccess,
@@ -19,7 +19,7 @@ export class PropertyEffects {
 
   loadProperty$ = createEffect(() => {
     return inject(Actions).pipe(
-      ofType(retrievedPropertyForUser),
+      ofType(retrievePropertyForUser),
       mergeMap((action: any) => {
         return this._apiService$.getProperty(action.idUser).pipe(
           map((data) => {

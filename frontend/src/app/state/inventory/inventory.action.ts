@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { Inventory } from '../../api';
 import { HttpErrorResponse } from '@angular/common/http';
 
-export const retrievedInventoryList = createAction(
+export const retrieveInventoryList = createAction(
   '[Inventory] Call Inventory list'
 );
 export const retrievedInventoryListActionSuccess = createAction(

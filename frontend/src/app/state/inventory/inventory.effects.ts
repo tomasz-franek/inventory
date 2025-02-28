@@ -7,9 +7,9 @@ import {
   navigateToInventoryList,
   navigateToInventoryNew,
   retrievedInventoryActionSuccess,
-  retrievedInventoryList,
   retrievedInventoryListActionError,
   retrievedInventoryListActionSuccess,
+  retrieveInventoryList,
   saveInventory,
   saveInventoryActionError,
   saveInventoryActionSuccess,
@@ -53,8 +53,8 @@ export class InventoryEffects {
 
   loadInventories$ = createEffect(() =>
     inject(Actions).pipe(
-      ofType(retrievedInventoryList),
-      withLatestFrom(this.store$.select(retrievedInventoryList)),
+      ofType(retrieveInventoryList),
+      withLatestFrom(this.store$.select(retrieveInventoryList)),
       mergeMap(() => {
         return this._apiService$.getInventories().pipe(
           concatMap((data) => {

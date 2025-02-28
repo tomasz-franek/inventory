@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { Storage } from '../../api';
 import { HttpErrorResponse } from '@angular/common/http';
 
-export const retrievedStorageList = createAction('[Storage] Call Storage list');
+export const retrieveStorageList = createAction('[Storage] Call Storage list');
 export const retrievedStorageListActionSuccess = createAction(
   '[Storage] Retrieved Storage list',
   props<{

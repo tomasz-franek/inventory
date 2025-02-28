@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { Category } from '../../api';
 import { HttpErrorResponse } from '@angular/common/http';
 
-export const retrievedCategoryList = createAction(
+export const retrieveCategoryList = createAction(
   '[Category] Call Category list'
 );
 export const retrievedCategoryListActionSuccess = createAction(

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import {
   CategoriesService,
   Category,
+  ConsumeProduct,
   DictionaryService,
   InventoriesService,
   Inventory,
@@ -133,5 +134,27 @@ export class ApiService {
 
   getItemsWithoutInventory(): Observable<Item[]> {
     return this.dictionaryService.itemsWithoutInventory();
+  }
+
+  getConsumeProductListInventoryCategoryProduct(
+    idInventory: number,
+    idCategory: number,
+    idProduct: number
+  ): Observable<ConsumeProduct[]> {
+    return this.dictionaryService.getConsumeProductListInventoryCategoryProduct(
+      idInventory,
+      idCategory,
+      idProduct
+    );
+  }
+
+  getConsumeProductListInventoryCategory(
+    idInventory: number,
+    idCategory: number
+  ): Observable<ConsumeProduct[]> {
+    return this.dictionaryService.getConsumeProductListInventoryCategory(
+      idInventory,
+      idCategory
+    );
   }
 }

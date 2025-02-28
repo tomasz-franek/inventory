@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import {
   navigateToProductEdit,
   navigateToProductNew,
-  retrievedProductList,
+  retrieveProductList,
   setActiveProduct,
   setProductCategoryId,
 } from '../state/product/product.action';
@@ -22,7 +22,7 @@ import {
   getCategoriesList,
   selectCategoryById,
 } from '../state/category/category.selectors';
-import { retrievedCategoryList } from '../state/category/category.action';
+import { retrieveCategoryList } from '../state/category/category.action';
 
 @Component({
   selector: 'app-product-list',
@@ -48,9 +48,9 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._storeProduct$.dispatch(retrievedProductList());
+    this._storeProduct$.dispatch(retrieveProductList());
     this.products$ = this._storeProduct$.select(getProductsList);
-    this._storeCategory$.dispatch(retrievedCategoryList());
+    this._storeCategory$.dispatch(retrieveCategoryList());
     this.categories$ = this._storeCategory$.select(getCategoriesList);
   }
 

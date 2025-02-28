@@ -4,9 +4,13 @@ import { ApiService } from '../../services/api.service';
 import { catchError, concatMap, mergeMap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
+  retrieveConsumeProductListInventoryCategory,
+  retrieveConsumeProductListInventoryCategoryProduct,
+  retrievedConsumeProductListActionError,
+  retrievedConsumeProductListActionSuccess,
   retrievedItemsListActionError,
-  retrievedItemsWithoutInventory,
   retrievedItemsWithoutInventoryListActionSuccess,
+  retrieveItemsWithoutInventory,
 } from './item.action';
 import { ItemState } from './item.selectors';
 
@@ -17,8 +21,8 @@ export class ItemsEffects {
 
   loadItemsWithoutInventory$ = createEffect(() =>
     inject(Actions).pipe(
-      ofType(retrievedItemsWithoutInventory),
-      withLatestFrom(this.store$.select(retrievedItemsWithoutInventory)),
+      ofType(retrieveItemsWithoutInventory),
+      withLatestFrom(this.store$.select(retrieveItemsWithoutInventory)),
       mergeMap(() => {
         return this._apiService$.getItemsWithoutInventory().pipe(
           concatMap((data) => {
@@ -32,6 +36,57 @@ export class ItemsEffects {
       }),
       catchError((error: any) => {
         return [retrievedItemsListActionError({ error })];
+      })
+    )
+  );
+
+  loadConsumeProductListInventoryCategoryProduct$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveConsumeProductListInventoryCategoryProduct),
+      mergeMap((action) => {
+        return this._apiService$
+          .getConsumeProductListInventoryCategoryProduct(
+            action.idInventory,
+            action.idCategory,
+            action.idProduct
+          )
+          .pipe(
+            concatMap((data) => {
+              return [
+                retrievedConsumeProductListActionSuccess({
+                  consumeProductList: data,
+                }),
+              ];
+            })
+          );
+      }),
+      catchError((error: any) => {
+        return [retrievedConsumeProductListActionError({ error })];
+      })
+    )
+  );
+
+  loadConsumeProductListInventoryCategory$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveConsumeProductListInventoryCategory),
+      mergeMap((action) => {
+        return this._apiService$
+          .getConsumeProductListInventoryCategory(
+            action.idInventory,
+            action.idCategory
+          )
+          .pipe(
+            concatMap((data) => {
+              return [
+                retrievedConsumeProductListActionSuccess({
+                  consumeProductList: data,
+                }),
+              ];
+            })
+          );
+      }),
+      catchError((error: any) => {
+        return [retrievedConsumeProductListActionError({ error })];
       })
     )
   );

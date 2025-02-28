@@ -1,5 +1,6 @@
 package inventory.app.backend.services;
 
+import inventory.app.api.model.ConsumeProduct;
 import inventory.app.api.model.Item;
 import inventory.app.backend.mappers.ItemMapper;
 import inventory.app.backend.repositories.ItemRepository;
@@ -23,4 +24,11 @@ public class DictionaryServiceImpl implements DictionaryService {
         );
         return items;
     }
+
+    @Override
+    public List<ConsumeProduct> getConsumeProductListInventoryCategory(Long idInventory, Long idCategory, Long idProduct) {
+        return itemRepository.getConsumeProductListInventoryCategory(idInventory, idCategory, idProduct);
+    }
+
+
 }

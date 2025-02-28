@@ -751,7 +751,73 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Item'
-
+  /dictionary/consumeProducts/{idInventory}/{idCategory}:
+    get:
+      summary: read Products ready to be consumed
+      operationId: getConsumeProductListInventoryCategory
+      tags:
+        - dictionary
+      parameters:
+        - name: idInventory
+          in: path
+          required: true
+          description: The ID of the Inventory
+          schema:
+            type: integer
+            format: int64
+        - name: idCategory
+          in: path
+          required: true
+          description: The ID of the Category
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of Items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConsumeProduct'
+  /dictionary/consumeProducts/{idInventory}/{idCategory}/{idProduct}:
+    get:
+      summary: read Products ready to be consumed
+      operationId: getConsumeProductListInventoryCategoryProduct
+      tags:
+        - dictionary
+      parameters:
+        - name: idInventory
+          in: path
+          required: true
+          description: The ID of the Inventory
+          schema:
+            type: integer
+            format: int64
+        - name: idCategory
+          in: path
+          required: true
+          description: The ID of the Category
+          schema:
+            type: integer
+            format: int64
+        - name: idProduct
+          in: path
+          required: true
+          description: The ID of the Product
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of Items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConsumeProduct'
   /report/inventory/{idInventory}:
     get:
       summary: get Inventory report
@@ -1067,3 +1133,29 @@ components:
         validDate:
           type: string
           format: date
+    ConsumeProduct:
+      type: object
+      properties:
+        idItem:
+          type: integer
+          format: int64
+        idProduct:
+          type: integer
+          format: int64
+        validDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        insertDate:
+          type: string
+          format: date
+        productName:
+          type: string
+        inventoryName:
+          type: string
+        used:
+          type: number
+        price:
+          type: number

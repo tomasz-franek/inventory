@@ -139,7 +139,14 @@ export const appRoutes: Routes = [
   },
   {
     path: 'consume-product',
-    providers: [provideEffects(ProductEffects)],
+    providers: [
+      provideEffects(
+        ProductEffects,
+        CategoryEffects,
+        InventoryEffects,
+        ItemsEffects
+      ),
+    ],
     component: ConsumeProductComponent,
   },
   {

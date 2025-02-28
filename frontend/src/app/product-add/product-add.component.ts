@@ -26,7 +26,7 @@ import {
   newProductSelector,
   ProductState,
 } from '../state/product/product.selectors';
-import { retrievedCategoryList } from '../state/category/category.action';
+import { retrieveCategoryList } from '../state/category/category.action';
 
 @Component({
   selector: 'app-product-add',
@@ -72,7 +72,7 @@ export class ProductAddComponent implements OnInit {
       id: [],
       optLock: [],
     });
-    this._storeCategory$.dispatch(retrievedCategoryList());
+    this._storeCategory$.dispatch(retrieveCategoryList());
     this.categories$ = this._storeCategory$.select(getCategoriesList);
   }
 

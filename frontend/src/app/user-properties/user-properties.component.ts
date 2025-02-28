@@ -15,7 +15,7 @@ import {
   PropertyState,
 } from '../state/property/property.selectors';
 import {
-  retrievedPropertyForUser,
+  retrievePropertyForUser,
   saveProperty,
 } from '../state/property/property.action';
 import { Property } from '../api';
@@ -52,7 +52,7 @@ export class UserPropertiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._storeProperty$.dispatch(retrievedPropertyForUser({ idUser: 1 }));
+    this._storeProperty$.dispatch(retrievePropertyForUser({ idUser: 1 }));
 
     this._propertyForm = this.formBuilder.group({
       language: ['', Validators.required],

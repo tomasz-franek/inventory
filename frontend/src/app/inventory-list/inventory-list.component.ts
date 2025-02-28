@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import {
   navigateToInventoryEdit,
   navigateToInventoryNew,
-  retrievedInventoryList,
+  retrieveInventoryList,
   setActiveInventory,
 } from '../state/inventory/inventory.action';
 import { Observable } from 'rxjs';
@@ -36,7 +36,7 @@ export class InventoryListComponent implements OnInit {
 
   ngOnInit(): void {
     this._store$.dispatch(setActiveInventory({ active: this.onlyActive }));
-    this._store$.dispatch(retrievedInventoryList());
+    this._store$.dispatch(retrieveInventoryList());
   }
 
   editInventory(inventory: Inventory) {

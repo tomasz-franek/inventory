@@ -7,9 +7,9 @@ import {
   navigateToProductList,
   navigateToProductNew,
   retrievedProductActionSuccess,
-  retrievedProductList,
   retrievedProductListActionError,
   retrievedProductListActionSuccess,
+  retrieveProductList,
   saveProduct,
   saveProductActionError,
   saveProductActionSuccess,
@@ -25,7 +25,7 @@ export class ProductEffects {
 
   loadProducts$ = createEffect(() => {
     return inject(Actions).pipe(
-      ofType(retrievedProductList),
+      ofType(retrieveProductList),
       mergeMap(() => {
         return this._apiService$.getProducts().pipe(
           map((data) => {

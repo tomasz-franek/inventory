@@ -1,4 +1,4 @@
-<div class="container">
+<form [formGroup]="consumeProductForm">
   <div class="row mb-2">
     <h3>
       <i class="bi bi-receipt"></i>
@@ -10,13 +10,14 @@
       <select
         (change)="updateFilterInventory($event)"
         class="form-select"
+        formControlName="idInventory"
         id="inventory"
       >
         <option [value]="0">
           {{ 'FILTER' | translate }} {{ 'INVENTORY' | translate }}
         </option>
         <option
-          *ngFor="let filterInventory of inventories"
+          *ngFor="let filterInventory of _inventories$|async"
           [value]="filterInventory.idInventory"
         >
           {{ filterInventory.name }}
@@ -26,6 +27,7 @@
     <div class="col-3">
       <select
         (change)="updateFilterCategories($event)"
+        formControlName="idCategory"
         class="form-select"
         id="category"
       >
@@ -33,7 +35,7 @@
           {{ 'FILTER' | translate }} {{ 'CATEGORY' | translate }}
         </option>
         <option
-          *ngFor="let filterCategory of categories"
+          *ngFor="let filterCategory of _categories$ | async"
           [value]="filterCategory.idCategory"
         >
           {{ filterCategory.name }}
@@ -43,6 +45,7 @@
     <div class="col-3">
       <select
         (change)="updateFilterProducts($event)"
+        formControlName="idProduct"
         class="form-select"
         id="product"
       >
@@ -50,7 +53,7 @@
           {{ 'FILTER' | translate }} {{ 'PRODUCT' | translate }}
         </option>
         <option
-          *ngFor="let filterProduct of products"
+          *ngFor="let filterProduct of _products$|async"
           [value]="filterProduct.idProduct"
         >
           {{ filterProduct.name }}
@@ -73,7 +76,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of consumeProducts; let rowNr = index">
+      <tr *ngFor="let row of _consumeProducts$|async; let rowNr = index">
           <td [textContent]="rowNr + 1" class="text-center"></td>
           <td [textContent]="row.productName" class="text-left"></td>
           <td [textContent]="row.insertDate" class="text-center"></td>
@@ -142,13 +145,11 @@
             <input
               #dateInput
               (bsValueChange)="onChangeConsumeDate($event)"
-              [bsConfig]="consumeDatePickerOptions"
-              [bsValue]="consumeDate"
+              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',  returnFocusToInput: true}"
+              [(bsValue)]="consumeDate"
               autocomplete="off"
               bsDatepicker
               class="form-control"
-              id="consumeDate"
-              name="consumeDate"
               placeholder="{{ 'END_DATE' | translate }}"
               type="text"
             />
@@ -182,7 +183,7 @@
               <span [textContent]="rowToConsume.used + '%'"></span>
             </label>
             <input
-              [(ngModel)]="rowToConsume.used"
+              [value]="rowToConsume.used"
               class="col-6"
               id="used"
               max="100"
@@ -214,4 +215,4 @@
       </form>
     </div>
   </div>
-</div>
+</form>

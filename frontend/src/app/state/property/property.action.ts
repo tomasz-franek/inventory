@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Property } from '../../api';
 
-export const retrievedPropertyForUser = createAction(
+export const retrievePropertyForUser = createAction(
   '[Property] Call Property',
   props<{ idUser: number }>()
 );

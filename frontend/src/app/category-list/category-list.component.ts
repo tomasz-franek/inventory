@@ -3,7 +3,7 @@ import { Category } from '../api';
 import {
   navigateToCategoryEdit,
   navigateToCategoryNew,
-  retrievedCategoryList,
+  retrieveCategoryList,
   setActiveCategory,
 } from '../state/category/category.action';
 import { CommonModule, NgForOf } from '@angular/common';
@@ -36,7 +36,7 @@ export class CategoryListComponent implements OnInit {
 
   ngOnInit(): void {
     this._store$.dispatch(setActiveCategory({ active: this.onlyActive }));
-    this._store$.dispatch(retrievedCategoryList());
+    this._store$.dispatch(retrieveCategoryList());
   }
 
   editCategory(category: Category) {

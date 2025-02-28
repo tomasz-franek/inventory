@@ -5,8 +5,8 @@ import {
   navigateToCategoryEdit,
   navigateToCategoryList,
   navigateToCategoryNew,
+  retrieveCategoryList,
   retrievedCategoryActionSuccess,
-  retrievedCategoryList,
   retrievedCategoryListActionError,
   retrievedCategoryListActionSuccess,
   saveCategory,
@@ -52,8 +52,8 @@ export class CategoryEffects {
 
   loadCategories$ = createEffect(() =>
     inject(Actions).pipe(
-      ofType(retrievedCategoryList),
-      withLatestFrom(this.store$.select(retrievedCategoryList)),
+      ofType(retrieveCategoryList),
+      withLatestFrom(this.store$.select(retrieveCategoryList)),
       mergeMap(() => {
         return this._apiService$.getCategories().pipe(
           map((data) => {

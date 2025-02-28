@@ -1,6 +1,7 @@
 package inventory.app.backend.controllers;
 
 import inventory.app.api.DictionaryApi;
+import inventory.app.api.model.ConsumeProduct;
 import inventory.app.api.model.Item;
 import inventory.app.backend.services.DictionaryService;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,15 @@ public class DictionaryController implements DictionaryApi {
     @Override
     public ResponseEntity<List<Item>> itemsWithoutInventory() {
         return ResponseEntity.ok(dictionaryService.itemsWithoutInventory());
+    }
+
+    @Override
+    public ResponseEntity<List<ConsumeProduct>> getConsumeProductListInventoryCategoryProduct(Long idInventory, Long idCategory, Long idProduct) {
+        return ResponseEntity.ok(dictionaryService.getConsumeProductListInventoryCategory(idInventory, idCategory, idProduct));
+    }
+
+    @Override
+    public ResponseEntity<List<ConsumeProduct>> getConsumeProductListInventoryCategory(Long idInventory, Long idCategory) {
+        return ResponseEntity.ok(dictionaryService.getConsumeProductListInventoryCategory(idInventory, idCategory, null));
     }
 }

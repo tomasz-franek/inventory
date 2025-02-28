@@ -14,7 +14,7 @@ import { ValidInventory } from '../../objects/validInventory';
 import { DownloadFileComponent } from '../download-file/download-file.component';
 import { Observable } from 'rxjs';
 import {
-  retrievedProductList,
+  retrieveProductList,
   setProductCategoryId,
 } from '../state/product/product.action';
 import {
@@ -22,7 +22,7 @@ import {
   getProductsList,
   ProductState,
 } from '../state/product/product.selectors';
-import { retrievedCategoryList } from '../state/category/category.action';
+import { retrieveCategoryList } from '../state/category/category.action';
 import {
   CategoryState,
   getCategoriesList,
@@ -78,9 +78,9 @@ export class ManageInventoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._storeProducts$.dispatch(retrievedProductList());
+    this._storeProducts$.dispatch(retrieveProductList());
     this._products$ = this._storeProducts$.select(getProductsList);
-    this._storeCategory$.dispatch(retrievedCategoryList());
+    this._storeCategory$.dispatch(retrieveCategoryList());
     this._categories$ = this._storeCategory$.select(getCategoriesList);
   }
 

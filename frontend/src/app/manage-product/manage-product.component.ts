@@ -15,12 +15,12 @@ import {
   getInventoriesList,
   InventoryState,
 } from '../state/inventory/inventory.selectors';
-import { retrievedInventoryList } from '../state/inventory/inventory.action';
+import { retrieveInventoryList } from '../state/inventory/inventory.action';
 import {
   getItemsWithInventoryList,
   ItemState,
 } from '../state/item/item.selectors';
-import { retrievedItemsWithoutInventory } from '../state/item/item.action';
+import { retrieveItemsWithoutInventory } from '../state/item/item.action';
 
 @Component({
   selector: 'app-manage-product',
@@ -55,9 +55,9 @@ export class ManageProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._storeInventory$.dispatch(retrievedInventoryList());
+    this._storeInventory$.dispatch(retrieveInventoryList());
     this.inventories$ = this._storeInventory$.select(getInventoriesList);
-    this._storeItem$.dispatch(retrievedItemsWithoutInventory());
+    this._storeItem$.dispatch(retrieveItemsWithoutInventory());
     this.items$ = this._storeItem$.select(getItemsWithInventoryList);
   }
 
