@@ -59,7 +59,7 @@ export class ManageInventoryComponent implements OnInit {
   private allProducts: Product[] = [];
   private allInventory: ValidInventory[] = [];
   private progress: number = 0;
-  private _manageInventory: FormGroup;
+  private readonly _manageInventory: FormGroup;
 
   get manageInventory(): FormGroup {
     return this._manageInventory;

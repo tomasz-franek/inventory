@@ -127,6 +127,10 @@ export class ApiService {
     return this.shoppingService.getAllShopping();
   }
 
+  deleteShopping(idShopping: number): Observable<any> {
+    return this.shoppingService.deleteShopping(idShopping);
+  }
+
   getItemsWithoutInventory(): Observable<Item[]> {
     return this.dictionaryService.itemsWithoutInventory();
   }

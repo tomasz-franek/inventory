@@ -37,9 +37,14 @@ import { ShoppingEffects } from './state/shopping/shopping.effects';
 import { ItemsEffects } from './state/item/item.effects';
 
 export const appRoutes: Routes = [
-  { path: '', component: DashboardComponent },
+  {
+    path: '',
+    providers: [provideEffects(ShoppingEffects)],
+    component: DashboardComponent,
+  },
   {
     path: 'dashboard',
+    providers: [provideEffects(ShoppingEffects)],
     component: DashboardComponent,
   },
   {

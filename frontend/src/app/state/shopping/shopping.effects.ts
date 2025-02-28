@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, tap } from 'rxjs';
 import {
+  deleteShopping,
   navigateToShoppingEdit,
   navigateToShoppingList,
   navigateToShoppingNew,
@@ -70,4 +71,20 @@ export class ShoppingEffects {
     },
     { dispatch: false }
   );
+
+  deleteShopping$ = createEffect(() => {
+    return inject(Actions).pipe(
+      ofType(deleteShopping),
+      mergeMap((action: any) => {
+        return this._apiService$.deleteShopping(action.idShopping).pipe(
+          map((data) => {
+            return retrievedShoppingListActionSuccess({ shopping: data });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrievedShoppingListActionError({ error })];
+      })
+    );
+  });
 }

@@ -24,7 +24,7 @@ export class ItemsEffects {
           concatMap((data) => {
             return [
               retrievedItemsWithoutInventoryListActionSuccess({
-                itemWithoutInventory: data,
+                itemsWithoutInventoryList: data,
               }),
             ];
           })

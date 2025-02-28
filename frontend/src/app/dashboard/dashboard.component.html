@@ -9,7 +9,7 @@
         {{ 'MENU.MANAGEMENT.SHOPPING' | translate }}
       </h4>
       <ul id="shoppingList">
-        <li *ngFor="let item of shopping">
+        <li *ngFor="let item of shopping$|async">
                     <span *ngIf="item.price == undefined" class="text-align-left">{{ item.items }}
                       x {{ item.name }} {{ unit(item) }}
                     </span>
@@ -20,7 +20,7 @@
             {{ item.price.maxPrice | number : '1.2-2' }}, {{ 'LAST'|translate }}
             : {{ item.price.lastPrice | number : '1.2-2' }}
                     </span>
-          <button (click)="edit(item)" class="btn btn-small">
+          <button (click)="editShopping(item)" class="btn btn-small">
             <i class="text-success bi bi-pencil"></i>
           </button>
           <button

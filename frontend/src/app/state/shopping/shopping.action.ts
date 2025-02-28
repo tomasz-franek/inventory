@@ -30,3 +30,8 @@ export const navigateToShoppingEdit = createAction(
   '[Shopping Edit] Navigate to Shopping Edit',
   props<{ shopping: Shopping }>()
 );
+
+export const deleteShopping = createAction(
+  '[Shopping] Delete Shopping List',
+  props<{ idShopping: number }>()
+);

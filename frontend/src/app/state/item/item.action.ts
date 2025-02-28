@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ItemWithoutInventory } from '../../api';
+import { Item } from '../../api';
 
 export const retrievedItemsWithoutInventory = createAction(
   '[Item] Retrieved items Without Inventory'
@@ -8,7 +8,7 @@ export const retrievedItemsWithoutInventory = createAction(
 export const retrievedItemsWithoutInventoryListActionSuccess = createAction(
   '[Item] Retrieved Items Without Inventory Action Success',
   props<{
-    itemWithoutInventory: ItemWithoutInventory[];
+    itemsWithoutInventoryList: Item[];
   }>()
 );
 export const retrievedItemsListActionError = createAction(

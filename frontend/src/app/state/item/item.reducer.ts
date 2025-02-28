@@ -3,7 +3,7 @@ import { retrievedItemsWithoutInventoryListActionSuccess } from './item.action';
 
 export const initialItemState: ItemState = {
   items: [],
-  itemsWithInventoryList: [],
+  itemsWithoutInventoryList: [],
 };
 
 export function itemReducer(state = initialItemState, action: any): ItemState {
@@ -11,7 +11,7 @@ export function itemReducer(state = initialItemState, action: any): ItemState {
     case retrievedItemsWithoutInventoryListActionSuccess.type:
       return {
         ...state,
-        itemsWithInventoryList: action.itemWithoutInventory,
+        itemsWithoutInventoryList: action.itemsWithoutInventoryList,
       };
     default:
       return state;
