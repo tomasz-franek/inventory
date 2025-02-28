@@ -115,5 +115,18 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
     }
 
+    @Test
+    @Disabled("need test data")
+    void getStoragePrediction_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "storagePrediction")
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
+    }
+
 
 }

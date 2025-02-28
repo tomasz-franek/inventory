@@ -9,6 +9,7 @@ export const initialReportState: ReportState = {
   expired: [],
   inventory: [],
   lastUsed: [],
+  productPrediction: [],
 };
 
 export function reportReducer(

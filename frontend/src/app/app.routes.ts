@@ -177,12 +177,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'product-prediction',
-    providers: [provideEffects(ProductEffects)],
-    component: ProductPredictionComponent,
-  },
-  {
-    path: 'product-prediction',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ProductEffects, ReportEffects)],
     component: ProductPredictionComponent,
   },
   {

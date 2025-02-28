@@ -4,6 +4,7 @@ import {
   ExpiredReportData,
   InventoryReportData,
   LastUsedData,
+  ProductPredictionData,
 } from '../../api';
 
 export const retrieveInventoryReportData = createAction(
@@ -41,4 +42,13 @@ export const retrieveLastUsedReportData = createAction(
 export const retrieveLastUsedReportDataSuccess = createAction(
   '[Report] Retrieve Last UsedReport Success',
   props<{ lastUsed: LastUsedData[] }>()
+);
+
+export const retrieveProductPredictionData = createAction(
+  '[Report] Retrieve Product Prediction'
+);
+
+export const retrieveProductPredictionDataSuccess = createAction(
+  '[Report] Retrieve Product Prediction Data Success',
+  props<{ productPrediction: ProductPredictionData[] }>()
 );

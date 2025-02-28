@@ -11,6 +11,8 @@ import {
   retrieveInventoryReportDataSuccess,
   retrieveLastUsedReportData,
   retrieveLastUsedReportDataSuccess,
+  retrieveProductPredictionData,
+  retrieveProductPredictionDataSuccess,
   retrieveReportDataError,
 } from './report.action';
 
@@ -71,6 +73,24 @@ export class ReportEffects {
               });
             })
           );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+
+  loadStoragePrediction$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveProductPredictionData),
+      mergeMap(() => {
+        return this._apiService$.getStoragePrediction().pipe(
+          map((data) => {
+            return retrieveProductPredictionDataSuccess({
+              productPrediction: data,
+            });
+          })
+        );
       }),
       catchError((error: any) => {
         return [retrieveReportDataError({ error })];

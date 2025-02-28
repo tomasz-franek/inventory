@@ -887,6 +887,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/LastUsedData'
+  /report/storagePrediction:
+    get:
+      summary: get prediction for products
+      operationId: getStoragePrediction
+      tags:
+        - report
+      responses:
+        '200':
+          description: list of Last used Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductPredictionData'
 components:
   schemas:
     Inventory:
@@ -935,13 +950,13 @@ components:
           format: int64
         limitMin:
           type: integer
-          format: int64
+          format: int32
         limitMed:
           type: integer
-          format: int64
+          format: int32
         limitMax:
           type: integer
-          format: int64
+          format: int32
         optLock:
           type: integer
           format: int32
@@ -1245,3 +1260,32 @@ components:
           format: int64
         productName:
           type: string
+    ProductPredictionData:
+      type: object
+      properties:
+        idProduct:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        minimalProductBuyingDate:
+          type: string
+          format: date
+        countUsed:
+          type: number
+        countItems:
+          type: number
+        available:
+          type: number
+        predictedAvailabilityDate:
+          type: string
+          format: date
+        limitMax:
+          type: integer
+          format: int32
+        limitMed:
+          type: integer
+          format: int32
+        limitMin:
+          type: integer
+          format: int32
