@@ -1,6 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ExpiredReportData, InventoryReportData } from '../../api';
+import {
+  ExpiredReportData,
+  InventoryReportData,
+  LastUsedData,
+} from '../../api';
 
 export const retrieveInventoryReportData = createAction(
   '[Report] Retrieve Inventory Report',
@@ -17,21 +21,24 @@ export const retrieveExpiredInventoryReportDataSuccess = createAction(
   props<{ expired: ExpiredReportData[] }>()
 );
 
-export const retrieveExpiredInventoryReportDataError = createAction(
-  '[Report] Retrieve Expired Inventory Report Error',
-  props<{
-    error: HttpErrorResponse;
-  }>()
-);
-
 export const retrieveInventoryReportDataSuccess = createAction(
   '[Report] Retrieve Inventory Report Success',
   props<{ inventory: InventoryReportData[] }>()
 );
 
-export const retrieveInventoryReportDataError = createAction(
+export const retrieveReportDataError = createAction(
   '[Report] Retrieve Inventory Report Error',
   props<{
     error: HttpErrorResponse;
   }>()
+);
+
+export const retrieveLastUsedReportData = createAction(
+  '[Report] Retrieve LastUsedReportData',
+  props<{ idInventory: number }>()
+);
+
+export const retrieveLastUsedReportDataSuccess = createAction(
+  '[Report] Retrieve Last UsedReport Success',
+  props<{ lastUsed: LastUsedData[] }>()
 );

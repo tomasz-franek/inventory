@@ -86,4 +86,34 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
     }
+
+    @Test
+    @Disabled("need test data")
+    void getLastUsedInventoryReportData_Should_ReturnResponse_When_MethodIsCalledWithCorrectId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "lastUsed/{idInventory}", CORRECT_ID)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$[0].idProduct").value(1))
+                .andExpect(jsonPath("$[0].productName").value("Oil"))
+                .andExpect(jsonPath("$[0].validDate", nullValue()));
+    }
+
+    @Test
+    void getLastUsedInventoryReportData_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "lastUsed/{idInventory}", WRONG_ID)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
+    }
+
+
 }

@@ -857,13 +857,36 @@ paths:
             format: int64
       responses:
         '200':
-          description: list of ExpiredReportData
+          description: list of InventoryReportData
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/ExpiredReportData'
+  /report/lastUsed/{idInventory}:
+    get:
+      summary: get last used Products from Inventory
+      operationId: getLastUsedInventoryReportData
+      tags:
+        - report
+      parameters:
+        - name: idInventory
+          in: path
+          required: true
+          description: The ID of the Inventory
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of Last used Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LastUsedData'
 components:
   schemas:
     Inventory:
@@ -1211,3 +1234,14 @@ components:
         count:
           type: integer
           format: int32
+    LastUsedData:
+      type: object
+      properties:
+        endDate:
+          type: string
+          format: date
+        idProduct:
+          type: integer
+          format: int64
+        productName:
+          type: string

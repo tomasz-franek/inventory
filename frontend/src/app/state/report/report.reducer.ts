@@ -2,11 +2,13 @@ import { ReportState } from './report.selectors';
 import {
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportDataSuccess,
+  retrieveLastUsedReportDataSuccess,
 } from './report.action';
 
 export const initialReportState: ReportState = {
   expired: [],
   inventory: [],
+  lastUsed: [],
 };
 
 export function reportReducer(
@@ -18,6 +20,8 @@ export function reportReducer(
       return { ...state, expired: action.inventory };
     case retrieveExpiredInventoryReportDataSuccess.type:
       return { ...state, expired: action.expired };
+    case retrieveLastUsedReportDataSuccess.type:
+      return { ...state, lastUsed: action.lastUsed };
     default:
       return state;
   }

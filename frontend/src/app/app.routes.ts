@@ -172,7 +172,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'last-used',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ReportEffects)],
     component: LastUsedComponent,
   },
   {

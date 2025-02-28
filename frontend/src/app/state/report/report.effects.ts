@@ -6,11 +6,12 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs';
 import {
   retrieveExpiredInventoryReportData,
-  retrieveExpiredInventoryReportDataError,
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportData,
-  retrieveInventoryReportDataError,
   retrieveInventoryReportDataSuccess,
+  retrieveLastUsedReportData,
+  retrieveLastUsedReportDataSuccess,
+  retrieveReportDataError,
 } from './report.action';
 
 @Injectable()
@@ -32,7 +33,7 @@ export class ReportEffects {
           );
       }),
       catchError((error: any) => {
-        return [retrieveInventoryReportDataError({ error })];
+        return [retrieveReportDataError({ error })];
       })
     )
   );
@@ -52,7 +53,27 @@ export class ReportEffects {
           );
       }),
       catchError((error: any) => {
-        return [retrieveExpiredInventoryReportDataError({ error })];
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+
+  loadLastUsedReportData$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveLastUsedReportData),
+      mergeMap((action) => {
+        return this._apiService$
+          .getLastUsedInventoryReportData(action.idInventory)
+          .pipe(
+            map((data) => {
+              return retrieveLastUsedReportDataSuccess({
+                lastUsed: data,
+              });
+            })
+          );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
       })
     )
   );

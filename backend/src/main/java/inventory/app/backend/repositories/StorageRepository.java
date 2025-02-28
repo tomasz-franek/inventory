@@ -2,7 +2,9 @@ package inventory.app.backend.repositories;
 
 import inventory.app.api.model.ExpiredReportData;
 import inventory.app.api.model.InventoryReportData;
+import inventory.app.api.model.LastUsedData;
 import inventory.app.backend.entities.StorageEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -41,4 +43,16 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
             "GROUP BY p.id, p.name, s.validDate " +
             "ORDER BY p.name, s.validDate")
     List<ExpiredReportData> getExpiredInventoryReportData(@Param("idInventory") Long idInventory);
+
+    @Query("SELECT new inventory.app.api.model.LastUsedData(" +
+            "   i.endDate," +
+            "   p.id," +
+            "   p.name " +
+            ")" +
+            "FROM ItemEntity i " +
+            "JOIN i.storage s " +
+            "JOIN s.product p " +
+            "WHERE i.endDate IS NOT NULL " +
+            "AND (:idInventory IS NULL OR i.inventory.id = :idInventory)")
+    List<LastUsedData> getLastUsedInventoryReportData(@Param("idInventory") Long idInventory, Pageable pageable);
 }

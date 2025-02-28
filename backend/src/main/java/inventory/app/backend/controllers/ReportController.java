@@ -3,6 +3,7 @@ package inventory.app.backend.controllers;
 import inventory.app.api.ReportApi;
 import inventory.app.api.model.ExpiredReportData;
 import inventory.app.api.model.InventoryReportData;
+import inventory.app.api.model.LastUsedData;
 import inventory.app.backend.services.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,10 @@ public class ReportController implements ReportApi {
     @Override
     public ResponseEntity<List<ExpiredReportData>> getExpiredInventoryReportData(Long idInventory) {
         return ResponseEntity.ok(reportService.getExpiredInventoryReportData(idInventory));
+    }
+
+    @Override
+    public ResponseEntity<List<LastUsedData>> getLastUsedInventoryReportData(Long idInventory) {
+        return ResponseEntity.ok(reportService.getLastUsedInventoryReportData(idInventory));
     }
 }
