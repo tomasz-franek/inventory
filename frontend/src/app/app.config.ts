@@ -18,6 +18,7 @@ import { unitReducer } from './state/unit/unit.reducer';
 import { propertyReducer } from './state/property/property.reducer';
 import { shoppingReducer } from './state/shopping/shopping.reducer';
 import { itemReducer } from './state/item/item.reducer';
+import { reportReducer } from './state/report/report.reducer';
 
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (
   http: HttpClient
@@ -37,6 +38,7 @@ export const appConfig: ApplicationConfig = {
       properties: propertyReducer,
       shopping: shoppingReducer,
       items: itemReducer,
+      reports: reportReducer,
     }),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

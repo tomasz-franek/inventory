@@ -7,4 +7,5 @@ export enum Features {
   units = 'units',
   shopping = 'shopping',
   items = 'items',
+  reports = 'reports',
 }

@@ -21,7 +21,8 @@ public interface ItemRepository extends CrudRepository<ItemEntity,Long>,
     List<ItemEntity> itemsWithoutInventory();
 
     @Query("SELECT new inventory.app.api.model.ConsumeProduct(" +
-            "   i.id,p.id," +
+            "   i.id," +
+            "   p.id," +
             "   i.validDate," +
             "   i.endDate," +
             "   i.insertDate," +

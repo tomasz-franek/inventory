@@ -1,5 +1,6 @@
 package inventory.app.backend.services;
 
+import inventory.app.api.model.ExpiredReportData;
 import inventory.app.api.model.InventoryReportData;
 import inventory.app.backend.repositories.StorageRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,5 +16,10 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<InventoryReportData> getInventoryReportData(Long idInventory) {
         return storageRepository.getInventoryReportData(idInventory);
+    }
+
+    @Override
+    public List<ExpiredReportData> getExpiredInventoryReportData(Long idInventory) {
+        return storageRepository.getExpiredInventoryReportData(idInventory);
     }
 }

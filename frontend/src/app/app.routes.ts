@@ -35,6 +35,7 @@ import { PropertyEffects } from './state/property/property.effects';
 import { ShoppingAddComponent } from './shopping-add/shopping-add.component';
 import { ShoppingEffects } from './state/shopping/shopping.effects';
 import { ItemsEffects } from './state/item/item.effects';
+import { ReportEffects } from './state/report/report.effects';
 
 export const appRoutes: Routes = [
   {
@@ -166,7 +167,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'expired-products',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ProductEffects, ReportEffects)],
     component: ExpiredProductsComponent,
   },
   {

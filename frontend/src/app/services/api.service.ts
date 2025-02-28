@@ -5,13 +5,16 @@ import {
   Category,
   ConsumeProduct,
   DictionaryService,
+  ExpiredReportData,
   InventoriesService,
   Inventory,
+  InventoryReportData,
   Item,
   Product,
   ProductsService,
   Property,
   PropertyService,
+  ReportService,
   ResponseId,
   Shopping,
   ShoppingService,
@@ -34,6 +37,7 @@ export class ApiService {
   private propertyService: PropertyService = inject(PropertyService);
   private shoppingService: ShoppingService = inject(ShoppingService);
   private dictionaryService: DictionaryService = inject(DictionaryService);
+  private reportService: ReportService = inject(ReportService);
 
   constructor() {}
 
@@ -156,5 +160,17 @@ export class ApiService {
       idInventory,
       idCategory
     );
+  }
+
+  getExpiredInventoryReportData(
+    idInventory: number
+  ): Observable<ExpiredReportData[]> {
+    return this.reportService.getExpiredInventoryReportData(idInventory);
+  }
+
+  getInventoryReportData(
+    idInventory: number
+  ): Observable<InventoryReportData[]> {
+    return this.reportService.getInventoryReportData(idInventory);
   }
 }
