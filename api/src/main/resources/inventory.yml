@@ -932,6 +932,29 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductAvailabilityData'
+  /report/nextDaysExpired/{days}:
+    get:
+      summary: get list of the products that expired in the next number of days
+      operationId: getNextDaysExpired
+      tags:
+        - report
+      parameters:
+        - name: days
+          in: path
+          required: true
+          description: The ID of the Product
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: list of Last used Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NextDayExpiredData'
 components:
   schemas:
     Inventory:
@@ -1332,3 +1355,20 @@ components:
           format: int32
         productName:
           type: string
+
+    NextDayExpiredData:
+      type: object
+      properties:
+        idProduct:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        inventoryName:
+          type: string
+          maxLength: 45
+        validDate:
+          type: string
+          format: date
+        used:
+          type: number

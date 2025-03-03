@@ -4,6 +4,7 @@ import {
   ExpiredReportData,
   InventoryReportData,
   LastUsedData,
+  NextDayExpiredData,
   ProductAvailabilityData,
   ProductPredictionData,
 } from '../../api';
@@ -61,4 +62,14 @@ export const retrieveProductAvailabilityDataSuccess = createAction(
 export const readProductAvailabilityForPeriod = createAction(
   '[Report] Read Product Availability For Period',
   props<{ idProduct: number; period: number }>()
+);
+
+export const retrieveNexDaysExpiredData = createAction(
+  '[Report] Retrieve Nex DaysExpired Data',
+  props<{ days: number }>()
+);
+
+export const retrieveNexDaysExpiredDataSuccess = createAction(
+  '[Report] Retrieve Nex DaysExpired Data Success',
+  props<{ nextDaysExpired: NextDayExpiredData[] }>()
 );

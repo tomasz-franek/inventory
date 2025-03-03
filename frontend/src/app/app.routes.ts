@@ -187,7 +187,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'next-expired',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ReportEffects)],
     component: NextDaysExpiredComponent,
   },
   {

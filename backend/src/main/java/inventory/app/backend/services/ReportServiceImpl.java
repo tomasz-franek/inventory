@@ -4,6 +4,7 @@ import inventory.app.api.model.ExpiredReportData;
 import inventory.app.api.model.InventoryReportData;
 import inventory.app.api.model.Item;
 import inventory.app.api.model.LastUsedData;
+import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.backend.entities.ItemEntity;
 import inventory.app.backend.mappers.ItemMapper;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,5 +57,11 @@ public class ReportServiceImpl implements ReportService {
         productAvailability.calculate(items);
         productAvailability.sortAscending();
         return productAvailability.getList();
+    }
+
+    @Override
+    public List<NextDayExpiredData> getNextDaysExpired(Integer days) {
+        LocalDate lastDayDate = LocalDate.now().plusDays(days);
+        return storageRepository.getNextDaysExpired(lastDayDate);
     }
 }

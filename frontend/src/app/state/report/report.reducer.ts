@@ -3,6 +3,7 @@ import {
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportDataSuccess,
   retrieveLastUsedReportDataSuccess,
+  retrieveNexDaysExpiredDataSuccess,
   retrieveProductAvailabilityDataSuccess,
 } from './report.action';
 
@@ -12,6 +13,7 @@ export const initialReportState: ReportState = {
   lastUsed: [],
   productPrediction: [],
   availabilityData: [],
+  nextDaysExpired: [],
 };
 
 export function reportReducer(
@@ -27,6 +29,8 @@ export function reportReducer(
       return { ...state, lastUsed: action.lastUsed };
     case retrieveProductAvailabilityDataSuccess.type:
       return { ...state, availabilityData: action.availability };
+    case retrieveNexDaysExpiredDataSuccess.type:
+      return { ...state, nextDaysExpired: action.nextDaysExpired };
     default:
       return state;
   }

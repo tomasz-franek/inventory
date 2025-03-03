@@ -2,6 +2,7 @@ import {
   ExpiredReportData,
   InventoryReportData,
   LastUsedData,
+  NextDayExpiredData,
   ProductAvailabilityData,
   ProductPredictionData,
 } from '../../api';
@@ -14,6 +15,7 @@ export interface ReportState {
   lastUsed: LastUsedData[];
   productPrediction: ProductPredictionData[];
   availabilityData: ProductAvailabilityData[];
+  nextDaysExpired: NextDayExpiredData[];
 }
 
 const selectReportFutureState = createFeatureSelector<ReportState>(
@@ -43,4 +45,9 @@ export const getProductPredictionList = createSelector(
 export const getProductAvailabilityList = createSelector(
   selectReportFutureState,
   (state) => state.availabilityData
+);
+
+export const getNextDaysExpiredList = createSelector(
+  selectReportFutureState,
+  (state) => state.nextDaysExpired
 );

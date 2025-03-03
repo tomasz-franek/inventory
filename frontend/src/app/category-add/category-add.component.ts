@@ -30,13 +30,13 @@ import {
 export class CategoryAddComponent implements OnInit {
   private _store$: Store = inject(Store);
   protected category$: Category = { active: false, name: '', optLock: 0 };
-  private _categoryForm: FormGroup;
+  private _formGroup: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {
-    this._categoryForm = this.formBuilder.group({
+    this._formGroup = this.formBuilder.group({
       name: ['', Validators.required],
       active: [1, Validators.required],
       id: [],
@@ -49,7 +49,7 @@ export class CategoryAddComponent implements OnInit {
     if (id === null) {
       this._store$.select(newCategorySelector).subscribe((category) => {
         this.category$ = category;
-        this._categoryForm = this.formBuilder.group({
+        this._formGroup = this.formBuilder.group({
           id: undefined,
           name: ['', Validators.required],
           active: [true, Validators.required],
@@ -60,7 +60,7 @@ export class CategoryAddComponent implements OnInit {
       this._store$.dispatch(loadCategoryAction({ id: Number(id) }));
       this._store$.select(editCategorySelector).subscribe((category) => {
         this.category$ = category;
-        this._categoryForm = this.formBuilder.group({
+        this._formGroup = this.formBuilder.group({
           id: this.category$.idCategory,
           name: [this.category$.name, Validators.required],
           active: [this.category$.active, Validators.required],
@@ -70,8 +70,8 @@ export class CategoryAddComponent implements OnInit {
     }
   }
 
-  get categoryForm(): FormGroup {
-    return this._categoryForm;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 
   backToCategories() {
@@ -81,10 +81,10 @@ export class CategoryAddComponent implements OnInit {
   save() {
     const updatedCategory: Category = {
       ...this.category$,
-      name: this._categoryForm.value.name,
-      active: this._categoryForm.value.active,
+      name: this._formGroup.value.name,
+      active: this._formGroup.value.active,
     };
-    if (this._categoryForm.value.id !== undefined) {
+    if (this._formGroup.value.id !== undefined) {
       this._store$.dispatch(saveCategory({ category: updatedCategory }));
     }
   }

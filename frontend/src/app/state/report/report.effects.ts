@@ -10,6 +10,8 @@ import {
   retrieveInventoryReportDataSuccess,
   retrieveLastUsedReportData,
   retrieveLastUsedReportDataSuccess,
+  retrieveNexDaysExpiredData,
+  retrieveNexDaysExpiredDataSuccess,
   retrieveProductAvailabilityDataSuccess,
   retrieveProductPredictionData,
   retrieveProductPredictionDataSuccess,
@@ -109,6 +111,23 @@ export class ReportEffects {
               });
             })
           );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+  loadNextDaysExpiredData$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveNexDaysExpiredData),
+      mergeMap((action) => {
+        return this._apiService$.getNextDaysExpired(action.days).pipe(
+          map((data) => {
+            return retrieveNexDaysExpiredDataSuccess({
+              nextDaysExpired: data,
+            });
+          })
+        );
       }),
       catchError((error: any) => {
         return [retrieveReportDataError({ error })];

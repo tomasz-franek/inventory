@@ -3,6 +3,7 @@ package inventory.app.backend.repositories;
 import inventory.app.api.model.ExpiredReportData;
 import inventory.app.api.model.InventoryReportData;
 import inventory.app.api.model.LastUsedData;
+import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.backend.entities.StorageEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
@@ -55,4 +57,20 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
             "WHERE i.endDate IS NOT NULL " +
             "AND (:idInventory IS NULL OR i.inventory.id = :idInventory)")
     List<LastUsedData> getLastUsedInventoryReportData(@Param("idInventory") Long idInventory, Pageable pageable);
+
+    @Query("SELECT new inventory.app.api.model.NextDayExpiredData(" +
+            "   p.id, " +
+            "   p.name, " +
+            "   inv.name, " +
+            "   i.validDate, " +
+            "   i.used " +
+            ") " +
+            "FROM ItemEntity i " +
+            "JOIN i.storage s " +
+            "JOIN s.product p " +
+            "JOIN i.inventory inv " +
+            "WHERE i.endDate IS NOT NULL " +
+            "AND i.validDate between now() and :endDate " +
+            "ORDER BY i.validDate")
+    List<NextDayExpiredData> getNextDaysExpired(@Param("endDate") LocalDate endDate);
 }

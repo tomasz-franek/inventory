@@ -11,6 +11,7 @@ import {
   InventoryReportData,
   Item,
   LastUsedData,
+  NextDayExpiredData,
   Product,
   ProductAvailabilityData,
   ProductPredictionData,
@@ -195,5 +196,9 @@ export class ApiService {
       idProduct,
       period
     );
+  }
+
+  getNextDaysExpired(days: number): Observable<NextDayExpiredData[]> {
+    return this.reportService.getNextDaysExpired(days);
   }
 }

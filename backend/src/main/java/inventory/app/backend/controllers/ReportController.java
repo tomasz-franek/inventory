@@ -4,6 +4,7 @@ import inventory.app.api.ReportApi;
 import inventory.app.api.model.ExpiredReportData;
 import inventory.app.api.model.InventoryReportData;
 import inventory.app.api.model.LastUsedData;
+import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.api.model.ProductPredictionData;
 import inventory.app.backend.services.ReportService;
@@ -46,5 +47,10 @@ public class ReportController implements ReportApi {
     @Override
     public ResponseEntity<List<ProductAvailabilityData>> getProductAvailabilityForPeriod(Long idProduct, Integer period) {
         return ResponseEntity.ok(reportService.getProductAvailabilityForPeriod(idProduct, period));
+    }
+
+    @Override
+    public ResponseEntity<List<NextDayExpiredData>> getNextDaysExpired(Integer days) {
+        return ResponseEntity.ok(reportService.getNextDaysExpired(days));
     }
 }
