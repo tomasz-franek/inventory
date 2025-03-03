@@ -7,6 +7,7 @@ import {
   retrieveProductAvailabilityDataSuccess,
   retrieveProductPriceHistoryDataSuccess,
   retrieveStorageValueHistoryDataSuccess,
+  retrieveSumPricesByCategoryDataSuccess,
 } from './report.action';
 
 export const initialReportState: ReportState = {
@@ -18,6 +19,7 @@ export const initialReportState: ReportState = {
   nextDaysExpired: [],
   valueHistoryData: [],
   priceHistoryData: [],
+  sumPriceCategoryData: [],
 };
 
 export function reportReducer(
@@ -39,6 +41,8 @@ export function reportReducer(
       return { ...state, valueHistoryData: action.storageValueHistory };
     case retrieveProductPriceHistoryDataSuccess.type:
       return { ...state, priceHistoryData: action.priceHistoryData };
+    case retrieveSumPricesByCategoryDataSuccess.type:
+      return { ...state, sumPriceCategoryData: action.sumPriceCategoryData };
     default:
       return state;
   }

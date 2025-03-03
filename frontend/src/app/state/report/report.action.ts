@@ -5,6 +5,7 @@ import {
   InventoryReportData,
   LastUsedData,
   NextDayExpiredData,
+  PriceCategoryData,
   ProductAvailabilityData,
   ProductPredictionData,
   ProductPriceHistoryData,
@@ -94,4 +95,12 @@ export const retrieveProductPriceHistory = createAction(
 export const retrieveProductPriceHistoryDataSuccess = createAction(
   '[Report] Retrieve Storage Value History Success',
   props<{ priceHistoryData: ProductPriceHistoryData[] }>()
+);
+export const retrieveSumPricesByCategory = createAction(
+  '[Report] Retrieve Sum Prices History'
+);
+
+export const retrieveSumPricesByCategoryDataSuccess = createAction(
+  '[Report] Retrieve Sum Prices History Success',
+  props<{ sumPriceCategoryData: PriceCategoryData[] }>()
 );

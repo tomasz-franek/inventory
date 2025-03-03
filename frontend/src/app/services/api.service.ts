@@ -12,6 +12,7 @@ import {
   Item,
   LastUsedData,
   NextDayExpiredData,
+  PriceCategoryData,
   Product,
   ProductAvailabilityData,
   ProductPredictionData,
@@ -212,5 +213,9 @@ export class ApiService {
     idProduct: number
   ): Observable<ProductPriceHistoryData[]> {
     return this.reportService.getProductPriceHistory(idProduct);
+  }
+
+  getSumPricesByCategory(): Observable<PriceCategoryData[]> {
+    return this.reportService.getSumPricesByCategory();
   }
 }

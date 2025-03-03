@@ -4,6 +4,7 @@ import inventory.app.api.model.ExpiredReportData;
 import inventory.app.api.model.InventoryReportData;
 import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
+import inventory.app.api.model.PriceCategoryData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.api.model.ProductPriceHistoryData;
 import inventory.app.api.model.StorageValueHistoryData;
@@ -24,4 +25,7 @@ public interface ReportService {
     List<StorageValueHistoryData> getStorageValueHistory(Integer days, Long idInventory);
 
     List<ProductPriceHistoryData> getProductPriceHistory(Long idProduct);
+
+    List<PriceCategoryData> getSumPricesByCategory();
+
 }

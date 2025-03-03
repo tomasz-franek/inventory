@@ -209,7 +209,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'sum-categories',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ReportEffects)],
     component: SumCategoriesComponent,
   },
   {

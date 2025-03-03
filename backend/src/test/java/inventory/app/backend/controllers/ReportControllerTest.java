@@ -194,5 +194,21 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$[0].price").value(2.99));
     }
 
+    @Test
+    void getSumPricesByCategory_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "sumPricesByCategory")
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(equalTo(2))))
+                .andExpect(jsonPath("$[0].categoryName").value("Food"))
+                .andExpect(jsonPath("$[0].value").value(95.11))
+                .andExpect(jsonPath("$[1].categoryName").value("Clothes"))
+                .andExpect(jsonPath("$[1].value").value(79.80));
+    }
+
 
 }

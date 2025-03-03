@@ -5,6 +5,7 @@ import inventory.app.api.model.InventoryReportData;
 import inventory.app.api.model.Item;
 import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
+import inventory.app.api.model.PriceCategoryData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.api.model.ProductPriceHistoryData;
 import inventory.app.api.model.StorageValueHistoryData;
@@ -81,5 +82,10 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<ProductPriceHistoryData> getProductPriceHistory(Long idProduct) {
         return productRepository.getProductPriceHistory(idProduct);
+    }
+
+    @Override
+    public List<PriceCategoryData> getSumPricesByCategory() {
+        return storageRepository.getSumPricesByCategory();
     }
 }
