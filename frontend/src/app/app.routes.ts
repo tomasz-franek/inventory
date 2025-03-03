@@ -192,7 +192,9 @@ export const appRoutes: Routes = [
   },
   {
     path: 'sum-storage',
-    providers: [provideEffects(ProductEffects)],
+    providers: [
+      provideEffects(ProductEffects, CategoryEffects, StorageEffects),
+    ],
     component: SumStorageComponent,
   },
   {

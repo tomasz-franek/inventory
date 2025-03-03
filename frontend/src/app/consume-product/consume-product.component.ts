@@ -101,7 +101,6 @@ export class ConsumeProductComponent implements OnInit {
   }
 
   loadConsumeProductList(): void {
-    console.log(this.consumeProductForm.value);
     if (
       this._consumeProductForm.value.idCategory > 0 &&
       this._consumeProductForm.value.idInventory > 0

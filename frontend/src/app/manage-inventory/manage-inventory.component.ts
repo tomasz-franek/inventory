@@ -93,7 +93,6 @@ export class ManageInventoryComponent implements OnInit {
 
   updateFilterCategory(event: any) {
     let idCategory: number = Number(event.target.value);
-    console.log(event);
     this._storeInventory$.dispatch(setStorageCategoryId({ idCategory }));
     this._manageInventory.value.idCategory = idCategory;
     this._manageInventory.value.idProduct = 0;

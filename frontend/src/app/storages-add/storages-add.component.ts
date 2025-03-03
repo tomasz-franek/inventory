@@ -149,10 +149,8 @@ export class StoragesAddComponent implements OnInit {
   }
 
   onChangeBuyDate($event: Date) {
-    console.log(this._storageForm.value);
     this._storageForm.value.buyDate = $event;
     this.saveButtonDisabled = this.storageForm.valid;
-    console.log(this.saveButtonDisabled);
   }
 
   onValidDateChanged($event: Date) {
