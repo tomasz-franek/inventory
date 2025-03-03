@@ -19,15 +19,15 @@ import { retrieveExpiredInventoryReportData } from '../state/report/report.actio
 })
 export class ExpiredProductsComponent implements OnInit {
   public expired$!: Observable<ExpiredReportData[]>;
-  private _reportStore$: Store<ReportState> = inject(Store);
+  private _storeReport$: Store<ReportState> = inject(Store);
 
   constructor() {}
 
   ngOnInit() {
-    this._reportStore$.dispatch(
+    this._storeReport$.dispatch(
       retrieveExpiredInventoryReportData({ idInventory: 0 })
     );
-    this.expired$ = this._reportStore$.select(getExpiredProductList);
+    this.expired$ = this._storeReport$.select(getExpiredProductList);
     // this.properties = JSON.parse(localStorage.getItem('properties') || '{}');
     // this.dataService.readExpired().subscribe({
     //   next: (response: Expired[]) => {

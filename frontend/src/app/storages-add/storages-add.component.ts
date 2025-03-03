@@ -83,10 +83,10 @@ export class StoragesAddComponent implements OnInit {
     idUser: 0,
   };
   public saveButtonDisabled: boolean = true;
-  private _storageForm: FormGroup;
+  private _formGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
-    this._storageForm = this.formBuilder.group({
+    this._formGroup = this.formBuilder.group({
       idStorage: [0, []],
       idProduct: [0, [Validators.required, Validators.min(1)]],
       idCategory: [0, [Validators.required, Validators.min(1)]],
@@ -112,8 +112,8 @@ export class StoragesAddComponent implements OnInit {
     this.inventories$ = this._storeInventory$.select(getInventoriesList);
     this._storeStorage$.select(selectStorageEdit).subscribe((storageEdit) => {
       if (storageEdit?.idCategory != undefined && storageEdit?.idCategory > 0) {
-        this._storageForm.value.idCategory = storageEdit.idCategory;
-        this._storageForm.get('idCategory')?.disable();
+        this._formGroup.value.idCategory = storageEdit.idCategory;
+        this._formGroup.get('idCategory')?.disable();
       }
       let idCategory: number =
         storageEdit != undefined && storageEdit.idCategory != undefined
@@ -123,57 +123,57 @@ export class StoragesAddComponent implements OnInit {
       this.products$ = this._storeProduct$.select(filterProductByCategory);
 
       if (storageEdit?.idProduct != undefined && storageEdit?.idProduct > 0) {
-        this._storageForm.value.idProduct = storageEdit.idProduct;
-        this._storageForm.get('idProduct')?.disable();
+        this._formGroup.value.idProduct = storageEdit.idProduct;
+        this._formGroup.get('idProduct')?.disable();
       }
     });
   }
 
-  get storageForm() {
-    return this._storageForm;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 
   changeCategory($event: any) {
     let idCategory: number = Number($event.target.value);
-    this.storageForm.get('idCategory')?.setValue(idCategory);
-    this.storageForm.get('idProduct')?.setValue(Number(0));
+    this._formGroup.get('idCategory')?.setValue(idCategory);
+    this._formGroup.get('idProduct')?.setValue(Number(0));
     this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
     this.products$ = this._storeProduct$.select(filterProductByCategory);
   }
 
   changeProduct($event: any) {
     let idProduct: number = Number($event.target.value);
-    this._storageForm.value.idProduct = idProduct;
+    this._formGroup.value.idProduct = idProduct;
     this._storeProduct$.dispatch(setStorageProductId({ idProduct }));
-    this.saveButtonDisabled = this.storageForm.invalid;
+    this.saveButtonDisabled = this._formGroup.invalid;
   }
 
   onChangeBuyDate($event: Date) {
-    this._storageForm.value.buyDate = $event;
-    this.saveButtonDisabled = this.storageForm.valid;
+    this._formGroup.value.buyDate = $event;
+    this.saveButtonDisabled = this._formGroup.valid;
   }
 
   onValidDateChanged($event: Date) {
-    this._storageForm.value.validDate = $event;
-    this.saveButtonDisabled = this.storageForm.invalid;
+    this._formGroup.value.validDate = $event;
+    this.saveButtonDisabled = this._formGroup.invalid;
   }
 
   updateCheckbox($event: any) {
     let checkbox: boolean = $event.target.checked;
     if (checkbox) {
-      this._storageForm.get('count')?.enable();
-      this._storageForm.get('idUnit')?.enable();
+      this._formGroup.get('count')?.enable();
+      this._formGroup.get('idUnit')?.enable();
     } else {
-      this._storageForm.get('count')?.disable();
-      this._storageForm.get('idUnit')?.disable();
+      this._formGroup.get('count')?.disable();
+      this._formGroup.get('idUnit')?.disable();
       this._storeProduct$.dispatch(setStorageUnitId({ idUnit: 0 }));
     }
-    this.saveButtonDisabled = this.storageForm.invalid;
+    this.saveButtonDisabled = this._formGroup.invalid;
   }
 
   setPrice(minPrice: number) {
-    this._storageForm.value.price;
-    this.saveButtonDisabled = this.storageForm.invalid;
+    this._formGroup.value.price;
+    this.saveButtonDisabled = this._formGroup.invalid;
   }
 
   close() {
@@ -183,11 +183,11 @@ export class StoragesAddComponent implements OnInit {
   saveStorage(update: boolean) {
     const newStorage: Storage = {
       idProduct: 0,
-      insertDate: this.storageForm.value.buyDate.toDateString(),
-      validDate: this.storageForm.value.validDate?.toDateString(),
-      items: this._storageForm.value.items,
+      insertDate: this._formGroup.value.buyDate.toDateString(),
+      validDate: this._formGroup.value.validDate?.toDateString(),
+      items: this._formGroup.value.items,
       optLock: 0,
-      price: this._storageForm.value.price,
+      price: this._formGroup.value.price,
       used: 0,
     };
     //this._storeStorage$.subscribe(saveStorage({ storage: newStorage }));
@@ -195,13 +195,13 @@ export class StoragesAddComponent implements OnInit {
 
   changeInventory($event: any) {
     let idInventory: number = Number($event.target.value);
-    this._storageForm.value.idInventory = idInventory;
+    this._formGroup.value.idInventory = idInventory;
     this._storeProduct$.dispatch(setStorageInventoryId({ idInventory }));
   }
 
   changeUnit($event: any) {
     let idUnit: number = Number($event.target.value);
-    this._storageForm.value.idUnit = idUnit;
+    this._formGroup.value.idUnit = idUnit;
     this._storeProduct$.dispatch(setStorageUnitId({ idUnit }));
   }
 }

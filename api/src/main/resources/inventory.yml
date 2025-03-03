@@ -1046,6 +1046,36 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PriceCategoryData'
+  /report/listPurchases/{days}/{idInventory}:
+    get:
+      summary: get Products bought in the last days
+      operationId: getListRecentPurchases
+      tags:
+        - report
+      parameters:
+        - name: days
+          in: path
+          required: true
+          description: number of the Days
+          schema:
+            type: integer
+            format: int32
+        - name: idInventory
+          in: path
+          required: true
+          description: The ID of the Inventory
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of last bought Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchasesData'
 components:
   schemas:
     Inventory:
@@ -1509,3 +1539,29 @@ components:
           type: string
         value:
           type: number
+
+    PurchasesData:
+      type: object
+      required:
+        - insertDate
+        - productName
+        - items
+        - price
+        - priceSum
+        - idStorage
+      properties:
+        insertDate:
+          type: string
+          format: date
+        productName:
+          type: string
+        items:
+          type: integer
+          format: int32
+        price:
+          type: number
+        priceSum:
+          type: number
+        idStorage:
+          type: integer
+          format: int64

@@ -29,39 +29,40 @@ import { Property } from '../api';
 export class UserPropertiesComponent implements OnInit {
   private _storeProperty$: Store<PropertyState> = inject(Store);
   public currencies = systemCurrencies;
-  private _propertyForm!: FormGroup;
+  private _formGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+    this._formGroup = this.formBuilder.group({
+      language: ['', Validators.required],
+      currency: ['', Validators.required],
+      idProperty: 0,
+      idUser: 0,
+    });
+  }
 
   updateProperties() {
     const updatedProperty: Property = {
-      idProperty: this._propertyForm.value.idProperty,
-      idUser: this._propertyForm.value.idUser,
-      language: this._propertyForm.value.language,
-      currency: this._propertyForm.value.currency,
+      idProperty: this._formGroup.value.idProperty,
+      idUser: this._formGroup.value.idUser,
+      language: this._formGroup.value.language,
+      currency: this._formGroup.value.currency,
     };
-    if (this._propertyForm.value.idUser !== undefined) {
+    if (this._formGroup.value.idUser !== undefined) {
       this._storeProperty$.dispatch(
         saveProperty({ property: updatedProperty })
       );
     }
   }
 
-  get propertyForm() {
-    return this._propertyForm;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 
   ngOnInit(): void {
     this._storeProperty$.dispatch(retrievePropertyForUser({ idUser: 1 }));
 
-    this._propertyForm = this.formBuilder.group({
-      language: ['', Validators.required],
-      currency: ['', Validators.required],
-      idProperty: 0,
-      idUser: 0,
-    });
     this._storeProperty$.select(getProperty).subscribe((property) => {
-      this.propertyForm.setValue({
+      this._formGroup.setValue({
         language: property.language,
         currency: property.currency,
         idProperty: property.idProperty,

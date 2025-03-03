@@ -56,7 +56,7 @@ export class SumStorageComponent implements OnInit {
   public _products$!: Observable<Product[]>;
   public _categories$!: Observable<Category[]>;
   private _storeCategory$: Store<CategoryState> = inject(Store);
-  private _storeProducts$: Store<ProductState> = inject(Store);
+  private _storeProduct$: Store<ProductState> = inject(Store);
   private _storeStorage$: Store<StorageState> = inject(Store);
   public properties: Properties = {
     currency: 'USD',
@@ -81,9 +81,9 @@ export class SumStorageComponent implements OnInit {
 
   async ngOnInit() {
     this._storeCategory$.dispatch(retrieveCategoryList());
-    this._storeProducts$.dispatch(retrieveProductList());
+    this._storeProduct$.dispatch(retrieveProductList());
     this._storeStorage$.dispatch(retrieveStorageList());
-    this._products$ = this._storeProducts$.select(getProductsList);
+    this._products$ = this._storeProduct$.select(getProductsList);
     this._categories$ = this._storeCategory$.select(getCategoriesList);
     this.filterStorages();
     // await zip(
@@ -234,10 +234,10 @@ export class SumStorageComponent implements OnInit {
   }
 
   updateCategory() {
-    this._storeProducts$.dispatch(
+    this._storeProduct$.dispatch(
       setProductCategoryId({ idCategory: this._formGroup.value.idCategory })
     );
-    this._products$ = this._storeProducts$.select(filterProductByCategory);
+    this._products$ = this._storeProduct$.select(filterProductByCategory);
     this.filterStorages();
   }
 

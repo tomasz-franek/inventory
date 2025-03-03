@@ -16,13 +16,13 @@ import { ItemState } from './item.selectors';
 
 @Injectable()
 export class ItemsEffects {
-  private store$: Store<ItemState> = inject(Store);
+  private _storeItem$: Store<ItemState> = inject(Store);
   private _apiService$: ApiService = inject(ApiService);
 
   loadItemsWithoutInventory$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(retrieveItemsWithoutInventory),
-      withLatestFrom(this.store$.select(retrieveItemsWithoutInventory)),
+      withLatestFrom(this._storeItem$.select(retrieveItemsWithoutInventory)),
       mergeMap(() => {
         return this._apiService$.getItemsWithoutInventory().pipe(
           concatMap((data) => {

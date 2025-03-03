@@ -7,6 +7,7 @@ import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.PriceCategoryData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.api.model.ProductPriceHistoryData;
+import inventory.app.api.model.PurchasesData;
 import inventory.app.api.model.StorageValueHistoryData;
 
 import java.util.List;
@@ -28,4 +29,5 @@ public interface ReportService {
 
     List<PriceCategoryData> getSumPricesByCategory();
 
+    List<PurchasesData> getListRecentPurchases(Integer days, Long idInventory);
 }

@@ -9,6 +9,7 @@ import inventory.app.api.model.PriceCategoryData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.api.model.ProductPredictionData;
 import inventory.app.api.model.ProductPriceHistoryData;
+import inventory.app.api.model.PurchasesData;
 import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.services.ReportService;
 import inventory.app.backend.utils.StoragePrediction;
@@ -75,5 +76,10 @@ public class ReportController implements ReportApi {
     @Override
     public ResponseEntity<List<PriceCategoryData>> getSumPricesByCategory() {
         return ResponseEntity.ok(reportService.getSumPricesByCategory());
+    }
+
+    @Override
+    public ResponseEntity<List<PurchasesData>> getListRecentPurchases(Integer days, Long idInventory) {
+        return ResponseEntity.ok(reportService.getListRecentPurchases(days, idInventory));
     }
 }

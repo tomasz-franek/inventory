@@ -35,7 +35,7 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
   styleUrl: './shopping-add.component.css',
 })
 export class ShoppingAddComponent implements OnInit {
-  private _shoppingForm: FormGroup;
+  private _formGroup: FormGroup;
   protected _unitsCheckbox$: boolean = false;
   private _storeUnit$: Store<UnitState> = inject(Store);
   private _storeStorage$: Store<StorageState> = inject(Store);
@@ -54,7 +54,7 @@ export class ShoppingAddComponent implements OnInit {
 
     this.units$ = this._storeUnit$.select(getUnitsList);
     this.tagsArray = this.formBuilder.array(this.tags);
-    this._shoppingForm = this.formBuilder.group({
+    this._formGroup = this.formBuilder.group({
       items: [0, Validators.required],
       count: 0,
       idUnit: 0,
@@ -62,8 +62,8 @@ export class ShoppingAddComponent implements OnInit {
     });
   }
 
-  get shoppingForm() {
-    return this._shoppingForm;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 
   navigateToShopping() {
@@ -71,11 +71,11 @@ export class ShoppingAddComponent implements OnInit {
   }
 
   saveStorage() {
-    this._shoppingForm.value.productTags.forEach((product: Product) => {
+    this._formGroup.value.productTags.forEach((product: Product) => {
       const newStorage: Storage = {
         idProduct: product.idProduct != undefined ? product.idProduct : 0,
         insertDate: '',
-        items: this._shoppingForm.value.items,
+        items: this._formGroup.value.items,
         optLock: 0,
         price: 0,
         used: 0,
@@ -92,11 +92,11 @@ export class ShoppingAddComponent implements OnInit {
   unitsCheckboxChange($event: any) {
     this._unitsCheckbox$ = $event.target.checked;
     if (this._unitsCheckbox$) {
-      this._shoppingForm.get('idUnit')?.enable();
-      this._shoppingForm.get('count')?.enable();
+      this._formGroup.get('idUnit')?.enable();
+      this._formGroup.get('count')?.enable();
     } else {
-      this._shoppingForm.get('idUnit')?.disable();
-      this._shoppingForm.get('count')?.disable();
+      this._formGroup.get('idUnit')?.disable();
+      this._formGroup.get('count')?.disable();
     }
   }
 }

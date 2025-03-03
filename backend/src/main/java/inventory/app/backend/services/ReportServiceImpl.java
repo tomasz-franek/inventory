@@ -8,6 +8,7 @@ import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.PriceCategoryData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.api.model.ProductPriceHistoryData;
+import inventory.app.api.model.PurchasesData;
 import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.entities.ItemEntity;
 import inventory.app.backend.mappers.ItemMapper;
@@ -87,5 +88,11 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<PriceCategoryData> getSumPricesByCategory() {
         return storageRepository.getSumPricesByCategory();
+    }
+
+    @Override
+    public List<PurchasesData> getListRecentPurchases(Integer days, Long idInventory) {
+        LocalDate lastDayDate = LocalDate.now().plusDays(days);
+        return storageRepository.getListRecentPurchases(lastDayDate, idInventory);
     }
 }

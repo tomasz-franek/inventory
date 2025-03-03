@@ -210,5 +210,22 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$[1].value").value(79.80));
     }
 
+    @Test
+    @Disabled("need test data")
+    void getListRecentPurchases_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "listPurchases/{days}/{idInventory}", 120, 1)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(equalTo(2))))
+                .andExpect(jsonPath("$[0].categoryName").value("Food"))
+                .andExpect(jsonPath("$[0].value").value(95.11))
+                .andExpect(jsonPath("$[1].categoryName").value("Clothes"))
+                .andExpect(jsonPath("$[1].value").value(79.80));
+    }
+
 
 }

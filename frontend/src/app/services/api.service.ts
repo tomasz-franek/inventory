@@ -20,6 +20,7 @@ import {
   ProductsService,
   Property,
   PropertyService,
+  PurchasesData,
   ReportService,
   ResponseId,
   Shopping,
@@ -217,5 +218,12 @@ export class ApiService {
 
   getSumPricesByCategory(): Observable<PriceCategoryData[]> {
     return this.reportService.getSumPricesByCategory();
+  }
+
+  getListRecentPurchases(
+    days: number,
+    idInventory: number
+  ): Observable<PurchasesData[]> {
+    return this.reportService.getListRecentPurchases(days, idInventory);
   }
 }

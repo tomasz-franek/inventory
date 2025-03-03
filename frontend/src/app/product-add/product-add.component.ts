@@ -42,8 +42,8 @@ import { retrieveCategoryList } from '../state/category/category.action';
 })
 export class ProductAddComponent implements OnInit {
   protected _storeCategory$: Store<CategoryState> = inject(Store);
-  private _storeProducts$: Store<ProductState> = inject(Store);
-  private _productForm: FormGroup;
+  private _storeProduct$: Store<ProductState> = inject(Store);
+  private _formGroup: FormGroup;
   protected categories$!: Observable<Category[]>;
   protected product$: Product = {
     idProduct: undefined,
@@ -61,7 +61,7 @@ export class ProductAddComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {
-    this._productForm = this.formBuilder.group({
+    this._formGroup = this.formBuilder.group({
       name: ['', Validators.required, Validators.minLength(1)],
       active: [1, Validators.required],
       fragile: [0, Validators.required],
@@ -77,24 +77,24 @@ export class ProductAddComponent implements OnInit {
   }
 
   backToProducts() {
-    this._storeProducts$.dispatch(navigateToProductList());
+    this._storeProduct$.dispatch(navigateToProductList());
   }
 
   save() {
     const updatedProduct: Product = {
       ...this.product$,
-      name: this._productForm.value.name,
-      active: this._productForm.value.active,
-      idCategory: this._productForm.value.idCategory,
-      idProduct: this._productForm.value.id,
-      fragile: this._productForm.value.fragile,
-      optLock: this._productForm.value.optLock,
-      limitMed: this._productForm.value.limitMed,
-      limitMax: this._productForm.value.limitMax,
-      limitMin: this._productForm.value.limitMin,
+      name: this._formGroup.value.name,
+      active: this._formGroup.value.active,
+      idCategory: this._formGroup.value.idCategory,
+      idProduct: this._formGroup.value.id,
+      fragile: this._formGroup.value.fragile,
+      optLock: this._formGroup.value.optLock,
+      limitMed: this._formGroup.value.limitMed,
+      limitMax: this._formGroup.value.limitMax,
+      limitMin: this._formGroup.value.limitMin,
     };
-    if (this._productForm.value.id !== undefined) {
-      this._storeProducts$.dispatch(saveProduct({ product: updatedProduct }));
+    if (this._formGroup.value.id !== undefined) {
+      this._storeProduct$.dispatch(saveProduct({ product: updatedProduct }));
     }
   }
 
@@ -102,9 +102,9 @@ export class ProductAddComponent implements OnInit {
     this._storeCategory$.select(getCategoriesList);
     const id = this.routerId;
     if (id === null) {
-      this._storeProducts$.select(newProductSelector).subscribe((product) => {
+      this._storeProduct$.select(newProductSelector).subscribe((product) => {
         this.product$ = product;
-        this._productForm = this.formBuilder.group({
+        this._formGroup = this.formBuilder.group({
           id: undefined,
           name: ['', Validators.required],
           idCategory: [0, Validators.min(1)],
@@ -117,10 +117,10 @@ export class ProductAddComponent implements OnInit {
         });
       });
     } else {
-      this._storeProducts$.dispatch(loadProductAction({ id: Number(id) }));
-      this._storeProducts$.select(editProductSelector).subscribe((product) => {
+      this._storeProduct$.dispatch(loadProductAction({ id: Number(id) }));
+      this._storeProduct$.select(editProductSelector).subscribe((product) => {
         this.product$ = product;
-        this._productForm = this.formBuilder.group({
+        this._formGroup = this.formBuilder.group({
           id: this.product$.idProduct,
           idCategory: this.product$.idCategory,
           name: [this.product$.name, Validators.required],
@@ -139,7 +139,7 @@ export class ProductAddComponent implements OnInit {
     return this.route.snapshot.paramMap.get('id');
   }
 
-  get productForm(): FormGroup {
-    return this._productForm;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 }

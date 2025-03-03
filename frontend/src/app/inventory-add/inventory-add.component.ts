@@ -29,13 +29,13 @@ import {
 export class InventoryAddComponent implements OnInit {
   private _store$: Store = inject(Store);
   protected inventory$: Inventory = { active: false, name: '', optLock: 0 };
-  protected _inventoryForm: FormGroup;
+  private _formGroup: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {
-    this._inventoryForm = this.formBuilder.group({
+    this._formGroup = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       active: [1, Validators.required],
@@ -49,7 +49,7 @@ export class InventoryAddComponent implements OnInit {
     if (id === null) {
       this._store$.select(newInventorySelector).subscribe((inventory) => {
         this.inventory$ = inventory;
-        this._inventoryForm = this.formBuilder.group({
+        this._formGroup = this.formBuilder.group({
           id: undefined,
           name: ['', Validators.required],
           description: ['', Validators.required],
@@ -61,7 +61,7 @@ export class InventoryAddComponent implements OnInit {
       this._store$.dispatch(loadInventoryAction({ id: Number(id) }));
       this._store$.select(editInventorySelector).subscribe((inventory) => {
         this.inventory$ = inventory;
-        this._inventoryForm = this.formBuilder.group({
+        this._formGroup = this.formBuilder.group({
           id: this.inventory$.idInventory,
           name: [this.inventory$.name, Validators.required],
           description: [this.inventory$.description, Validators.required],
@@ -72,8 +72,8 @@ export class InventoryAddComponent implements OnInit {
     }
   }
 
-  get inventoryForm(): FormGroup {
-    return this._inventoryForm;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 
   backToInventories() {
@@ -83,11 +83,11 @@ export class InventoryAddComponent implements OnInit {
   save() {
     const updatedInventory: Inventory = {
       ...this.inventory$,
-      name: this._inventoryForm.value.name,
-      active: this._inventoryForm.value.active,
-      description: this._inventoryForm.value.description,
+      name: this._formGroup.value.name,
+      active: this._formGroup.value.active,
+      description: this._formGroup.value.description,
     };
-    if (this._inventoryForm.value.id !== undefined) {
+    if (this._formGroup.value.id !== undefined) {
       this._store$.dispatch(saveInventory({ inventory: updatedInventory }));
     }
   }

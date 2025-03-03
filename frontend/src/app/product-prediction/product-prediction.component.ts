@@ -40,25 +40,25 @@ import { retrieveProductPredictionData } from '../state/report/report.action';
 })
 export class ProductPredictionComponent {
   public predictions$!: Observable<ProductPredictionData[]>;
-  private _reportStore$: Store<ReportState> = inject(Store);
+  private _storeReport$: Store<ReportState> = inject(Store);
   private oneDay = 24 * 60 * 60 * 1000;
   public periods: any[] = reportPeriods;
-  private _productPredictionForm: FormGroup;
+  private _formGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
-    this._productPredictionForm = this.formBuilder.group({
+    this._formGroup = this.formBuilder.group({
       period: reportPeriods[0].value,
       time: 60,
     });
   }
 
-  get productPredictionForm(): FormGroup {
-    return this._productPredictionForm;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 
   async ngOnInit() {
-    this._reportStore$.dispatch(retrieveProductPredictionData());
-    this.predictions$ = this._reportStore$.select(getProductPredictionList);
+    this._storeReport$.dispatch(retrieveProductPredictionData());
+    this.predictions$ = this._storeReport$.select(getProductPredictionList);
     // this.startProgress();
     // zip(
     //   this.dataService.readStoragePrediction()
@@ -79,7 +79,7 @@ export class ProductPredictionComponent {
   }
 
   filterPeriodEvent($event: any) {
-    this._productPredictionForm.value.time = $event.target.value || 60;
+    this._formGroup.value.time = $event.target.value || 60;
     this.filterPeriod();
   }
 

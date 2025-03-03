@@ -23,30 +23,34 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './inventory-list.component.css',
 })
 export class InventoryListComponent implements OnInit {
-  private _store$: Store<InventoryState> = inject(Store);
+  private _storeInventory$: Store<InventoryState> = inject(Store);
   protected onlyActive: boolean = true;
   protected inventories$: Observable<Inventory[]> =
-    this._store$.select(getInventoriesList);
+    this._storeInventory$.select(getInventoriesList);
 
   constructor() {}
 
   addNewInventory() {
-    this._store$.dispatch(navigateToInventoryNew());
+    this._storeInventory$.dispatch(navigateToInventoryNew());
   }
 
   ngOnInit(): void {
-    this._store$.dispatch(setActiveInventory({ active: this.onlyActive }));
-    this._store$.dispatch(retrieveInventoryList());
+    this._storeInventory$.dispatch(
+      setActiveInventory({ active: this.onlyActive })
+    );
+    this._storeInventory$.dispatch(retrieveInventoryList());
   }
 
   editInventory(inventory: Inventory) {
-    this._store$.dispatch(navigateToInventoryEdit({ inventory }));
+    this._storeInventory$.dispatch(navigateToInventoryEdit({ inventory }));
   }
 
   filterInventories($event: any) {
     this.onlyActive = $event.target.checked;
-    this._store$.dispatch(setActiveInventory({ active: this.onlyActive }));
-    this.inventories$ = this._store$.select(filterInventories);
+    this._storeInventory$.dispatch(
+      setActiveInventory({ active: this.onlyActive })
+    );
+    this.inventories$ = this._storeInventory$.select(filterInventories);
   }
 
   activeTextColor(active: boolean) {

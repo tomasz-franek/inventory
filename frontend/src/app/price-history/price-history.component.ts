@@ -56,7 +56,7 @@ export class PriceHistoryComponent implements OnInit {
   };
   private _storeProduct$: Store<ProductState> = inject(Store);
   protected _products$!: Observable<Product[]>;
-  private _reportStore$: Store<ReportState> = inject(Store);
+  private _storeReport$: Store<ReportState> = inject(Store);
   private config: any = undefined;
   private chart: Chart | undefined = undefined;
 
@@ -128,10 +128,10 @@ export class PriceHistoryComponent implements OnInit {
   }
 
   retrieveReportData() {
-    this._reportStore$.dispatch(
+    this._storeReport$.dispatch(
       retrieveProductPriceHistory({ idProduct: this.formGroup.value.idProduct })
     );
-    this._reportStore$.select(getProductHistoryData).subscribe((data) => {
+    this._storeReport$.select(getProductHistoryData).subscribe((data) => {
       this._chartData$ = data;
       if (this._formGroup.value.idProduct > 0) this.prepareChart();
     });

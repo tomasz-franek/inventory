@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { ApiService } from '../../services/api.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs';
@@ -11,7 +10,6 @@ import {
 
 @Injectable()
 export class UnitEffects {
-  private store$ = inject(Store);
   private _apiService$: ApiService = inject(ApiService);
 
   loadUnits$ = createEffect(() => {

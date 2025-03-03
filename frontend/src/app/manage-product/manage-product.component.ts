@@ -42,14 +42,14 @@ export class ManageProductComponent implements OnInit {
   public storage: any = { selectedItems: 0, ids: [] };
   public rowIdInventory: number = 0;
   public inventory: any = {};
-  private _manageProduct: FormGroup;
+  private _formGroup: FormGroup;
 
-  get manageProduct(): FormGroup {
-    return this._manageProduct;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 
   constructor(private formBuilder: FormBuilder) {
-    this._manageProduct = this.formBuilder.group({
+    this._formGroup = this.formBuilder.group({
       idInventory: [0, Validators.required],
     });
   }

@@ -9,6 +9,7 @@ import {
   ProductAvailabilityData,
   ProductPredictionData,
   ProductPriceHistoryData,
+  PurchasesData,
   StorageValueHistoryData,
 } from '../../api';
 
@@ -103,4 +104,13 @@ export const retrieveSumPricesByCategory = createAction(
 export const retrieveSumPricesByCategoryDataSuccess = createAction(
   '[Report] Retrieve Sum Prices History Success',
   props<{ sumPriceCategoryData: PriceCategoryData[] }>()
+);
+export const retrieveListPurchases = createAction(
+  '[Report] Retrieve Last Purchases',
+  props<{ days: number; idInventory: number }>()
+);
+
+export const retrieveListPurchasesSuccess = createAction(
+  '[Report] Retrieve Last Purchases Success',
+  props<{ purchasesData: PurchasesData[] }>()
 );

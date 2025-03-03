@@ -1,4 +1,4 @@
-<form [formGroup]="productForm">
+<form [formGroup]="formGroup">
   <div class="row mb-2">
     <fieldset class="fieldset">
       <div class="row mb-2">
@@ -99,7 +99,7 @@
           (click)="save()"
           class="ms-2 btn btn-outline-primary col-2 me-2"
           id="save"
-          [disabled]="productForm.invalid"
+          [disabled]="formGroup.invalid"
         >
           <i class="bi bi-save"></i>
           {{ 'SAVE' | translate }}

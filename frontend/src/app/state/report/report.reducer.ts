@@ -3,6 +3,7 @@ import {
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportDataSuccess,
   retrieveLastUsedReportDataSuccess,
+  retrieveListPurchasesSuccess,
   retrieveNexDaysExpiredDataSuccess,
   retrieveProductAvailabilityDataSuccess,
   retrieveProductPriceHistoryDataSuccess,
@@ -20,6 +21,7 @@ export const initialReportState: ReportState = {
   valueHistoryData: [],
   priceHistoryData: [],
   sumPriceCategoryData: [],
+  purchasesData: [],
 };
 
 export function reportReducer(
@@ -43,6 +45,8 @@ export function reportReducer(
       return { ...state, priceHistoryData: action.priceHistoryData };
     case retrieveSumPricesByCategoryDataSuccess.type:
       return { ...state, sumPriceCategoryData: action.sumPriceCategoryData };
+    case retrieveListPurchasesSuccess.type:
+      return { ...state, purchasesData: action.purchasesData };
     default:
       return state;
   }

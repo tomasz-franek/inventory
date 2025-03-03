@@ -1,4 +1,4 @@
-<form [formGroup]="inventoryForm">
+<form [formGroup]="formGroup">
   <div class="row mb-2">
     <fieldset class="fieldset">
       <div class="row mb-2 mt-2">
@@ -22,7 +22,7 @@
         <button (click)="backToInventories()" class="btn btn-outline-danger col-2 me-2" id="back">
           <i class="bi bi-arrow-left"></i>
           {{'BACK'|translate}}</button>
-        <button (click)="save()" [disabled]="inventoryForm.value.name.length == 0 || inventoryForm.value.description == 0"
+        <button (click)="save()" [disabled]="formGroup.valid"
                 class="btn btn-outline-primary col-2" id="save">
           <i class="bi bi-save ms-2 me-2"></i>{{'SAVE'|translate}}
         </button>

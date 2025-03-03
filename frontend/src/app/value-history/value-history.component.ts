@@ -31,7 +31,7 @@ echarts.use([GridComponent, CanvasRenderer, TitleComponent, TooltipComponent]);
   styleUrl: './value-history.component.css',
 })
 export class ValueHistoryComponent implements OnInit {
-  private _reportStore$: Store<ReportState> = inject(Store);
+  private _storeReport$: Store<ReportState> = inject(Store);
   public days: number = 30;
   public periods: any[] = reportPeriods;
   public _chart$: EChartsType | undefined = undefined;
@@ -66,10 +66,10 @@ export class ValueHistoryComponent implements OnInit {
   }
 
   retrieveReportData() {
-    this._reportStore$.dispatch(
+    this._storeReport$.dispatch(
       retrieveStorageValueHistory({ days: this.formGroup.value.days })
     );
-    this._reportStore$.select(getValueHistoryList).subscribe((data) => {
+    this._storeReport$.select(getValueHistoryList).subscribe((data) => {
       this._chartData$ = data;
       this.prepareChart();
     });

@@ -60,7 +60,6 @@ export class SumCategoriesComponent implements OnInit {
   }
 
   private updateChart(newDataset: any[]) {
-    debugger;
     let chartOption: EChartsOption = {
       tooltip: {
         trigger: 'item',

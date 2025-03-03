@@ -40,12 +40,12 @@ import { ReportEffects } from './state/report/report.effects';
 export const appRoutes: Routes = [
   {
     path: '',
-    providers: [provideEffects(ShoppingEffects)],
+    providers: [provideEffects(ShoppingEffects, ReportEffects)],
     component: DashboardComponent,
   },
   {
     path: 'dashboard',
-    providers: [provideEffects(ShoppingEffects)],
+    providers: [provideEffects(ShoppingEffects, ReportEffects)],
     component: DashboardComponent,
   },
   {

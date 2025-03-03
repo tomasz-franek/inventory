@@ -23,30 +23,34 @@ import {
   templateUrl: './category-list.component.html',
 })
 export class CategoryListComponent implements OnInit {
-  private _store$: Store<CategoryState> = inject(Store);
+  private _storeCategory$: Store<CategoryState> = inject(Store);
   protected onlyActive = true;
   protected categories$: Observable<Category[]> =
-    this._store$.select(getCategoriesList);
+    this._storeCategory$.select(getCategoriesList);
 
   constructor() {}
 
   addNewCategory() {
-    this._store$.dispatch(navigateToCategoryNew());
+    this._storeCategory$.dispatch(navigateToCategoryNew());
   }
 
   ngOnInit(): void {
-    this._store$.dispatch(setActiveCategory({ active: this.onlyActive }));
-    this._store$.dispatch(retrieveCategoryList());
+    this._storeCategory$.dispatch(
+      setActiveCategory({ active: this.onlyActive })
+    );
+    this._storeCategory$.dispatch(retrieveCategoryList());
   }
 
   editCategory(category: Category) {
-    this._store$.dispatch(navigateToCategoryEdit({ category }));
+    this._storeCategory$.dispatch(navigateToCategoryEdit({ category }));
   }
 
   filterCategories($event: any) {
     this.onlyActive = $event.target.checked;
-    this._store$.dispatch(setActiveCategory({ active: this.onlyActive }));
-    this.categories$ = this._store$.select(filterCategory);
+    this._storeCategory$.dispatch(
+      setActiveCategory({ active: this.onlyActive })
+    );
+    this.categories$ = this._storeCategory$.select(filterCategory);
   }
 
   activeTextColor(active: boolean) {

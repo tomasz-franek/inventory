@@ -26,7 +26,7 @@ import { retrieveNexDaysExpiredData } from '../state/report/report.action';
 })
 export class NextDaysExpiredComponent implements OnInit {
   public items$!: Observable<NextDayExpiredData[]>;
-  private _reportStore$: Store<ReportState> = inject(Store);
+  private _storeReport$: Store<ReportState> = inject(Store);
   public items: any = [];
   public days: number = 60;
   public periods: any[] = reportPeriods;
@@ -47,10 +47,10 @@ export class NextDaysExpiredComponent implements OnInit {
   }
 
   updateDays() {
-    this._reportStore$.dispatch(
+    this._storeReport$.dispatch(
       retrieveNexDaysExpiredData({ days: this._formGroup.value.days })
     );
-    this.items$ = this._reportStore$.select(getNextDaysExpiredList);
+    this.items$ = this._storeReport$.select(getNextDaysExpiredList);
     // this.startProgress();
     // this.dataService.readNextDaysExpired(this.days).subscribe({
     //   next: (response) => {

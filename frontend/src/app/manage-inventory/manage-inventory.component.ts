@@ -52,7 +52,7 @@ import { InventoryState } from '../state/inventory/inventory.selectors';
 export class ManageInventoryComponent implements OnInit {
   public inventory: any = [];
   protected _storeCategory$: Store<CategoryState> = inject(Store);
-  private _storeProducts$: Store<ProductState> = inject(Store);
+  private _storeProduct$: Store<ProductState> = inject(Store);
   private _storeInventory$: Store<InventoryState> = inject(Store);
   public _products$!: Observable<Product[]>;
   public _categories$!: Observable<Category[]>;
@@ -78,8 +78,8 @@ export class ManageInventoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._storeProducts$.dispatch(retrieveProductList());
-    this._products$ = this._storeProducts$.select(getProductsList);
+    this._storeProduct$.dispatch(retrieveProductList());
+    this._products$ = this._storeProduct$.select(getProductsList);
     this._storeCategory$.dispatch(retrieveCategoryList());
     this._categories$ = this._storeCategory$.select(getCategoriesList);
   }
@@ -96,9 +96,9 @@ export class ManageInventoryComponent implements OnInit {
     this._storeInventory$.dispatch(setStorageCategoryId({ idCategory }));
     this._manageInventory.value.idCategory = idCategory;
     this._manageInventory.value.idProduct = 0;
-    this._storeProducts$.dispatch(setProductCategoryId({ idCategory }));
+    this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
     this._storeInventory$.dispatch(setStorageProductId({ idProduct: 0 }));
-    this._products$ = this._storeProducts$.select(filterProductByCategory);
+    this._products$ = this._storeProduct$.select(filterProductByCategory);
     this._storeInventory$.dispatch(selectStorageByCategoryAndProduct());
   }
 }

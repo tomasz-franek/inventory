@@ -5,6 +5,7 @@ import inventory.app.api.model.InventoryReportData;
 import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.PriceCategoryData;
+import inventory.app.api.model.PurchasesData;
 import inventory.app.backend.entities.StorageEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -87,4 +88,21 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
             "AND s.price > 0 " +
             "GROUP BY c.id, c.name ")
     List<PriceCategoryData> getSumPricesByCategory();
+
+    @Query("SELECT new inventory.app.api.model.PurchasesData(" +
+            "   s.insertDate, " +
+            "   p.name, " +
+            "   s.items, " +
+            "   s.price, " +
+            "   cast (( s.items * s.price ) as BigDecimal ), " +
+            "   s.id " +
+            ") " +
+            "FROM ItemEntity i " +
+            "JOIN i.storage s " +
+            "JOIN s.product p " +
+            "WHERE s.insertDate > :endDate " +
+            "AND (:idInventory IS NULL OR i.inventory.id = :idInventory OR i.inventory.id IS NULL ) ")
+    List<PurchasesData> getListRecentPurchases(
+            @Param("endDate") LocalDate endDate,
+            @Param("idInventory") Long idInventory);
 }

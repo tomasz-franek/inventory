@@ -10,6 +10,8 @@ import {
   retrieveInventoryReportDataSuccess,
   retrieveLastUsedReportData,
   retrieveLastUsedReportDataSuccess,
+  retrieveListPurchases,
+  retrieveListPurchasesSuccess,
   retrieveNexDaysExpiredData,
   retrieveNexDaysExpiredDataSuccess,
   retrieveProductAvailabilityDataSuccess,
@@ -187,6 +189,26 @@ export class ReportEffects {
             });
           })
         );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+
+  loadListPurchases$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveListPurchases),
+      mergeMap((action) => {
+        return this._apiService$
+          .getListRecentPurchases(action.days, action.idInventory)
+          .pipe(
+            map((data) => {
+              return retrieveListPurchasesSuccess({
+                purchasesData: data,
+              });
+            })
+          );
       }),
       catchError((error: any) => {
         return [retrieveReportDataError({ error })];

@@ -30,7 +30,7 @@ import { InventoryState } from './inventory.selectors';
 
 @Injectable()
 export class InventoryEffects {
-  private store$: Store<InventoryState> = inject(Store);
+  private _storeInventory$: Store<InventoryState> = inject(Store);
   private _apiService$: ApiService = inject(ApiService);
   private router: Router = inject(Router);
 
@@ -54,7 +54,7 @@ export class InventoryEffects {
   loadInventories$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(retrieveInventoryList),
-      withLatestFrom(this.store$.select(retrieveInventoryList)),
+      withLatestFrom(this._storeInventory$.select(retrieveInventoryList)),
       mergeMap(() => {
         return this._apiService$.getInventories().pipe(
           concatMap((data) => {
