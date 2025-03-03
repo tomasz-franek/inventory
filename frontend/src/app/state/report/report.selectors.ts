@@ -3,6 +3,7 @@ import {
   InventoryReportData,
   LastUsedData,
   NextDayExpiredData,
+  PriceCategoryData,
   ProductAvailabilityData,
   ProductPredictionData,
   ProductPriceHistoryData,
@@ -20,6 +21,7 @@ export interface ReportState {
   nextDaysExpired: NextDayExpiredData[];
   valueHistoryData: StorageValueHistoryData[];
   priceHistoryData: ProductPriceHistoryData[];
+  sumPriceCategoryData: PriceCategoryData[];
 }
 
 const selectReportFutureState = createFeatureSelector<ReportState>(
@@ -64,4 +66,9 @@ export const getValueHistoryList = createSelector(
 export const getProductHistoryData = createSelector(
   selectReportFutureState,
   (state) => state.priceHistoryData
+);
+
+export const getSumPriceCategoryData = createSelector(
+  selectReportFutureState,
+  (state) => state.sumPriceCategoryData
 );

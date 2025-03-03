@@ -4,6 +4,7 @@ import inventory.app.api.model.ExpiredReportData;
 import inventory.app.api.model.InventoryReportData;
 import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
+import inventory.app.api.model.PriceCategoryData;
 import inventory.app.backend.entities.StorageEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -73,4 +74,17 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
             "AND i.validDate between now() and :endDate " +
             "ORDER BY i.validDate")
     List<NextDayExpiredData> getNextDaysExpired(@Param("endDate") LocalDate endDate);
+
+    @Query("SELECT new inventory.app.api.model.PriceCategoryData(" +
+            "   c.id, " +
+            "   c.name, " +
+            "   cast ( (sum(round(s.items * s.price * (100 - s.used) * 0.01, 2)))  AS BigDecimal ) " +
+            ") " +
+            "FROM StorageEntity s " +
+            "JOIN s.product p " +
+            "JOIN p.category c " +
+            "WHERE s.used < 100 " +
+            "AND s.price > 0 " +
+            "GROUP BY c.id, c.name ")
+    List<PriceCategoryData> getSumPricesByCategory();
 }

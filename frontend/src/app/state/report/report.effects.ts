@@ -20,6 +20,8 @@ import {
   retrieveReportDataError,
   retrieveStorageValueHistory,
   retrieveStorageValueHistoryDataSuccess,
+  retrieveSumPricesByCategory,
+  retrieveSumPricesByCategoryDataSuccess,
 } from './report.action';
 
 @Injectable()
@@ -164,6 +166,24 @@ export class ReportEffects {
           map((data) => {
             return retrieveProductPriceHistoryDataSuccess({
               priceHistoryData: data,
+            });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+
+  loadSumPricesByCategory$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveSumPricesByCategory),
+      mergeMap(() => {
+        return this._apiService$.getSumPricesByCategory().pipe(
+          map((data) => {
+            return retrieveSumPricesByCategoryDataSuccess({
+              sumPriceCategoryData: data,
             });
           })
         );

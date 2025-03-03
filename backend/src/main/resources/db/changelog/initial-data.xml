@@ -156,9 +156,9 @@
             <column name="product_id" value="5"/>
             <column name="unit_id" value="2"/>
             <column name="items" value="2"/>
-            <column name="insert_date" value="now()"/>
-            <column name="end_date" value="now()"/>
-            <column name="valid_date" value="now()"/>
+            <column name="insert_date" value="2025-04-01"/>
+            <column name="end_date" value="2025-07-01"/>
+            <column name="valid_date" value="2025-12-01"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
             <column name="opt_lock" value="0"/>

@@ -1031,6 +1031,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductPriceHistoryData'
+  /report/sumPricesByCategory:
+    get:
+      summary: get sum of all Product grouped by Category
+      operationId: getSumPricesByCategory
+      tags:
+        - report
+      responses:
+        '200':
+          description: list of sum of the Products in Categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceCategoryData'
 components:
   schemas:
     Inventory:
@@ -1480,3 +1495,17 @@ components:
         operationDate:
           type: string
           format: date
+
+    PriceCategoryData:
+      type: object
+      required:
+        - price
+        - operationDate
+      properties:
+        idCategory:
+          type: integer
+          format: int64
+        categoryName:
+          type: string
+        value:
+          type: number
