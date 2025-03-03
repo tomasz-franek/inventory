@@ -7,6 +7,7 @@ import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.api.model.ProductPredictionData;
+import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.services.ReportService;
 import inventory.app.backend.utils.StoragePrediction;
 import lombok.RequiredArgsConstructor;
@@ -52,5 +53,15 @@ public class ReportController implements ReportApi {
     @Override
     public ResponseEntity<List<NextDayExpiredData>> getNextDaysExpired(Integer days) {
         return ResponseEntity.ok(reportService.getNextDaysExpired(days));
+    }
+
+    @Override
+    public ResponseEntity<List<StorageValueHistoryData>> getStorageValueHistoryForInventory(Integer days, Long idInventory) {
+        return ResponseEntity.ok(reportService.getStorageValueHistory(days, idInventory));
+    }
+
+    @Override
+    public ResponseEntity<List<StorageValueHistoryData>> getStorageValueHistory(Integer days) {
+        return ResponseEntity.ok(reportService.getStorageValueHistory(days, null));
     }
 }

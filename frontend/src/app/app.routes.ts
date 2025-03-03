@@ -199,7 +199,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'value-history',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ReportEffects)],
     component: ValueHistoryComponent,
   },
   {

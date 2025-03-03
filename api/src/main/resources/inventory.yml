@@ -925,7 +925,7 @@ paths:
             format: int32
       responses:
         '200':
-          description: list of Last used Products
+          description: list of Availability data
           content:
             application/json:
               schema:
@@ -934,7 +934,7 @@ paths:
                   $ref: '#/components/schemas/ProductAvailabilityData'
   /report/nextDaysExpired/{days}:
     get:
-      summary: get list of the products that expired in the next number of days
+      summary: get list of the Products that expired in the next number of Days
       operationId: getNextDaysExpired
       tags:
         - report
@@ -942,19 +942,72 @@ paths:
         - name: days
           in: path
           required: true
-          description: The ID of the Product
+          description: number of the Days
           schema:
             type: integer
             format: int32
       responses:
         '200':
-          description: list of Last used Products
+          description: list of the Products expired in the next days
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/NextDayExpiredData'
+  /report/storageValueHistory/{days}/{idInventory}:
+    get:
+      summary: Historical value of the Products stored in the Inventory
+      operationId: getStorageValueHistoryForInventory
+      tags:
+        - report
+      parameters:
+        - name: days
+          in: path
+          required: true
+          description: number of the Days
+          schema:
+            type: integer
+            format: int32
+        - name: idInventory
+          in: path
+          required: true
+          description: The ID of the Inventory
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of value operations in Inventory
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StorageValueHistoryData'
+  /report/storageValueHistory/{days}:
+    get:
+      summary: Historical value of the Products stored in the Inventory
+      operationId: getStorageValueHistory
+      tags:
+        - report
+      parameters:
+        - name: days
+          in: path
+          required: true
+          description: number of the Days
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: list of value operations in Inventory
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StorageValueHistoryData'
 components:
   schemas:
     Inventory:
@@ -1358,6 +1411,11 @@ components:
 
     NextDayExpiredData:
       type: object
+      required:
+        - idProduct
+        - productName
+        - inventoryName
+        - used
       properties:
         idProduct:
           type: integer
@@ -1372,3 +1430,18 @@ components:
           format: date
         used:
           type: number
+    StorageValueHistoryData:
+      type: object
+      required:
+        - price
+        - idItem
+        - operationDate
+      properties:
+        price:
+          type: number
+        idItem:
+          type: integer
+          format: int64
+        operationDate:
+          type: string
+          format: date

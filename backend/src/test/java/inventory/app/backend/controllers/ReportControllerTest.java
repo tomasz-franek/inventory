@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.nullValue;
@@ -125,7 +126,7 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
+                .andExpect(jsonPath("$", hasSize(equalTo(222))));
     }
 
     @Test
@@ -138,7 +139,7 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
+                .andExpect(jsonPath("$", hasSize(equalTo(22))));
     }
 
     @Test
@@ -151,7 +152,33 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))));
+                .andExpect(jsonPath("$", hasSize(equalTo(0))));
+    }
+
+    @Test
+    @Disabled("need test data")
+    void getStorageValueHistoryForInventory_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "storageValueHistory/{days}/{idInventory}", 30, 1)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(equalTo(222))));
+    }
+
+    @Test
+    @Disabled("need test data")
+    void getStorageValueHistory_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "storageValueHistory/{days}", 30)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(equalTo(222))));
     }
 
 

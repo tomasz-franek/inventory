@@ -6,11 +6,13 @@ import inventory.app.api.model.Item;
 import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.ProductAvailabilityData;
+import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.entities.ItemEntity;
 import inventory.app.backend.mappers.ItemMapper;
 import inventory.app.backend.repositories.ItemRepository;
 import inventory.app.backend.repositories.StorageRepository;
 import inventory.app.backend.utils.ProductAvailability;
+import inventory.app.backend.utils.StorageValueHistoryListBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -63,5 +66,12 @@ public class ReportServiceImpl implements ReportService {
     public List<NextDayExpiredData> getNextDaysExpired(Integer days) {
         LocalDate lastDayDate = LocalDate.now().plusDays(days);
         return storageRepository.getNextDaysExpired(lastDayDate);
+    }
+
+    @Override
+    public List<StorageValueHistoryData> getStorageValueHistory(Integer days, Long idInventory) {
+        List<StorageValueHistoryData> data = itemRepository.getStorageValueHistory(idInventory);
+        data.sort(Comparator.comparing(StorageValueHistoryData::getOperationDate));
+        return StorageValueHistoryListBuilder.build(days, data);
     }
 }

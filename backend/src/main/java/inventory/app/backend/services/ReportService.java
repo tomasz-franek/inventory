@@ -5,6 +5,7 @@ import inventory.app.api.model.InventoryReportData;
 import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.ProductAvailabilityData;
+import inventory.app.api.model.StorageValueHistoryData;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface ReportService {
     List<ProductAvailabilityData> getProductAvailabilityForPeriod(Long idProduct, Integer period);
 
     List<NextDayExpiredData> getNextDaysExpired(Integer days);
+
+    List<StorageValueHistoryData> getStorageValueHistory(Integer days, Long idInventory);
 }

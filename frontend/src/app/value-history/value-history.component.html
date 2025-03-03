@@ -1,1 +1,15 @@
-<p>value-history works!</p>
+<form [formGroup]="formGroup">
+  <div class="uk-panel uk-width-1-1">
+    <div class="uk-width-1-1">
+      <h3><i class="uk-icon-line-chart uk-icon-medium"></i> {{ 'MENU.REPORTS.STORAGE_HISTORY'|translate }}</h3>
+      <div class="uk-width-1-1 uk-panel uk-margin-bottom">
+        <select class="uk-select" formControlName="days" (change)="updateDiagram()">
+          <option *ngFor="let period of periods" [value]="period.value">{{ period.label|translate }}</option>
+        </select>
+      </div>
+      <div class="row mb-2">
+        <div echarts id="chart" style="min-width: 800px; min-height: 600px;"></div>
+      </div>
+    </div>
+  </div>
+</form>

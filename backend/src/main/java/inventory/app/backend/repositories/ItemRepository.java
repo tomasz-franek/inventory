@@ -1,6 +1,7 @@
 package inventory.app.backend.repositories;
 
 import inventory.app.api.model.ConsumeProduct;
+import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.entities.ItemEntity;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -50,4 +51,40 @@ public interface ItemRepository extends CrudRepository<ItemEntity,Long>,
             "JOIN FETCH s.product p " +
             "WHERE p.id =:idProduct ")
     List<ItemEntity> findByProductId(@Param("idProduct") Long idProduct);
+
+    @Query("SELECT new inventory.app.api.model.StorageValueHistoryData (" +
+            "   tx.price, " +
+            "   tx.id, " +
+            "   tx.insertDate " +
+            ") " +
+            "FROM ( " +
+            "   SELECT s.price AS price, i.id as id, i.insertDate AS insertDate " +
+            "   FROM ItemEntity i " +
+            "   JOIN i.storage s " +
+            "   JOIN s.product p " +
+            "   WHERE " +
+            "   (:idInventory IS NULL OR i.inventory.id = :idInventory) " +
+            "   AND s.price > 0 " +
+
+            "   UNION ALL " +
+
+            "   SELECT -s.price, i.id, i.endDate " +
+            "   FROM ItemEntity i " +
+            "   JOIN i.storage s " +
+            "   JOIN s.product p " +
+            "   WHERE " +
+            "   (:idInventory IS NULL OR i.inventory.id = :idInventory) " +
+            "   AND s.price > 0 " +
+
+            "   UNION ALL " +
+
+            "   SELECT -s.price * i.used * 0.01, i.id, now " +
+            "   FROM ItemEntity i " +
+            "   JOIN i.storage s " +
+            "   JOIN s.product p " +
+            "   WHERE " +
+            "   (:idInventory IS NULL OR i.inventory.id = :idInventory) " +
+            "   AND s.price > 0" +
+            ") as tx ")
+    List<StorageValueHistoryData> getStorageValueHistory(@Param("idInventory") Long idInventory);
 }

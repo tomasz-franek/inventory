@@ -16,6 +16,8 @@ import {
   retrieveProductPredictionData,
   retrieveProductPredictionDataSuccess,
   retrieveReportDataError,
+  retrieveStorageValueHistory,
+  retrieveStorageValueHistoryDataSuccess,
 } from './report.action';
 
 @Injectable()
@@ -125,6 +127,23 @@ export class ReportEffects {
           map((data) => {
             return retrieveNexDaysExpiredDataSuccess({
               nextDaysExpired: data,
+            });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+  loadStorageValueHistory$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveStorageValueHistory),
+      mergeMap((action) => {
+        return this._apiService$.getStorageValueHistory(action.days).pipe(
+          map((data) => {
+            return retrieveStorageValueHistoryDataSuccess({
+              valueHistoryData: data,
             });
           })
         );

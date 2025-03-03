@@ -5,6 +5,7 @@ import {
   NextDayExpiredData,
   ProductAvailabilityData,
   ProductPredictionData,
+  StorageValueHistoryData,
 } from '../../api';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Features } from '../../../features';
@@ -16,6 +17,7 @@ export interface ReportState {
   productPrediction: ProductPredictionData[];
   availabilityData: ProductAvailabilityData[];
   nextDaysExpired: NextDayExpiredData[];
+  valueHistoryData: StorageValueHistoryData[];
 }
 
 const selectReportFutureState = createFeatureSelector<ReportState>(
@@ -50,4 +52,9 @@ export const getProductAvailabilityList = createSelector(
 export const getNextDaysExpiredList = createSelector(
   selectReportFutureState,
   (state) => state.nextDaysExpired
+);
+
+export const getValueHistoryList = createSelector(
+  selectReportFutureState,
+  (state) => state.valueHistoryData
 );

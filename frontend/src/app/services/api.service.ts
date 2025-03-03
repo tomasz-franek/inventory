@@ -24,6 +24,7 @@ import {
   ShoppingService,
   Storage,
   StoragesService,
+  StorageValueHistoryData,
   Unit,
   UnitDefault,
   UnitsService,
@@ -200,5 +201,9 @@ export class ApiService {
 
   getNextDaysExpired(days: number): Observable<NextDayExpiredData[]> {
     return this.reportService.getNextDaysExpired(days);
+  }
+
+  getStorageValueHistory(days: number): Observable<StorageValueHistoryData[]> {
+    return this.reportService.getStorageValueHistory(days);
   }
 }
