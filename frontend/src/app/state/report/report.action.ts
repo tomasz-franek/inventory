@@ -7,6 +7,7 @@ import {
   NextDayExpiredData,
   ProductAvailabilityData,
   ProductPredictionData,
+  ProductPriceHistoryData,
   StorageValueHistoryData,
 } from '../../api';
 
@@ -83,4 +84,14 @@ export const retrieveStorageValueHistory = createAction(
 export const retrieveStorageValueHistoryDataSuccess = createAction(
   '[Report] Retrieve Storage Value History Success',
   props<{ valueHistoryData: StorageValueHistoryData[] }>()
+);
+
+export const retrieveProductPriceHistory = createAction(
+  '[Report] Retrieve Product Price History',
+  props<{ idProduct: number }>()
+);
+
+export const retrieveProductPriceHistoryDataSuccess = createAction(
+  '[Report] Retrieve Storage Value History Success',
+  props<{ priceHistoryData: ProductPriceHistoryData[] }>()
 );

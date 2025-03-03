@@ -204,7 +204,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'price-history',
-    providers: [provideEffects(ProductEffects)],
+    providers: [provideEffects(ProductEffects, ReportEffects)],
     component: PriceHistoryComponent,
   },
   {

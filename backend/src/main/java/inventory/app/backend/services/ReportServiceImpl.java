@@ -6,10 +6,12 @@ import inventory.app.api.model.Item;
 import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.ProductAvailabilityData;
+import inventory.app.api.model.ProductPriceHistoryData;
 import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.entities.ItemEntity;
 import inventory.app.backend.mappers.ItemMapper;
 import inventory.app.backend.repositories.ItemRepository;
+import inventory.app.backend.repositories.ProductRepository;
 import inventory.app.backend.repositories.StorageRepository;
 import inventory.app.backend.utils.ProductAvailability;
 import inventory.app.backend.utils.StorageValueHistoryListBuilder;
@@ -30,6 +32,7 @@ public class ReportServiceImpl implements ReportService {
     private final StorageRepository storageRepository;
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
+    private final ProductRepository productRepository;
 
     @Override
     public List<InventoryReportData> getInventoryReportData(Long idInventory) {
@@ -73,5 +76,10 @@ public class ReportServiceImpl implements ReportService {
         List<StorageValueHistoryData> data = itemRepository.getStorageValueHistory(idInventory);
         data.sort(Comparator.comparing(StorageValueHistoryData::getOperationDate));
         return StorageValueHistoryListBuilder.build(days, data);
+    }
+
+    @Override
+    public List<ProductPriceHistoryData> getProductPriceHistory(Long idProduct) {
+        return productRepository.getProductPriceHistory(idProduct);
     }
 }

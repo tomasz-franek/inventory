@@ -7,6 +7,7 @@ import inventory.app.api.model.LastUsedData;
 import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.ProductAvailabilityData;
 import inventory.app.api.model.ProductPredictionData;
+import inventory.app.api.model.ProductPriceHistoryData;
 import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.services.ReportService;
 import inventory.app.backend.utils.StoragePrediction;
@@ -63,5 +64,10 @@ public class ReportController implements ReportApi {
     @Override
     public ResponseEntity<List<StorageValueHistoryData>> getStorageValueHistory(Integer days) {
         return ResponseEntity.ok(reportService.getStorageValueHistory(days, null));
+    }
+
+    @Override
+    public ResponseEntity<List<ProductPriceHistoryData>> getProductPriceHistory(Long idProduct) {
+        return ResponseEntity.ok(reportService.getProductPriceHistory(idProduct));
     }
 }

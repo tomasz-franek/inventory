@@ -1001,13 +1001,36 @@ paths:
             format: int32
       responses:
         '200':
-          description: list of value operations in Inventory
+          description: list of historical Product prices
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/StorageValueHistoryData'
+  /report/priceHistory/{idProduct}:
+    get:
+      summary: Historical price of the Product
+      operationId: getProductPriceHistory
+      tags:
+        - report
+      parameters:
+        - name: idProduct
+          in: path
+          required: true
+          description: The ID of the Product
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of value operations in Inventory
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductPriceHistoryData'
 components:
   schemas:
     Inventory:
@@ -1442,6 +1465,18 @@ components:
         idItem:
           type: integer
           format: int64
+        operationDate:
+          type: string
+          format: date
+
+    ProductPriceHistoryData:
+      type: object
+      required:
+        - price
+        - operationDate
+      properties:
+        price:
+          type: number
         operationDate:
           type: string
           format: date

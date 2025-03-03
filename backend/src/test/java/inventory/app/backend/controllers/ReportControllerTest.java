@@ -181,5 +181,18 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$", hasSize(equalTo(222))));
     }
 
+    @Test
+    void getProductPriceHistory_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(REPORT_ENDPOINT_PATH + "priceHistory/{idProduct}", 1)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(equalTo(1))))
+                .andExpect(jsonPath("$[0].price").value(2.99));
+    }
+
 
 }

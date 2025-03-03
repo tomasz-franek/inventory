@@ -15,6 +15,7 @@ import {
   Product,
   ProductAvailabilityData,
   ProductPredictionData,
+  ProductPriceHistoryData,
   ProductsService,
   Property,
   PropertyService,
@@ -205,5 +206,11 @@ export class ApiService {
 
   getStorageValueHistory(days: number): Observable<StorageValueHistoryData[]> {
     return this.reportService.getStorageValueHistory(days);
+  }
+
+  getProductPriceHistory(
+    idProduct: number
+  ): Observable<ProductPriceHistoryData[]> {
+    return this.reportService.getProductPriceHistory(idProduct);
   }
 }

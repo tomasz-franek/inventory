@@ -15,6 +15,8 @@ import {
   retrieveProductAvailabilityDataSuccess,
   retrieveProductPredictionData,
   retrieveProductPredictionDataSuccess,
+  retrieveProductPriceHistory,
+  retrieveProductPriceHistoryDataSuccess,
   retrieveReportDataError,
   retrieveStorageValueHistory,
   retrieveStorageValueHistoryDataSuccess,
@@ -144,6 +146,24 @@ export class ReportEffects {
           map((data) => {
             return retrieveStorageValueHistoryDataSuccess({
               valueHistoryData: data,
+            });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+
+  loadProductPriceHistory$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveProductPriceHistory),
+      mergeMap((action) => {
+        return this._apiService$.getProductPriceHistory(action.idProduct).pipe(
+          map((data) => {
+            return retrieveProductPriceHistoryDataSuccess({
+              priceHistoryData: data,
             });
           })
         );

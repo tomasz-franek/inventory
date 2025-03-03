@@ -1,1 +1,14 @@
-<p>price-history works!</p>
+<form [formGroup]="formGroup">
+  <div class="uk-panel uk-width-1-1">
+    <div class="uk-width-1-1">
+      <h3><i class="uk-icon-bar-chart-o uk-icon-medium"></i> {{ 'MENU.REPORTS.PRICE_HISTORY'|translate }}</h3>
+      <div class="uk-width-1-1 uk-panel uk-margin-bottom">
+        <select class="uk-select" formControlName="idProduct" (change)="updateDiagram()">
+          <option [ngValue]="0">{{ 'SELECT'|translate }} {{ 'PRODUCT'|translate }}</option>
+          <option *ngFor="let product of _products$|async" [ngValue]="product.idProduct">{{ product.name }}</option>
+        </select>
+      </div>
+      <canvas id="chart" height="300px" width="800px"></canvas>
+    </div>
+  </div>
+</form>
