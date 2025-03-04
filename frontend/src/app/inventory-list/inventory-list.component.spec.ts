@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InventoryListComponent } from './inventory-list.component';
-import { HttpClient } from '@angular/common/http';
-import { CategoriesService } from '../api';
-import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from '../services/api.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { provideMockStore } from '@ngrx/store/testing';
+import { initialCategoryState } from '../state/category/category.reducer';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('InventoryListComponent', () => {
   let component: InventoryListComponent;
@@ -12,8 +13,13 @@ describe('InventoryListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InventoryListComponent, HttpClient],
-      providers: [HttpClient, CategoriesService, TranslateService, ApiService],
+      imports: [InventoryListComponent, TranslateModule.forRoot()],
+      providers: [
+        FormBuilder,
+        ReactiveFormsModule,
+        provideMockStore({ initialState: initialCategoryState }),
+      ],
+      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InventoryListComponent);

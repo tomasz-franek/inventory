@@ -1,13 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { TranslateService, TranslateStore } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { mockRoute } from './mocks/activated-route-mock';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, TranslateService, TranslateStore],
-      providers: [provideHttpClientTesting(), TranslateService],
+      imports: [AppComponent, TranslateModule.forRoot()],
+      providers: [
+        provideHttpClientTesting(),
+        TranslateService,
+        { provide: ActivatedRoute, useValue: mockRoute },
+      ],
+
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
