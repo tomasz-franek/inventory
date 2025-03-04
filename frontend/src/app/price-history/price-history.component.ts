@@ -93,12 +93,6 @@ export class PriceHistoryComponent implements OnInit {
               text: 'Date',
             },
           },
-          yAxis: {
-            title: {
-              display: true,
-              text: 'Value',
-            },
-          },
         },
         options: {
           parsing: {
@@ -115,8 +109,6 @@ export class PriceHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.config.options.scales.yAxis.title.text =
-      this.translate.instant('PRODUCT_PRICE') + ' ' + this.properties.currency;
     this.config.options.text = this.translate.instant('CHART_AVAILABILITY');
     this.config.options.scales.xAxis.title.text =
       this.translate.instant('DATE');
