@@ -1,4 +1,5 @@
 import { ReportState } from './report.selectors';
+import { createReducer, on } from '@ngrx/store';
 import {
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportDataSuccess,
@@ -32,50 +33,59 @@ export const initialReportState: ReportState = {
   selectedCategoryId: 0,
 };
 
-export function reportReducer(
-  state = initialReportState,
-  action: any
-): ReportState {
-  switch (action.type) {
-    case retrieveInventoryReportDataSuccess.type:
-      return { ...state, expired: action.inventory };
-    case retrieveExpiredInventoryReportDataSuccess.type:
+export const reportReducer = createReducer(
+  initialReportState,
+  on(retrieveInventoryReportDataSuccess, (state, action): ReportState => {
+    return { ...state, expired: action.inventory };
+  }),
+  on(
+    retrieveExpiredInventoryReportDataSuccess,
+    (state, action): ReportState => {
       return { ...state, expired: action.expired };
-    case retrieveLastUsedReportDataSuccess.type:
-      return { ...state, lastUsed: action.lastUsed };
-    case retrieveProductAvailabilityDataSuccess.type:
-      return { ...state, availabilityData: action.availability };
-    case retrieveNexDaysExpiredDataSuccess.type:
-      return { ...state, nextDaysExpired: action.nextDaysExpired };
-    case retrieveStorageValueHistoryDataSuccess.type:
-      return { ...state, valueHistoryData: action.storageValueHistory };
-    case retrieveProductPriceHistoryDataSuccess.type:
-      return { ...state, priceHistoryData: action.priceHistoryData };
-    case retrieveSumPricesByCategoryDataSuccess.type:
-      return { ...state, sumPriceCategoryData: action.sumPriceCategoryData };
-    case retrieveListPurchasesSuccess.type:
-      return { ...state, purchasesData: action.purchasesData };
-    case retrieveValidInventorySuccess.type:
-      return { ...state, validInventory: action.validInventory };
-    case setReportCategoryId.type:
-      return { ...state, selectedCategoryId: action.idCategory };
-    case setReportProductId.type:
-      return { ...state, selectedProductId: action.idProduct };
-    case selectValidInventoryByCategoryAndProduct.type:
-      console.log(state);
-      return {
-        ...state,
-        selectedValidInventory: state.validInventory.filter(
-          (storage) =>
-            (state.selectedCategoryId > 0
-              ? storage.idCategory == state.selectedCategoryId
-              : true) &&
-            (state.selectedProductId > 0
-              ? storage.idProduct == state.selectedProductId
-              : true)
-        ),
-      };
-    default:
-      return state;
-  }
-}
+    }
+  ),
+  on(retrieveLastUsedReportDataSuccess, (state, action): ReportState => {
+    return { ...state, lastUsed: action.lastUsed };
+  }),
+  on(retrieveProductAvailabilityDataSuccess, (state, action): ReportState => {
+    return { ...state, availabilityData: action.availability };
+  }),
+  on(retrieveNexDaysExpiredDataSuccess, (state, action): ReportState => {
+    return { ...state, nextDaysExpired: action.nextDaysExpired };
+  }),
+  on(retrieveStorageValueHistoryDataSuccess, (state, action): ReportState => {
+    return { ...state, valueHistoryData: action.valueHistoryData };
+  }),
+  on(retrieveProductPriceHistoryDataSuccess, (state, action): ReportState => {
+    return { ...state, priceHistoryData: action.priceHistoryData };
+  }),
+  on(retrieveSumPricesByCategoryDataSuccess, (state, action): ReportState => {
+    return { ...state, sumPriceCategoryData: action.sumPriceCategoryData };
+  }),
+  on(retrieveListPurchasesSuccess, (state, action): ReportState => {
+    return { ...state, purchasesData: action.purchasesData };
+  }),
+  on(retrieveValidInventorySuccess, (state, action): ReportState => {
+    return { ...state, validInventory: action.validInventory };
+  }),
+  on(setReportCategoryId, (state, action): ReportState => {
+    return { ...state, selectedCategoryId: action.idCategory };
+  }),
+  on(setReportProductId, (state, action): ReportState => {
+    return { ...state, selectedProductId: action.idProduct };
+  }),
+  on(selectValidInventoryByCategoryAndProduct, (state, action): ReportState => {
+    return {
+      ...state,
+      selectedValidInventory: state.validInventory.filter(
+        (storage) =>
+          (state.selectedCategoryId > 0
+            ? storage.idCategory == state.selectedCategoryId
+            : true) &&
+          (state.selectedProductId > 0
+            ? storage.idProduct == state.selectedProductId
+            : true)
+      ),
+    };
+  })
+);

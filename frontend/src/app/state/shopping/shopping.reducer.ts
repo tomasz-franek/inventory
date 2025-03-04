@@ -1,5 +1,6 @@
 import { ShoppingState } from './shopping.selectors';
 import { retrievedShoppingListActionSuccess } from './shopping.action';
+import { createReducer, on } from '@ngrx/store';
 
 export const initialShoppingState: ShoppingState = {
   shoppingList: [],
@@ -9,15 +10,9 @@ export const initialShoppingState: ShoppingState = {
     optLock: 0,
   },
 };
-
-export function shoppingReducer(
-  state = initialShoppingState,
-  action: any
-): ShoppingState {
-  switch (action.type) {
-    case retrievedShoppingListActionSuccess.type:
-      return { ...state, shoppingList: action.shopping };
-    default:
-      return state;
-  }
-}
+export const shoppingReducer = createReducer(
+  initialShoppingState,
+  on(retrievedShoppingListActionSuccess, (state, action): ShoppingState => {
+    return { ...state, shoppingList: action.shopping };
+  })
+);

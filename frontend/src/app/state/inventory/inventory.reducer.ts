@@ -5,6 +5,7 @@ import {
   setActiveInventory,
 } from './inventory.action';
 import { InventoryState } from './inventory.selectors';
+import { createReducer, on } from '@ngrx/store';
 
 export const initialInventoryState: InventoryState = {
   inventories: [],
@@ -15,35 +16,32 @@ export const initialInventoryState: InventoryState = {
   },
   active: true,
 };
-
-export function inventoryReducer(
-  state = initialInventoryState,
-  action: any
-): InventoryState {
-  switch (action.type) {
-    case saveInventory.type:
-      if (action.inventory.id !== undefined) {
-        return {
-          ...state,
-          inventories: state.inventories.map((inventory) =>
-            inventory.idInventory === action.inventory.id
-              ? action.inventory
-              : inventory
-          ),
-        };
-      } else {
-        return {
-          ...state,
-          inventories: [...state.inventories, action.inventory],
-        };
-      }
-    case retrievedInventoryListActionSuccess.type:
-      return { ...state, inventories: action.inventories };
-    case retrievedInventoryActionSuccess.type:
-      return { ...state, inventoryEdit: action.inventory };
-    case setActiveInventory.type:
-      return { ...state, active: action.active };
-    default:
-      return state;
-  }
-}
+export const inventoryReducer = createReducer(
+  initialInventoryState,
+  on(saveInventory, (state, action): InventoryState => {
+    if (action.inventory.idInventory !== undefined) {
+      return {
+        ...state,
+        inventories: state.inventories.map((inventory) =>
+          inventory.idInventory === action.inventory.idInventory
+            ? action.inventory
+            : inventory
+        ),
+      };
+    } else {
+      return {
+        ...state,
+        inventories: [...state.inventories, action.inventory],
+      };
+    }
+  }),
+  on(retrievedInventoryListActionSuccess, (state, action): InventoryState => {
+    return { ...state, inventories: action.inventories };
+  }),
+  on(retrievedInventoryActionSuccess, (state, action): InventoryState => {
+    return { ...state, inventoryEdit: action.inventory };
+  }),
+  on(setActiveInventory, (state, action): InventoryState => {
+    return { ...state, active: action.active };
+  })
+);

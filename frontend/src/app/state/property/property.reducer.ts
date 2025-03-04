@@ -1,5 +1,6 @@
 import { PropertyState } from './property.selectors';
 import { retrievedPropertyForUserActionSuccess } from './property.action';
+import { createReducer, on } from '@ngrx/store';
 
 export const initialPropertyState: PropertyState = {
   property: {
@@ -10,15 +11,9 @@ export const initialPropertyState: PropertyState = {
   },
   idUser: 1,
 };
-
-export function propertyReducer(
-  state: PropertyState = initialPropertyState,
-  action: any
-): PropertyState {
-  switch (action.type) {
-    case retrievedPropertyForUserActionSuccess.type:
-      return { ...state, property: action.property };
-    default:
-      return state;
-  }
-}
+export const propertyReducer = createReducer(
+  initialPropertyState,
+  on(retrievedPropertyForUserActionSuccess, (state, action): PropertyState => {
+    return { ...state, property: action.property };
+  })
+);

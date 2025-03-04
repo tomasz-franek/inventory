@@ -6,6 +6,7 @@ import {
   setProductCategoryId,
 } from './product.action';
 import { ProductState } from './product.selectors';
+import { createReducer, on } from '@ngrx/store';
 
 export const initialProductState: ProductState = {
   products: [],
@@ -19,35 +20,35 @@ export const initialProductState: ProductState = {
   idCategory: 0,
   active: true,
 };
-
-export function productReducer(
-  state: ProductState = initialProductState,
-  action: any
-): ProductState {
-  switch (action.type) {
-    case saveProduct.type:
-      if (action.product.id !== undefined) {
-        return {
-          ...state,
-          products: state.products.map((product) =>
-            product.idProduct === action.product.id ? action.product : product
-          ),
-        };
-      } else {
-        return {
-          ...state,
-          products: [...state.products, action.product],
-        };
-      }
-    case retrievedProductListActionSuccess.type:
-      return { ...state, products: action.products };
-    case setActiveProduct.type:
-      return { ...state, active: action.active };
-    case setProductCategoryId.type:
-      return { ...state, idCategory: action.idCategory };
-    case retrievedProductActionSuccess.type:
-      return { ...state, productEdit: action.product };
-    default:
-      return state;
-  }
-}
+export const productReducer = createReducer(
+  initialProductState,
+  on(saveProduct, (state, action): ProductState => {
+    if (action.product.idProduct !== undefined) {
+      return {
+        ...state,
+        products: state.products.map((product) =>
+          product.idProduct === action.product.idProduct
+            ? action.product
+            : product
+        ),
+      };
+    } else {
+      return {
+        ...state,
+        products: [...state.products, action.product],
+      };
+    }
+  }),
+  on(retrievedProductListActionSuccess, (state, action): ProductState => {
+    return { ...state, products: action.products };
+  }),
+  on(setActiveProduct, (state, action): ProductState => {
+    return { ...state, active: action.active };
+  }),
+  on(setProductCategoryId, (state, action): ProductState => {
+    return { ...state, idCategory: action.idCategory };
+  }),
+  on(retrievedProductActionSuccess, (state, action): ProductState => {
+    return { ...state, productEdit: action.product };
+  })
+);

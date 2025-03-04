@@ -3,26 +3,28 @@ import {
   retrievedConsumeProductListActionSuccess,
   retrievedItemsWithoutInventoryListActionSuccess,
 } from './item.action';
+import { createReducer, on } from '@ngrx/store';
 
 export const initialItemState: ItemState = {
   items: [],
   itemsWithoutInventoryList: [],
   consumeProductList: [],
 };
-
-export function itemReducer(state = initialItemState, action: any): ItemState {
-  switch (action.type) {
-    case retrievedItemsWithoutInventoryListActionSuccess.type:
+export const itemReducer = createReducer(
+  initialItemState,
+  on(
+    retrievedItemsWithoutInventoryListActionSuccess,
+    (state, action): ItemState => {
       return {
         ...state,
         itemsWithoutInventoryList: action.itemsWithoutInventoryList,
       };
-    case retrievedConsumeProductListActionSuccess.type:
-      return {
-        ...state,
-        consumeProductList: action.consumeProductList,
-      };
-    default:
-      return state;
-  }
-}
+    }
+  ),
+  on(retrievedConsumeProductListActionSuccess, (state, action): ItemState => {
+    return {
+      ...state,
+      consumeProductList: action.consumeProductList,
+    };
+  })
+);
