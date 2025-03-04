@@ -6,9 +6,12 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, concatMap, map, mergeMap, Observable, tap } from 'rxjs';
 import {
   deleteShopping,
+  loadShoppingAction,
   navigateToShoppingEdit,
   navigateToShoppingList,
   navigateToShoppingNew,
+  retrievedShoppingActionError,
+  retrievedShoppingActionSuccess,
   retrievedShoppingList,
   retrievedShoppingListActionError,
   retrievedShoppingListActionSuccess,
@@ -108,6 +111,25 @@ export class ShoppingEffects {
       })
     )
   );
+
+  loadShopping$ = createEffect(() => {
+    return inject(Actions).pipe(
+      ofType(loadShoppingAction),
+      mergeMap((action) =>
+        this._apiService$.getShopping(action.id).pipe(
+          map((shopping) => {
+            debugger;
+            return retrievedShoppingActionSuccess({
+              shopping: shopping,
+            });
+          })
+        )
+      ),
+      catchError((error: any) => {
+        return [retrievedShoppingActionError({ error })];
+      })
+    );
+  });
 
   private _getCreateOrUpdateObservable(shopping: Shopping): Observable<any> {
     if (shopping.idShopping !== undefined) {

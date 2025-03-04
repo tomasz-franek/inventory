@@ -17,6 +17,7 @@ import {
 } from '../state/category/category.action';
 import { ActivatedRoute } from '@angular/router';
 import {
+  CategoryState,
   editCategorySelector,
   newCategorySelector,
 } from '../state/category/category.selectors';
@@ -28,7 +29,7 @@ import {
   styleUrl: './category-add.component.css',
 })
 export class CategoryAddComponent implements OnInit {
-  private _store$: Store = inject(Store);
+  private _storeCategory$: Store<CategoryState> = inject(Store);
   protected category$: Category = { active: false, name: '', optLock: 0 };
   private _formGroup: FormGroup;
 
@@ -47,7 +48,7 @@ export class CategoryAddComponent implements OnInit {
   ngOnInit(): void {
     const id = this.routerId;
     if (id === null) {
-      this._store$.select(newCategorySelector).subscribe((category) => {
+      this._storeCategory$.select(newCategorySelector).subscribe((category) => {
         this.category$ = category;
         this._formGroup = this.formBuilder.group({
           id: undefined,
@@ -57,16 +58,18 @@ export class CategoryAddComponent implements OnInit {
         });
       });
     } else {
-      this._store$.dispatch(loadCategoryAction({ id: Number(id) }));
-      this._store$.select(editCategorySelector).subscribe((category) => {
-        this.category$ = category;
-        this._formGroup = this.formBuilder.group({
-          id: this.category$.idCategory,
-          name: [this.category$.name, Validators.required],
-          active: [this.category$.active, Validators.required],
-          optLock: [this.category$.optLock],
+      this._storeCategory$.dispatch(loadCategoryAction({ id: Number(id) }));
+      this._storeCategory$
+        .select(editCategorySelector)
+        .subscribe((category) => {
+          this.category$ = category;
+          this._formGroup = this.formBuilder.group({
+            id: this.category$.idCategory,
+            name: [this.category$.name, Validators.required],
+            active: [this.category$.active, Validators.required],
+            optLock: [this.category$.optLock],
+          });
         });
-      });
     }
   }
 
@@ -75,7 +78,7 @@ export class CategoryAddComponent implements OnInit {
   }
 
   backToCategories() {
-    this._store$.dispatch(navigateToCategoryList());
+    this._storeCategory$.dispatch(navigateToCategoryList());
   }
 
   save() {
@@ -85,7 +88,9 @@ export class CategoryAddComponent implements OnInit {
       active: this._formGroup.value.active,
     };
     if (this._formGroup.value.id !== undefined) {
-      this._store$.dispatch(saveCategory({ category: updatedCategory }));
+      this._storeCategory$.dispatch(
+        saveCategory({ category: updatedCategory })
+      );
     }
   }
 

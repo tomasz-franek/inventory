@@ -15,3 +15,8 @@ export const getShoppingList = createSelector(
   selectShoppingFutureState,
   (state) => state.shoppingList
 );
+
+export const editShoppingSelector = createSelector(
+  selectShoppingFutureState,
+  (state) => state.shoppingEdit
+);

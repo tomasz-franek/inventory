@@ -138,7 +138,6 @@ export class StoragesListComponent implements OnInit {
   }
 
   updateStorage() {
-    debugger;
     let updatedStorage = {
       ...this._formGroup.value.storage,
       price: this._formGroup.value.newPrice,

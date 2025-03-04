@@ -126,6 +126,10 @@ export class ApiService {
     return this.shoppingService.updateShopping(idShopping, shopping);
   }
 
+  getShopping(idShopping: number): Observable<Shopping> {
+    return this.shoppingService.getShopping(idShopping);
+  }
+
   getUnits(): Observable<Unit[]> {
     return this.unitsService.getAllUnits();
   }

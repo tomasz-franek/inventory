@@ -17,9 +17,25 @@ export const retrievedShoppingListActionError = createAction(
     error: HttpErrorResponse;
   }>()
 );
+export const retrievedShoppingActionError = createAction(
+  '[Shopping] Shopping Error',
+  props<{
+    error: HttpErrorResponse;
+  }>()
+);
 
 export const navigateToShoppingList = createAction(
   '[Shopping] Navigate to Shopping List'
+);
+
+export const loadShoppingAction = createAction(
+  '[Shopping] Load Shopping',
+  props<{ id: number }>()
+);
+
+export const retrievedShoppingActionSuccess = createAction(
+  '[Shopping] Retrieved Shopping Action Success',
+  props<{ shopping: Shopping }>()
 );
 
 export const navigateToShoppingNew = createAction(

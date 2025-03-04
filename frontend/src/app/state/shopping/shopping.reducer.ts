@@ -1,5 +1,8 @@
 import { ShoppingState } from './shopping.selectors';
-import { retrievedShoppingListActionSuccess } from './shopping.action';
+import {
+  retrievedShoppingActionSuccess,
+  retrievedShoppingListActionSuccess,
+} from './shopping.action';
 import { createReducer, on } from '@ngrx/store';
 
 export const initialShoppingState: ShoppingState = {
@@ -12,7 +15,16 @@ export const initialShoppingState: ShoppingState = {
 };
 export const shoppingReducer = createReducer(
   initialShoppingState,
-  on(retrievedShoppingListActionSuccess, (state, action): ShoppingState => {
-    return { ...state, shoppingList: action.shopping };
-  })
+  on(
+    retrievedShoppingListActionSuccess,
+    (state: ShoppingState, action): ShoppingState => {
+      return { ...state, shoppingList: action.shopping };
+    }
+  ),
+  on(
+    retrievedShoppingActionSuccess,
+    (state: ShoppingState, action): ShoppingState => {
+      return { ...state, shoppingEdit: action.shopping };
+    }
+  )
 );

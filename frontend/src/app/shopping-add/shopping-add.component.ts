@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -16,9 +15,14 @@ import { getUnitsList, UnitState } from '../state/unit/unit.selectors';
 import { retrieveUnitList } from '../state/unit/unit.action';
 import { TagInputModule } from 'ngx-chips';
 import { StorageState } from '../state/storage/storage.selectors';
-import { navigateToShoppingList } from '../state/shopping/shopping.action';
+import {
+  loadShoppingAction,
+  navigateToShoppingList,
+} from '../state/shopping/shopping.action';
 import { saveStorage } from '../state/storage/storage.action';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
+import { editShoppingSelector } from '../state/shopping/shopping.selectors';
 
 @Component({
   selector: 'app-shopping-add',
@@ -43,22 +47,17 @@ export class ShoppingAddComponent implements OnInit {
   placeholder: string;
   public tags: Product[] = [];
   public products: Product[] = [];
-  private tagsArray: FormArray;
 
   constructor(
     private formBuilder: FormBuilder,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private route: ActivatedRoute
   ) {
     this.placeholder = this.translate.instant('ADD_TAG');
-    this._storeUnit$.dispatch(retrieveUnitList());
-
-    this.units$ = this._storeUnit$.select(getUnitsList);
-    this.tagsArray = this.formBuilder.array(this.tags);
     this._formGroup = this.formBuilder.group({
       items: [0, Validators.required],
       count: 0,
       idUnit: 0,
-      productTags: this.tagsArray,
     });
   }
 
@@ -85,8 +84,21 @@ export class ShoppingAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._storeUnit$.dispatch(retrieveUnitList());
-    this.units$ = this._storeUnit$.select(getUnitsList);
+    const id = this.routerId;
+    if (id === null) {
+      this._storeUnit$.dispatch(retrieveUnitList());
+      this.units$ = this._storeUnit$.select(getUnitsList);
+    } else {
+      this._storeUnit$.dispatch(loadShoppingAction({ id: Number(id) }));
+      this._storeUnit$.select(editShoppingSelector).subscribe((shopping) => {
+        console.log(shopping);
+        this._formGroup = this.formBuilder.group({
+          items: [shopping.items, Validators.required],
+          count: shopping.count,
+          idUnit: shopping.idUnit,
+        });
+      });
+    }
   }
 
   unitsCheckboxChange($event: any) {
@@ -98,5 +110,9 @@ export class ShoppingAddComponent implements OnInit {
       this._formGroup.get('idUnit')?.disable();
       this._formGroup.get('count')?.disable();
     }
+  }
+
+  get routerId(): string | null {
+    return this.route.snapshot.paramMap.get('id');
   }
 }

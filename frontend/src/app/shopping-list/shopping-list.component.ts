@@ -3,6 +3,7 @@ import { AsyncPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Property, Shopping, Unit } from '../api';
 import {
+  navigateToShoppingEdit,
   navigateToShoppingNew,
   retrievedShoppingList,
 } from '../state/shopping/shopping.action';
@@ -65,7 +66,9 @@ export class ShoppingListComponent implements OnInit {
     }
   }
 
-  edit(row: Shopping) {}
+  edit(shopping: Shopping) {
+    this._storeShopping$.dispatch(navigateToShoppingEdit({ shopping }));
+  }
 
   deleteShopping(row: Shopping) {}
 }
