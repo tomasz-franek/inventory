@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Category, Product, Property, Storage } from '../api';
+import { Category, Product, Storage } from '../api';
 import {
   getSelectedStoragesList,
   StorageState,
@@ -17,8 +17,13 @@ import {
   CategoryState,
   getCategoriesList,
 } from '../state/category/category.selectors';
-import { FormsModule } from '@angular/forms';
-import { StoragesFilter } from '../../objects/storagesFilter';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AsyncPipe, DecimalPipe, NgClass, NgForOf } from '@angular/common';
 import {
   retrieveProductList,
@@ -27,6 +32,7 @@ import {
 import {
   navigateToStorageNew,
   retrieveStorageList,
+  saveStorage,
   selectStorageByCategoryAndProduct,
   setHideUsed,
   setStorageCategoryId,
@@ -34,6 +40,7 @@ import {
   setStorageProductId,
 } from '../state/storage/storage.action';
 import { retrieveCategoryList } from '../state/category/category.action';
+import { ActiveColor } from '../utils/active-color';
 
 @Component({
   selector: 'app-storages-list',
@@ -44,6 +51,7 @@ import { retrieveCategoryList } from '../state/category/category.action';
     DecimalPipe,
     NgForOf,
     AsyncPipe,
+    ReactiveFormsModule,
   ],
   templateUrl: './storages-list.component.html',
   styleUrl: './storages-list.component.css',
@@ -55,17 +63,22 @@ export class StoragesListComponent implements OnInit {
   protected storages$!: Observable<Storage[]>;
   protected products$!: Observable<Product[]>;
   protected categories$!: Observable<Category[]>;
-  protected filter$: StoragesFilter = {
-    idCategory: 0,
-    idProduct: 0,
-    allStorages: [],
-    allProducts: [],
-    hideUsed: false,
-  };
-  protected editStore$ = { idStorage: 0, price: 0, productName: '' };
-  protected properties$!: Observable<Property>;
 
-  constructor() {}
+  private _formGroup: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) {
+    this._formGroup = this.formBuilder.group({
+      idProduct: [0, [Validators.required, Validators.min(1)]],
+      idCategory: [0, [Validators.required, Validators.min(1)]],
+      hideUsed: false,
+      newPrice: undefined,
+      storage: undefined,
+    });
+  }
+
+  get formGroup(): FormGroup {
+    return this._formGroup;
+  }
 
   ngOnInit() {
     this._storeStorage$.dispatch(setHideUsed({ hideUsed: true }));
@@ -80,8 +93,8 @@ export class StoragesListComponent implements OnInit {
 
   addNewStorage() {
     const storageEdit: Storage = {
-      idProduct: this.filter$.idProduct,
-      idCategory: this.filter$.idCategory,
+      idProduct: 0,
+      idCategory: 0,
       insertDate: '',
       items: 1,
       optLock: 0,
@@ -92,17 +105,9 @@ export class StoragesListComponent implements OnInit {
     this._storeProduct$.dispatch(navigateToStorageNew());
   }
 
-  activeTextColor(active: boolean) {
-    if (!active) {
-      return 'text-danger';
-    } else {
-      return 'text';
-    }
-  }
-
   updateFilterProduct(event: number) {
     let idProduct: number = Number(event);
-    this.filter$.idProduct = idProduct;
+    this._formGroup.value.idProduct = idProduct;
     this._storeStorage$.dispatch(setStorageProductId({ idProduct }));
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
@@ -113,46 +118,50 @@ export class StoragesListComponent implements OnInit {
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
 
-  updateFilterCategory(event: number) {
-    let idCategory: number = Number(event);
+  updateFilterCategory() {
+    let idCategory: number = this._formGroup.value.idCategory;
     this._storeStorage$.dispatch(setStorageCategoryId({ idCategory }));
-    this.filter$.idCategory = idCategory;
-    this.filter$.idProduct = 0;
+    this._formGroup.value.idProduct = 0;
     this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
     this._storeStorage$.dispatch(setStorageProductId({ idProduct: 0 }));
     this.products$ = this._storeProduct$.select(filterProductByCategory);
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
 
-  editStorage(row: Storage) {
-    // this.editStore.idStorage = row.idStorage;
-    // this.editStore.price = row.price || 0;
-    // this.editStore.productName = row.name || '';
+  editStorage(storage: Storage) {
+    this._formGroup.value.storage = storage;
+    this._formGroup.value.editStore = {
+      idStorage: storage.idStorage,
+      price: storage.price,
+      productName: document.getElementById('productName')?.innerText,
+    };
   }
 
   updateStorage() {
-    // if (this.editStore != null) {
-    //
-    //   this.dataService.updateStorage(this.editStore.idStorage, this.editStore.price)
-    //     .subscribe({
-    //       next: () => {
-    //       },
-    //       error: (error: HttpErrorResponse) => {
-    //         this.alertService.error(error.statusText);
-    //       },
-    //       complete: () => {
-    //         this.clearEditStore();
-    //         this.completeProgress();
-    //       }
-    //     });
-    // }
+    debugger;
+    let updatedStorage = {
+      ...this._formGroup.value.storage,
+      price: this._formGroup.value.newPrice,
+    };
+    this._storeStorage$.dispatch(saveStorage({ storage: updatedStorage }));
+    this._storeStorage$.dispatch(retrieveStorageList());
+    this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
 
   clearEditStore() {
-    // this.editStore = {idStorage: 0, price: 0, productName: ''};
+    this._formGroup.value.idStorage = 0;
+    this._formGroup.value.price = 0;
+    this._formGroup.value.productName = '';
   }
 
   getProductName(idProduct: number): Observable<Product | undefined> {
     return this._storeProduct$.select(selectProductById(idProduct));
+  }
+
+  protected readonly ActiveColor = ActiveColor;
+
+  updatePrice($event: any) {
+    let newPrice = Number($event.target.value);
+    this._formGroup.value.newPrice = newPrice;
   }
 }

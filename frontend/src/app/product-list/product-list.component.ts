@@ -23,6 +23,7 @@ import {
   selectCategoryById,
 } from '../state/category/category.selectors';
 import { retrieveCategoryList } from '../state/category/category.action';
+import { ActiveColor } from '../utils/active-color';
 
 @Component({
   selector: 'app-product-list',
@@ -75,11 +76,5 @@ export class ProductListComponent implements OnInit {
     return this._storeCategory$.select(selectCategoryById(idCategory));
   }
 
-  activeTextColor(active: boolean) {
-    if (!active) {
-      return 'text-danger';
-    } else {
-      return 'text';
-    }
-  }
+  protected readonly ActiveColor = ActiveColor;
 }

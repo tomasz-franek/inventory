@@ -10,6 +10,7 @@ import {
   Inventory,
   InventoryReportData,
   Item,
+  ItemsService,
   LastUsedData,
   NextDayExpiredData,
   PriceCategoryData,
@@ -45,6 +46,7 @@ export class ApiService {
   private propertyService: PropertyService = inject(PropertyService);
   private shoppingService: ShoppingService = inject(ShoppingService);
   private dictionaryService: DictionaryService = inject(DictionaryService);
+  private itemService: ItemsService = inject(ItemsService);
   private reportService: ReportService = inject(ReportService);
 
   constructor() {}
@@ -225,5 +227,12 @@ export class ApiService {
     idInventory: number
   ): Observable<PurchasesData[]> {
     return this.reportService.getListRecentPurchases(days, idInventory);
+  }
+
+  updateItemByInventoryId(
+    idItem: number,
+    idInventory: number
+  ): Observable<any> {
+    return this.itemService.updateItemByInventoryId(idItem, idInventory);
   }
 }

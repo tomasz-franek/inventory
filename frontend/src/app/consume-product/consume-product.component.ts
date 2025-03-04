@@ -12,7 +12,13 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AsyncPipe, DecimalPipe, NgForOf, NgStyle } from '@angular/common';
+import {
+  AsyncPipe,
+  DatePipe,
+  DecimalPipe,
+  NgForOf,
+  NgStyle,
+} from '@angular/common';
 import { Category, ConsumeProduct, Inventory, Product, Property } from '../api';
 import { BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { Store } from '@ngrx/store';
@@ -52,6 +58,7 @@ import {
     BsDatepickerDirective,
     AsyncPipe,
     ReactiveFormsModule,
+    DatePipe,
   ],
   templateUrl: './consume-product.component.html',
   styleUrl: './consume-product.component.css',
@@ -73,7 +80,6 @@ export class ConsumeProductComponent implements OnInit {
     endDate: '',
     productName: '',
   };
-  public consumeDate: Date | undefined = undefined;
   @ViewChild('dateInput') public dateInput!: ElementRef;
   private _formGroup: FormGroup;
 
@@ -82,7 +88,7 @@ export class ConsumeProductComponent implements OnInit {
       idInventory: 0,
       idCategory: 0,
       idProduct: 0,
-      consumeDate: new Date(),
+      consumeDate: undefined,
       used: 0,
     });
   }
@@ -129,9 +135,15 @@ export class ConsumeProductComponent implements OnInit {
 
   consumeProduct() {}
 
-  addDay(number: number) {}
+  addDay(number: number) {
+    if (this._formGroup.value.consumeDate != undefined) {
+      this._formGroup.value.consumeDate += number;
+    }
+  }
 
-  currentDate() {}
+  currentDate() {
+    this._formGroup.value.consumeDate = new Date();
+  }
 
   onChangeConsumeDate($event: Date) {
     this._formGroup.value.consumeDate = $event;

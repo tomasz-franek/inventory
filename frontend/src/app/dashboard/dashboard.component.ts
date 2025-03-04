@@ -3,7 +3,6 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AsyncPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import {
-  Item,
   LastUsedData,
   NextDayExpiredData,
   Property,
@@ -15,7 +14,6 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ItemState } from '../state/item/item.selectors';
 import {
   getShoppingList,
   ShoppingState,
@@ -55,11 +53,9 @@ import { retrieveUnitList } from '../state/unit/unit.action';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
-  public items$!: Observable<Item[]>;
   public units$!: Observable<Unit[]>;
   public shopping$!: Observable<Shopping[]>;
   private _storeShopping$: Store<ShoppingState> = inject(Store);
-  private _storeItem$: Store<ItemState> = inject(Store);
   private _storeUnit$: Store<UnitState> = inject(Store);
   private _storeReport$: Store<ReportState> = inject(Store);
   private _events$: any = [];
@@ -75,7 +71,6 @@ export class DashboardComponent implements OnInit {
     firstDay: 1,
     initialView: 'dayGridMonth',
   };
-  private _item: any = { price: 0 };
 
   constructor() {}
 

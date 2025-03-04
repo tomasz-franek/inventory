@@ -15,6 +15,7 @@ import {
   InventoryState,
 } from '../state/inventory/inventory.selectors';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ActiveColor } from '../utils/active-color';
 
 @Component({
   selector: 'app-inventory-list',
@@ -53,11 +54,5 @@ export class InventoryListComponent implements OnInit {
     this.inventories$ = this._storeInventory$.select(filterInventories);
   }
 
-  activeTextColor(active: boolean) {
-    if (!active) {
-      return 'text-danger';
-    } else {
-      return 'text';
-    }
-  }
+  protected readonly ActiveColor = ActiveColor;
 }

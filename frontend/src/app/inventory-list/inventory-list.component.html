@@ -29,7 +29,7 @@
       <tr *ngFor="let row of inventories$ | async; let rowNr = index">
         <td [textContent]="rowNr + 1" class="text-center"></td>
         <td class="text-left">
-          <span [ngClass]="activeTextColor(row.active)" [textContent]="row.name"></span>
+          <span [ngClass]="ActiveColor.activeTextColor(row.active)" [textContent]="row.name"></span>
         </td>
         <td [textContent]="row.description" class="text-left"></td>
         <td class="text-center checkbox-column">

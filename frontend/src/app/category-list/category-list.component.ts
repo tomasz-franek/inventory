@@ -15,6 +15,7 @@ import {
   filterCategory,
   getCategoriesList,
 } from '../state/category/category.selectors';
+import { ActiveColor } from '../utils/active-color';
 
 @Component({
   selector: 'app-category-list',
@@ -53,11 +54,5 @@ export class CategoryListComponent implements OnInit {
     this.categories$ = this._storeCategory$.select(filterCategory);
   }
 
-  activeTextColor(active: boolean) {
-    if (!active) {
-      return 'text-danger';
-    } else {
-      return 'text';
-    }
-  }
+  protected readonly ActiveColor = ActiveColor;
 }

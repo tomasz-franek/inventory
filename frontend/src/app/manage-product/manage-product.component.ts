@@ -20,7 +20,10 @@ import {
   getItemsWithInventoryList,
   ItemState,
 } from '../state/item/item.selectors';
-import { retrieveItemsWithoutInventory } from '../state/item/item.action';
+import {
+  retrieveItemsWithoutInventory,
+  updateItemByInventory,
+} from '../state/item/item.action';
 
 @Component({
   selector: 'app-manage-product',
@@ -62,18 +65,16 @@ export class ManageProductComponent implements OnInit {
   }
 
   addAllToInventory() {
-    // if (this.inventoryForm.value.idInventory != 0 && this.items$.size > 0) {
-    //   this.inventoryForm.value.items.forEach((item) => {
-    //     if (item.ids !== undefined) {
-    //       item.ids.forEach((id) => {
-    //         this.updateInventoryNumber(
-    //           id,
-    //           this.inventoryForm.value.idInventory
-    //         );
-    //       });
-    //     }
-    //   });
-    this.ngOnInit();
+    this.items$.subscribe((data) => {
+      data.forEach((element) => {
+        if (element.idItem != undefined) {
+          this.updateInventoryNumber(
+            element.idItem,
+            this._formGroup.value.idInventory
+          );
+        }
+      });
+    });
   }
 
   selectItemRow(row: any) {
@@ -92,36 +93,12 @@ export class ManageProductComponent implements OnInit {
       this.storage.selectedItems <= this.storage.ids.length &&
       this.storage.selectedItems > 0
     ) {
-      let step = 1 / this.storage.selectedItems;
-      for (let i = 0; i < this.storage.selectedItems; i++) {
-        this.updateInventoryNumber(
-          this.storage.ids[i],
-          this.rowIdInventory,
-          step
-        );
-      }
+      //this.updateInventoryNumber(this.storage.ids[i], this.rowIdInventory);
       this.ngOnInit();
     }
   }
 
-  updateInventoryNumber(item: number, inventory: number, _step: number = 0) {
-    // this.startProgress();
-    // this.dataService.updateInventoryNumber(item, inventory).subscribe({
-    //   next: (data) => {
-    //     if (data instanceof HttpResponse) {
-    //       this.alertService.success(data.statusText);
-    //     }
-    //   },
-    //   error: (error: HttpErrorResponse) => {
-    //     this.alertService.error(error.statusText);
-    //   },
-    //   complete: () => {
-    //     this.completeProgress();
-    //   },
-    // });
+  updateInventoryNumber(idItem: number, idInventory: number) {
+    this._storeItem$.dispatch(updateItemByInventory({ idItem, idInventory }));
   }
-
-  // onSorted(event: any) {
-  //   //this.sortService.sortArray(this.items, event);
-  // }
 }

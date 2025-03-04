@@ -54,7 +54,7 @@
       <tbody>
       <tr *ngFor="let row of products$ | async ; let rowNr = index">
         <td [textContent]="rowNr +1" class="text-center"></td>
-        <td [textContent]="row.name" class="text-left" [ngClass]="activeTextColor(row.active)"></td>
+        <td [textContent]="row.name" class="text-left" [ngClass]="ActiveColor.activeTextColor(row.active)"></td>
         <td class="text-center checkbox-column">
           <input [checked]="row.fragile" class="checkbox" disabled type="checkbox" id="fragile"></td>
         <td class="text-center checkbox-column">

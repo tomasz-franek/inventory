@@ -143,10 +143,9 @@
           <label class="col-2">{{ 'END_DATE' | translate }}</label>
           <div class="row mb-2">
             <input
-              #dateInput
               (bsValueChange)="onChangeConsumeDate($event)"
-              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',  returnFocusToInput: true}"
-              [(bsValue)]="consumeDate"
+              formControlName="consumeDate"
+              value="{{ formGroup.value.consumeDate | date:'yyyy-MM-dd'}}"
               autocomplete="off"
               bsDatepicker
               class="form-control"

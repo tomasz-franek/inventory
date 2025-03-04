@@ -9,7 +9,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AsyncPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
+import {
+  AsyncPipe,
+  DatePipe,
+  DecimalPipe,
+  formatDate,
+  NgForOf,
+  NgIf,
+} from '@angular/common';
 import { Price } from '../../objects/price';
 import { BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -20,6 +27,7 @@ import {
 } from '../state/storage/storage.selectors';
 import {
   navigateToStorageList,
+  saveStorage,
   setStorageInventoryId,
   setStorageProductId,
   setStorageUnitId,
@@ -58,6 +66,7 @@ import { retrieveInventoryList } from '../state/inventory/inventory.action';
     AsyncPipe,
     ReactiveFormsModule,
     BsDatepickerDirective,
+    DatePipe,
   ],
   providers: [provideAnimations()],
   templateUrl: './storages-add.component.html',
@@ -91,10 +100,10 @@ export class StoragesAddComponent implements OnInit {
       idProduct: [0, [Validators.required, Validators.min(1)]],
       idCategory: [0, [Validators.required, Validators.min(1)]],
       idUnit: new FormControl({ value: 0, disabled: true }),
-      buyDate: null,
+      buyDate: [null, Validators.required],
       validDate: null,
       count: new FormControl({ value: 0, disabled: true }, Validators.required),
-      items: [0, [Validators.required, Validators.min(1)]],
+      items: [0, [Validators.min(1), Validators.required]],
       idInventory: 0,
       price: 0,
       unitsCheckbox: new FormControl({ value: false, disabled: false }),
@@ -145,7 +154,7 @@ export class StoragesAddComponent implements OnInit {
     let idProduct: number = Number($event.target.value);
     this._formGroup.value.idProduct = idProduct;
     this._storeProduct$.dispatch(setStorageProductId({ idProduct }));
-    this.saveButtonDisabled = this._formGroup.invalid;
+    this.saveButtonDisabled = this._formGroup.valid;
   }
 
   onChangeBuyDate($event: Date) {
@@ -155,7 +164,7 @@ export class StoragesAddComponent implements OnInit {
 
   onValidDateChanged($event: Date) {
     this._formGroup.value.validDate = $event;
-    this.saveButtonDisabled = this._formGroup.invalid;
+    this.saveButtonDisabled = this._formGroup.valid;
   }
 
   updateCheckbox($event: any) {
@@ -180,17 +189,28 @@ export class StoragesAddComponent implements OnInit {
     this._storeStorage$.dispatch(navigateToStorageList());
   }
 
-  saveStorage(update: boolean) {
+  saveStorageActon(update: boolean) {
+    let insertDate = formatDate(
+      this._formGroup.value.buyDate,
+      'yyyy-MM-dd',
+      'en-US'
+    );
+    let validDate =
+      this._formGroup.value.validDate !== null
+        ? formatDate(this._formGroup.value.validDate, 'yyyy-MM-dd', 'en-US')
+        : undefined;
     const newStorage: Storage = {
-      idProduct: 0,
-      insertDate: this._formGroup.value.buyDate.toDateString(),
-      validDate: this._formGroup.value.validDate?.toDateString(),
+      idProduct: this._formGroup.value.idProduct,
+      insertDate: insertDate,
+      validDate: validDate,
       items: this._formGroup.value.items,
+      count: this._formGroup.value.count,
+      idUnit: this._formGroup.value.idUnit,
       optLock: 0,
       price: this._formGroup.value.price,
       used: 0,
     };
-    //this._storeStorage$.subscribe(saveStorage({ storage: newStorage }));
+    this._storeStorage$.dispatch(saveStorage({ storage: newStorage }));
   }
 
   changeInventory($event: any) {
@@ -203,5 +223,10 @@ export class StoragesAddComponent implements OnInit {
     let idUnit: number = Number($event.target.value);
     this._formGroup.value.idUnit = idUnit;
     this._storeProduct$.dispatch(setStorageUnitId({ idUnit }));
+  }
+
+  changeItems($event: any) {
+    let items: number = Number($event.target.value);
+    this._formGroup.value.items = items;
   }
 }

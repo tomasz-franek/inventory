@@ -60,7 +60,7 @@
           <input
             (bsValueChange)="onChangeBuyDate($event)"
             formControlName="buyDate"
-            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',  returnFocusToInput: true}"
+            value="{{ formGroup.value.buyDate | date:'yyyy-MM-dd'}}"
             [maxDate]="today"
             bsDatepicker
             class="form-control"
@@ -72,10 +72,11 @@
           <input
             (bsValueChange)="onValidDateChanged($event)"
             formControlName="validDate"
-            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}"
+            value="{{ formGroup.value.validDate | date:'yyyy-MM-dd'}}"
             bsDatepicker
             class="form-control"
             placeholder="{{ 'VALID_DATE' | translate }}"
+            type="text"
           />
         </div>
       </div>
@@ -134,6 +135,7 @@
       <div class="row">
         <div class="col-6">
           <input
+            (change)="changeItems($event)"
             formControlName="items"
             class="input"
             id="items"
@@ -241,7 +243,7 @@
       {{ 'BACK' | translate }}
     </button>
     <button
-      (click)="saveStorage(false)"
+      (click)="saveStorageActon(false)"
       [disabled]="saveButtonDisabled"
       class="col col-2 btn btn-outline-primary me-2"
       id="save"
@@ -249,7 +251,7 @@
       {{ 'SAVE' | translate }}
     </button>
     <button
-      (click)="saveStorage(true)"
+      (click)="saveStorageActon(true)"
       [disabled]="saveButtonDisabled"
       class="col col-2 btn btn btn-outline-primary me-2"
       id="saveAndAdd"

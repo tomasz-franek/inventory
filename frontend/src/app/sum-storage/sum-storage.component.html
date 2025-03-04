@@ -51,7 +51,7 @@
     <tbody>
     <tr *ngFor="let row of _storages$; let rowNr = index">
       <td [textContent]="rowNr + 1" class="text-center"></td>
-      <td class="text-left"><span [ngClass]="fullUsedColor(row.used)" [textContent]="row.name"></span></td>
+      <td class="text-left"><span [ngClass]="ActiveColor.fullUsedColor(row.used)" [textContent]="row.name"></span></td>
       <td [textContent]="row.items" class="text-center"></td>
       <td class="text-center"> {{ row.price | number :'1.2-2' }} {{ properties.currency }}</td>
       <td class="text-center" style="alignment: center">

@@ -11,6 +11,9 @@ import {
   retrievedItemsListActionError,
   retrievedItemsWithoutInventoryListActionSuccess,
   retrieveItemsWithoutInventory,
+  saveItemActionError,
+  saveItemSuccess,
+  updateItemByInventory,
 } from './item.action';
 import { ItemState } from './item.selectors';
 
@@ -87,6 +90,24 @@ export class ItemsEffects {
       }),
       catchError((error: any) => {
         return [retrievedConsumeProductListActionError({ error })];
+      })
+    )
+  );
+
+  updateItemInventory$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(updateItemByInventory),
+      mergeMap((action) => {
+        return this._apiService$
+          .updateItemByInventoryId(action.idItem, action.idInventory)
+          .pipe(
+            concatMap((data) => {
+              return [saveItemSuccess()];
+            })
+          );
+      }),
+      catchError((error: any) => {
+        return [saveItemActionError({ error })];
       })
     )
   );

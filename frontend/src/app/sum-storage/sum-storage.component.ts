@@ -36,6 +36,7 @@ import {
   setStorageCategoryId,
   setStorageProductId,
 } from '../state/storage/storage.action';
+import { ActiveColor } from '../utils/active-color';
 
 @Component({
   selector: 'app-sum-storage',
@@ -263,11 +264,5 @@ export class SumStorageComponent implements OnInit {
     }
   }
 
-  fullUsedColor(used: number): string {
-    if (used >= 100) {
-      return 'text-danger';
-    } else {
-      return 'text';
-    }
-  }
+  protected readonly ActiveColor = ActiveColor;
 }

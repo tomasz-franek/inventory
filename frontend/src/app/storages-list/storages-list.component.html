@@ -1,4 +1,4 @@
-<div class="container">
+<form [formGroup]="formGroup">
   <div class="row mb-2">
     <h3>
       <i class="bi bi-inbox"></i>
@@ -34,8 +34,8 @@
   <div class="row mb-2">
     <div class="col-3">
       <select
-        (ngModelChange)="updateFilterCategory($event)"
-        [ngModel]="filter$.idCategory"
+        (change)="updateFilterCategory()"
+        formControlName="idCategory"
         class="form-select"
         id="category"
       >
@@ -53,7 +53,7 @@
     <div class="col-3">
       <select
         (ngModelChange)="updateFilterProduct($event)"
-        [ngModel]="filter$.idProduct"
+        formControlName="idProduct"
         class="form-select"
         id="product"
       >
@@ -106,7 +106,8 @@
           <td [textContent]="rowNr + 1" class="text-center"></td>
           <td class="text-left">
             <span
-              [ngClass]="activeTextColor(row.used < 100)"
+              id="productName"
+              [ngClass]="ActiveColor.activeTextColor(row.used < 100)"
               [textContent]="(getProductName(row.idProduct)|async)?.name"
             ></span>
           </td>
@@ -143,7 +144,7 @@
         <div class="modal-header">
           {{ 'EDIT' | translate }}&nbsp;
           <strong>
-            <span id="name" [textContent]="editStore$.productName"></span>
+            <span id="name" [textContent]="formGroup.value.productName"></span>
           </strong>
           <button
             type="button"
@@ -157,7 +158,8 @@
           <div class="row">
             <label class="col-2">{{ 'PRICE' | translate }}</label>
             <input
-              [(ngModel)]="editStore$.price"
+              formControlName="newPrice"
+              (change)="updatePrice($event)"
               class="form-control"
               id="price"
               type="number"
@@ -181,7 +183,7 @@
               class="btn btn-outline-primary"
               data-bs-dismiss="modal"
               (click)="updateStorage()"
-              [disabled]="editStore$.price == 0"
+              [disabled]="formGroup.value.newPrice == 0"
             >
               {{ 'SAVE' | translate }}
             </button>
@@ -190,4 +192,4 @@
       </form>
     </div>
   </div>
-</div>
+</form>

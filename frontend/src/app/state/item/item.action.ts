@@ -47,3 +47,16 @@ export const retrievedConsumeProductListActionError = createAction(
     error: HttpErrorResponse;
   }>()
 );
+
+export const updateItemByInventory = createAction(
+  '[Item] Update Item By Inventory',
+  props<{ idItem: number; idInventory: number }>()
+);
+
+export const saveItemActionError = createAction(
+  '[Item] Save Item Action Error',
+  props<{
+    error: HttpErrorResponse;
+  }>()
+);
+export const saveItemSuccess = createAction('[Item] Save Item Success');

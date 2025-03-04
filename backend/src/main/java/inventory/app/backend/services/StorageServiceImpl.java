@@ -1,22 +1,22 @@
 package inventory.app.backend.services;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import inventory.app.api.model.Product;
+import inventory.app.api.model.ResponseId;
+import inventory.app.api.model.Storage;
+import inventory.app.api.model.Unit;
 import inventory.app.backend.entities.ProductEntity;
 import inventory.app.backend.entities.StorageEntity;
 import inventory.app.backend.entities.UnitEntity;
 import inventory.app.backend.exceptions.NotFoundEntityException;
 import inventory.app.backend.exceptions.ValidationException;
 import inventory.app.backend.mappers.StorageMapper;
-import inventory.app.api.model.Product;
-import inventory.app.api.model.ResponseId;
-import inventory.app.api.model.Storage;
-import inventory.app.api.model.Unit;
 import inventory.app.backend.repositories.ProductRepository;
 import inventory.app.backend.repositories.StorageRepository;
 import inventory.app.backend.repositories.UnitRepository;
 import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.Validators;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,8 +79,7 @@ public class StorageServiceImpl implements StorageService {
                 ValidationResult.Context.contextSupplier(storage);
 
         validators.validate(validationResult,
-                validators.notNullValue(storage.getIdProduct(), contextSupplier, "idProduct", "idProduct is null"),
-                validators.notNullValue(storage.getIdUnit(), contextSupplier, "idUnit", "idUnit is null")
+                validators.notNullValue(storage.getIdProduct(), contextSupplier, "idProduct", "idProduct is null")
         );
 
         if (validationResult.isFailing()) {
@@ -89,12 +88,15 @@ public class StorageServiceImpl implements StorageService {
 
         ProductEntity productEntity = productRepository.findById(storage.getIdProduct()).orElseThrow(
                 () -> new NotFoundEntityException(Product.class, storage.getIdProduct()));
-        UnitEntity unitEntity = unitRepository.findById(storage.getIdUnit()).orElseThrow(
-                () -> new NotFoundEntityException(Unit.class, storage.getIdUnit()));
 
         StorageEntity storageEntity = mapper.toEntity(storage);
+        
+        if (storage.getIdUnit() != null) {
+            UnitEntity unitEntity = unitRepository.findById(storage.getIdUnit()).orElseThrow(
+                    () -> new NotFoundEntityException(Unit.class, storage.getIdUnit()));
+            storageEntity.setUnit(unitEntity);
+        }
 
-        storageEntity.setUnit(unitEntity);
         storageEntity.setProduct(productEntity);
         validators.validate(validationResult,
                 validators.validateTextDataLength(storageEntity),

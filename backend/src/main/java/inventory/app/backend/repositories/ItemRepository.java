@@ -18,7 +18,7 @@ public interface ItemRepository extends CrudRepository<ItemEntity,Long>,
             "FROM ItemEntity i " +
             "JOIN FETCH i.storage s " +
             "JOIN FETCH s.product p " +
-            "WHERE i.inventory IS NULL ")
+            "WHERE i.inventory.id IS NULL ")
     List<ItemEntity> itemsWithoutInventory();
 
     @Query("SELECT new inventory.app.api.model.ConsumeProduct(" +
@@ -37,7 +37,7 @@ public interface ItemRepository extends CrudRepository<ItemEntity,Long>,
             "JOIN i.inventory in " +
             "WHERE (:idCategory IS NULL OR p.category.id = :idCategory)" +
             "AND (:idProduct IS NULL OR p.id = :idProduct)" +
-            "AND (:idInventory IS NULL OR i.inventory.id = :idInventory)" +
+            "AND (:idInventory IS NULL OR in.id = :idInventory)" +
             "AND i.endDate IS NULL " +
             "ORDER BY p.name ASC, i.used DESC, i.validDate ASC, i.insertDate ASC")
     List<ConsumeProduct> getConsumeProductListInventoryCategory(
@@ -73,7 +73,8 @@ public interface ItemRepository extends CrudRepository<ItemEntity,Long>,
             "   JOIN i.storage s " +
             "   JOIN s.product p " +
             "   WHERE " +
-            "   (:idInventory IS NULL OR i.inventory.id = :idInventory) " +
+            "   i.endDate IS NOT NULL " +
+            "   AND (:idInventory IS NULL OR i.inventory.id = :idInventory) " +
             "   AND s.price > 0 " +
 
             "   UNION ALL " +
