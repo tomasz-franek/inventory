@@ -71,8 +71,8 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
             "FROM ItemEntity i " +
             "JOIN i.storage s " +
             "JOIN s.product p " +
-            "JOIN i.inventory inv " +
-            "WHERE i.endDate IS NOT NULL " +
+            "LEFT JOIN i.inventory inv " +
+            "WHERE i.endDate IS NULL " +
             "AND i.validDate between now() and :endDate " +
             "ORDER BY i.validDate")
     List<NextDayExpiredData> getNextDaysExpired(@Param("endDate") LocalDate endDate);

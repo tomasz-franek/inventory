@@ -38,6 +38,7 @@ public class StoragesController implements StoragesApi {
             item.setValidDate(storage.getValidDate());
             item.setInsertDate(storage.getInsertDate());
             item.setUsed(BigDecimal.ZERO);
+            item.setIdInventory(storage.getIdInventory());
             item.setOptLock(0);
             itemService.saveItem(item);
         }

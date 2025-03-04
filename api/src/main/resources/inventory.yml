@@ -1220,6 +1220,9 @@ components:
         optLock:
           type: integer
           format: int32
+        idInventory:
+          type: integer
+          format: int64
 
     Item:
       type: object

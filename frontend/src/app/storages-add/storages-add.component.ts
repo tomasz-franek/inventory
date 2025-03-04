@@ -206,6 +206,10 @@ export class StoragesAddComponent implements OnInit {
       items: this._formGroup.value.items,
       count: this._formGroup.value.count,
       idUnit: this._formGroup.value.idUnit,
+      idInventory:
+        this.formGroup.value.idInventory > 0
+          ? this._formGroup.value.idInventory
+          : undefined,
       optLock: 0,
       price: this._formGroup.value.price,
       used: 0,
