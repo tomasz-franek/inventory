@@ -1566,12 +1566,16 @@ components:
       type: object
       required:
         - idProduct
+        - idCategory
         - productName
         - validList
       properties:
         productName:
           type: string
         idProduct:
+          type: integer
+          format: int64
+        idCategory:
           type: integer
           format: int64
         validList:

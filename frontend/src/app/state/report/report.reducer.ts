@@ -10,6 +10,9 @@ import {
   retrieveStorageValueHistoryDataSuccess,
   retrieveSumPricesByCategoryDataSuccess,
   retrieveValidInventorySuccess,
+  selectValidInventoryByCategoryAndProduct,
+  setReportCategoryId,
+  setReportProductId,
 } from './report.action';
 
 export const initialReportState: ReportState = {
@@ -24,6 +27,9 @@ export const initialReportState: ReportState = {
   sumPriceCategoryData: [],
   purchasesData: [],
   validInventory: [],
+  selectedValidInventory: [],
+  selectedProductId: 0,
+  selectedCategoryId: 0,
 };
 
 export function reportReducer(
@@ -51,6 +57,24 @@ export function reportReducer(
       return { ...state, purchasesData: action.purchasesData };
     case retrieveValidInventorySuccess.type:
       return { ...state, validInventory: action.validInventory };
+    case setReportCategoryId.type:
+      return { ...state, selectedCategoryId: action.idCategory };
+    case setReportProductId.type:
+      return { ...state, selectedProductId: action.idProduct };
+    case selectValidInventoryByCategoryAndProduct.type:
+      console.log(state);
+      return {
+        ...state,
+        selectedValidInventory: state.validInventory.filter(
+          (storage) =>
+            (state.selectedCategoryId > 0
+              ? storage.idCategory == state.selectedCategoryId
+              : true) &&
+            (state.selectedProductId > 0
+              ? storage.idProduct == state.selectedProductId
+              : true)
+        ),
+      };
     default:
       return state;
   }

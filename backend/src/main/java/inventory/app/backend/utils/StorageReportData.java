@@ -16,13 +16,13 @@ public class StorageReportData {
             ProductValid productValid = new ProductValid();
             productValid.validDate(element.getValidDate());
             productValid.count(element.getCount());
-            StorageReportDataRow row = getRow(element.getIdProduct());
+            StorageReportDataRow row = getRow(element.getIdProduct(), element.getIdCategory());
             row.productName(element.getProductName());
             row.getValidList().add(productValid);
         });
     }
 
-    private StorageReportDataRow getRow(Long idProduct) {
+    private StorageReportDataRow getRow(Long idProduct, Long idCategory) {
 
         for (StorageReportDataRow row : rows) {
             if (row.getIdProduct().equals(idProduct)) {
@@ -31,6 +31,7 @@ public class StorageReportData {
         }
         StorageReportDataRow row = new StorageReportDataRow();
         row.idProduct(idProduct);
+        row.idCategory(idCategory);
         this.rows.add(row);
         return row;
     }

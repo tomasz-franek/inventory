@@ -26,6 +26,9 @@ export interface ReportState {
   sumPriceCategoryData: PriceCategoryData[];
   purchasesData: PurchasesData[];
   validInventory: StorageReportDataRow[];
+  selectedValidInventory: StorageReportDataRow[];
+  selectedProductId: number;
+  selectedCategoryId: number;
 }
 
 const selectReportFutureState = createFeatureSelector<ReportState>(
@@ -84,4 +87,9 @@ export const getPurchasesData = createSelector(
 export const getValidInventory = createSelector(
   selectReportFutureState,
   (state) => state.validInventory
+);
+
+export const getSelectedValidInventory = createSelector(
+  selectReportFutureState,
+  (state) => state.selectedValidInventory
 );

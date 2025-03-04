@@ -109,6 +109,7 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
 
     @Query("SELECT new inventory.app.backend.utils.DataRowElement(" +
             "   p.id, " +
+            "   p.category.id, " +
             "   p.name, " +
             "   s.validDate, " +
             "   count(i.storage.id) " +

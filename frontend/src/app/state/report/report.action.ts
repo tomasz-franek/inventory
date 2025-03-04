@@ -124,3 +124,16 @@ export const retrieveValidInventorySuccess = createAction(
 export const retrieveValidInventoryData = createAction(
   '[Report] Retrieve Valid Inventory Data'
 );
+
+export const setReportCategoryId = createAction(
+  '[Report] Set CategoryId',
+  props<{ idCategory: number }>()
+);
+export const setReportProductId = createAction(
+  '[Report] Set ProductId',
+  props<{ idProduct: number }>()
+);
+
+export const selectValidInventoryByCategoryAndProduct = createAction(
+  '[Report] Selected Inventory By Category And Product'
+);

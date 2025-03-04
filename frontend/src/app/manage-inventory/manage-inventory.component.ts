@@ -27,16 +27,16 @@ import {
 } from '../state/category/category.selectors';
 import { Store } from '@ngrx/store';
 import {
-  selectStorageByCategoryAndProduct,
-  setStorageCategoryId,
-  setStorageProductId,
-} from '../state/storage/storage.action';
-import { InventoryState } from '../state/inventory/inventory.selectors';
-import {
+  getSelectedValidInventory,
   getValidInventory,
   ReportState,
 } from '../state/report/report.selectors';
-import { retrieveValidInventoryData } from '../state/report/report.action';
+import {
+  retrieveValidInventoryData,
+  selectValidInventoryByCategoryAndProduct,
+  setReportCategoryId,
+  setReportProductId,
+} from '../state/report/report.action';
 
 @Component({
   selector: 'app-manage-inventory',
@@ -56,7 +56,6 @@ export class ManageInventoryComponent implements OnInit {
   public _inventory$!: Observable<StorageReportDataRow[]>;
   protected _storeCategory$: Store<CategoryState> = inject(Store);
   private _storeProduct$: Store<ProductState> = inject(Store);
-  private _storeInventory$: Store<InventoryState> = inject(Store);
   private _storeReport$: Store<ReportState> = inject(Store);
   public _products$!: Observable<Product[]>;
   public _categories$!: Observable<Category[]>;
@@ -94,18 +93,18 @@ export class ManageInventoryComponent implements OnInit {
   updateFilterProduct(event: any) {
     let idProduct: number = Number(event.target.value);
     this._manageInventory.value.idProduct = idProduct;
-    this._storeInventory$.dispatch(setStorageProductId({ idProduct }));
-    this._storeInventory$.dispatch(selectStorageByCategoryAndProduct());
+    this._storeReport$.dispatch(setReportProductId({ idProduct }));
+    this._storeReport$.dispatch(selectValidInventoryByCategoryAndProduct());
   }
 
   updateFilterCategory(event: any) {
     let idCategory: number = Number(event.target.value);
-    this._storeInventory$.dispatch(setStorageCategoryId({ idCategory }));
     this._manageInventory.value.idCategory = idCategory;
     this._manageInventory.value.idProduct = 0;
     this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
-    this._storeInventory$.dispatch(setStorageProductId({ idProduct: 0 }));
     this._products$ = this._storeProduct$.select(filterProductByCategory);
-    this._storeInventory$.dispatch(selectStorageByCategoryAndProduct());
+    this._storeReport$.dispatch(setReportCategoryId({ idCategory }));
+    this._storeReport$.dispatch(selectValidInventoryByCategoryAndProduct());
+    this._inventory$ = this._storeReport$.select(getSelectedValidInventory);
   }
 }
