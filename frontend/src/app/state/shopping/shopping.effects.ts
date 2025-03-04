@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, tap } from 'rxjs';
+import { catchError, concatMap, map, mergeMap, Observable, tap } from 'rxjs';
 import {
   deleteShopping,
   navigateToShoppingEdit,
@@ -12,7 +12,11 @@ import {
   retrievedShoppingList,
   retrievedShoppingListActionError,
   retrievedShoppingListActionSuccess,
+  saveShopping,
+  saveShoppingActionError,
+  saveShoppingActionSuccess,
 } from './shopping.action';
+import { Shopping } from '../../api';
 
 @Injectable()
 export class ShoppingEffects {
@@ -48,7 +52,7 @@ export class ShoppingEffects {
     { dispatch: false }
   );
 
-  newShopping$ = createEffect(
+  navigateNewShopping$ = createEffect(
     () => {
       return inject(Actions).pipe(
         ofType(navigateToShoppingNew),
@@ -60,7 +64,7 @@ export class ShoppingEffects {
     { dispatch: false }
   );
 
-  editShopping$ = createEffect(
+  navigateEditShopping$ = createEffect(
     () => {
       return inject(Actions).pipe(
         ofType(navigateToShoppingEdit),
@@ -87,4 +91,29 @@ export class ShoppingEffects {
       })
     );
   });
+
+  saveShopping$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(saveShopping),
+      mergeMap((action) => {
+        const shopping = Object.assign({}, action.shopping);
+        return this._getCreateOrUpdateObservable(shopping).pipe(
+          concatMap(() => {
+            return [saveShoppingActionSuccess()];
+          }),
+          catchError((error: any) => {
+            return [saveShoppingActionError({ error })];
+          })
+        );
+      })
+    )
+  );
+
+  private _getCreateOrUpdateObservable(shopping: Shopping): Observable<any> {
+    if (shopping.idShopping !== undefined) {
+      return this._apiService$.updateShopping(shopping.idShopping, shopping);
+    }
+    shopping.optLock = shopping.optLock || 0;
+    return this._apiService$.createShopping(shopping);
+  }
 }

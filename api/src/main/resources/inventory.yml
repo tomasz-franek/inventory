@@ -1368,6 +1368,12 @@ components:
 
     ConsumeProduct:
       type: object
+      required:
+        - idProduct
+        - productName
+        - inventoryName
+        - used
+        - insertDate
       properties:
         idItem:
           type: integer

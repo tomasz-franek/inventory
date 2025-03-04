@@ -19,7 +19,14 @@ import {
   NgForOf,
   NgStyle,
 } from '@angular/common';
-import { Category, ConsumeProduct, Inventory, Product, Property } from '../api';
+import {
+  Category,
+  ConsumeProduct,
+  Inventory,
+  Product,
+  Property,
+  Shopping,
+} from '../api';
 import { BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { Store } from '@ngrx/store';
 import {
@@ -50,6 +57,8 @@ import {
   ItemState,
   selectConsumeProductList,
 } from '../state/item/item.selectors';
+import { ShoppingState } from '../state/shopping/shopping.selectors';
+import { saveShopping } from '../state/shopping/shopping.action';
 
 @Component({
   selector: 'app-consume-product',
@@ -75,6 +84,7 @@ export class ConsumeProductComponent implements OnInit {
   public _categories$!: Observable<Category[]>;
   public _products$!: Observable<Product[]>;
   private _storeItem$: Store<ItemState> = inject(Store);
+  private _storeShopping$: Store<ShoppingState> = inject(Store);
   public _consumeProducts$!: Observable<ConsumeProduct[]>;
   public properties: Property = { idProperty: 0, idUser: 0, currency: '' };
   public rowToConsume: any = {
@@ -174,7 +184,22 @@ export class ConsumeProductComponent implements OnInit {
     return '';
   }
 
-  selectProductToConsume(row: ConsumeProduct) {}
+  selectProductToConsume(row: ConsumeProduct) {
+    this.rowToConsume.iditem = row.idItem;
+    this.rowToConsume.sliderMin = row.used;
+    this.rowToConsume.used = row.used;
+    this.rowToConsume.endDate = '';
+    this.rowToConsume.productName = row.productName;
+  }
 
-  addToShopping(row: ConsumeProduct) {}
+  addToShopping(row: ConsumeProduct) {
+    let shopping: Shopping = {
+      idProduct: row.idProduct,
+      name: row.productName,
+      items: 1,
+      count: 1,
+      optLock: 0,
+    };
+    this._storeShopping$.dispatch(saveShopping({ shopping }));
+  }
 }

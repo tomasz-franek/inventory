@@ -115,6 +115,17 @@ export class ApiService {
     return this.storagesService.updateStorage(idStorage, storage);
   }
 
+  createShopping(shopping: Shopping): Observable<ResponseId> {
+    return this.shoppingService.saveShopping(shopping);
+  }
+
+  updateShopping(
+    idShopping: number,
+    shopping: Shopping
+  ): Observable<ResponseId> {
+    return this.shoppingService.updateShopping(idShopping, shopping);
+  }
+
   getUnits(): Observable<Unit[]> {
     return this.unitsService.getAllUnits();
   }

@@ -31,7 +31,22 @@ export const navigateToShoppingEdit = createAction(
   props<{ shopping: Shopping }>()
 );
 
+export const saveShopping = createAction(
+  '[Shopping] Save Shopping',
+  props<{ shopping: Shopping }>()
+);
+
 export const deleteShopping = createAction(
   '[Shopping] Delete Shopping List',
   props<{ idShopping: number }>()
+);
+
+export const saveShoppingActionSuccess = createAction(
+  '[Shopping] Save ShoppingSuccess'
+);
+export const saveShoppingActionError = createAction(
+  '[Shopping] Save ShoppingError',
+  props<{
+    error: HttpErrorResponse;
+  }>()
 );
