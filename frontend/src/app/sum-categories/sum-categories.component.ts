@@ -46,9 +46,10 @@ export class SumCategoriesComponent implements OnInit {
       this._chart$ = echarts.init(ctx);
       this._chart$.clear();
     }
-    this.chartData = [];
+
     this._storeReport$.dispatch(retrieveSumPricesByCategory());
     this._storeReport$.select(getSumPriceCategoryData).subscribe((data) => {
+      this.chartData = [];
       data.forEach((item) => {
         this.chartData.push({
           value: item.value,
