@@ -28,13 +28,7 @@ public class StoragesController implements StoragesApi {
     public ResponseEntity<List<Storage>> getAllStorages() {
         return ResponseEntity.ok(storageService.findAll());
     }
-
-    @Override
-    public ResponseEntity<Void> deleteStorage(Long storageId) {
-        storageService.delete(storageId);
-        return ResponseEntity.noContent().build();
-    }
-
+    
     @Override
     public ResponseEntity<ResponseId> saveStorage(Storage storage) {
         ResponseId responseId = storageService.save(storage);
@@ -52,7 +46,7 @@ public class StoragesController implements StoragesApi {
                 .path("/{id}")
                 .buildAndExpand(responseId.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(new ResponseId(storage.getIdStorage()));
+        return ResponseEntity.created(location).body(responseId);
     }
 
     @Override

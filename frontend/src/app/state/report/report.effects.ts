@@ -24,6 +24,8 @@ import {
   retrieveStorageValueHistoryDataSuccess,
   retrieveSumPricesByCategory,
   retrieveSumPricesByCategoryDataSuccess,
+  retrieveValidInventoryData,
+  retrieveValidInventorySuccess,
 } from './report.action';
 
 @Injectable()
@@ -209,6 +211,24 @@ export class ReportEffects {
               });
             })
           );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+
+  loadValidInventoryData$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveValidInventoryData),
+      mergeMap((action) => {
+        return this._apiService$.getValidInventoryReport().pipe(
+          map((data) => {
+            return retrieveValidInventorySuccess({
+              validInventory: data,
+            });
+          })
+        );
       }),
       catchError((error: any) => {
         return [retrieveReportDataError({ error })];

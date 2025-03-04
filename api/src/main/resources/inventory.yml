@@ -457,24 +457,6 @@ paths:
             application/json:
               schema:
                 type: string
-    delete:
-      operationId: deleteStorage
-      summary: Delete Storage
-      tags:
-        - storages
-      parameters:
-        - name: storageId
-          in: path
-          required: true
-          description: The ID of the Storage to delete
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '204':
-          description: Storage deleted
-        '404':
-          description: Storage not found
   /shopping:
     get:
       summary: get all shopping's
@@ -841,6 +823,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/InventoryReportData'
+  /report/inventory:
+    get:
+      summary: get Inventory report for all inventories
+      operationId: getValidInventoryReport
+      tags:
+        - report
+      responses:
+        '200':
+          description: list of ValidInventory objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StorageReportDataRow'
   /report/expired/{idInventory}:
     get:
       summary: get expired Products from Inventory
@@ -1565,3 +1562,31 @@ components:
         idStorage:
           type: integer
           format: int64
+    StorageReportDataRow:
+      type: object
+      required:
+        - idProduct
+        - productName
+        - validList
+      properties:
+        productName:
+          type: string
+        idProduct:
+          type: integer
+          format: int64
+        validList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductValid'
+    ProductValid:
+      type: object
+      required:
+        - validDate
+        - count
+      properties:
+        validDate:
+          type: string
+          format: date
+        count:
+          type: integer
+          format: int32

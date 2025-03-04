@@ -27,6 +27,7 @@ import {
   Shopping,
   ShoppingService,
   Storage,
+  StorageReportDataRow,
   StoragesService,
   StorageValueHistoryData,
   Unit,
@@ -227,6 +228,10 @@ export class ApiService {
     idInventory: number
   ): Observable<PurchasesData[]> {
     return this.reportService.getListRecentPurchases(days, idInventory);
+  }
+
+  getValidInventoryReport(): Observable<StorageReportDataRow[]> {
+    return this.reportService.getValidInventoryReport();
   }
 
   updateItemByInventoryId(

@@ -2,15 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { Category, Product } from '../api';
-import { ValidInventory } from '../../objects/validInventory';
+import { Category, Product, ProductValid, StorageReportDataRow } from '../api';
 import { DownloadFileComponent } from '../download-file/download-file.component';
 import { Observable } from 'rxjs';
 import {
@@ -34,6 +32,11 @@ import {
   setStorageProductId,
 } from '../state/storage/storage.action';
 import { InventoryState } from '../state/inventory/inventory.selectors';
+import {
+  getValidInventory,
+  ReportState,
+} from '../state/report/report.selectors';
+import { retrieveValidInventoryData } from '../state/report/report.action';
 
 @Component({
   selector: 'app-manage-inventory',
@@ -50,15 +53,13 @@ import { InventoryState } from '../state/inventory/inventory.selectors';
   styleUrl: './manage-inventory.component.css',
 })
 export class ManageInventoryComponent implements OnInit {
-  public inventory: any = [];
+  public _inventory$!: Observable<StorageReportDataRow[]>;
   protected _storeCategory$: Store<CategoryState> = inject(Store);
   private _storeProduct$: Store<ProductState> = inject(Store);
   private _storeInventory$: Store<InventoryState> = inject(Store);
+  private _storeReport$: Store<ReportState> = inject(Store);
   public _products$!: Observable<Product[]>;
   public _categories$!: Observable<Category[]>;
-  private allProducts: Product[] = [];
-  private allInventory: ValidInventory[] = [];
-  private progress: number = 0;
   private readonly _manageInventory: FormGroup;
 
   get manageInventory(): FormGroup {
@@ -68,13 +69,17 @@ export class ManageInventoryComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {
     this._manageInventory = this.formBuilder.group({
       idInventory: [0, Validators.required],
-      idCategory: new FormControl(),
+      idCategory: 0,
       idProduct: [0, Validators.required],
     });
   }
 
-  countItems(validList: any): string {
-    return '';
+  countItems(validList: ProductValid[]): number {
+    let sum = 0;
+    validList.forEach((e) => {
+      sum += e.count;
+    });
+    return sum;
   }
 
   ngOnInit(): void {
@@ -82,6 +87,8 @@ export class ManageInventoryComponent implements OnInit {
     this._products$ = this._storeProduct$.select(getProductsList);
     this._storeCategory$.dispatch(retrieveCategoryList());
     this._categories$ = this._storeCategory$.select(getCategoriesList);
+    this._storeReport$.dispatch(retrieveValidInventoryData());
+    this._inventory$ = this._storeReport$.select(getValidInventory);
   }
 
   updateFilterProduct(event: any) {

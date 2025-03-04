@@ -47,7 +47,6 @@
                          [url]="'report/pdf/storage'"></app-download-file>
     </div>
   </div>
-  <div *ngIf="inventory.length > 0">
     <table class="table inventory-table table-striped table-condensed">
       <thead>
         <tr>
@@ -58,26 +57,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of inventory; let rowNr = index">
+      <tr *ngFor="let row of _inventory$|async; let rowNr = index">
           <td
             [textContent]="rowNr + 1"
             style="vertical-align: middle"
-            class="text-center"
-          ></td>
+            class="text-center"></td>
           <td
-            [textContent]="row.name"
+            [textContent]="row.productName"
             style="vertical-align: middle"
-            class="text-left"
-          ></td>
+            class="text-left"></td>
           <td
             [textContent]="countItems(row.validList)"
             style="vertical-align: middle"
-            class="text-center"
-          ></td>
+            class="text-center"></td>
           <td class="text-left">
             <div *ngFor="let valid of row.validList" class="table-condensed">
-              <b><span [textContent]="valid.count"></span></b>
-              <span *ngIf="valid.validDate" class="text-center">
+              <b><span class="me-3" [textContent]="valid.count"></span></b><span *ngIf="valid.validDate"
+                                                                                 class=" text-center">
                 <span [textContent]="valid.validDate"></span>
               </span>
             </div>
@@ -85,5 +81,4 @@
         </tr>
       </tbody>
     </table>
-  </div>
 </form>

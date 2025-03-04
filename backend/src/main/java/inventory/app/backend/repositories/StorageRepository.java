@@ -7,6 +7,7 @@ import inventory.app.api.model.NextDayExpiredData;
 import inventory.app.api.model.PriceCategoryData;
 import inventory.app.api.model.PurchasesData;
 import inventory.app.backend.entities.StorageEntity;
+import inventory.app.backend.utils.DataRowElement;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -105,4 +106,20 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
     List<PurchasesData> getListRecentPurchases(
             @Param("endDate") LocalDate endDate,
             @Param("idInventory") Long idInventory);
+
+    @Query("SELECT new inventory.app.backend.utils.DataRowElement(" +
+            "   p.id, " +
+            "   p.name, " +
+            "   s.validDate, " +
+            "   count(i.storage.id) " +
+            ") " +
+            "FROM ItemEntity i " +
+            "JOIN i.storage s " +
+            "JOIN s.product p " +
+            "WHERE s.endDate IS NULL " +
+            "AND i.endDate IS NULL " +
+            "GROUP BY p.id, p.name, s.validDate " +
+            "ORDER BY p.name, s.validDate")
+    List<DataRowElement> getValidInventoryReport();
+
 }

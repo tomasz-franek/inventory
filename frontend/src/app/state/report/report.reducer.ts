@@ -9,6 +9,7 @@ import {
   retrieveProductPriceHistoryDataSuccess,
   retrieveStorageValueHistoryDataSuccess,
   retrieveSumPricesByCategoryDataSuccess,
+  retrieveValidInventorySuccess,
 } from './report.action';
 
 export const initialReportState: ReportState = {
@@ -22,6 +23,7 @@ export const initialReportState: ReportState = {
   priceHistoryData: [],
   sumPriceCategoryData: [],
   purchasesData: [],
+  validInventory: [],
 };
 
 export function reportReducer(
@@ -47,6 +49,8 @@ export function reportReducer(
       return { ...state, sumPriceCategoryData: action.sumPriceCategoryData };
     case retrieveListPurchasesSuccess.type:
       return { ...state, purchasesData: action.purchasesData };
+    case retrieveValidInventorySuccess.type:
+      return { ...state, validInventory: action.validInventory };
     default:
       return state;
   }

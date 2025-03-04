@@ -8,6 +8,7 @@ import {
   ProductPredictionData,
   ProductPriceHistoryData,
   PurchasesData,
+  StorageReportDataRow,
   StorageValueHistoryData,
 } from '../../api';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
@@ -24,6 +25,7 @@ export interface ReportState {
   priceHistoryData: ProductPriceHistoryData[];
   sumPriceCategoryData: PriceCategoryData[];
   purchasesData: PurchasesData[];
+  validInventory: StorageReportDataRow[];
 }
 
 const selectReportFutureState = createFeatureSelector<ReportState>(
@@ -78,4 +80,8 @@ export const getSumPriceCategoryData = createSelector(
 export const getPurchasesData = createSelector(
   selectReportFutureState,
   (state) => state.purchasesData
+);
+export const getValidInventory = createSelector(
+  selectReportFutureState,
+  (state) => state.validInventory
 );

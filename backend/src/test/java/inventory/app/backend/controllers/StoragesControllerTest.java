@@ -1,7 +1,5 @@
 package inventory.app.backend.controllers;
 
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -10,12 +8,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -72,6 +68,7 @@ class StoragesControllerTest {
                                             "price":1.99,
                                             "insertDate":"2023-02-02",
                                             "used":0.0,
+                                            "items":4,
                                             "optLock":0
                                         }
                                         """)
@@ -195,68 +192,8 @@ class StoragesControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].message").value(
-                        "idProduct is null"))
-                .andExpect(jsonPath("$.errors[1].message").value(
-                        "idUnit is null"));
-    }
-
-    @Test
-    public void deleteStorage_Should_ReturnNoContent_When_MethodIsCalledWithCorrectId()
-            throws Exception {
-        //when
-        ResultActions actions = mockMvc.perform(
-                        post(STORAGES_ENDPOINT_PATH)
-                                .content("""
-                                        {
-                                            "idProduct":"2",
-                                            "idUnit":1,
-                                            "price":2.04,
-                                            "insertDate":"2023-02-02",
-                                            "used":0.0,
-                                            "optLock":0
-                                        }
-                                        """)
-                                .accept(APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").isNumber());
-        DocumentContext docCtx = JsonPath.parse(actions.andReturn().getResponse().getContentAsString());
-        JsonPath jsonPath = JsonPath.compile("$.id");
-        Integer id = docCtx.read(jsonPath);
-
-        //then
-        mockMvc.perform(
-                        delete(STORAGES_ENDPOINT_PATH + "/{storageId}",
-                                id)
-                                .accept(APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent())
-                .andExpect(content().string(""));
-
-        mockMvc.perform(
-                        get(STORAGES_ENDPOINT_PATH + "/{storageId}",
-                                id)
-                                .accept(APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string(
-                        "Storage with id = '" + id + "' not found."));
-    }
-
-    @Test
-    public void deleteStorage_Should_ReturnError_When_MethodIsCalledWithWrongId()
-            throws Exception {
-        mockMvc.perform(
-                        delete(STORAGES_ENDPOINT_PATH + "/{storageId}",
-                                WRONG_ID)
-                                .accept(APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().string(
-                        "Storage with id = '" + WRONG_ID + "' not found."));
+                        "idProduct is null"));
     }
 }

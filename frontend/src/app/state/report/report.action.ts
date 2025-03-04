@@ -10,6 +10,7 @@ import {
   ProductPredictionData,
   ProductPriceHistoryData,
   PurchasesData,
+  StorageReportDataRow,
   StorageValueHistoryData,
 } from '../../api';
 
@@ -113,4 +114,13 @@ export const retrieveListPurchases = createAction(
 export const retrieveListPurchasesSuccess = createAction(
   '[Report] Retrieve Last Purchases Success',
   props<{ purchasesData: PurchasesData[] }>()
+);
+
+export const retrieveValidInventorySuccess = createAction(
+  '[Report] Retrieve Valid Inventory Success',
+  props<{ validInventory: StorageReportDataRow[] }>()
+);
+
+export const retrieveValidInventoryData = createAction(
+  '[Report] Retrieve Valid Inventory Data'
 );
