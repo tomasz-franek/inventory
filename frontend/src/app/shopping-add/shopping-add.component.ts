@@ -91,7 +91,6 @@ export class ShoppingAddComponent implements OnInit {
     } else {
       this._storeUnit$.dispatch(loadShoppingAction({ id: Number(id) }));
       this._storeUnit$.select(editShoppingSelector).subscribe((shopping) => {
-        console.log(shopping);
         this._formGroup = this.formBuilder.group({
           items: [shopping.items, Validators.required],
           count: shopping.count,
