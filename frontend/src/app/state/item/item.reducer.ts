@@ -1,5 +1,8 @@
 import { ItemState } from './item.selectors';
-import { retrievedItemsWithoutInventoryListActionSuccess } from './item.action';
+import {
+  retrievedConsumeProductListActionSuccess,
+  retrievedItemsWithoutInventoryListActionSuccess,
+} from './item.action';
 
 export const initialItemState: ItemState = {
   items: [],
@@ -13,6 +16,11 @@ export function itemReducer(state = initialItemState, action: any): ItemState {
       return {
         ...state,
         itemsWithoutInventoryList: action.itemsWithoutInventoryList,
+      };
+    case retrievedConsumeProductListActionSuccess.type:
+      return {
+        ...state,
+        consumeProductList: action.consumeProductList,
       };
     default:
       return state;

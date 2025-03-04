@@ -31,13 +31,17 @@ import {
   getCategoriesList,
 } from '../state/category/category.selectors';
 import {
+  filterProductByCategory,
   getProductsList,
   ProductState,
 } from '../state/product/product.selectors';
 import { Observable } from 'rxjs';
 import { retrieveInventoryList } from '../state/inventory/inventory.action';
 import { retrieveCategoryList } from '../state/category/category.action';
-import { retrieveProductList } from '../state/product/product.action';
+import {
+  retrieveProductList,
+  setProductCategoryId,
+} from '../state/product/product.action';
 import {
   retrieveConsumeProductListInventoryCategory,
   retrieveConsumeProductListInventoryCategoryProduct,
@@ -160,7 +164,9 @@ export class ConsumeProductComponent implements OnInit {
   }
 
   updateFilterCategories($event: any) {
-    this._formGroup.value.idCategory = Number($event.target.value);
+    let idCategory: number = Number($event.target.value);
+    this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
+    this._products$ = this._storeProduct$.select(filterProductByCategory);
     this.loadConsumeProductList();
   }
 
