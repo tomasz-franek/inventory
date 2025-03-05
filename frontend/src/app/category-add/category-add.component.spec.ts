@@ -36,19 +36,19 @@ describe('CategoryAddComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('routerId', () => {
+  describe('routerId', () => {
     it('should return id from router paramMap', () => {
       // given
       spyOn(mockRoute.snapshot.paramMap, 'get')
         .withArgs('id')
-        .and.returnValue('router id value');
+        .and.returnValue('2');
       component.ngOnInit();
 
       // when
       const actual = component.routerId;
 
       // then
-      expect(actual).toEqual('router id value');
+      expect(actual).toEqual('2');
     });
   });
 });
