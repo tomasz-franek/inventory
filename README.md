@@ -2,6 +2,8 @@
 
 Application for managing a home goods inventory.
 
+Project under development, version Alfa planned for early April 2025
+
 ## Running backend
 
 ```bash
