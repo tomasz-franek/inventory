@@ -2,6 +2,7 @@ package inventory.app.backend.services;
 
 import inventory.app.api.model.Inventory;
 import inventory.app.api.model.Item;
+import inventory.app.api.model.ItemConsume;
 import inventory.app.api.model.ResponseId;
 import inventory.app.backend.entities.InventoryEntity;
 import inventory.app.backend.entities.ItemEntity;
@@ -17,6 +18,8 @@ import inventory.app.backend.validation.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -111,6 +114,20 @@ public class ItemServiceImpl implements ItemService {
                 () -> new NotFoundEntityException(Inventory.class, idInventory));
 
         itemEntity.setInventory(inventoryEntity);
+        itemRepository.save(itemEntity);
+    }
+
+    @Override
+    public void consumeItem(ItemConsume itemConsume) {
+        ItemEntity itemEntity = itemRepository.findById(itemConsume.getIdItem()).orElseThrow(
+                () -> new NotFoundEntityException(Item.class, itemConsume.getIdItem()));
+        itemEntity.setUsed(itemConsume.getUsed());
+        if (BigDecimal.valueOf(100).compareTo(itemConsume.getUsed()) < 1
+                && itemConsume.getEndDate() == null) {
+            itemEntity.setEndDate(LocalDate.now());
+        } else {
+            itemEntity.setEndDate(itemConsume.getEndDate());
+        }
         itemRepository.save(itemEntity);
     }
 }

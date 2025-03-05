@@ -23,6 +23,7 @@ import {
   Category,
   ConsumeProduct,
   Inventory,
+  ItemConsume,
   Product,
   Property,
   Shopping,
@@ -50,6 +51,7 @@ import {
   setProductCategoryId,
 } from '../state/product/product.action';
 import {
+  consumeItem,
   retrieveConsumeProductListInventoryCategory,
   retrieveConsumeProductListInventoryCategoryProduct,
 } from '../state/item/item.action';
@@ -59,6 +61,7 @@ import {
 } from '../state/item/item.selectors';
 import { ShoppingState } from '../state/shopping/shopping.selectors';
 import { saveShopping } from '../state/shopping/shopping.action';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-consume-product',
@@ -73,6 +76,7 @@ import { saveShopping } from '../state/shopping/shopping.action';
     ReactiveFormsModule,
     DatePipe,
   ],
+  providers: [provideAnimations()],
   templateUrl: './consume-product.component.html',
   styleUrl: './consume-product.component.css',
 })
@@ -87,6 +91,7 @@ export class ConsumeProductComponent implements OnInit {
   private _storeShopping$: Store<ShoppingState> = inject(Store);
   public _consumeProducts$!: Observable<ConsumeProduct[]>;
   public properties: Property = { idProperty: 0, idUser: 0, currency: '' };
+  protected today: Date = new Date();
   public rowToConsume: any = {
     idItem: 0,
     sliderMin: 0,
@@ -96,13 +101,13 @@ export class ConsumeProductComponent implements OnInit {
   };
   @ViewChild('dateInput') public dateInput!: ElementRef;
   private _formGroup: FormGroup;
+  protected consumeDate: Date = new Date();
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
       idInventory: 0,
       idCategory: 0,
       idProduct: 0,
-      consumeDate: undefined,
       used: 0,
     });
   }
@@ -147,20 +152,25 @@ export class ConsumeProductComponent implements OnInit {
     }
   }
 
-  consumeProduct() {}
+  consumeItem() {
+    let itemToConsume: ItemConsume = {
+      endDate: this.rowToConsume.endDate,
+      idItem: this.rowToConsume.idItem,
+      used: this.rowToConsume.used,
+    };
+    this._storeItem$.dispatch(consumeItem({ itemToConsume }));
+  }
 
   addDay(number: number) {
-    if (this._formGroup.value.consumeDate != undefined) {
-      this._formGroup.value.consumeDate += number;
-    }
+    this.consumeDate.setDate(this.consumeDate.getDate() + number);
   }
 
   currentDate() {
-    this._formGroup.value.consumeDate = new Date();
+    this.consumeDate = new Date();
   }
 
   onChangeConsumeDate($event: Date) {
-    this._formGroup.value.consumeDate = $event;
+    this.consumeDate = $event;
   }
 
   updateFilterProducts($event: any) {
@@ -185,11 +195,15 @@ export class ConsumeProductComponent implements OnInit {
   }
 
   selectProductToConsume(row: ConsumeProduct) {
-    this.rowToConsume.iditem = row.idItem;
+    this.rowToConsume.idItem = row.idItem;
     this.rowToConsume.sliderMin = row.used;
     this.rowToConsume.used = row.used;
     this.rowToConsume.endDate = '';
     this.rowToConsume.productName = row.productName;
+  }
+
+  changeValueUsed($event: any) {
+    this.rowToConsume.used = Number($event.target.value);
   }
 
   addToShopping(row: ConsumeProduct) {

@@ -144,9 +144,7 @@ export class DashboardComponent implements OnInit {
         .select(selectUnitById(shopping.idUnit))
         .subscribe((data: Unit | undefined) => {
           if (data != undefined) {
-            let retValue = shopping.count + ' ' + data.symbol;
-            console.log(retValue);
-            return retValue;
+            return shopping.count + ' ' + data.symbol;
           }
           return '';
         });

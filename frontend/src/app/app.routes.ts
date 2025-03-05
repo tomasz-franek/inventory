@@ -147,7 +147,8 @@ export const appRoutes: Routes = [
         ProductEffects,
         CategoryEffects,
         InventoryEffects,
-        ShoppingEffects
+        ShoppingEffects,
+        ItemsEffects
       ),
     ],
     component: ConsumeProductComponent,

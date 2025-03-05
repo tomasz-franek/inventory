@@ -1,9 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ApiService } from '../../services/api.service';
-import { catchError, concatMap, mergeMap, withLatestFrom } from 'rxjs';
+import { catchError, concatMap, map, mergeMap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
+  consumeItem,
+  consumeItemSuccess,
   retrieveConsumeProductListInventoryCategory,
   retrieveConsumeProductListInventoryCategoryProduct,
   retrievedConsumeProductListActionError,
@@ -105,6 +107,22 @@ export class ItemsEffects {
               return [saveItemSuccess()];
             })
           );
+      }),
+      catchError((error: any) => {
+        return [saveItemActionError({ error })];
+      })
+    )
+  );
+
+  consumeItem$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(consumeItem),
+      mergeMap((action) => {
+        return this._apiService$.consumeItem(action.itemToConsume).pipe(
+          map((data) => {
+            return consumeItemSuccess();
+          })
+        );
       }),
       catchError((error: any) => {
         return [saveItemActionError({ error })];

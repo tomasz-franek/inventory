@@ -2,6 +2,7 @@ package inventory.app.backend.controllers;
 
 import inventory.app.api.ItemsApi;
 import inventory.app.api.model.Item;
+import inventory.app.api.model.ItemConsume;
 import inventory.app.api.model.ResponseId;
 import inventory.app.backend.services.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,14 @@ public class ItemController implements ItemsApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
+    public ResponseEntity<Void> consumeItem(ItemConsume itemConsume) {
+        itemService.consumeItem(itemConsume);
+        return ResponseEntity.noContent().build();
+    }
 
+    @Override
+    public ResponseEntity<Item> getItem(Long itemId) {
+        return ResponseEntity.ok(itemService.getItem(itemId));
+    }
 }

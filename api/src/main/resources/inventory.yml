@@ -648,6 +648,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseId'
+  /items/consume:
+    patch:
+      summary: consume whole Product Item or part of the Item
+      operationId: consumeItem
+      tags:
+        - items
+      requestBody:
+        description: consumed Item
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemConsume'
+      responses:
+        '201':
+          description: product consumed
+        '400':
+          description: Unable to update Property
+          content:
+            application/json:
+              schema:
+                type: string
+
   /items/{itemId}:
     get:
       operationId: getItem
@@ -1621,3 +1644,17 @@ components:
         count:
           type: integer
           format: int32
+    ItemConsume:
+      type: object
+      required:
+        - idItem
+        - used
+      properties:
+        idItem:
+          type: integer
+          format: int64
+        used:
+          type: number
+        endDate:
+          type: string
+          format: date

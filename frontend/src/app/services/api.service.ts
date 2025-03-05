@@ -10,6 +10,7 @@ import {
   Inventory,
   InventoryReportData,
   Item,
+  ItemConsume,
   ItemsService,
   LastUsedData,
   NextDayExpiredData,
@@ -258,5 +259,9 @@ export class ApiService {
     idInventory: number
   ): Observable<any> {
     return this.itemService.updateItemByInventoryId(idItem, idInventory);
+  }
+
+  consumeItem(item: ItemConsume): Observable<any> {
+    return this.itemService.consumeItem(item);
   }
 }

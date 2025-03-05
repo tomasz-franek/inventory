@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ConsumeProduct, Item } from '../../api';
+import { ConsumeProduct, Item, ItemConsume } from '../../api';
 
 export const retrieveItemsWithoutInventory = createAction(
   '[Item] Retrieve items Without Inventory'
@@ -53,6 +53,11 @@ export const updateItemByInventory = createAction(
   props<{ idItem: number; idInventory: number }>()
 );
 
+export const consumeItem = createAction(
+  '[Item] Update Item By Inventory',
+  props<{ itemToConsume: ItemConsume }>()
+);
+
 export const saveItemActionError = createAction(
   '[Item] Save Item Action Error',
   props<{
@@ -60,3 +65,4 @@ export const saveItemActionError = createAction(
   }>()
 );
 export const saveItemSuccess = createAction('[Item] Save Item Success');
+export const consumeItemSuccess = createAction('[Item] Consume Item Success');
