@@ -8,4 +8,5 @@ export enum Features {
   shopping = 'shopping',
   items = 'items',
   reports = 'reports',
+  calendar = 'calendar',
 }

@@ -194,6 +194,10 @@ export class ApiService {
     return this.reportService.getExpiredInventoryReportData(idInventory);
   }
 
+  getExpiredReportData(): Observable<ExpiredReportData[]> {
+    return this.reportService.getExpiredReportData();
+  }
+
   getInventoryReportData(
     idInventory: number
   ): Observable<InventoryReportData[]> {

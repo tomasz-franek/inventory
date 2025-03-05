@@ -118,7 +118,6 @@ export class ShoppingEffects {
       mergeMap((action) =>
         this._apiService$.getShopping(action.id).pipe(
           map((shopping) => {
-            debugger;
             return retrievedShoppingActionSuccess({
               shopping: shopping,
             });

@@ -88,4 +88,9 @@ public class ReportController implements ReportApi {
     public ResponseEntity<List<StorageReportDataRow>> getValidInventoryReport() {
         return ResponseEntity.ok(reportService.getValidInventoryReport());
     }
+
+    @Override
+    public ResponseEntity<List<ExpiredReportData>> getExpiredReportData() {
+        return ResponseEntity.ok(reportService.getExpiredInventoryReportData(null));
+    }
 }

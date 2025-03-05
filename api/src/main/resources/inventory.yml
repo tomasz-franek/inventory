@@ -861,6 +861,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ExpiredReportData'
+  /report/expired:
+    get:
+      summary: get expired Products from all Inventories
+      operationId: getExpiredReportData
+      tags:
+        - report
+      responses:
+        '200':
+          description: list of InventoryReportData
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExpiredReportData'
   /report/lastUsed/{idInventory}:
     get:
       summary: get last used Products from Inventory

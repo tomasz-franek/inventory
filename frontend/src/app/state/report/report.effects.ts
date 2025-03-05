@@ -54,15 +54,25 @@ export class ReportEffects {
     inject(Actions).pipe(
       ofType(retrieveExpiredInventoryReportData),
       mergeMap((action) => {
-        return this._apiService$
-          .getExpiredInventoryReportData(action.idInventory)
-          .pipe(
+        if (action.idInventory != undefined) {
+          return this._apiService$
+            .getExpiredInventoryReportData(action.idInventory)
+            .pipe(
+              map((data) => {
+                return retrieveExpiredInventoryReportDataSuccess({
+                  expired: data,
+                });
+              })
+            );
+        } else {
+          return this._apiService$.getExpiredReportData().pipe(
             map((data) => {
               return retrieveExpiredInventoryReportDataSuccess({
                 expired: data,
               });
             })
           );
+        }
       }),
       catchError((error: any) => {
         return [retrieveReportDataError({ error })];

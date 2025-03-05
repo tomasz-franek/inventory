@@ -21,7 +21,7 @@ export const retrieveInventoryReportData = createAction(
 
 export const retrieveExpiredInventoryReportData = createAction(
   '[Report] Retrieve Expired Inventory Report',
-  props<{ idInventory: number }>()
+  props<{ idInventory: number | undefined }>()
 );
 
 export const retrieveExpiredInventoryReportDataSuccess = createAction(

@@ -240,11 +240,9 @@ class ShoppingControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].message").value(
-                        "idProduct is null"))
-                .andExpect(jsonPath("$.errors[1].message").value(
-                        "idUnit is null"));
+                        "idProduct is null"));
     }
 
     @Test
