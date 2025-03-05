@@ -1,16 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
 import { Category, Inventory, Product, Property, Storage, Unit } from '../api';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   AsyncPipe,
+  CommonModule,
   DatePipe,
   DecimalPipe,
   formatDate,
@@ -18,7 +11,10 @@ import {
   NgIf,
 } from '@angular/common';
 import { Price } from '../../objects/price';
-import { BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
+import {
+  BsDatepickerDirective,
+  BsDatepickerModule,
+} from 'ngx-bootstrap/datepicker';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Store } from '@ngrx/store';
 import {
@@ -54,12 +50,14 @@ import {
   InventoryState,
 } from '../state/inventory/inventory.selectors';
 import { retrieveInventoryList } from '../state/inventory/inventory.action';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-storages-add',
   imports: [
+    CommonModule,
+    BsDatepickerModule,
     TranslatePipe,
-    FormsModule,
     DecimalPipe,
     NgForOf,
     NgIf,
@@ -67,6 +65,7 @@ import { retrieveInventoryList } from '../state/inventory/inventory.action';
     ReactiveFormsModule,
     BsDatepickerDirective,
     DatePipe,
+    TranslatePipe,
   ],
   providers: [provideAnimations()],
   templateUrl: './storages-add.component.html',
@@ -92,25 +91,25 @@ export class StoragesAddComponent implements OnInit {
     idUser: 0,
   };
   public saveButtonDisabled: boolean = true;
-  private _formGroup: FormGroup;
+  protected _formGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      idStorage: [0, []],
-      idProduct: [0, [Validators.required, Validators.min(1)]],
-      idCategory: [0, [Validators.required, Validators.min(1)]],
-      idUnit: new FormControl({ value: 0, disabled: true }),
-      buyDate: [null, Validators.required],
+      idStorage: 0,
+      idProduct: 0,
+      idCategory: 0,
+      idUnit: null,
+      buyDate: null,
       validDate: null,
-      count: new FormControl({ value: 0, disabled: true }, Validators.required),
-      items: [0, [Validators.min(1), Validators.required]],
+      count: 0,
+      items: 0,
       idInventory: 0,
       price: 0,
-      unitsCheckbox: new FormControl({ value: false, disabled: false }),
+      unitsCheckbox: false,
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._storeProduct$.dispatch(retrieveProductList());
     this._storeCategory$.dispatch(retrieveCategoryList());
     this._storeUnit$.dispatch(retrieveUnitList());
@@ -140,6 +139,10 @@ export class StoragesAddComponent implements OnInit {
 
   get formGroup(): FormGroup {
     return this._formGroup;
+  }
+
+  onBuyDateChange(value: Date): void {
+    this._formGroup.value.buyDate = value;
   }
 
   changeCategory($event: any) {

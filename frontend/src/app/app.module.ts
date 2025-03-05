@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { bootstrapApplication, BrowserModule } from '@angular/platform-browser';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app.routes';
@@ -10,7 +10,6 @@ import {
   TranslateService,
   TranslateStore,
 } from '@ngx-translate/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -25,11 +24,10 @@ echarts.use([BarChart, GridComponent, CanvasRenderer]);
 @NgModule({
   declarations: [],
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     TagInputModule,
     BsDatepickerModule,
-    BrowserAnimationsModule,
     AppComponent,
     StoreModule,
     CategoryListComponent,
@@ -41,6 +39,4 @@ echarts.use([BarChart, GridComponent, CanvasRenderer]);
 })
 export class AppModule {}
 
-bootstrapApplication(AppComponent, {
-  providers: [provideAnimationsAsync()],
-});
+bootstrapApplication(AppComponent);
