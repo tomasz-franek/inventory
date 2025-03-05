@@ -11,7 +11,7 @@ import { setTheme } from 'ngx-bootstrap/utils';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  public title = 'frontend';
+  public title = 'Inventory application';
 
   constructor() {
     setTheme('bs5');
