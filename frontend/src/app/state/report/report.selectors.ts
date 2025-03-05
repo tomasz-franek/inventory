@@ -19,6 +19,8 @@ export interface ReportState {
   inventory: InventoryReportData[];
   lastUsed: LastUsedData[];
   productPrediction: ProductPredictionData[];
+  filteredProductPredictions: ProductPredictionData[];
+  productPredictionDays: number;
   availabilityData: ProductAvailabilityData[];
   nextDaysExpired: NextDayExpiredData[];
   valueHistoryData: StorageValueHistoryData[];
@@ -53,6 +55,11 @@ export const getInventoryReportProductList = createSelector(
 export const getProductPredictionList = createSelector(
   selectReportFutureState,
   (state) => state.productPrediction
+);
+
+export const getFilteredProductPredictionList = createSelector(
+  selectReportFutureState,
+  (state) => state.filteredProductPredictions
 );
 
 export const getProductAvailabilityList = createSelector(

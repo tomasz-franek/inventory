@@ -7,13 +7,12 @@ import lombok.ToString;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
 @ToString
 public class ProductPrediction {
-    private static final long ONE_DAY = 24L * 60L * 60L * 1000L;
+    private static final long ONE_DAY_EPOCH = 24L * 60L * 60L;
 
     private final Long idProduct;
     private String productName;
@@ -21,7 +20,7 @@ public class ProductPrediction {
     private BigDecimal countUsed = BigDecimal.ZERO;
     private BigDecimal countItems = BigDecimal.ZERO;
     private BigDecimal available = BigDecimal.ZERO;
-    private long predictedAvailabilityDateCore = 0;
+    private long predictedAvailabilityEpoch = 0;
     private LocalDate predictedAvailabilityDate = null;
     private Integer limitMax;
     private Integer limitMed;
@@ -32,18 +31,17 @@ public class ProductPrediction {
         this.idProduct = idProduct;
     }
 
-    public LocalDate calculatePredictedAvailabilityDate() {
+    public void calculatePredictedAvailabilityDate() {
         if (predictedAvailabilityDate == null) {
-            long date = this.predictedAvailabilityDateCore;
-            date -= (this.predictedAvailabilityDateCore % ONE_DAY);
-            predictedAvailabilityDate = LocalDate.from(new Date(date).toInstant());
+            long date = this.predictedAvailabilityEpoch;
+            date -= (this.predictedAvailabilityEpoch % ONE_DAY_EPOCH);
+            predictedAvailabilityDate = LocalDate.ofEpochDay(date / 1000);
         }
-        return predictedAvailabilityDate;
     }
 
-    public void setPredictedAvailabilityDateCore(long predictedAvailabilityDateCore) {
+    public void setPredictedAvailabilityEpoch(long predictedAvailabilityEpoch) {
 
-        this.predictedAvailabilityDateCore = predictedAvailabilityDateCore;
+        this.predictedAvailabilityEpoch = predictedAvailabilityEpoch;
         this.predictedAvailabilityDate = null;
         calculatePredictedAvailabilityDate();
     }

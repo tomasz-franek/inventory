@@ -1475,6 +1475,9 @@ components:
         predictedAvailabilityDate:
           type: string
           format: date
+        predictedAvailabilityEpoch:
+          type: number
+          format: int64
         limitMax:
           type: integer
           format: int32

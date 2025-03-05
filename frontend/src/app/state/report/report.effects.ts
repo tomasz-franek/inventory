@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs';
+import { catchError, concatMap, map, mergeMap } from 'rxjs';
 import {
+  filterProductPrediction,
   readProductAvailabilityForPeriod,
   retrieveExpiredInventoryReportData,
   retrieveExpiredInventoryReportDataSuccess,
@@ -105,10 +106,13 @@ export class ReportEffects {
       ofType(retrieveProductPredictionData),
       mergeMap(() => {
         return this._apiService$.getStoragePrediction().pipe(
-          map((data) => {
-            return retrieveProductPredictionDataSuccess({
-              productPrediction: data,
-            });
+          concatMap((data) => {
+            return [
+              retrieveProductPredictionDataSuccess({
+                productPrediction: data,
+              }),
+              filterProductPrediction({ days: 60 }),
+            ];
           })
         );
       }),

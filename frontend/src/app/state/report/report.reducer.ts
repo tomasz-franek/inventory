@@ -1,12 +1,14 @@
 import { ReportState } from './report.selectors';
 import { createReducer, on } from '@ngrx/store';
 import {
+  filterProductPrediction,
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportDataSuccess,
   retrieveLastUsedReportDataSuccess,
   retrieveListPurchasesSuccess,
   retrieveNexDaysExpiredDataSuccess,
   retrieveProductAvailabilityDataSuccess,
+  retrieveProductPredictionDataSuccess,
   retrieveProductPriceHistoryDataSuccess,
   retrieveStorageValueHistoryDataSuccess,
   retrieveSumPricesByCategoryDataSuccess,
@@ -21,6 +23,8 @@ export const initialReportState: ReportState = {
   inventory: [],
   lastUsed: [],
   productPrediction: [],
+  filteredProductPredictions: [],
+  productPredictionDays: 60,
   availabilityData: [],
   nextDaysExpired: [],
   valueHistoryData: [],
@@ -50,6 +54,9 @@ export const reportReducer = createReducer(
   on(retrieveProductAvailabilityDataSuccess, (state, action): ReportState => {
     return { ...state, availabilityData: action.availability };
   }),
+  on(retrieveProductPredictionDataSuccess, (state, action): ReportState => {
+    return { ...state, productPrediction: action.productPrediction };
+  }),
   on(retrieveNexDaysExpiredDataSuccess, (state, action): ReportState => {
     return { ...state, nextDaysExpired: action.nextDaysExpired };
   }),
@@ -73,6 +80,18 @@ export const reportReducer = createReducer(
   }),
   on(setReportProductId, (state, action): ReportState => {
     return { ...state, selectedProductId: action.idProduct };
+  }),
+  on(filterProductPrediction, (state, action): ReportState => {
+    let maxEpoch = new Date().getTime() + action.days * 24 * 26 * 60;
+    return {
+      ...state,
+      productPredictionDays: action.days,
+      filteredProductPredictions: state.productPrediction.filter(
+        (productPrediction) =>
+          productPrediction.predictedAvailabilityEpoch ||
+          maxEpoch + 1 < maxEpoch
+      ),
+    };
   }),
   on(selectValidInventoryByCategoryAndProduct, (state, action): ReportState => {
     return {

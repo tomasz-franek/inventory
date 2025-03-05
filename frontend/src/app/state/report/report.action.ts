@@ -134,6 +134,11 @@ export const setReportProductId = createAction(
   props<{ idProduct: number }>()
 );
 
+export const filterProductPrediction = createAction(
+  '[Report] Filter Product Prediction',
+  props<{ days: number }>()
+);
+
 export const selectValidInventoryByCategoryAndProduct = createAction(
   '[Report] Selected Inventory By Category And Product'
 );

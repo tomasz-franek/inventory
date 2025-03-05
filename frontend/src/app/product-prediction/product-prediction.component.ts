@@ -8,7 +8,7 @@ import {
   NgStyle,
 } from '@angular/common';
 import { reportPeriods } from '../../objects/definedValues';
-import { ProductPredictionData } from '../api';
+import { ProductPredictionData, Shopping } from '../api';
 import { Observable } from 'rxjs';
 import {
   FormBuilder,
@@ -18,10 +18,15 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
-  getProductPredictionList,
+  getFilteredProductPredictionList,
   ReportState,
 } from '../state/report/report.selectors';
-import { retrieveProductPredictionData } from '../state/report/report.action';
+import {
+  filterProductPrediction,
+  retrieveProductPredictionData,
+} from '../state/report/report.action';
+import { ShoppingState } from '../state/shopping/shopping.selectors';
+import { saveShopping } from '../state/shopping/shopping.action';
 
 @Component({
   selector: 'app-product-prediction',
@@ -41,7 +46,8 @@ import { retrieveProductPredictionData } from '../state/report/report.action';
 export class ProductPredictionComponent {
   public predictions$!: Observable<ProductPredictionData[]>;
   private _storeReport$: Store<ReportState> = inject(Store);
-  private oneDay = 24 * 60 * 60 * 1000;
+  private _storeShopping$: Store<ShoppingState> = inject(Store);
+  private oneDayEpoch = 24 * 60 * 60;
   public periods: any[] = reportPeriods;
   private _formGroup: FormGroup;
 
@@ -58,77 +64,56 @@ export class ProductPredictionComponent {
 
   async ngOnInit() {
     this._storeReport$.dispatch(retrieveProductPredictionData());
-    this.predictions$ = this._storeReport$.select(getProductPredictionList);
-    // this.startProgress();
-    // zip(
-    //   this.dataService.readStoragePrediction()
-    // ).subscribe(
-    //   {
-    //     next: (response) => {
-    //       this.allPredictions = response[0] || [];
-    //       this.filterPeriod();
-    //     },
-    //     error: (error: HttpErrorResponse) => {
-    //       this.alertService.error(error.statusText);
-    //     },
-    //     complete:()=>{
-    //       this.completeProgress();
-    //     }
-    //   }
-    // );
+    this.predictions$ = this._storeReport$.select(
+      getFilteredProductPredictionList
+    );
   }
 
   filterPeriodEvent($event: any) {
     this._formGroup.value.time = $event.target.value || 60;
+    this._storeReport$.dispatch(
+      filterProductPrediction({ days: this._formGroup.value.time })
+    );
     this.filterPeriod();
   }
 
   filterPeriod() {
-    let currentTime = new Date().getTime();
-    // this.predictions = this.allPredictions.filter(
-    //   (el) =>
-    //     el.predictedAvailabilityDateCore < currentTime + this.time * this.oneDay
-    // );
+    this.predictions$ = this._storeReport$.select(
+      getFilteredProductPredictionList
+    );
   }
 
   rowColor(row: any) {
     let currentTime = new Date().getTime();
     if (
       row.predictedAvailabilityDateCore >
-      currentTime + row.limitMax * this.oneDay
+      currentTime + row.limitMax * this.oneDayEpoch
     ) {
       return '#98FB98';
     }
     if (
       row.predictedAvailabilityDateCore >
-      currentTime + row.limitMed * this.oneDay
+      currentTime + row.limitMed * this.oneDayEpoch
     ) {
       return '#FFFACD';
     }
     if (
       row.predictedAvailabilityDateCore >
-      currentTime + row.limitMin * this.oneDay
+      currentTime + row.limitMin * this.oneDayEpoch
     ) {
       return '#FFC0BB';
     }
     return '#F08080';
   }
 
-  async addToShopping(row: any) {
-    // this.startProgress();
-    // await this.dataService.addShopping(row.productName, 1, row.idProduct)
-    //   .subscribe({
-    //     next: (data) => {
-    //       if(data instanceof HttpResponse){
-    //         this.alertService.success(data.statusText);
-    //       }
-    //     },
-    //     error: (error: HttpErrorResponse) => {
-    //       this.alertService.error(error.statusText);
-    //     },
-    //     complete:() => {
-    //       this.completeProgress();
-    //     }
-    //   });
+  async addToShopping(row: ProductPredictionData) {
+    let shopping: Shopping = {
+      name: row.productName || '',
+      count: 1,
+      idProduct: row.idProduct,
+      items: 1,
+      optLock: 0,
+    };
+    this._storeShopping$.dispatch(saveShopping({ shopping }));
   }
 }

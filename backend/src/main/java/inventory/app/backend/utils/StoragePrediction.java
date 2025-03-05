@@ -121,14 +121,14 @@ public class StoragePrediction {
     }
 
     public void calculatePredictedAvailabilityDate(ProductPrediction productPrediction) {
-        double delta = System.currentTimeMillis() - productPrediction.getMinimalProductBuyingDate().toEpochDay();
+        double deltaEpoch = System.currentTimeMillis() / 1000.0d - productPrediction.getMinimalProductBuyingDate().toEpochDay();
         if (productPrediction.getCountUsed().doubleValue() > 0.0d) {
-            delta /= productPrediction.getCountUsed().doubleValue();
+            deltaEpoch /= productPrediction.getCountUsed().doubleValue();
         }
-        delta *= productPrediction.getAvailable().doubleValue();
-        long maxDate = (long) delta;
-        maxDate += System.currentTimeMillis();
-        productPrediction.setPredictedAvailabilityDateCore(maxDate);
+        deltaEpoch *= productPrediction.getAvailable().doubleValue();
+        long maxDateEpoch = (long) deltaEpoch;
+        maxDateEpoch += System.currentTimeMillis() / 1000.0d;
+        productPrediction.setPredictedAvailabilityEpoch(maxDateEpoch);
     }
 
     private void analyzeProductPrediction(ProductPrediction productPrediction, Storage storage) {
