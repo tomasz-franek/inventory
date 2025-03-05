@@ -64,18 +64,18 @@
             bsDatepicker
             class="form-control"
             placeholder="{{ 'BUY_DATE' | translate }}"
-            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY'}"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}"
             type="text"
           />
         </div>
         <div class="col-6">
           <input
-            (bsValueChange)="onValidDateChanged($event)"
             formControlName="validDate"
-            value="{{ formGroup.value.validDate | date:'yyyy-MM-dd'}}"
+            (bsValueChange)="onValidDateChanged($event)"
             bsDatepicker
             class="form-control"
             placeholder="{{ 'VALID_DATE' | translate }}"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}"
             type="text"
           />
         </div>

@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   AsyncPipe,
   CommonModule,
-  DatePipe,
   DecimalPipe,
   formatDate,
   NgForOf,
@@ -64,7 +63,6 @@ import { TranslatePipe } from '@ngx-translate/core';
     AsyncPipe,
     ReactiveFormsModule,
     BsDatepickerDirective,
-    DatePipe,
     TranslatePipe,
   ],
   providers: [provideAnimations()],

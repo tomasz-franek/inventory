@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,13 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import {
-  AsyncPipe,
-  DatePipe,
-  DecimalPipe,
-  NgForOf,
-  NgStyle,
-} from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgForOf, NgStyle } from '@angular/common';
 import {
   Category,
   ConsumeProduct,
@@ -28,7 +16,10 @@ import {
   Property,
   Shopping,
 } from '../api';
-import { BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
+import {
+  BsDatepickerDirective,
+  BsDatepickerInputDirective,
+} from 'ngx-bootstrap/datepicker';
 import { Store } from '@ngrx/store';
 import {
   getInventoriesList,
@@ -74,7 +65,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     BsDatepickerDirective,
     AsyncPipe,
     ReactiveFormsModule,
-    DatePipe,
+    BsDatepickerInputDirective,
   ],
   providers: [provideAnimations()],
   templateUrl: './consume-product.component.html',
@@ -92,23 +83,18 @@ export class ConsumeProductComponent implements OnInit {
   public _consumeProducts$!: Observable<ConsumeProduct[]>;
   public properties: Property = { idProperty: 0, idUser: 0, currency: '' };
   protected today: Date = new Date();
-  public rowToConsume: any = {
-    idItem: 0,
-    sliderMin: 0,
-    used: 0,
-    endDate: '',
-    productName: '',
-  };
-  @ViewChild('dateInput') public dateInput!: ElementRef;
   private _formGroup: FormGroup;
-  protected consumeDate: Date = new Date();
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
       idInventory: 0,
       idCategory: 0,
       idProduct: 0,
+      idItem: 0,
+      sliderMin: 0,
       used: 0,
+      endDate: '',
+      productName: '',
     });
   }
 
@@ -154,27 +140,31 @@ export class ConsumeProductComponent implements OnInit {
 
   consumeItem() {
     let itemToConsume: ItemConsume = {
-      endDate: this.rowToConsume.endDate,
-      idItem: this.rowToConsume.idItem,
-      used: this.rowToConsume.used,
+      endDate: this._formGroup.value.endDate,
+      idItem: this._formGroup.value.idItem,
+      used: this._formGroup.value.used,
     };
     this._storeItem$.dispatch(consumeItem({ itemToConsume }));
   }
 
+  onChangeEndDate(value: Date): void {
+    this._formGroup.value.endDate = value;
+  }
+
   addDay(number: number) {
-    this.consumeDate.setDate(this.consumeDate.getDate() + number);
+    if (this._formGroup.get('endDate') != null) {
+      let newDate: Date = new Date(this._formGroup.value.endDate);
+      newDate.setDate(newDate.getDate() + number);
+      this._formGroup.patchValue({ endDate: newDate });
+    }
   }
 
   currentDate() {
-    this.consumeDate = new Date();
-  }
-
-  onChangeConsumeDate($event: Date) {
-    this.consumeDate = $event;
+    this._formGroup.patchValue({ endDate: new Date() });
   }
 
   updateFilterProducts($event: any) {
-    this._formGroup.value.idProduct = Number($event.target.value);
+    this._formGroup.patchValue({ idProduct: Number($event.target.value) });
     this.loadConsumeProductList();
   }
 
@@ -190,20 +180,29 @@ export class ConsumeProductComponent implements OnInit {
     this.loadConsumeProductList();
   }
 
-  expired(validDate?: string): string {
-    return '';
+  expired(expiredDate?: string): string {
+    if (expiredDate && expiredDate != '') {
+      let date = new Date(expiredDate);
+      if (date < new Date()) {
+        return 'color:#F08080';
+      }
+    }
+    return 'color:#000000';
   }
 
   selectProductToConsume(row: ConsumeProduct) {
-    this.rowToConsume.idItem = row.idItem;
-    this.rowToConsume.sliderMin = row.used;
-    this.rowToConsume.used = row.used;
-    this.rowToConsume.endDate = '';
-    this.rowToConsume.productName = row.productName;
+    this._formGroup.patchValue({
+      idItem: row.idItem,
+      sliderMin: row.used,
+      used: row.used,
+      endDate: null,
+      productName: row.productName,
+      idProduct: row.idProduct,
+    });
   }
 
   changeValueUsed($event: any) {
-    this.rowToConsume.used = Number($event.target.value);
+    this._formGroup.patchValue({ used: Number($event.target.value) });
   }
 
   addToShopping(row: ConsumeProduct) {

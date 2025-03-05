@@ -121,13 +121,12 @@
     </table>
   </div>
   <div class="modal fade" id="consumeProduct">
-    <div class="modal-dialog col-6">
-      <form class="modal-content">
+    <div class="modal-dialog col-6 modal-content">
         <div class="modal-header">
           {{ 'MENU.MANAGEMENT.CONSUME' | translate }}
           <strong class="ms-2">
             <span
-              [textContent]="rowToConsume.productName"
+              [textContent]="formGroup?.value.productName"
               id="modalProductName"
             ></span>
           </strong>
@@ -143,8 +142,9 @@
           <label class="col-2">{{ 'END_DATE' | translate }}</label>
           <div class="row mb-2">
             <input
-              (bsValueChange)="onChangeConsumeDate($event)"
-              value="{{ consumeDate | date:'yyyy-MM-dd'}}"
+              formControlName="endDate"
+              (bsValueChange)="onChangeEndDate($event)"
+              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',showTodayButton:true}"
               autocomplete="off"
               bsDatepicker
               class="form-control"
@@ -179,15 +179,15 @@
           <div class="row mb-2">
             <label class="col-6">
               {{ 'USED' | translate }}
-              <span [textContent]="rowToConsume.used + '%'"></span>
+              <span [textContent]="formGroup.value.used + '%'"></span>
             </label>
             <input
               (input)="changeValueUsed($event)"
-              [value]="rowToConsume.used"
+              formControlName="used"
               class="col-6"
               id="used"
               max="100"
-              min="{{ rowToConsume.sliderMin }}"
+              [min]="formGroup.get('sliderMin')||0"
               name="used"
               step="1"
               type="range"
@@ -212,7 +212,6 @@
             {{ 'CONSUME' | translate }}
           </button>
         </div>
-      </form>
     </div>
   </div>
 </form>
