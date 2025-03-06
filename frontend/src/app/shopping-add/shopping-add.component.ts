@@ -85,9 +85,9 @@ export class ShoppingAddComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.routerId;
+    this._storeUnit$.dispatch(retrieveUnitList());
+    this.units$ = this._storeUnit$.select(getUnitsList);
     if (id === null) {
-      this._storeUnit$.dispatch(retrieveUnitList());
-      this.units$ = this._storeUnit$.select(getUnitsList);
     } else {
       this._storeUnit$.dispatch(loadShoppingAction({ id: Number(id) }));
       this._storeUnit$.select(editShoppingSelector).subscribe((shopping) => {
