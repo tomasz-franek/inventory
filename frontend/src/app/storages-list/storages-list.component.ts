@@ -71,8 +71,9 @@ export class StoragesListComponent implements OnInit {
       idProduct: [0, [Validators.required, Validators.min(1)]],
       idCategory: [0, [Validators.required, Validators.min(1)]],
       hideUsed: false,
-      newPrice: undefined,
-      storage: undefined,
+      price: 0,
+      idStorage: 0,
+      productName: 0,
     });
   }
 
@@ -107,7 +108,7 @@ export class StoragesListComponent implements OnInit {
 
   updateFilterProduct(event: number) {
     let idProduct: number = Number(event);
-    this._formGroup.value.idProduct = idProduct;
+    this._formGroup.patchValue({ idProduct });
     this._storeStorage$.dispatch(setStorageProductId({ idProduct }));
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
@@ -121,7 +122,7 @@ export class StoragesListComponent implements OnInit {
   updateFilterCategory() {
     let idCategory: number = this._formGroup.value.idCategory;
     this._storeStorage$.dispatch(setStorageCategoryId({ idCategory }));
-    this._formGroup.value.idProduct = 0;
+    this._formGroup.patchValue({ idProduct: 0 });
     this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
     this._storeStorage$.dispatch(setStorageProductId({ idProduct: 0 }));
     this.products$ = this._storeProduct$.select(filterProductByCategory);
@@ -129,12 +130,12 @@ export class StoragesListComponent implements OnInit {
   }
 
   editStorage(storage: Storage) {
-    this._formGroup.value.storage = storage;
-    this._formGroup.value.editStore = {
+    this._formGroup.patchValue({ storage });
+    this._formGroup.patchValue({
       idStorage: storage.idStorage,
       price: storage.price,
       productName: document.getElementById('productName')?.innerText,
-    };
+    });
   }
 
   updateStorage() {
@@ -145,12 +146,11 @@ export class StoragesListComponent implements OnInit {
     this._storeStorage$.dispatch(saveStorage({ storage: updatedStorage }));
     this._storeStorage$.dispatch(retrieveStorageList());
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
+    this.clearEditStore();
   }
 
   clearEditStore() {
-    this._formGroup.value.idStorage = 0;
-    this._formGroup.value.price = 0;
-    this._formGroup.value.productName = '';
+    this._formGroup.patchValue({ idStorage: 0, price: 0, productName: '' });
   }
 
   getProductName(idProduct: number): Observable<Product | undefined> {
@@ -161,6 +161,6 @@ export class StoragesListComponent implements OnInit {
 
   updatePrice($event: any) {
     let newPrice = Number($event.target.value);
-    this._formGroup.value.newPrice = newPrice;
+    this._formGroup.patchValue({ newPrice });
   }
 }
