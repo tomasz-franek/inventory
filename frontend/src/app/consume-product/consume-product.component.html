@@ -126,7 +126,7 @@
           {{ 'MENU.MANAGEMENT.CONSUME' | translate }}
           <strong class="ms-2">
             <span
-              [textContent]="formGroup?.value.productName"
+              [textContent]="getProductName()"
               id="modalProductName"
             ></span>
           </strong>

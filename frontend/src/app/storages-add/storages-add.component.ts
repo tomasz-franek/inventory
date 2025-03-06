@@ -118,7 +118,7 @@ export class StoragesAddComponent implements OnInit {
     this.inventories$ = this._storeInventory$.select(getInventoriesList);
     this._storeStorage$.select(selectStorageEdit).subscribe((storageEdit) => {
       if (storageEdit?.idCategory != undefined && storageEdit?.idCategory > 0) {
-        this._formGroup.value.idCategory = storageEdit.idCategory;
+        this._formGroup.patchValue({ idCategory: storageEdit.idCategory });
         this._formGroup.get('idCategory')?.disable();
       }
       let idCategory: number =
@@ -129,7 +129,7 @@ export class StoragesAddComponent implements OnInit {
       this.products$ = this._storeProduct$.select(filterProductByCategory);
 
       if (storageEdit?.idProduct != undefined && storageEdit?.idProduct > 0) {
-        this._formGroup.value.idProduct = storageEdit.idProduct;
+        this._formGroup.patchValue({ idProduct: storageEdit.idProduct });
         this._formGroup.get('idProduct')?.disable();
       }
     });
@@ -140,31 +140,31 @@ export class StoragesAddComponent implements OnInit {
   }
 
   onBuyDateChange(value: Date): void {
-    this._formGroup.value.buyDate = value;
+    this._formGroup.patchValue({ buyDate: value });
   }
 
   changeCategory($event: any) {
     let idCategory: number = Number($event.target.value);
-    this._formGroup.get('idCategory')?.setValue(idCategory);
-    this._formGroup.get('idProduct')?.setValue(Number(0));
+    this._formGroup.patchValue({ idCategory });
+    this._formGroup.patchValue({ idProduct: 0 });
     this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
     this.products$ = this._storeProduct$.select(filterProductByCategory);
   }
 
   changeProduct($event: any) {
     let idProduct: number = Number($event.target.value);
-    this._formGroup.value.idProduct = idProduct;
+    this._formGroup.patchValue({ idProduct });
     this._storeProduct$.dispatch(setStorageProductId({ idProduct }));
     this.saveButtonDisabled = this._formGroup.valid;
   }
 
   onChangeBuyDate($event: Date) {
-    this._formGroup.value.buyDate = $event;
+    this._formGroup.patchValue({ buyDate: $event });
     this.saveButtonDisabled = this._formGroup.valid;
   }
 
   onValidDateChanged($event: Date) {
-    this._formGroup.value.validDate = $event;
+    this._formGroup.patchValue({ validDate: $event });
     this.saveButtonDisabled = this._formGroup.valid;
   }
 
@@ -182,7 +182,7 @@ export class StoragesAddComponent implements OnInit {
   }
 
   setPrice(minPrice: number) {
-    this._formGroup.value.price;
+    this._formGroup.patchValue({ price: minPrice });
     this.saveButtonDisabled = this._formGroup.invalid;
   }
 
@@ -220,18 +220,18 @@ export class StoragesAddComponent implements OnInit {
 
   changeInventory($event: any) {
     let idInventory: number = Number($event.target.value);
-    this._formGroup.value.idInventory = idInventory;
+    this._formGroup.patchValue({ idInventory });
     this._storeProduct$.dispatch(setStorageInventoryId({ idInventory }));
   }
 
   changeUnit($event: any) {
     let idUnit: number = Number($event.target.value);
-    this._formGroup.value.idUnit = idUnit;
+    this._formGroup.patchValue({ idUnit });
     this._storeProduct$.dispatch(setStorageUnitId({ idUnit }));
   }
 
   changeItems($event: any) {
     let items: number = Number($event.target.value);
-    this._formGroup.value.items = items;
+    this._formGroup.patchValue({ items });
   }
 }

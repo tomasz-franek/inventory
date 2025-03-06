@@ -215,4 +215,8 @@ export class ConsumeProductComponent implements OnInit {
     };
     this._storeShopping$.dispatch(saveShopping({ shopping }));
   }
+
+  getProductName(): string {
+    return this._formGroup.value.productName || '';
+  }
 }
