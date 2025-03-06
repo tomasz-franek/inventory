@@ -13,7 +13,6 @@ import { Observable } from 'rxjs';
 import {
   filterProduct,
   filterProductByCategory,
-  getProductsList,
   ProductState,
 } from '../state/product/product.selectors';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -24,10 +23,12 @@ import {
 } from '../state/category/category.selectors';
 import { retrieveCategoryList } from '../state/category/category.action';
 import { ActiveColor } from '../utils/active-color';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
-  imports: [NgForOf, AsyncPipe, TranslatePipe, NgClass],
+  imports: [NgForOf, AsyncPipe, TranslatePipe, NgClass, ReactiveFormsModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })
@@ -36,13 +37,22 @@ export class ProductListComponent implements OnInit {
   private _storeCategory$: Store<CategoryState> = inject(Store);
   protected products$!: Observable<Product[]>;
   protected categories$!: Observable<Category[]>;
-  protected onlyActive: boolean = true;
-  public filter: { categories: Category[]; idCategory: number } = {
-    categories: [],
-    idCategory: 0,
-  };
+  private _formGroup: FormGroup;
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder
+  ) {
+    this._formGroup = this.formBuilder.group({
+      categories: [],
+      idCategory: 0,
+      onlyActive: true,
+    });
+  }
+
+  get formGroup(): FormGroup {
+    return this._formGroup;
+  }
 
   addNewProduct() {
     this._storeProduct$.dispatch(navigateToProductNew());
@@ -50,7 +60,10 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this._storeProduct$.dispatch(retrieveProductList());
-    this.products$ = this._storeProduct$.select(getProductsList);
+    this._storeProduct$.dispatch(
+      setActiveProduct({ active: this._formGroup.value.onlyActive })
+    );
+    this.products$ = this._storeProduct$.select(filterProduct);
     this._storeCategory$.dispatch(retrieveCategoryList());
     this.categories$ = this._storeCategory$.select(getCategoriesList);
   }
@@ -67,9 +80,11 @@ export class ProductListComponent implements OnInit {
   }
 
   filterActive($event: any) {
-    this.onlyActive = $event.target.checked;
-    this._storeProduct$.dispatch(setActiveProduct({ active: this.onlyActive }));
-    this.products$ = this._storeProduct$.select(filterProduct);
+    this._formGroup.patchValue({ onlyActive: $event.target.checked });
+    this._storeProduct$.dispatch(
+      setActiveProduct({ active: this._formGroup.value.onlyActive })
+    );
+    this.products$ = this._storeProduct$.select(filterProductByCategory);
   }
 
   categoryName(idCategory: number): Observable<Category | undefined> {

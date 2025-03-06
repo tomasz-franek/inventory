@@ -45,10 +45,14 @@ export const filterProductByCategory = createSelector(
   (state) => {
     if (state.idCategory != 0) {
       return state.products.filter(
-        (product) => product.idCategory == state.idCategory
+        (product) =>
+          product.idCategory == state.idCategory &&
+          (state.active ? state.active == product.active : true)
       );
     } else {
-      return state.products;
+      return state.products.filter((product) =>
+        state.active ? state.active == product.active : true
+      );
     }
   }
 );
