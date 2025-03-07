@@ -229,8 +229,8 @@
             <column name="inventory_id" value="1"/>
             <column name="insert_date" value="now()"/>
             <column name="valid_date" value="now()"/>
-            <column name="end_date" value="now()"/>
-            <column name="used" value="1"/>
+            <column name="end_date" value="null"/>
+            <column name="used" value="0"/>
             <column name="opt_lock" value="0"/>
         </insert>
 
