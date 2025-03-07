@@ -4,6 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
     <changeSet author="tfranek" id="inventory-data-001">
         <comment>Initialize table category</comment>
         <insert tableName="category" schemaName="${schemaName}">
@@ -25,6 +26,7 @@
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
+
     <changeSet author="tfranek" id="inventory-data-002">
         <comment>Initialize table product</comment>
         <insert tableName="product" schemaName="${schemaName}">
@@ -68,6 +70,7 @@
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
+
     <changeSet author="tfranek" id="inventory-data-003">
         <comment>Initialize table inventory</comment>
         <insert tableName="inventory" schemaName="${schemaName}">
@@ -92,6 +95,7 @@
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
+
     <changeSet author="tfranek" id="inventory-data-004">
         <comment>Initialize table unit</comment>
         <insert tableName="unit" schemaName="${schemaName}">
@@ -113,6 +117,7 @@
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
+
     <changeSet author="tfranek" id="inventory-data-005">
         <comment>Initialize table storage</comment>
         <insert tableName="storage" schemaName="${schemaName}">
@@ -191,6 +196,7 @@
             <column name="used" value="100"/>
         </insert>
     </changeSet>
+
     <changeSet author="tfranek" id="inventory-data-006">
         <comment>Initialize table shopping</comment>
         <insert tableName="shopping" schemaName="${schemaName}">
@@ -203,6 +209,7 @@
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
+
     <changeSet author="tfranek" id="inventory-data-007">
         <comment>Initialize table property</comment>
         <insert tableName="property" schemaName="${schemaName}">
@@ -213,6 +220,7 @@
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
+
     <changeSet author="tfranek" id="inventory-data-008">
         <comment>Initialize table item</comment>
         <insert tableName="item" schemaName="${schemaName}">
@@ -225,6 +233,7 @@
             <column name="used" value="1"/>
             <column name="opt_lock" value="0"/>
         </insert>
+        
         <insert tableName="item" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.item_seq')"/>
             <column name="storage_id" value="3"/>
