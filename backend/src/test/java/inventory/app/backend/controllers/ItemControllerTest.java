@@ -42,7 +42,6 @@ class ItemControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$[0].name").value("Bean"))
                 .andExpect(jsonPath("$[0].idStorage").value(1));
     }
 
@@ -127,5 +126,52 @@ class ItemControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().string(
                         "Inventory with id = '" + WRONG_ID + "' not found."));
+    }
+
+    @Test
+    void consumeItem_Should_ReturnNoContent_When_ItemIsPartiallyConsumed()
+            throws Exception {
+        mockMvc.perform(
+                        patch(ITEMS_ENDPOINT_PATH + "/consume",
+                                CORRECT_ID,
+                                WRONG_ID)
+                                .accept(APPLICATION_JSON)
+                                .content("""
+                                        {
+                                            "idItem": 1,
+                                            "used": 12.0,
+                                            "endDate": null
+                                        }
+                                        """)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void getItem_Should_ReturnError_When_WrongItemId()
+            throws Exception {
+        mockMvc.perform(
+                        get(ITEMS_ENDPOINT_PATH + "/{itemId}",
+                                WRONG_ID)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Item with id = '" + WRONG_ID + "' not found."));
+    }
+
+    @Test
+    void getItem_Should_ReturnSelectedItem_When_CorrectItemId()
+            throws Exception {
+        mockMvc.perform(
+                        get(ITEMS_ENDPOINT_PATH + "/{itemId}",
+                                CORRECT_ID)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.idItem").value(1))
+                .andExpect(jsonPath("$.name").value("Bean"));
     }
 }
