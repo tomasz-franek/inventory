@@ -233,7 +233,7 @@
             <column name="used" value="1"/>
             <column name="opt_lock" value="0"/>
         </insert>
-        
+
         <insert tableName="item" schemaName="${schemaName}">
             <column name="id" valueComputed="nextval('${schemaName}.item_seq')"/>
             <column name="storage_id" value="3"/>
@@ -241,6 +241,17 @@
             <column name="valid_date" value="now()"/>
             <column name="end_date" value="now()"/>
             <column name="used" value="14"/>
+            <column name="opt_lock" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="tfranek" id="inventory-data-009">
+        <comment>Initialize table unit default</comment>
+        <insert tableName="unit_default" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.unit_default_seq')"/>
+            <column name="product_id" value="2"/>
+            <column name="unit_id" value="1"/>
+            <column name="count" value="1"/>
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
