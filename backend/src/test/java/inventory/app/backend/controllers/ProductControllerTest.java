@@ -87,7 +87,7 @@ class ProductControllerTest {
                                 CORRECT_ID)
                                 .content("""
                                         {
-                                            "name":"Oil",
+                                            "name":"Bean",
                                             "active":1,
                                             "optLock":0
                                         }

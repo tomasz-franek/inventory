@@ -1499,7 +1499,7 @@ components:
           type: string
           format: date
         predictedAvailabilityEpoch:
-          type: number
+          type: integer
           format: int64
         limitMax:
           type: integer

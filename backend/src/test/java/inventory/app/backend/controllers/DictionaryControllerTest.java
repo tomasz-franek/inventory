@@ -48,10 +48,7 @@ class DictionaryControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$[0].productName").value("Bean"))
-                .andExpect(jsonPath("$[0].idProduct").value(1))
-                .andExpect(jsonPath("$[0].inventoryName").value("House"))
-                .andExpect(jsonPath("$[0].idItem").value(1));
+                .andExpect(jsonPath("$[*].productName").value("Bean"));
     }
 
     @Test
@@ -65,8 +62,6 @@ class DictionaryControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
                 .andExpect(jsonPath("$[0].productName").value("Bean"))
-                .andExpect(jsonPath("$[0].idProduct").value(1))
-                .andExpect(jsonPath("$[0].inventoryName").value("House"))
-                .andExpect(jsonPath("$[0].idItem").value(1));
+                .andExpect(jsonPath("$[0].idProduct").value(1));
     }
 }

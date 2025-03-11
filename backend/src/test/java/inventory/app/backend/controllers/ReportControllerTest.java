@@ -196,7 +196,7 @@ class ReportControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(equalTo(1))))
-                .andExpect(jsonPath("$[0].operationDate").value("2023-02-05"));
+                .andExpect(jsonPath("$[0].operationDate").value(currentDate));
     }
 
     @Test
