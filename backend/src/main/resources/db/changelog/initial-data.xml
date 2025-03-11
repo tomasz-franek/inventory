@@ -134,7 +134,7 @@
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
             <column name="product_id" value="2"/>
             <column name="unit_id" value="1"/>
-            <column name="items" value="10"/>
+            <column name="items" value="3"/>
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
@@ -144,7 +144,7 @@
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
             <column name="product_id" value="2"/>
             <column name="unit_id" value="1"/>
-            <column name="items" value="10"/>
+            <column name="items" value="2"/>
             <column name="insert_date" value="now()"/>
             <column name="count" value="25"/>
             <column name="price" value="3.99"/>
@@ -155,7 +155,7 @@
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
             <column name="product_id" value="3"/>
             <column name="unit_id" value="3"/>
-            <column name="items" value="10"/>
+            <column name="items" value="2"/>
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="4.99"/>
@@ -165,7 +165,7 @@
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
             <column name="product_id" value="3"/>
             <column name="unit_id" value="3"/>
-            <column name="items" value="10"/>
+            <column name="items" value="4"/>
             <column name="insert_date" value="now()"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
@@ -190,6 +190,7 @@
             <column name="unit_id" value="2"/>
             <column name="items" value="2"/>
             <column name="insert_date" value="now()"/>
+            <column name="valid_date" valueDate="${yesterday}"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
             <column name="opt_lock" value="0"/>
@@ -241,6 +242,23 @@
             <column name="valid_date" value="now()"/>
             <column name="end_date" value="now()"/>
             <column name="used" value="14"/>
+            <column name="opt_lock" value="0"/>
+        </insert>
+        <insert tableName="item" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.item_seq')"/>
+            <column name="storage_id" value="3"/>
+            <column name="insert_date" value="now()"/>
+            <column name="valid_date" value="now()"/>
+            <column name="used" value="0"/>
+            <column name="opt_lock" value="0"/>
+        </insert>
+        <insert tableName="item" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.item_seq')"/>
+            <column name="storage_id" value="1"/>
+            <column name="insert_date" valueDate="${yesterday}"/>
+            <column name="valid_date" valueDate="${tomorrow}"/>
+            <column name="end_date" valueDate="${now}"/>
+            <column name="used" value="100"/>
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>

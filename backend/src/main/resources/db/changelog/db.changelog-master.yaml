@@ -8,5 +8,17 @@ databaseChangeLog:
       value: now()
       dbms: h2
   - property:
+      name: now
+      value: now()
+      dbms: postgres
+  - property:
+      name: tomorrow
+      value: DATEADD(DAY, 1, now())
+      dbms: h2
+  - property:
+      name: yesterday
+      value: DATEADD(DAY, -1, now())
+      dbms: h2
+  - property:
       name: schemaName
       value: inventory_schema
