@@ -1,6 +1,5 @@
 package inventory.app.backend.controllers;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -91,19 +90,18 @@ class ReportControllerTest {
     }
 
     @Test
-    @Disabled("need test data")
     void getLastUsedInventoryReportData_Should_ReturnResponse_When_MethodIsCalledWithCorrectId()
             throws Exception {
         mockMvc.perform(
-                        get(REPORT_ENDPOINT_PATH + "lastUsed/{idInventory}", CORRECT_ID)
+                        get(REPORT_ENDPOINT_PATH + "lastUsed/{idInventory}", 2)
                                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$", hasSize(equalTo(1))))
                 .andExpect(jsonPath("$[0].idProduct").value(1))
-                .andExpect(jsonPath("$[0].productName").value("Oil"))
-                .andExpect(jsonPath("$[0].validDate", nullValue()));
+                .andExpect(jsonPath("$[0].productName").value("Bean"))
+                .andExpect(jsonPath("$[0].endDate").value(currentDate));
     }
 
     @Test
@@ -225,7 +223,7 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(equalTo(4))))
+                .andExpect(jsonPath("$", hasSize(equalTo(3))))
                 .andExpect(jsonPath("$[0].productName").value("Bean"))
                 .andExpect(jsonPath("$[0].price").value(2.99))
                 .andExpect(jsonPath("$[0].items").value(10))
@@ -253,8 +251,7 @@ class ReportControllerTest {
     }
 
     @Test
-    @Disabled("need test data")
-    void getExpiredReportData_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+    void getExpiredReportData_Should_EmptyReturnResponse_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
                         get(REPORT_ENDPOINT_PATH + "expired")
@@ -262,11 +259,10 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(equalTo(2))))
-                .andExpect(jsonPath("$[0].categoryName").value("Food"))
-                .andExpect(jsonPath("$[0].value").value(95.11))
-                .andExpect(jsonPath("$[1].categoryName").value("Clothes"))
-                .andExpect(jsonPath("$[1].value").value(79.80));
+                .andExpect(jsonPath("$", hasSize(equalTo(1))))
+                .andExpect(jsonPath("$[0].productName").value("Milk"))
+                .andExpect(jsonPath("$[0].idProduct").value(5))
+                .andExpect(jsonPath("$[0].validDate").value(currentDate));
     }
 
 

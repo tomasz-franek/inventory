@@ -270,6 +270,7 @@
             <column name="insert_date" valueDate="${yesterday}"/>
             <column name="valid_date" valueDate="${tomorrow}"/>
             <column name="end_date" valueDate="${now}"/>
+            <column name="inventory_id" value="2"/>
             <column name="used" value="100"/>
             <column name="opt_lock" value="0"/>
         </insert>
