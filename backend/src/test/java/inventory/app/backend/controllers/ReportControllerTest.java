@@ -64,19 +64,18 @@ class ReportControllerTest {
     }
 
     @Test
-    @Disabled("need test data")
     void getExpiredInventoryReportData_Should_ReturnResponse_When_MethodIsCalledWithCorrectId()
             throws Exception {
         mockMvc.perform(
-                        get(REPORT_ENDPOINT_PATH + "expired/{idInventory}", CORRECT_ID)
+                        get(REPORT_ENDPOINT_PATH + "expired/{idInventory}", 2)
                                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$[0].idProduct").value(1))
-                .andExpect(jsonPath("$[0].productName").value("Oil"))
-                .andExpect(jsonPath("$[0].validDate", nullValue()));
+                .andExpect(jsonPath("$[0].idProduct").value(5))
+                .andExpect(jsonPath("$[0].productName").value("Milk"))
+                .andExpect(jsonPath("$[0].validDate").value(currentDate));
     }
 
     @Test
@@ -156,7 +155,8 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(equalTo(0))));
+                .andExpect(jsonPath("$", hasSize(equalTo(1))))
+                .andExpect(jsonPath("$[0].productName").value("Milk"));
     }
 
     @Test
@@ -182,9 +182,9 @@ class ReportControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(equalTo(2))))
-                .andExpect(jsonPath("$[0].price").value(2.99))
+                .andExpect(jsonPath("$[0].price").value(4.33))
                 .andExpect(jsonPath("$[0].operationDate").value(yesterdayDate))
-                .andExpect(jsonPath("$[1].price").value(3.43))
+                .andExpect(jsonPath("$[1].price").value(4.77))
                 .andExpect(jsonPath("$[1].operationDate").value(currentDate));
     }
 
@@ -243,11 +243,13 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(equalTo(2))))
+                .andExpect(jsonPath("$", hasSize(equalTo(3))))
                 .andExpect(jsonPath("$[0].productName").value("Bean"))
                 .andExpect(jsonPath("$[0].idProduct").value(1))
-                .andExpect(jsonPath("$[1].productName").value("Sugar"))
-                .andExpect(jsonPath("$[1].idProduct").value(2));
+                .andExpect(jsonPath("$[1].productName").value("Milk"))
+                .andExpect(jsonPath("$[1].idProduct").value(5))
+                .andExpect(jsonPath("$[2].productName").value("Sugar"))
+                .andExpect(jsonPath("$[2].idProduct").value(2));
     }
 
     @Test

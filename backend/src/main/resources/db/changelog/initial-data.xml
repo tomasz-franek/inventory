@@ -176,9 +176,9 @@
             <column name="product_id" value="5"/>
             <column name="unit_id" value="2"/>
             <column name="items" value="2"/>
-            <column name="insert_date" value="2025-04-01"/>
-            <column name="end_date" value="2025-07-01"/>
-            <column name="valid_date" value="2025-12-01"/>
+            <column name="insert_date" valueDate="${yesterday}"/>
+            <column name="end_date" valueDate="${tomorrow}"/>
+            <column name="valid_date" valueDate="${now}"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
             <column name="opt_lock" value="0"/>
@@ -195,6 +195,18 @@
             <column name="price" value="2.99"/>
             <column name="opt_lock" value="0"/>
             <column name="used" value="100"/>
+        </insert>
+        <insert tableName="storage" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
+            <column name="product_id" value="5"/>
+            <column name="unit_id" value="2"/>
+            <column name="items" value="2"/>
+            <column name="insert_date" valueDate="${yesterday}"/>
+            <column name="valid_date" valueDate="${now}"/>
+            <column name="count" value="2"/>
+            <column name="price" value="1.34"/>
+            <column name="opt_lock" value="0"/>
+            <column name="used" value="0"/>
         </insert>
     </changeSet>
 
@@ -259,6 +271,15 @@
             <column name="valid_date" valueDate="${tomorrow}"/>
             <column name="end_date" valueDate="${now}"/>
             <column name="used" value="100"/>
+            <column name="opt_lock" value="0"/>
+        </insert>
+        <insert tableName="item" schemaName="${schemaName}">
+            <column name="id" valueComputed="nextval('${schemaName}.item_seq')"/>
+            <column name="storage_id" value="8"/>
+            <column name="insert_date" valueDate="${yesterday}"/>
+            <column name="valid_date" valueDate="${tomorrow}"/>
+            <column name="inventory_id" value="2"/>
+            <column name="used" value="0"/>
             <column name="opt_lock" value="0"/>
         </insert>
     </changeSet>
