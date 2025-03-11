@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Product, ProductPriceHistoryData } from '../api';
-import { Properties } from '../api/model/properties';
+import { Property } from '../api/model/property';
 import { retrieveProductList } from '../state/product/product.action';
 import {
   getProductsList,
@@ -49,7 +49,8 @@ export class PriceHistoryComponent implements OnInit {
   public items: ProductPriceHistoryData[] = [];
   public products: Product[] = [];
   public _chartData$: ProductPriceHistoryData[] = [];
-  private properties: Properties = {
+  private property: Property = {
+    idProperty: 0,
     currency: 'USD',
     idUser: 0,
     language: 'en',

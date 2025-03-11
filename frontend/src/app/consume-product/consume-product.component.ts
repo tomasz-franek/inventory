@@ -151,6 +151,10 @@ export class ConsumeProductComponent implements OnInit {
     this._formGroup.value.endDate = value;
   }
 
+  getProductName():string{
+    return this._formGroup.value.productName;
+  }
+
   addDay(number: number) {
     if (this._formGroup.get('endDate') != null) {
       let newDate: Date = new Date(this._formGroup.value.endDate);

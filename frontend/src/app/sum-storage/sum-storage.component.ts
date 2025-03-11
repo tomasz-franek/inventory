@@ -9,7 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AsyncPipe, DecimalPipe, NgClass, NgForOf } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Category, Product } from '../api';
-import { Properties } from '../api/model/properties';
+import { Property } from '../api/model/property';
 import { Observable } from 'rxjs';
 import {
   CategoryState,
@@ -59,7 +59,8 @@ export class SumStorageComponent implements OnInit {
   private _storeCategory$: Store<CategoryState> = inject(Store);
   private _storeProduct$: Store<ProductState> = inject(Store);
   private _storeStorage$: Store<StorageState> = inject(Store);
-  public properties: Properties = {
+  public property: Property = {
+    idProperty: 0,
     currency: 'USD',
     idUser: 0,
     language: 'en',

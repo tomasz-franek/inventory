@@ -4,7 +4,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { reportPeriods } from '../../objects/definedValues';
 import * as echarts from 'echarts/core';
 import { EChartsType } from 'echarts/core';
-import { Properties } from '../api/model/properties';
+import { Property } from '../api/model/property';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { StorageValueHistoryData } from '../api';
 import { EChartsOption } from 'echarts';
@@ -36,7 +36,8 @@ export class ValueHistoryComponent implements OnInit {
   public periods: any[] = reportPeriods;
   public _chart$: EChartsType | undefined = undefined;
   public _chartData$: StorageValueHistoryData[] = [];
-  private properties: Properties = {
+  private property: Property = {
+    idProperty: 0,
     currency: 'USD',
     idUser: 0,
     language: 'en',
@@ -82,7 +83,7 @@ export class ValueHistoryComponent implements OnInit {
     let chartOption: EChartsOption = {
       title: {
         text:
-          this.translate.instant('SUM_VALUES') + ' ' + this.properties.currency,
+          this.translate.instant('SUM_VALUES') + ' ' + this.property.currency,
       },
       tooltip: {
         trigger: 'axis',
