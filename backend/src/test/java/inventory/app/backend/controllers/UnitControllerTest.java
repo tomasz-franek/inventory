@@ -25,6 +25,7 @@ class UnitControllerTest {
     @Autowired
     private MockMvc mockMvc;
     public static final Long CORRECT_ID = 1L;
+    public static final Long WRONG_ID = 999L;
 
     @Test
     public void getAllUnits_Should_ReturnResponse_When_MethodIsCalled()
@@ -50,6 +51,18 @@ class UnitControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value("Kilogram"))
                 .andExpect(jsonPath("$.symbol").value("Kg"));
+    }
+
+    @Test
+    public void getUnit_Should_ReturnNotFound_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(UNITS_ENDPOINT_PATH + "/{unitId}", WRONG_ID)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Unit with id = '" + WRONG_ID + "' not found."));
     }
 
     @Test

@@ -67,6 +67,77 @@ class ItemControllerTest {
     }
 
     @Test
+    void saveItem_Should_ReturnNotFound_When_MethodIsCalledWithNonExistingIdStorage()
+            throws Exception {
+        mockMvc.perform(
+                        post(ITEMS_ENDPOINT_PATH)
+                                .content("""
+                                        {
+                                            "insertDate" : "2024-02-27",
+                                            "idStorage" : 999,
+                                            "used":0,
+                                            "active":1,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Storage with id = '999' not found."));
+    }
+
+    @Test
+    void saveItem_Should_ReturnNotFound_When_MethodIsCalledWithNonExistingIdInventory()
+            throws Exception {
+        mockMvc.perform(
+                        post(ITEMS_ENDPOINT_PATH)
+                                .content("""
+                                        {
+                                            "insertDate" : "2024-02-27",
+                                            "idStorage" : 1,
+                                            "idInventory" : 999,
+                                            "used":0,
+                                            "active":1,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Inventory with id = '999' not found."));
+    }
+
+    @Test
+    void saveItem_Should_ReturnBadRequest_When_MethodIsCalledWithNullInsertDate()
+            throws Exception {
+        mockMvc.perform(
+                        post(ITEMS_ENDPOINT_PATH)
+                                .content("""
+                                        {
+                                            "insertDate" : null,
+                                            "idStorage" : 1,
+                                            "idInventory" : 1,
+                                            "used":0,
+                                            "active":1,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0].message").value(
+                        "Value in the column 'insertDate' is null"));
+
+    }
+
+    @Test
     void updateItem_Should_ReturnNoContent_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
@@ -85,6 +156,56 @@ class ItemControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    void updateItem_Should_ReturnNotFound_When_MethodIsCalledWithWrongItemId()
+            throws Exception {
+        mockMvc.perform(
+                        patch(ITEMS_ENDPOINT_PATH + "/{itemId}",
+                                WRONG_ID)
+                                .content("""
+                                        {
+                                            "insertDate" : "2024-02-27",
+                                            "idStorage" : 1,
+                                            "used":2,
+                                            "active":1,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Item with id = '999' not found."));
+    }
+
+
+    @Test
+    void updateItem_Should_ReturnBadRequest_When_MethodIsCalledWithInsertDateNull()
+            throws Exception {
+        mockMvc.perform(
+                        patch(ITEMS_ENDPOINT_PATH + "/{itemId}",
+                                CORRECT_ID)
+                                .content("""
+                                        {
+                                            "insertDate" :null,
+                                            "idStorage" : 1,
+                                            "used":2,
+                                            "active":1,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0].message").value(
+                        "Value in the column 'insertDate' is null"));
+    }
+
 
     @Test
     void updateItemByInventoryId_Should_ReturnNoContent_When_MethodIsCalled()
@@ -145,6 +266,26 @@ class ItemControllerTest {
                                         """)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void consumeItem_Should_ReturnNotFound_When_MethodCalledWithWrongItemId()
+            throws Exception {
+        mockMvc.perform(
+                        patch(ITEMS_ENDPOINT_PATH + "/consume")
+                                .accept(APPLICATION_JSON)
+                                .content("""
+                                        {
+                                            "idItem": 999,
+                                            "used": 12.0,
+                                            "endDate": null
+                                        }
+                                        """)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Item with id = '999' not found."));
     }
 
     @Test

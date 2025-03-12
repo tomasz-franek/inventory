@@ -4,6 +4,7 @@ import inventory.app.api.model.Inventory;
 import inventory.app.api.model.Item;
 import inventory.app.api.model.ItemConsume;
 import inventory.app.api.model.ResponseId;
+import inventory.app.api.model.Storage;
 import inventory.app.backend.entities.InventoryEntity;
 import inventory.app.backend.entities.ItemEntity;
 import inventory.app.backend.entities.StorageEntity;
@@ -60,7 +61,7 @@ public class ItemServiceImpl implements ItemService {
         Supplier<ValidationResult.Context> contextSupplier = ValidationResult.Context.contextSupplier(item);
 
         StorageEntity storageEntity = storageRepository.findById(item.getIdStorage()).orElseThrow(
-                () -> new NotFoundEntityException(StorageEntity.class, item.getIdStorage()));
+                () -> new NotFoundEntityException(Storage.class, item.getIdStorage()));
 
         ItemEntity itemEntity = mapper.toEntity(item);
         itemEntity.setStorage(storageEntity);
