@@ -12,7 +12,7 @@ import { Inventory, Item } from '../api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
-  getInventoriesList,
+  filterInventories,
   InventoryState,
 } from '../state/inventory/inventory.selectors';
 import { retrieveInventoryList } from '../state/inventory/inventory.action';
@@ -59,7 +59,7 @@ export class ManageProductComponent implements OnInit {
 
   ngOnInit() {
     this._storeInventory$.dispatch(retrieveInventoryList());
-    this.inventories$ = this._storeInventory$.select(getInventoriesList);
+    this.inventories$ = this._storeInventory$.select(filterInventories);
     this._storeItem$.dispatch(retrieveItemsWithoutInventory());
     this.items$ = this._storeItem$.select(getItemsWithInventoryList);
   }

@@ -23,7 +23,7 @@ import * as echarts from 'echarts/core';
 import { EChartsType } from 'echarts/core';
 import { Store } from '@ngrx/store';
 import {
-  getProductsList,
+  filterProducts,
   ProductState,
 } from '../state/product/product.selectors';
 import { retrieveProductList } from '../state/product/product.action';
@@ -85,7 +85,7 @@ export class AvailabilityComponent implements OnInit {
       this._chart$ = echarts.init(ctx);
     }
     this._storeProduct$.dispatch(retrieveProductList());
-    this.products$ = this._storeProduct$.select(getProductsList);
+    this.products$ = this._storeProduct$.select(filterProducts);
     this.prepareChartOptions([], [], []);
   }
 

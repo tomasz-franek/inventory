@@ -13,11 +13,11 @@ import { Property } from '../api/model/property';
 import { Observable } from 'rxjs';
 import {
   CategoryState,
-  getCategoriesList,
+  filterCategories,
 } from '../state/category/category.selectors';
 import {
   filterProductByCategory,
-  getProductsList,
+  filterProducts,
   ProductState,
 } from '../state/product/product.selectors';
 import {
@@ -85,8 +85,8 @@ export class SumStorageComponent implements OnInit {
     this._storeCategory$.dispatch(retrieveCategoryList());
     this._storeProduct$.dispatch(retrieveProductList());
     this._storeStorage$.dispatch(retrieveStorageList());
-    this._products$ = this._storeProduct$.select(getProductsList);
-    this._categories$ = this._storeCategory$.select(getCategoriesList);
+    this._products$ = this._storeProduct$.select(filterProducts);
+    this._categories$ = this._storeCategory$.select(filterCategories);
     this.filterStorages();
     // await zip(
     //   this.dataService.readProducts(),

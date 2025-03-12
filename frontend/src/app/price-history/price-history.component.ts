@@ -5,7 +5,7 @@ import { Product, ProductPriceHistoryData } from '../api';
 import { Property } from '../api/model/property';
 import { retrieveProductList } from '../state/product/product.action';
 import {
-  getProductsList,
+  filterProducts,
   ProductState,
 } from '../state/product/product.selectors';
 import { Store } from '@ngrx/store';
@@ -116,7 +116,7 @@ export class PriceHistoryComponent implements OnInit {
     let ctx = document.getElementById('chart');
     this.chart = new Chart(ctx as HTMLCanvasElement, this.config);
     this._storeProduct$.dispatch(retrieveProductList());
-    this._products$ = this._storeProduct$.select(getProductsList);
+    this._products$ = this._storeProduct$.select(filterProducts);
     this.retrieveReportData();
   }
 

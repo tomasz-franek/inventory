@@ -11,7 +11,7 @@ import {
 } from '../state/product/product.action';
 import { Observable } from 'rxjs';
 import {
-  filterProduct,
+  filterProducts,
   filterProductByCategory,
   getProductsList,
   ProductState,
@@ -21,6 +21,7 @@ import {
   CategoryState,
   getCategoriesList,
   selectCategoryById,
+  filterCategories
 } from '../state/category/category.selectors';
 import { retrieveCategoryList } from '../state/category/category.action';
 import { ActiveColor } from '../utils/active-color';
@@ -52,7 +53,7 @@ export class ProductListComponent implements OnInit {
     this._storeProduct$.dispatch(retrieveProductList());
     this.products$ = this._storeProduct$.select(getProductsList);
     this._storeCategory$.dispatch(retrieveCategoryList());
-    this.categories$ = this._storeCategory$.select(getCategoriesList);
+    this.categories$ = this._storeCategory$.select(filterCategories);
   }
 
   updateProduct(product: Product) {
@@ -69,7 +70,7 @@ export class ProductListComponent implements OnInit {
   filterActive($event: any) {
     this.onlyActive = $event.target.checked;
     this._storeProduct$.dispatch(setActiveProduct({ active: this.onlyActive }));
-    this.products$ = this._storeProduct$.select(filterProduct);
+    this.products$ = this._storeProduct$.select(filterProducts);
   }
 
   categoryName(idCategory: number): Observable<Category | undefined> {
