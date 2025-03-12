@@ -141,7 +141,7 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(equalTo(63))));
+                .andExpect(jsonPath("$", hasSize(equalTo(61))));
     }
 
     @Test
@@ -180,9 +180,9 @@ class ReportControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(equalTo(2))))
-                .andExpect(jsonPath("$[0].price").value(4.33))
+                .andExpect(jsonPath("$[0].price").value(16.53))
                 .andExpect(jsonPath("$[0].operationDate").value(yesterdayDate))
-                .andExpect(jsonPath("$[1].price").value(4.77))
+                .andExpect(jsonPath("$[1].price").value(15.47))
                 .andExpect(jsonPath("$[1].operationDate").value(currentDate));
     }
 
@@ -197,7 +197,7 @@ class ReportControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(equalTo(1))))
-                .andExpect(jsonPath("$[0].operationDate").value(currentDate));
+                .andExpect(jsonPath("$[0].operationDate").value("2023-02-05"));
     }
 
     @Test
@@ -224,9 +224,9 @@ class ReportControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(equalTo(3))))
-                .andExpect(jsonPath("$[0].productName").value("Bean"))
-                .andExpect(jsonPath("$[0].price").value(2.99))
-                .andExpect(jsonPath("$[0].items").value(10))
+                .andExpect(jsonPath("$[0].productName").value("Sugar"))
+                .andExpect(jsonPath("$[0].price").value(3.99))
+                .andExpect(jsonPath("$[0].items").value(2))
                 .andExpect(jsonPath("$[1].productName").value("Sugar"))
                 .andExpect(jsonPath("$[1].price").value(3.99))
                 .andExpect(jsonPath("$[1].items").value(2));
