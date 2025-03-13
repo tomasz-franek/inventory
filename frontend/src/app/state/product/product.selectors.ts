@@ -1,11 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Product } from '../../api';
+import { Product, ProductPrice } from '../../api';
 import { Features } from '../../../features';
 import { setActiveCategory } from '../category/category.action';
 
 export interface ProductState {
   products: Product[];
   productEdit: Product;
+  productPrice: ProductPrice;
   idCategory: number;
   active: boolean;
 }
@@ -67,4 +68,9 @@ export const newProductSelector = createSelector(
 export const editProductSelector = createSelector(
   selectProductsFutureState,
   (state) => state.productEdit
+);
+
+export const productPriceSelector = createSelector(
+  selectProductsFutureState,
+  (state) => state.productPrice
 );

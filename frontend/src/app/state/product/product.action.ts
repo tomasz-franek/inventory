@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Product } from '../../api';
+import { Product, ProductPrice } from '../../api';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export const retrieveProductList = createAction('[Product] Call Product list');
@@ -16,9 +16,34 @@ export const retrievedProductListActionError = createAction(
   }>()
 );
 
+export const retrievedProductActionError = createAction(
+  '[Product] Product Error',
+  props<{
+    error: HttpErrorResponse;
+  }>()
+);
+
 export const loadProductAction = createAction(
   '[Product] Load Product',
   props<{ id: number }>()
+);
+
+export const loadProductPriceAction = createAction(
+  '[Product] Load Product Price',
+  props<{ id: number }>()
+);
+
+export const retrievedProductPriceActionSuccess = createAction(
+  '[Product] Retrieved Product Price Success',
+  props<{
+    productPrice: ProductPrice;
+  }>()
+);
+export const retrievedProductPriceActionError = createAction(
+  '[Product] Product Product Price Error',
+  props<{
+    error: HttpErrorResponse;
+  }>()
 );
 
 export const saveProduct = createAction(

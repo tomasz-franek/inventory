@@ -1,12 +1,13 @@
 import {
   retrievedProductActionSuccess,
   retrievedProductListActionSuccess,
+  retrievedProductPriceActionSuccess,
   saveProduct,
   setActiveProduct,
   setProductCategoryId,
 } from './product.action';
-import { ProductState } from './product.selectors';
-import { createReducer, on } from '@ngrx/store';
+import {ProductState} from './product.selectors';
+import {createReducer, on} from '@ngrx/store';
 
 export const initialProductState: ProductState = {
   products: [],
@@ -16,6 +17,13 @@ export const initialProductState: ProductState = {
     idCategory: 0,
     optLock: 0,
     fragile: false,
+  },
+  productPrice: {
+    idProduct: 0,
+    maxPrice: 0,
+    minPrice: 0,
+    lastPrice: 0,
+    averagePrice: 0,
   },
   idCategory: 0,
   active: true,
@@ -50,5 +58,8 @@ export const productReducer = createReducer(
   }),
   on(retrievedProductActionSuccess, (state, action): ProductState => {
     return { ...state, productEdit: action.product };
-  })
+  }),
+    on(retrievedProductPriceActionSuccess, (state, action): ProductState => {
+      return { ...state, productPrice: action.productPrice };
+    });
 );

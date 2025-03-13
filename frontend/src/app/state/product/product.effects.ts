@@ -3,12 +3,16 @@ import { ApiService } from '../../services/api.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   loadProductAction,
+  loadProductPriceAction,
   navigateToProductEdit,
   navigateToProductList,
   navigateToProductNew,
+  retrievedProductActionError,
   retrievedProductActionSuccess,
   retrievedProductListActionError,
   retrievedProductListActionSuccess,
+  retrievedProductPriceActionError,
+  retrievedProductPriceActionSuccess,
   retrieveProductList,
   saveProduct,
   saveProductActionError,
@@ -65,6 +69,27 @@ export class ProductEffects {
             return retrievedProductActionSuccess({
               product: product,
             });
+          }),
+          catchError((error: any) => {
+            return [retrievedProductActionError({ error })];
+          })
+        )
+      )
+    );
+  });
+
+  loadProductPrice$ = createEffect(() => {
+    return inject(Actions).pipe(
+      ofType(loadProductPriceAction),
+      mergeMap((action) =>
+        this._apiService$.readProductPrice(action.id).pipe(
+          map((productPrice) => {
+            return retrievedProductPriceActionSuccess({
+              productPrice: productPrice,
+            });
+          }),
+          catchError((error: any) => {
+            return [retrievedProductPriceActionError({ error })];
           })
         )
       )

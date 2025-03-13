@@ -18,6 +18,7 @@ import {
   Product,
   ProductAvailabilityData,
   ProductPredictionData,
+  ProductPrice,
   ProductPriceHistoryData,
   ProductsService,
   Property,
@@ -263,5 +264,9 @@ export class ApiService {
 
   consumeItem(item: ItemConsume): Observable<any> {
     return this.itemService.consumeItem(item);
+  }
+
+  readProductPrice(idProduct: number): Observable<ProductPrice> {
+    return this.dictionaryService.getProductPrice(idProduct);
   }
 }
