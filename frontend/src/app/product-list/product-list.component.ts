@@ -65,7 +65,7 @@ export class ProductListComponent implements OnInit {
     this._storeProduct$.dispatch(
       setActiveProduct({ active: this._formGroup.value.onlyActive })
     );
-    this.products$ = this._storeProduct$.select(filterProduct);
+    this.products$ = this._storeProduct$.select(filterProducts);
     this._storeCategory$.dispatch(retrieveCategoryList());
     this.categories$ = this._storeCategory$.select(filterCategories);
   }
