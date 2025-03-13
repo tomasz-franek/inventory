@@ -185,7 +185,6 @@
             <column name="unit_id" value="2"/>
             <column name="items" value="2"/>
             <column name="insert_date" valueDate="${yesterday}"/>
-            <column name="end_date" valueDate="${tomorrow}"/>
             <column name="valid_date" valueDate="${now}"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
@@ -199,6 +198,7 @@
             <column name="items" value="2"/>
             <column name="insert_date" value="now()"/>
             <column name="valid_date" valueDate="${yesterday}"/>
+            <column name="end_date" valueDate="${yesterday}"/>
             <column name="count" value="2"/>
             <column name="price" value="2.99"/>
             <column name="opt_lock" value="0"/>
