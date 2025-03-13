@@ -36,8 +36,8 @@ export class InventoryAddComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this._formGroup = this.formBuilder.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(1)]],
+      description: ['', [Validators.required, Validators.minLength(1)]],
       active: [1, Validators.required],
       id: [],
       optLock: [],

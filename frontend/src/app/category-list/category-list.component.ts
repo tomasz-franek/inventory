@@ -13,7 +13,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 import {
   CategoryState,
   filterCategories,
-  getCategoriesList,
 } from '../state/category/category.selectors';
 import { ActiveColor } from '../utils/active-color';
 
@@ -26,8 +25,7 @@ import { ActiveColor } from '../utils/active-color';
 export class CategoryListComponent implements OnInit {
   private _storeCategory$: Store<CategoryState> = inject(Store);
   protected onlyActive = true;
-  protected categories$: Observable<Category[]> =
-    this._storeCategory$.select(getCategoriesList);
+  protected categories$!: Observable<Category[]>;
 
   constructor() {}
 
@@ -40,6 +38,7 @@ export class CategoryListComponent implements OnInit {
       setActiveCategory({ active: this.onlyActive })
     );
     this._storeCategory$.dispatch(retrieveCategoryList());
+    this.categories$ = this._storeCategory$.select(filterCategories);
   }
 
   editCategory(category: Category) {

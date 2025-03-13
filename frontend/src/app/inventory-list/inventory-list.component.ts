@@ -11,7 +11,6 @@ import {
 import { Observable } from 'rxjs';
 import {
   filterInventories,
-  getInventoriesList,
   InventoryState,
 } from '../state/inventory/inventory.selectors';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -26,8 +25,7 @@ import { ActiveColor } from '../utils/active-color';
 export class InventoryListComponent implements OnInit {
   private _storeInventory$: Store<InventoryState> = inject(Store);
   protected onlyActive: boolean = true;
-  protected inventories$: Observable<Inventory[]> =
-    this._storeInventory$.select(getInventoriesList);
+  protected inventories$!: Observable<Inventory[]>;
 
   constructor() {}
 
@@ -40,6 +38,7 @@ export class InventoryListComponent implements OnInit {
       setActiveInventory({ active: this.onlyActive })
     );
     this._storeInventory$.dispatch(retrieveInventoryList());
+    this.inventories$ = this._storeInventory$.select(filterInventories);
   }
 
   editInventory(inventory: Inventory) {

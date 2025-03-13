@@ -22,7 +22,7 @@
         <button (click)="backToInventories()" class="btn btn-outline-danger col-2 me-2" id="back">
           <i class="bi bi-arrow-left"></i>
           {{'BACK'|translate}}</button>
-        <button (click)="save()" [disabled]="formGroup.valid"
+        <button (click)="save()" [disabled]="formGroup.invalid"
                 class="btn btn-outline-primary col-2" id="save">
           <i class="bi bi-save ms-2 me-2"></i>{{'SAVE'|translate}}
         </button>
