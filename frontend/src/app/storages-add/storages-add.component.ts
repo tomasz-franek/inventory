@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Category, Inventory, Product, Property, Storage, Unit } from '../api';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule,Validators,NG_VALIDATORS } from '@angular/forms';
 import {
   AsyncPipe,
   CommonModule,
@@ -35,6 +35,7 @@ import {
 import {
   CategoryState,
   getCategoriesList,
+  filterCategories,
 } from '../state/category/category.selectors';
 import {
   retrieveProductList,
@@ -88,7 +89,6 @@ export class StoragesAddComponent implements OnInit {
     language: '',
     idUser: 0,
   };
-  public saveButtonDisabled: boolean = true;
   protected _formGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
@@ -100,7 +100,7 @@ export class StoragesAddComponent implements OnInit {
       buyDate: null,
       validDate: null,
       count: 0,
-      items: 0,
+      items: ['',[Validators.required,Validators.min(1)]],
       idInventory: 0,
       price: 0,
       unitsCheckbox: false,
@@ -113,7 +113,7 @@ export class StoragesAddComponent implements OnInit {
     this._storeUnit$.dispatch(retrieveUnitList());
     this._storeInventory$.dispatch(retrieveInventoryList());
     this.products$ = this._storeProduct$.select(getProductsList);
-    this.categories$ = this._storeCategory$.select(getCategoriesList);
+    this.categories$ = this._storeCategory$.select(filterCategories);
     this.units$ = this._storeUnit$.select(getUnitsList);
     this.inventories$ = this._storeInventory$.select(getInventoriesList);
     this._storeStorage$.select(selectStorageEdit).subscribe((storageEdit) => {
@@ -155,21 +155,19 @@ export class StoragesAddComponent implements OnInit {
     let idProduct: number = Number($event.target.value);
     this._formGroup.patchValue({ idProduct });
     this._storeProduct$.dispatch(setStorageProductId({ idProduct }));
-    this.saveButtonDisabled = this._formGroup.valid;
   }
 
   onChangeBuyDate($event: Date) {
-    this._formGroup.patchValue({ buyDate: $event });
-    this.saveButtonDisabled = this._formGroup.valid;
+    this._formGroup.patchValue({buyDate:$event});
   }
 
   onValidDateChanged($event: Date) {
-    this._formGroup.patchValue({ validDate: $event });
-    this.saveButtonDisabled = this._formGroup.valid;
+     this._formGroup.patchValue({validDate:$event});
   }
 
   updateCheckbox($event: any) {
     let checkbox: boolean = $event.target.checked;
+    this._formGroup.patchValue({unitsCheckbox:checkbox});
     if (checkbox) {
       this._formGroup.get('count')?.enable();
       this._formGroup.get('idUnit')?.enable();
@@ -178,12 +176,10 @@ export class StoragesAddComponent implements OnInit {
       this._formGroup.get('idUnit')?.disable();
       this._storeProduct$.dispatch(setStorageUnitId({ idUnit: 0 }));
     }
-    this.saveButtonDisabled = this._formGroup.invalid;
   }
 
   setPrice(minPrice: number) {
     this._formGroup.patchValue({ price: minPrice });
-    this.saveButtonDisabled = this._formGroup.invalid;
   }
 
   close() {
@@ -220,18 +216,18 @@ export class StoragesAddComponent implements OnInit {
 
   changeInventory($event: any) {
     let idInventory: number = Number($event.target.value);
-    this._formGroup.patchValue({ idInventory });
+    this._formGroup.patchValue({idInventory});
     this._storeProduct$.dispatch(setStorageInventoryId({ idInventory }));
   }
 
   changeUnit($event: any) {
     let idUnit: number = Number($event.target.value);
-    this._formGroup.patchValue({ idUnit });
+    this._formGroup.patchValue({idUnit});
     this._storeProduct$.dispatch(setStorageUnitId({ idUnit }));
   }
 
   changeItems($event: any) {
     let items: number = Number($event.target.value);
-    this._formGroup.patchValue({ items });
+    this._formGroup.patchValue({items});
   }
 }

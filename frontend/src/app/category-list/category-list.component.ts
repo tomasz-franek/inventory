@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   CategoryState,
-  filterCategory,
+  filterCategories,
   getCategoriesList,
 } from '../state/category/category.selectors';
 import { ActiveColor } from '../utils/active-color';
@@ -51,7 +51,7 @@ export class CategoryListComponent implements OnInit {
     this._storeCategory$.dispatch(
       setActiveCategory({ active: this.onlyActive })
     );
-    this.categories$ = this._storeCategory$.select(filterCategory);
+    this.categories$ = this._storeCategory$.select(filterCategories);
   }
 
   protected readonly ActiveColor = ActiveColor;

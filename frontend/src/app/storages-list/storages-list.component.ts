@@ -9,13 +9,13 @@ import {
 } from '../state/storage/storage.selectors';
 import {
   filterProductByCategory,
-  getProductsList,
+  filterProducts,
   ProductState,
   selectProductById,
 } from '../state/product/product.selectors';
 import {
   CategoryState,
-  getCategoriesList,
+  filterCategories,
 } from '../state/category/category.selectors';
 import {
   FormBuilder,
@@ -87,8 +87,8 @@ export class StoragesListComponent implements OnInit {
     this._storeCategory$.dispatch(retrieveCategoryList());
     this._storeStorage$.dispatch(retrieveStorageList());
     this.storages$ = this._storeStorage$.select(getSelectedStoragesList);
-    this.products$ = this._storeProduct$.select(getProductsList);
-    this.categories$ = this._storeCategory$.select(getCategoriesList);
+    this.products$ = this._storeProduct$.select(filterProducts);
+    this.categories$ = this._storeCategory$.select(filterCategories);
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
   }
 

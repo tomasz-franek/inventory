@@ -1,6 +1,5 @@
 package inventory.app.backend.controllers;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -40,7 +39,6 @@ class DictionaryControllerTest {
     }
 
     @Test
-    @Disabled("need test data")
     public void getConsumeProductListInventoryCategoryProduct_Should_returnData_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
@@ -50,12 +48,10 @@ class DictionaryControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$[0].name").value("Sugar"))
-                .andExpect(jsonPath("$[0].idStorage").value("3"));
+                .andExpect(jsonPath("$[*].productName").value("Bean"));
     }
 
     @Test
-    @Disabled("need test data")
     public void getConsumeProductListInventoryCategory_Should_returnData_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
@@ -65,7 +61,7 @@ class DictionaryControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$[0].name").value("Sugar"))
-                .andExpect(jsonPath("$[0].idStorage").value("3"));
+                .andExpect(jsonPath("$[0].productName").value("Bean"))
+                .andExpect(jsonPath("$[0].idProduct").value(1));
     }
 }

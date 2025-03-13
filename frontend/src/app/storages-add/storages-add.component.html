@@ -244,7 +244,7 @@
     </button>
     <button
       (click)="saveStorageActon(false)"
-      [disabled]="saveButtonDisabled"
+      [disabled]="formGroup.invalid"
       class="col col-2 btn btn-outline-primary me-2"
       id="save"
     >
@@ -252,7 +252,7 @@
     </button>
     <button
       (click)="saveStorageActon(true)"
-      [disabled]="saveButtonDisabled"
+      [disabled]="!formGroup.valid"
       class="col col-2 btn btn btn-outline-primary me-2"
       id="saveAndAdd"
     >

@@ -57,6 +57,18 @@ class StoragesControllerTest {
     }
 
     @Test
+    public void getStorage_Should_ReturnNotFound_When_MethodIsCalledWithWrongId()
+            throws Exception {
+        mockMvc.perform(
+                        get(STORAGES_ENDPOINT_PATH + "/{storageId}", WRONG_ID)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Storage with id = '" + WRONG_ID + "' not found."));
+    }
+
+    @Test
     public void saveStorage_Should_ReturnId_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
@@ -64,7 +76,7 @@ class StoragesControllerTest {
                                 .content("""
                                         {
                                             "idProduct":"2",
-                                            "idUnit":1,
+                                            "idUnit":null,
                                             "price":1.99,
                                             "insertDate":"2023-02-02",
                                             "used":0.0,
@@ -77,6 +89,54 @@ class StoragesControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").isNumber());
+    }
+
+    @Test
+    public void saveStorage_Should_ReturnNotFound_When_MethodIsCalledWithWrongProductId()
+            throws Exception {
+        mockMvc.perform(
+                        post(STORAGES_ENDPOINT_PATH)
+                                .content("""
+                                        {
+                                            "idProduct":999,
+                                            "idUnit":1,
+                                            "price":1.99,
+                                            "insertDate":"2023-02-02",
+                                            "used":0.0,
+                                            "items":4,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Product with id = '" + WRONG_ID + "' not found."));
+    }
+
+    @Test
+    public void saveStorage_Should_ReturnNotFound_When_MethodIsCalledWithWrongUnitId()
+            throws Exception {
+        mockMvc.perform(
+                        post(STORAGES_ENDPOINT_PATH)
+                                .content("""
+                                        {
+                                            "idProduct":1,
+                                            "idUnit":999,
+                                            "price":1.99,
+                                            "insertDate":"2023-02-02",
+                                            "used":0.0,
+                                            "items":4,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Unit with id = '" + WRONG_ID + "' not found."));
     }
 
     @Test

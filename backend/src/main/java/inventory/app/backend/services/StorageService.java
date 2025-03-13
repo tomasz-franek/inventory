@@ -13,6 +13,4 @@ public interface StorageService {
     void update(Long storageId, Storage storage);
 
     ResponseId save(Storage storage);
-
-    void delete(Long storageId);
 }

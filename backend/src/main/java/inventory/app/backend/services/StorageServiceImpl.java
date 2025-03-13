@@ -111,12 +111,4 @@ public class StorageServiceImpl implements StorageService {
         responseId.setId(storageRepository.save(storageEntity).getId());
         return responseId;
     }
-
-    @Override
-    public void delete(Long storageId) {
-        StorageEntity storageEntity = storageRepository.findById(storageId).orElseThrow(
-                () -> new NotFoundEntityException(Storage.class, storageId));
-
-        storageRepository.delete(storageEntity);
-    }
 }

@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,27 +39,6 @@ public class StoragePrediction {
         storageRepository.findAll().forEach(s ->
                 storageList.add(storageMapper.toDto(s)));
 
-        preparePredictionMap(storageList);
-        removeEmptyItems();
-    }
-
-
-    public void calculate(Long idProduct, int count) {
-        productList = new ArrayList<>();
-        productRepository.findById(idProduct).ifPresent(p ->
-                productList.add(productMapper.toDto(p)));
-        List<Storage> storageList = new ArrayList<>();
-        storageRepository.findAll().forEach(s ->
-                storageList.add(storageMapper.toDto(s)));
-
-        Storage storage = new Storage();
-        storage.setCount(BigDecimal.valueOf(count));
-        storage.setIdProduct(idProduct);
-        storage.setIdStorage(-1L);
-        storage.setUsed(BigDecimal.ZERO);
-        storage.setItems(count);
-        storage.setInsertDate(LocalDate.now());
-        storageList.add(storage);
         preparePredictionMap(storageList);
         removeEmptyItems();
     }
@@ -127,7 +105,7 @@ public class StoragePrediction {
         }
         deltaEpoch *= productPrediction.getAvailable().doubleValue();
         long maxDateEpoch = (long) deltaEpoch;
-        maxDateEpoch += System.currentTimeMillis() / 1000.0d;
+        maxDateEpoch += System.currentTimeMillis() / 1000;
         productPrediction.setPredictedAvailabilityEpoch(maxDateEpoch);
     }
 

@@ -23,7 +23,7 @@ import {
 import { retrieveCategoryList } from '../state/category/category.action';
 import {
   CategoryState,
-  getCategoriesList,
+  filterCategories,
 } from '../state/category/category.selectors';
 import { Store } from '@ngrx/store';
 import {
@@ -85,7 +85,7 @@ export class ManageInventoryComponent implements OnInit {
     this._storeProduct$.dispatch(retrieveProductList());
     this._products$ = this._storeProduct$.select(getProductsList);
     this._storeCategory$.dispatch(retrieveCategoryList());
-    this._categories$ = this._storeCategory$.select(getCategoriesList);
+    this._categories$ = this._storeCategory$.select(filterCategories);
     this._storeReport$.dispatch(retrieveValidInventoryData());
     this._inventory$ = this._storeReport$.select(getValidInventory);
   }

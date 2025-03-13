@@ -53,25 +53,25 @@
       <td [textContent]="rowNr + 1" class="text-center"></td>
       <td class="text-left"><span [ngClass]="ActiveColor.fullUsedColor(row.used)" [textContent]="row.name"></span></td>
       <td [textContent]="row.items" class="text-center"></td>
-      <td class="text-center"> {{ row.price | number :'1.2-2' }} {{ properties.currency }}</td>
+      <td class="text-center"> {{ row.price | number :'1.2-2' }} {{ property.currency }}</td>
       <td class="text-center" style="alignment: center">
         <span> {{ row.used | number: '1.2-2' }}% </span>
         <progress max="100" value="{{row.used}}"></progress>
       </td>
-      <td class="text-right">{{ row.totalPrice | number : '1.2-2' }} {{ properties.currency }}</td>
-      <td class="text-right">{{ row.usedPrice | number : '1.2-2' }} {{ properties.currency }}</td>
-      <td class="text-right">{{ row.notUsedPrice | number : '1.2-2' }} {{ properties.currency }}</td>
+      <td class="text-right">{{ row.totalPrice | number : '1.2-2' }} {{ property.currency }}</td>
+      <td class="text-right">{{ row.usedPrice | number : '1.2-2' }} {{ property.currency }}</td>
+      <td class="text-right">{{ row.notUsedPrice | number : '1.2-2' }} {{ property.currency }}</td>
     </tr>
     <tr>
       <td class="text-right text-bold" colspan="5">Sum :</td>
       <td class="text-right text-right text-bold">{{ sum('totalPrice') | number: '1.2-2' }}
-        {{ properties.currency }}
+        {{ property.currency }}
       </td>
       <td class="text-right text-right text-bold">{{ sum('usedPrice') | number: '1.2-2' }}
-        {{ properties.currency }}
+        {{ property.currency }}
       </td>
       <td class="text-right text-right text-bold">{{ sum('notUsedPrice') | number: '1.2-2' }}
-        {{ properties.currency }}
+        {{ property.currency }}
       </td>
     </tr>
     </tbody>

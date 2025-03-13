@@ -95,7 +95,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<PurchasesData> getListRecentPurchases(Integer days, Long idInventory) {
-        LocalDate lastDayDate = LocalDate.now().plusDays(days);
+        LocalDate lastDayDate = LocalDate.now().minusDays(days);
         return storageRepository.getListRecentPurchases(lastDayDate, idInventory);
     }
 

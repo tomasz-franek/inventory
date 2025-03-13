@@ -22,16 +22,16 @@ import {
 } from 'ngx-bootstrap/datepicker';
 import { Store } from '@ngrx/store';
 import {
-  getInventoriesList,
+  filterInventories,
   InventoryState,
 } from '../state/inventory/inventory.selectors';
 import {
   CategoryState,
-  getCategoriesList,
+  filterCategories,
 } from '../state/category/category.selectors';
 import {
   filterProductByCategory,
-  getProductsList,
+  filterProducts,
   ProductState,
 } from '../state/product/product.selectors';
 import { Observable } from 'rxjs';
@@ -106,9 +106,9 @@ export class ConsumeProductComponent implements OnInit {
     this._storeInventory$.dispatch(retrieveInventoryList());
     this._storeCategory$.dispatch(retrieveCategoryList());
     this._storeCategory$.dispatch(retrieveProductList());
-    this._products$ = this._storeProduct$.select(getProductsList);
-    this._categories$ = this._storeCategory$.select(getCategoriesList);
-    this._inventories$ = this._storeInventory$.select(getInventoriesList);
+    this._products$ = this._storeProduct$.select(filterProducts);
+    this._categories$ = this._storeCategory$.select(filterCategories);
+    this._inventories$ = this._storeInventory$.select(filterInventories);
   }
 
   loadConsumeProductList(): void {
@@ -149,6 +149,10 @@ export class ConsumeProductComponent implements OnInit {
 
   onChangeEndDate(value: Date): void {
     this._formGroup.value.endDate = value;
+  }
+
+  getProductName():string{
+    return this._formGroup.value.productName;
   }
 
   addDay(number: number) {

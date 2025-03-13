@@ -80,6 +80,51 @@ class ShoppingControllerTest {
     }
 
     @Test
+    public void saveShopping_Should_ReturnNotFound_When_MethodIsCalledWithWrongIdProduct()
+            throws Exception {
+        mockMvc.perform(
+                        post(SHOPPING_ENDPOINT_PATH)
+                                .content("""
+                                        {
+                                            "name":"Wash powder",
+                                            "idProduct":999,
+                                            "idUnit":1,
+                                            "count":1,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Product with id = '" + WRONG_ID + "' not found."));
+    }
+
+    @Test
+    public void saveShopping_Should_ReturnNotFound_When_MethodIsCalledWithWrongIdUnit()
+            throws Exception {
+        mockMvc.perform(
+                        post(SHOPPING_ENDPOINT_PATH)
+                                .content("""
+                                        {
+                                            "name":"Wash powder",
+                                            "idProduct":1,
+                                            "idUnit":999,
+                                            "count":1,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Unit with id = '" + WRONG_ID + "' not found."));
+    }
+
+
+    @Test
     public void updateShopping_Should_ReturnId_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
@@ -128,7 +173,8 @@ class ShoppingControllerTest {
                                                 {
                                                     "name":"%s",
                                                     "count":1,
-                                                    "optLock":0
+                                                    "optLock":0,
+                                                    "idUnit": null
                                                 }
                                                 """,
                                         StringUtils.repeat('1', 1000)

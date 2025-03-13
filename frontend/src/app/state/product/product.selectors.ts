@@ -27,7 +27,7 @@ export const selectActiveProduct = createSelector(
   selectProductsFutureState,
   (state) => state.active
 );
-export const filterProduct = createSelector(
+export const filterProducts = createSelector(
   selectProductsFutureState,
   selectActiveProduct,
   (state, active) => {

@@ -5,98 +5,91 @@ import inventory.app.api.model.ProductAvailabilityData;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 
 public class ProductAvailability {
-    private static final BigDecimal ONE = new BigDecimal("1.00");
-    private final Date minimalDate;
-    private final Date currentDate;
+    private final LocalDate minimalDate;
+    private final LocalDate currentDate;
     @Getter
     private List<ProductAvailabilityData> list = new ArrayList<>();
-    private Period period;
-
-    public ProductAvailability(Period period) {
-        this(period, null);
-    }
+    private final Period period;
 
     public ProductAvailability(Period period, Integer periodLength) {
-//        this.period = period;
-//        this.currentDate = DateUtils.addDays(DateUtils.clearHours(new Date()), 1);
-//        if (periodLength != null) {
-//            this.minimalDate = DateUtils.addDays(currentDate, -periodLength);
-//        } else {
-//            this.minimalDate = null;
-//        }
-        this.minimalDate = null;
-        this.currentDate = null;
+        this.period = period;
+        this.currentDate = LocalDate.now().plusDays(1);
+        if (periodLength != null) {
+            this.minimalDate = currentDate.plusDays(-periodLength);
+        } else {
+            this.minimalDate = null;
+        }
     }
 
     public void calculate(final List<Item> items) {
-//        list = new ArrayList<>();
-//        if (minimalDate != null) {
-//            generateList(minimalDate, currentDate);
-//        }
-//
-//        for (Item item : items) {
-//            Date beginDate = item.getInsertDate();
-//            if (this.minimalDate != null && this.minimalDate.getTime() > beginDate.getTime()) {
-//                beginDate = minimalDate;
-//            }
-//            processItem(item, currentDate, beginDate);
-//        }
+        list = new ArrayList<>();
+        if (minimalDate != null) {
+            generateList(minimalDate, currentDate);
+        }
+
+        for (Item item : items) {
+            LocalDate beginDate = item.getInsertDate();
+            if (this.minimalDate != null && this.minimalDate.toEpochDay() > beginDate.toEpochDay()) {
+                beginDate = minimalDate;
+            }
+            processItem(item, currentDate, beginDate);
+        }
     }
 
-    private void processItem(Item item, Date date, Date beginDate) {
-//        while (date.getTime() >= beginDate.getTime()) {
-//            ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(date, 0);
-//            int index = list.indexOf(productAvailabilityData);
-//            if (index > -1) {
-//                ProductAvailabilityData product = list.get(index);
-//                processProductAvailabilityData(item, date, product);
-//            } else {
-//                if (null == item.getEndDate() || item.getEndDate().getTime() > date.getTime()) {
-//                    productAvailabilityData.setCount(ONE);
-//                }
-//                list.add(productAvailabilityData);
-//            }
-//            date = previousDate(date);
-//        }
+    private void processItem(Item item, LocalDate date, LocalDate beginDate) {
+        while (date.toEpochDay() >= beginDate.toEpochDay()) {
+            ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(date, 0);
+            int index = list.indexOf(productAvailabilityData);
+            if (index > -1) {
+                ProductAvailabilityData product = list.get(index);
+                processProductAvailabilityData(item, date, product);
+            } else {
+                if (null == item.getEndDate() || item.getEndDate().toEpochDay() > date.toEpochDay()) {
+                    productAvailabilityData.setCount(1);
+                }
+                list.add(productAvailabilityData);
+            }
+            date = previousDate(date);
+        }
     }
 
-    private void processProductAvailabilityData(Item item, Date date, ProductAvailabilityData product) {
-//        if (null == item.getEndDate()) {
-//            BigDecimal notUsed = new BigDecimal(100).subtract(item.getUsed());
-//            notUsed = notUsed.divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
-//            product.setCount(product.getCount().add(notUsed));
-//        } else {
-//            if (date.getTime() >= item.getInsertDate().getTime() &&
-//                    date.getTime() < item.getEndDate().getTime()) {
-//                product.setCount(product.getCount().add(ONE));
-//            }
-//        }
+    private void processProductAvailabilityData(Item item, LocalDate date, ProductAvailabilityData product) {
+        if (null == item.getEndDate()) {
+            BigDecimal notUsed = new BigDecimal(100).subtract(item.getUsed());
+            notUsed = notUsed.divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
+            product.setCount(product.getCount() + notUsed.intValue());
+        } else {
+            if (date.toEpochDay() >= item.getInsertDate().toEpochDay() &&
+                    date.toEpochDay() < item.getEndDate().toEpochDay()) {
+                product.setCount(product.getCount() + 1);
+            }
+        }
     }
 
-    private void generateList(final Date beginDate, final Date date) {
-//        Date calculationDate = date;
-//        while (calculationDate.getTime() >= beginDate.getTime()) {
-//            ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(calculationDate);
-//            if (!list.contains(productAvailabilityData)) {
-//                list.add(productAvailabilityData);
-//            }
-//            calculationDate = previousDate(calculationDate);
-//        }
+    private void generateList(final LocalDate beginDate, final LocalDate date) {
+        LocalDate calculationDate = date;
+        while (calculationDate.toEpochDay() >= beginDate.toEpochDay()) {
+            ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(calculationDate, 0);
+            if (!list.contains(productAvailabilityData)) {
+                list.add(productAvailabilityData);
+            }
+            calculationDate = previousDate(calculationDate);
+        }
     }
 
-    private Date previousDate(Date date) {
+    private LocalDate previousDate(LocalDate date) {
         return switch (period) {
-//            case DAY -> DateUtils.addDays(date, -1);
-//            case WEEK -> DateUtils.addDays(date, -7);
-//            case MONTH -> DateUtils.addMonths(date, -1);
-            default -> new Date(System.currentTimeMillis());
+            case DAY -> date.plusDays(-1);
+            case WEEK -> date.plusDays(-7);
+            case MONTH -> date.plusMonths(-1);
         };
     }
 
@@ -105,6 +98,8 @@ public class ProductAvailability {
     }
 
     public enum Period {
-        DAY, MONTH, WEEK;
+        DAY,
+        MONTH,
+        WEEK
     }
 }

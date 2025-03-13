@@ -42,7 +42,7 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(5)))
+                .andExpect(jsonPath("$", hasSize(6)))
                 .andExpect(jsonPath("$[0].name").value("Bean"))
                 .andExpect(jsonPath("$[1].name").value("Sugar"));
     }
@@ -80,6 +80,27 @@ class ProductControllerTest {
     }
 
     @Test
+    public void saveProduct_Should_ReturnNotFound_When_MethodIsCalledWithWrongCategoryId()
+            throws Exception {
+        mockMvc.perform(
+                        post(PRODUCTS_ENDPOINT_PATH)
+                                .content("""
+                                        {
+                                            "name":"Wash powder",
+                                            "idCategory":999,
+                                            "active":1,
+                                            "optLock":0
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Category with id = '" + WRONG_ID + "' not found."));
+    }
+
+    @Test
     public void updateProduct_Should_ReturnNoContent_When_MethodIsCalled()
             throws Exception {
         mockMvc.perform(
@@ -87,7 +108,7 @@ class ProductControllerTest {
                                 CORRECT_ID)
                                 .content("""
                                         {
-                                            "name":"Oil",
+                                            "name":"Bean",
                                             "active":1,
                                             "optLock":0
                                         }

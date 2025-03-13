@@ -22,7 +22,7 @@ export const selectActiveCategory = createSelector(
   (state) => state.active
 );
 
-export const filterCategory = createSelector(
+export const filterCategories = createSelector(
   selectCategoriesFutureState,
   selectActiveCategory,
   (state, active) => {
