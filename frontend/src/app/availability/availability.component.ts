@@ -123,7 +123,7 @@ export class AvailabilityComponent implements OnInit {
             this.chartData.push(series);
             this.legend.push(data[0].productName || '');
             let axisX = chartData.map((item) => {
-              return item.date;
+              return item.availabilityDate;
             });
             this.prepareChartOptions(axisX, this.chartData, this.legend);
           }
