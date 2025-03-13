@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Category, Product, Storage } from '../api';
 import {
+  filterStorages,
   getSelectedStoragesList,
   StorageState,
 } from '../state/storage/storage.selectors';
@@ -18,10 +19,13 @@ import {
   filterCategories,
 } from '../state/category/category.selectors';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { AsyncPipe, DecimalPipe, NgClass, NgForOf } from '@angular/common';
@@ -69,12 +73,14 @@ export class StoragesListComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
       idProduct: [0, [Validators.required, Validators.min(1)]],
-      idCategory: [0, [Validators.required, Validators.min(1)]],
+      idCategory: 0,
       hideUsed: false,
-      price: 0,
-      idStorage: 0,
-      productName: 0,
+      price: [0, [Validators.required, Validators.min(0)]],
+      idStorage: [0, [Validators.required, Validators.min(1)]],
+      productName: '',
+      storage: undefined,
     });
+    this._formGroup.setValidators(this.updatedPriceValidator());
   }
 
   get formGroup(): FormGroup {
@@ -86,7 +92,7 @@ export class StoragesListComponent implements OnInit {
     this._storeProduct$.dispatch(retrieveProductList());
     this._storeCategory$.dispatch(retrieveCategoryList());
     this._storeStorage$.dispatch(retrieveStorageList());
-    this.storages$ = this._storeStorage$.select(getSelectedStoragesList);
+    this.storages$ = this._storeStorage$.select(filterStorages);
     this.products$ = this._storeProduct$.select(filterProducts);
     this.categories$ = this._storeCategory$.select(filterCategories);
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
@@ -106,17 +112,19 @@ export class StoragesListComponent implements OnInit {
     this._storeProduct$.dispatch(navigateToStorageNew());
   }
 
-  updateFilterProduct(event: number) {
-    let idProduct: number = Number(event);
+  updateFilterProduct() {
+    let idProduct: number = this._formGroup.value.idProduct;
     this._formGroup.patchValue({ idProduct });
     this._storeStorage$.dispatch(setStorageProductId({ idProduct }));
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
+    this.storages$ = this._storeStorage$.select(filterStorages);
   }
 
-  hideUsed(event: any) {
-    let hideUsed = event.target.checked;
+  hideUsed() {
+    let hideUsed = this._formGroup.value.hideUsed;
     this._storeStorage$.dispatch(setHideUsed({ hideUsed }));
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
+    this.storages$ = this._storeStorage$.select(filterStorages);
   }
 
   updateFilterCategory() {
@@ -127,15 +135,24 @@ export class StoragesListComponent implements OnInit {
     this._storeStorage$.dispatch(setStorageProductId({ idProduct: 0 }));
     this.products$ = this._storeProduct$.select(filterProductByCategory);
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
+    this.storages$ = this._storeStorage$.select(getSelectedStoragesList);
   }
 
   editStorage(storage: Storage) {
-    this._formGroup.patchValue({ storage });
-    this._formGroup.patchValue({
-      idStorage: storage.idStorage,
-      price: storage.price,
-      productName: document.getElementById('productName')?.innerText,
-    });
+    this._storeProduct$
+      .select(selectProductById(storage.idProduct))
+      .subscribe((product) => {
+        if (product != undefined) {
+          this._formGroup.patchValue({
+            productName: product.name,
+            idProduct: storage.idProduct,
+            idStorage: storage.idStorage,
+            price: storage.price,
+            idCategory: storage.idCategory,
+            storage: storage,
+          });
+        }
+      });
   }
 
   updateStorage() {
@@ -150,7 +167,13 @@ export class StoragesListComponent implements OnInit {
   }
 
   clearEditStore() {
-    this._formGroup.patchValue({ idStorage: 0, price: 0, productName: '' });
+    this._formGroup.patchValue({
+      idStorage: 0,
+      price: 0,
+      productName: '',
+      idProduct: 0,
+      idCategory: 0,
+    });
   }
 
   getProductName(idProduct: number): Observable<Product | undefined> {
@@ -161,6 +184,24 @@ export class StoragesListComponent implements OnInit {
 
   updatePrice($event: any) {
     let newPrice = Number($event.target.value);
-    this._formGroup.patchValue({ newPrice });
+    this._formGroup.patchValue({ price: newPrice });
+  }
+
+  public updatedPriceValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const idProduct = this._formGroup.controls['idProduct'].value;
+      const idStorage = this._formGroup.controls['idStorage'].value;
+      const price = this._formGroup.controls['price'].value;
+      if (price <= 0.0) {
+        return { valueWrong: true };
+      }
+      if (idStorage <= 0) {
+        return { valueWrong: true };
+      }
+      if (idProduct <= 0) {
+        return { valueWrong: true };
+      }
+      return null;
+    };
   }
 }

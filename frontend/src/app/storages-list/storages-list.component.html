@@ -20,10 +20,10 @@
     <div class="col-8">
       <span>
         <input
-          (change)="hideUsed($event)"
+          (change)="hideUsed()"
           class="form-check-input"
           checked="checked"
-          name="hideUsed"
+          formControlName="hideUsed"
           id="hideUsed"
           type="checkbox"
         />
@@ -52,7 +52,7 @@
     </div>
     <div class="col-3">
       <select
-        (ngModelChange)="updateFilterProduct($event)"
+        (change)="updateFilterProduct()"
         formControlName="idProduct"
         class="form-select"
         id="product"
@@ -129,6 +129,7 @@
               id="edit"
               type="button"
               class="btn btn-outline-primary"
+              [hidden]="row.used >= 100.0"
             >
               <i class="bi bi-pencil"></i>
             </button>
@@ -143,7 +144,7 @@
         <div class="modal-header">
           {{ 'EDIT' | translate }}&nbsp;
           <strong>
-            <span id="name" [textContent]="formGroup.get('productName')"></span>
+            <span id="name" [textContent]="formGroup.get('productName')?.value"></span>
           </strong>
           <button
             type="button"
@@ -162,7 +163,7 @@
               class="form-control"
               id="price"
               type="number"
-              min="0"
+              min="0.01"
               name="price"
               placeholder="{{ 'PRICE' | translate }}"
               pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
@@ -182,7 +183,7 @@
               class="btn btn-outline-primary"
               data-bs-dismiss="modal"
               (click)="updateStorage()"
-            >
+              [disabled]="formGroup.invalid">
               {{ 'SAVE' | translate }}
             </button>
           </div>

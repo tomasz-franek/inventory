@@ -21,12 +21,48 @@ export const getSelectedStoragesList = createSelector(
   selectAllStoragesFutureState,
   (state) => state.selectedStorages
 );
-export const selectStorageById = (id: number) =>
-  createSelector(selectAllStoragesFutureState, (appState) =>
-    appState.storages.find((storage) => storage.idStorage === id)
-  );
 
 export const selectStorageEdit = createSelector(
   selectAllStoragesFutureState,
   (appState) => appState.storageEdit
+);
+
+export const selectHideUsed = createSelector(
+  selectAllStoragesFutureState,
+  (appState) => appState.hideUsed
+);
+
+export const selectCategoryId = createSelector(
+  selectAllStoragesFutureState,
+  (appState) => appState.selectedCategoryId
+);
+
+export const selectProductId = createSelector(
+  selectAllStoragesFutureState,
+  (appState) => appState.selectedProductId
+);
+
+export const filterStorages = createSelector(
+  selectAllStoragesFutureState,
+  selectHideUsed,
+  selectCategoryId,
+  selectProductId,
+  (state, hideUsed: boolean, idCategory: number, idProduct: number) => {
+    if (hideUsed) {
+      return state.storages.filter((storage) => {
+        return (
+          storage.used < 100.0 &&
+          (idCategory > 0 ? storage.idCategory == idCategory : true) &&
+          (idProduct > 0 ? storage.idProduct == idProduct : true)
+        );
+      });
+    } else {
+      return state.storages.filter((storage) => {
+        return (
+          (idCategory > 0 ? storage.idCategory == idCategory : true) &&
+          (idProduct > 0 ? storage.idProduct == idProduct : true)
+        );
+      });
+    }
+  }
 );
