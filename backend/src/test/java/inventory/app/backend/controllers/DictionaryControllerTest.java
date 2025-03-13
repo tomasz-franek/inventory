@@ -12,9 +12,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -63,5 +61,20 @@ class DictionaryControllerTest {
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
                 .andExpect(jsonPath("$[0].productName").value("Bean"))
                 .andExpect(jsonPath("$[0].idProduct").value(1));
+    }
+
+    @Test
+    public void getProductPrice_Should_returnData_When_MethodIsCalledWithCorrectProductId()
+            throws Exception {
+        mockMvc.perform(
+                        get(DICTIONARY_ENDPOINT_PATH + "productPrice/{idProduct}", 5)
+                                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.idProduct").value(5))
+                .andExpect(jsonPath("$.maxPrice").value(2.99))
+                .andExpect(jsonPath("$.minPrice").value(1.34))
+                .andExpect(jsonPath("$.lastPrice").value(2.99))
+                .andExpect(jsonPath("$.averagePrice").value(2.17));
     }
 }

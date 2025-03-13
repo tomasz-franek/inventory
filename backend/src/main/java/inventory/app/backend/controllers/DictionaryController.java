@@ -3,6 +3,7 @@ package inventory.app.backend.controllers;
 import inventory.app.api.DictionaryApi;
 import inventory.app.api.model.ConsumeProduct;
 import inventory.app.api.model.Item;
+import inventory.app.api.model.ProductPrice;
 import inventory.app.backend.services.DictionaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,10 @@ public class DictionaryController implements DictionaryApi {
     @Override
     public ResponseEntity<List<ConsumeProduct>> getConsumeProductListInventoryCategory(Long idInventory, Long idCategory) {
         return ResponseEntity.ok(dictionaryService.getConsumeProductListInventoryCategory(idInventory, idCategory, null));
+    }
+
+    @Override
+    public ResponseEntity<ProductPrice> getProductPrice(Long idProduct) {
+        return ResponseEntity.ok(dictionaryService.getProductPrice(idProduct));
     }
 }

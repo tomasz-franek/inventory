@@ -823,6 +823,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ConsumeProduct'
+  /dictionary/productPrice/{idProduct}:
+    get:
+      summary: get Price for Product
+      operationId: getProductPrice
+      tags:
+        - dictionary
+      parameters:
+        - name: idProduct
+          in: path
+          required: true
+          description: The ID of the Product
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: list of InventoryReportData
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPrice'
   /report/inventory/{idInventory}:
     get:
       summary: get Inventory report
@@ -1659,3 +1680,23 @@ components:
         endDate:
           type: string
           format: date
+    ProductPrice:
+      type: object
+      required:
+        - idProduct
+        - maxPrice
+        - minPrice
+        - lastPrice
+        - averagePrice
+      properties:
+        idProduct:
+          type: integer
+          format: int64
+        maxPrice:
+          type: number
+        minPrice:
+          type: number
+        lastPrice:
+          type: number
+        averagePrice:
+          type: number
