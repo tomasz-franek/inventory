@@ -158,7 +158,7 @@ export class StoragesListComponent implements OnInit {
   updateStorage() {
     let updatedStorage = {
       ...this._formGroup.value.storage,
-      price: this._formGroup.value.newPrice,
+      price: this._formGroup.value.price,
     };
     this._storeStorage$.dispatch(saveStorage({ storage: updatedStorage }));
     this._storeStorage$.dispatch(retrieveStorageList());
@@ -193,13 +193,13 @@ export class StoragesListComponent implements OnInit {
       const idStorage = this._formGroup.controls['idStorage'].value;
       const price = this._formGroup.controls['price'].value;
       if (price <= 0.0) {
-        return { valueWrong: true };
+        return { valid: false };
       }
       if (idStorage <= 0) {
-        return { valueWrong: true };
+        return { valid: false };
       }
       if (idProduct <= 0) {
-        return { valueWrong: true };
+        return { valid: false };
       }
       return null;
     };
