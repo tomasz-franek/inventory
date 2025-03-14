@@ -1,5 +1,6 @@
 export class InventoryStore {
   public idProduct: number = 0;
+  public productName?: string = '';
   public idStorage: number = 0;
   public insertDate: string = '';
   public items: number = 0;
