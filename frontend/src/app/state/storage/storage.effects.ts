@@ -11,6 +11,9 @@ import {
   saveStorage,
   saveStorageActionError,
   saveStorageActionSuccess,
+  setStorageCategoryId,
+  setStorageInventoryId,
+  setStorageProductId,
 } from './storage.action';
 import { catchError, concatMap, map, mergeMap, Observable, tap } from 'rxjs';
 import { Storage } from '../../api';
@@ -23,14 +26,20 @@ export class StorageEffects {
   private _apiService$: ApiService = inject(ApiService);
   private router: Router = inject(Router);
 
-  save$ = createEffect(() => {
+  saveStorage$ = createEffect(() => {
     return inject(Actions).pipe(
       ofType(saveStorage),
       mergeMap((action) => {
         const storage = Object.assign({}, action.storage);
         return this._getCreateOrUpdateObservable(storage).pipe(
           concatMap(() => {
-            return [saveStorageActionSuccess];
+            return [
+              saveStorageActionSuccess(),
+              setStorageCategoryId({ idCategory: 0 }),
+              setStorageInventoryId({ idInventory: 0 }),
+              setStorageProductId({ idProduct: 0 }),
+              navigateToStorageList(),
+            ];
           }),
           catchError((error: any) => {
             return [saveStorageActionError({ error })];

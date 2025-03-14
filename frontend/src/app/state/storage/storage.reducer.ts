@@ -2,6 +2,7 @@ import { StorageState } from './storage.selectors';
 import {
   retrievedStorageListActionSuccess,
   saveStorage,
+  saveStorageActionSuccess,
   selectStorageByCategoryAndProduct,
   setHideUsed,
   setStorageCategoryId,
@@ -83,5 +84,8 @@ export const storageReducer = createReducer(
   }),
   on(setStorageUnitId, (state, action): any => {
     return { ...state, selectedUnitId: action.idUnit };
+  }),
+  on(saveStorageActionSuccess, (state, action): any => {
+    return { ...state };
   })
 );

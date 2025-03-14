@@ -13,7 +13,6 @@
               formControlName="idCategory"
               class="form-select"
               id="category"
-              required
             >
               <option [value]="0">
                 {{ 'SELECT' | translate }} {{ 'CATEGORY' | translate }}
@@ -32,7 +31,6 @@
               formControlName="idProduct"
               class="form-select"
               id="product"
-              required
             >
               <option [value]="0">
                 {{ 'SELECT' | translate }} {{ 'PRODUCT' | translate }}
@@ -60,7 +58,7 @@
           <input
             formControlName="buyDate"
             [maxDate]="today"
-            (bsValueChange)="onBuyDateChange($event)"
+            (bsValueChange)="onBuyDateChange()"
             bsDatepicker
             class="form-control"
             placeholder="{{ 'BUY_DATE' | translate }}"
@@ -86,7 +84,7 @@
     <label class="col-6">
       {{ 'UNIT' | translate }}
       <input
-        (change)="updateCheckbox($event)"
+        (change)="updateCheckbox()"
         formControlName="unitsCheckbox"
         class="checkbox"
         id="unit"
@@ -95,24 +93,22 @@
     </label>
   </div>
   <div class="row mb-2">
-    <div class="col-3">
+    <div class="col-2 mb-2">
       <input
         formControlName="count"
         class="input"
         id="count"
         name="count"
-        pattern="/^[0-9]+(\.[0-9]{1,4})?$/"
         placeholder="{{ 'UNIT' | translate }}"
         step="0.0001"
         type="number"
       />
     </div>
-    <div class="col-3">
+    <div class="col-2">
       <select
         formControlName="idUnit"
         class="form-select"
         (change)="changeUnit($event)"
-        required
       >
         <option [value]="0" selected>{{ 'SELECT' | translate }}</option>
         <option
@@ -125,23 +121,21 @@
     </div>
   </div>
   <div class="row mb-2">
-    <div class="col-8">
+    <div>
       <div class="row">
-        <label class="col-6">{{ 'ITEMS' | translate }}</label>
+        <label class="col-2">{{ 'ITEMS' | translate }}</label>
         <label class="col-6">
           {{ 'MOVE_INVENTORY' | translate }} {{ 'NOT_REQUIRED' | translate }}
         </label>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col col-2">
           <input
-            (change)="changeItems($event)"
             formControlName="items"
             class="input"
             id="items"
             max="50"
             min="1"
-            required
             type="number"
           />
         </div>
@@ -151,7 +145,6 @@
             (change)="changeInventory($event)"
             class="form-select"
             id="moveInventory"
-            required
           >
             <option [value]="0" selected>
               {{ 'MOVE_INVENTORY' | translate }}
@@ -170,51 +163,51 @@
   <div class="row">
     <label class="col-8">
       {{ 'PRICE' | translate }}
-      <span *ngIf="productPrices.idProduct != 0" id="minPrice">
-        {{ 'MIN' | translate }} : {{ productPrices.minPrice | number: '1.2-2' }}
+      <span *ngIf="productPrice$.idProduct != 0" id="minPrice">
+        {{ 'MIN' | translate }} : {{ productPrice$.minPrice | number: '1.2-2' }}
       </span>
       <button
-        (click)="setPrice(productPrices.minPrice)"
-        *ngIf="productPrices.idProduct != 0"
+        (click)="setPrice(productPrice$.minPrice)"
+        *ngIf="productPrice$.idProduct != 0"
         class="btn btn-outline-primary me-2 ms-2"
         id="minPriceButton"
         type="button"
       >
         <i class="bi bi-arrow-down"></i>
       </button>
-      <span *ngIf="productPrices.idProduct != 0" id="avgPrice">
+      <span *ngIf="productPrice$.idProduct != 0" id="avgPrice">
         , {{ 'AVG' | translate }} :
-        {{ productPrices.averagePrice | number: '1.2-2' }}
+        {{ productPrice$.averagePrice | number: '1.2-2' }}
       </span>
       <button
-        (click)="setPrice(productPrices.averagePrice)"
-        *ngIf="productPrices.idProduct != 0"
+        (click)="setPrice(productPrice$.averagePrice)"
+        *ngIf="productPrice$.idProduct != 0"
         class="btn btn-outline-primary me-2 ms-2"
         id="avgPriceButton"
         type="button"
       >
         <i class="bi bi-arrow-down"></i>
       </button>
-      <span *ngIf="productPrices.idProduct != 0" id="maxPrice">
+      <span *ngIf="productPrice$.idProduct != 0" id="maxPrice">
         , {{ 'MAX' | translate }} :
-        {{ productPrices.maxPrice | number: '1.2-2' }}
+        {{ productPrice$.maxPrice | number: '1.2-2' }}
       </span>
       <button
-        (click)="setPrice(productPrices.maxPrice)"
-        *ngIf="productPrices.idProduct != 0"
+        (click)="setPrice(productPrice$.maxPrice)"
+        *ngIf="productPrice$.idProduct != 0"
         class="btn btn-outline-primary me-2 ms-2"
         id="maxPriceButton"
         type="button"
       >
         <i class="bi bi-arrow-down"></i>
       </button>
-      <span *ngIf="productPrices.idProduct != 0" id="lastPrice">
+      <span *ngIf="productPrice$.idProduct != 0" id="lastPrice">
         , {{ 'LAST' | translate }} :
-        {{ productPrices.lastPrice | number: '1.2-2' }}
+        {{ productPrice$.lastPrice | number: '1.2-2' }}
       </span>
       <button
-        (click)="setPrice(productPrices.lastPrice)"
-        *ngIf="productPrices.idProduct != 0"
+        (click)="setPrice(productPrice$.lastPrice)"
+        *ngIf="productPrice$.idProduct != 0"
         class="btn btn-outline-primary me-2 ms-2"
         id="lastPriceButton"
         type="button"
@@ -223,10 +216,10 @@
       </button>
       <input
         formControlName="price"
+        (change)="onBuyDateChange()"
         class="input col-6 form-control mt-2"
         id="price"
         name="price"
-        pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
         placeholder="{{ 'PRICE' | translate }}"
         step="0.01"
         type="number"
@@ -252,7 +245,7 @@
     </button>
     <button
       (click)="saveStorageActon(true)"
-      [disabled]="!formGroup.valid"
+      [disabled]="formGroup.invalid"
       class="col col-2 btn btn btn-outline-primary me-2"
       id="saveAndAdd"
     >

@@ -6,8 +6,8 @@ import {
   setActiveProduct,
   setProductCategoryId,
 } from './product.action';
-import {ProductState} from './product.selectors';
-import {createReducer, on} from '@ngrx/store';
+import { ProductState } from './product.selectors';
+import { createReducer, on } from '@ngrx/store';
 
 export const initialProductState: ProductState = {
   products: [],
@@ -59,7 +59,7 @@ export const productReducer = createReducer(
   on(retrievedProductActionSuccess, (state, action): ProductState => {
     return { ...state, productEdit: action.product };
   }),
-    on(retrievedProductPriceActionSuccess, (state, action): ProductState => {
-      return { ...state, productPrice: action.productPrice };
-    });
+  on(retrievedProductPriceActionSuccess, (state, action): ProductState => {
+    return { ...state, productPrice: action.productPrice };
+  })
 );
