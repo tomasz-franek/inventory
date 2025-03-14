@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AsyncPipe, DecimalPipe, NgForOf, NgStyle } from '@angular/common';
@@ -89,10 +90,10 @@ export class ConsumeProductComponent implements OnInit {
     this._formGroup = this.formBuilder.group({
       idInventory: 0,
       idCategory: 0,
-      idProduct: 0,
+      idProduct: [0, [Validators.required, Validators.min(1)]],
       idItem: 0,
       sliderMin: 0,
-      used: 0,
+      used: [0, [Validators.required, Validators.min(1)]],
       endDate: '',
       productName: '',
     });
@@ -201,8 +202,13 @@ export class ConsumeProductComponent implements OnInit {
     });
   }
 
-  changeValueUsed($event: any) {
-    this._formGroup.patchValue({ used: Number($event.target.value) });
+  changeValueUsed() {
+    if (this._formGroup.get('used')?.value == 100) {
+      this._formGroup.get('endDate')?.setValidators([Validators.required]);
+    } else {
+      this._formGroup.get('endDate')?.setValidators(null);
+    }
+    this._formGroup.get('endDate')?.updateValueAndValidity();
   }
 
   addToShopping(row: ConsumeProduct) {

@@ -182,7 +182,7 @@
               <span [textContent]="formGroup.value.used + '%'"></span>
             </label>
             <input
-              (input)="changeValueUsed($event)"
+              (input)="changeValueUsed()"
               formControlName="used"
               class="col-6"
               id="used"
@@ -208,6 +208,7 @@
             class="btn btn-outline-primary"
             data-bs-dismiss="modal"
             id="consumeButton"
+            [disabled]="formGroup.invalid"
           >
             {{ 'CONSUME' | translate }}
           </button>
