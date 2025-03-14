@@ -10,6 +10,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface StorageMapper {
   @Mapping(target = "idProduct", source = "product.id")
+  @Mapping(target = "productName", source = "product.name")
   @Mapping(target = "idUnit", source = "unit.id")
   @Mapping(target = "idStorage", source = "id")
   @Mapping(target = "idCategory", source = "product.category.id")

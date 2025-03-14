@@ -1249,6 +1249,8 @@ components:
         idProduct:
           type: integer
           format: int64
+        productName:
+          type: string
         idCategory:
           type: integer
           format: int64

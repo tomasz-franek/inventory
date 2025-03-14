@@ -15,11 +15,12 @@ import java.util.List;
 public class ProductAvailability {
     private final LocalDate minimalDate;
     private final LocalDate currentDate;
+    private final String productName;
     @Getter
     private List<ProductAvailabilityData> list = new ArrayList<>();
     private final Period period;
 
-    public ProductAvailability(Period period, Integer periodLength) {
+    public ProductAvailability(Period period, Integer periodLength, String productName) {
         this.period = period;
         this.currentDate = LocalDate.now().plusDays(1);
         if (periodLength != null) {
@@ -27,16 +28,13 @@ public class ProductAvailability {
         } else {
             this.minimalDate = null;
         }
+        this.productName = productName;
     }
 
     public void calculate(final List<Item> items) {
         list = new ArrayList<>();
-        String productName = "";
-        if (!items.isEmpty()) {
-            productName = items.getFirst().getName();
-        }
         if (minimalDate != null) {
-            generateList(minimalDate, currentDate, productName);
+            generateList(minimalDate, currentDate);
         }
 
         for (Item item : items) {
@@ -78,7 +76,7 @@ public class ProductAvailability {
         }
     }
 
-    private void generateList(final LocalDate beginDate, final LocalDate date, String productName) {
+    private void generateList(final LocalDate beginDate, final LocalDate date) {
         LocalDate calculationDate = date;
         while (calculationDate.toEpochDay() >= beginDate.toEpochDay()) {
             ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(calculationDate, 0);

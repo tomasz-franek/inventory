@@ -10,17 +10,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.oneOf;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -135,7 +128,7 @@ class ReportControllerTest {
     }
 
     @Test
-    void getProductAvailabilityForPeriod_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
+    void getProductAvailabilityForPeriod_Should_ReturnResponse_When_MethodIsCalledWithProductIdAndPeriod()
             throws Exception {
         mockMvc.perform(
                         get(REPORT_ENDPOINT_PATH + "availability/{idProduct}/{period}", 1, 60)
@@ -143,7 +136,7 @@ class ReportControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(equalTo(61))));
+                .andExpect(jsonPath("$", hasSize(equalTo(125))));
     }
 
     @Test
