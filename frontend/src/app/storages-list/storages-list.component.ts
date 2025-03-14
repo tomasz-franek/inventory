@@ -74,7 +74,7 @@ export class StoragesListComponent implements OnInit {
     this._formGroup = this.formBuilder.group({
       idProduct: [0, [Validators.required, Validators.min(1)]],
       idCategory: 0,
-      hideUsed: false,
+      hideUsed: true,
       price: [0, [Validators.required, Validators.min(0)]],
       idStorage: [0, [Validators.required, Validators.min(1)]],
       productName: '',
