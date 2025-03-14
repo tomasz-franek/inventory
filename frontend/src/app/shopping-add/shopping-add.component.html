@@ -18,14 +18,14 @@
     </div>
     <div class="row mb-2">
       <label class="form-label col-2 me-2">{{'UNIT'|translate}}
-        <input (change)="unitsCheckboxChange($event)" class="checkbox"
+        <input (change)="unitsCheckboxChange()" class="checkbox" formControlName="unitsCheckbox"
                type="checkbox" id="unitCheckbox"/>
       </label>
       <div class="col-2 me-2">
         <input formControlName="count" class="input form-control"
                id="count"
                min="0" name="count"
-               pattern="/^[0-9]+(\.[0-9]{1,4})?$/" placeholder="{{'COUNT'|translate}}"
+               placeholder="{{'COUNT'|translate}}"
                step="0.0001" type="number"/>
       </div>
       <div class="col-2 me-2">
@@ -38,12 +38,12 @@
       </div>
     </div>
     <div class="row mb-2">
-      <button (click)="navigateToShopping()" class="btn btn-outline-primary col-2 me-2" id="back">
+      <button (click)="navigateToShopping()" class="btn btn-outline-danger col-2 me-2" id="back">
         <i class="bi bi-arrow-left"></i>
         {{'BACK'|translate}}</button>
       <button (click)="saveStorage()"
-              [disabled]="formGroup.valid"
-              class="ms-2 btn btn-outline-danger col-2 me-2" id="save">
+              [disabled]="formGroup.invalid"
+              class="ms-2 btn btn-outline-primary col-2 me-2" id="save">
         <i class="bi bi-save"></i>
         {{ 'SAVE'|translate }}
       </button>

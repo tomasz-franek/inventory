@@ -23,7 +23,7 @@ import {
   deleteShopping,
   navigateToShoppingEdit,
   navigateToShoppingNew,
-  retrievedShoppingList,
+  retrieveShoppingList,
 } from '../state/shopping/shopping.action';
 import {
   getExpiredProductList,
@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this._events$ = this._storeCalendar$.select(getEventsList);
 
-    this._storeShopping$.dispatch(retrievedShoppingList());
+    this._storeShopping$.dispatch(retrieveShoppingList());
     this.shopping$ = this._storeShopping$.select(getShoppingList);
 
     this._storeUnit$.dispatch(retrieveUnitList());
@@ -129,7 +129,7 @@ export class DashboardComponent implements OnInit {
   confirmDelete(idShopping: number | undefined) {
     if (idShopping != undefined) {
       this._storeShopping$.dispatch(deleteShopping({ idShopping }));
-      this._storeShopping$.dispatch(retrievedShoppingList());
+      this._storeShopping$.dispatch(retrieveShoppingList());
       this.shopping$ = this._storeShopping$.select(getShoppingList);
     }
   }

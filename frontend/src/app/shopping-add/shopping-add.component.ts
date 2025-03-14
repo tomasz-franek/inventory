@@ -40,7 +40,6 @@ import { editShoppingSelector } from '../state/shopping/shopping.selectors';
 })
 export class ShoppingAddComponent implements OnInit {
   private _formGroup: FormGroup;
-  protected _unitsCheckbox$: boolean = false;
   private _storeUnit$: Store<UnitState> = inject(Store);
   private _storeStorage$: Store<StorageState> = inject(Store);
   protected units$!: Observable<Unit[]>;
@@ -55,9 +54,11 @@ export class ShoppingAddComponent implements OnInit {
   ) {
     this.placeholder = this.translate.instant('ADD_TAG');
     this._formGroup = this.formBuilder.group({
-      items: [0, Validators.required],
+      items: [0, [Validators.required, Validators.min(1)]],
       count: 0,
       idUnit: 0,
+      unitsCheckbox: false,
+      productTags: [],
     });
   }
 
@@ -75,6 +76,12 @@ export class ShoppingAddComponent implements OnInit {
         idProduct: product.idProduct != undefined ? product.idProduct : 0,
         insertDate: '',
         items: this._formGroup.value.items,
+        idUnit: this._formGroup.value.unitCheckbox
+          ? this._formGroup.value.idUnit
+          : null,
+        count: this._formGroup.value.unitCheckbox
+          ? this._formGroup.value.count
+          : null,
         optLock: 0,
         price: 0,
         used: 0,
@@ -88,27 +95,45 @@ export class ShoppingAddComponent implements OnInit {
     this._storeUnit$.dispatch(retrieveUnitList());
     this.units$ = this._storeUnit$.select(getUnitsList);
     if (id === null) {
+      this._formGroup = this.formBuilder.group({
+        items: 0,
+        count: '',
+        idUnit: 0,
+        unitsCheckbox: false,
+      });
     } else {
       this._storeUnit$.dispatch(loadShoppingAction({ id: Number(id) }));
       this._storeUnit$.select(editShoppingSelector).subscribe((shopping) => {
         this._formGroup = this.formBuilder.group({
-          items: [shopping.items, Validators.required],
+          items: shopping.items,
           count: shopping.count,
           idUnit: shopping.idUnit,
+          unitsCheckbox: shopping.idUnit != undefined && shopping.idUnit > 0,
         });
       });
     }
   }
 
-  unitsCheckboxChange($event: any) {
-    this._unitsCheckbox$ = $event.target.checked;
-    if (this._unitsCheckbox$) {
+  unitsCheckboxChange() {
+    if (this._formGroup.value.unitsCheckbox) {
+      console.log('1');
       this._formGroup.get('idUnit')?.enable();
       this._formGroup.get('count')?.enable();
+      this._formGroup
+        .get('idUnit')
+        ?.setValidators([Validators.required, Validators.min(1)]);
+      this._formGroup
+        .get('count')
+        ?.setValidators([Validators.required, Validators.min(0.0001)]);
     } else {
+      console.log('2');
       this._formGroup.get('idUnit')?.disable();
       this._formGroup.get('count')?.disable();
+      this._formGroup.get('idUnit')?.setValidators(null);
+      this._formGroup.get('count')?.setValidators(null);
     }
+    this._formGroup.get('idUnit')?.updateValueAndValidity();
+    this._formGroup.get('count')?.updateValueAndValidity();
   }
 
   get routerId(): string | null {

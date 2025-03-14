@@ -2,16 +2,16 @@ import { createAction, props } from '@ngrx/store';
 import { Shopping } from '../../api';
 import { HttpErrorResponse } from '@angular/common/http';
 
-export const retrievedShoppingList = createAction(
+export const retrieveShoppingList = createAction(
   '[Shopping] Call Shopping list'
 );
 
-export const retrievedShoppingListActionSuccess = createAction(
+export const retrieveShoppingListActionSuccess = createAction(
   '[Shopping List] Success',
   props<{ shopping: Shopping[] }>()
 );
 
-export const retrievedShoppingListActionError = createAction(
+export const retrieveShoppingListActionError = createAction(
   '[Shopping List] Product list Error',
   props<{
     error: HttpErrorResponse;

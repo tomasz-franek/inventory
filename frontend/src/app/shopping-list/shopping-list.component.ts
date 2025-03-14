@@ -3,9 +3,10 @@ import { AsyncPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Property, Shopping, Unit } from '../api';
 import {
+  deleteShopping,
   navigateToShoppingEdit,
   navigateToShoppingNew,
-  retrievedShoppingList,
+  retrieveShoppingList,
 } from '../state/shopping/shopping.action';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -48,7 +49,7 @@ export class ShoppingListComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this._storeShopping$.dispatch(retrievedShoppingList());
+    this._storeShopping$.dispatch(retrieveShoppingList());
     this.shoppingList$ = this._storeShopping$.select(getShoppingList);
     this._storeUnit$.dispatch(retrieveUnitList());
     this.units$ = this._storeUnit$.select(getUnitsList);
@@ -70,5 +71,9 @@ export class ShoppingListComponent implements OnInit {
     this._storeShopping$.dispatch(navigateToShoppingEdit({ shopping }));
   }
 
-  deleteShopping(row: Shopping) {}
+  deleteShopping(idShopping: number | undefined) {
+    if (idShopping != undefined) {
+      this._storeShopping$.dispatch(deleteShopping({ idShopping }));
+    }
+  }
 }

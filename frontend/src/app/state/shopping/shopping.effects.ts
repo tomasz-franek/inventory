@@ -12,9 +12,9 @@ import {
   navigateToShoppingNew,
   retrievedShoppingActionError,
   retrievedShoppingActionSuccess,
-  retrievedShoppingList,
-  retrievedShoppingListActionError,
-  retrievedShoppingListActionSuccess,
+  retrieveShoppingList,
+  retrieveShoppingListActionError,
+  retrieveShoppingListActionSuccess,
   saveShopping,
   saveShoppingActionError,
   saveShoppingActionSuccess,
@@ -29,16 +29,16 @@ export class ShoppingEffects {
 
   loadShoppingList$ = createEffect(() =>
     inject(Actions).pipe(
-      ofType(retrievedShoppingList),
+      ofType(retrieveShoppingList),
       mergeMap(() => {
         return this._apiService$.getShoppingList().pipe(
           map((data) => {
-            return retrievedShoppingListActionSuccess({ shopping: data });
+            return retrieveShoppingListActionSuccess({ shopping: data });
           })
         );
       }),
       catchError((error: any) => {
-        return [retrievedShoppingListActionError({ error })];
+        return [retrieveShoppingListActionError({ error })];
       })
     )
   );
@@ -84,13 +84,16 @@ export class ShoppingEffects {
       ofType(deleteShopping),
       mergeMap((action: any) => {
         return this._apiService$.deleteShopping(action.idShopping).pipe(
-          map((data) => {
-            return retrievedShoppingListActionSuccess({ shopping: data });
+          concatMap((data) => {
+            return [
+              retrieveShoppingListActionSuccess({ shopping: data }),
+              retrieveShoppingList(),
+            ];
           })
         );
       }),
       catchError((error: any) => {
-        return [retrievedShoppingListActionError({ error })];
+        return [retrieveShoppingListActionError({ error })];
       })
     );
   });
