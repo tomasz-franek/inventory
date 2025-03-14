@@ -31,8 +31,12 @@ public class ProductAvailability {
 
     public void calculate(final List<Item> items) {
         list = new ArrayList<>();
+        String productName = "";
+        if (!items.isEmpty()) {
+            productName = items.getFirst().getName();
+        }
         if (minimalDate != null) {
-            generateList(minimalDate, currentDate);
+            generateList(minimalDate, currentDate, productName);
         }
 
         for (Item item : items) {
@@ -74,10 +78,11 @@ public class ProductAvailability {
         }
     }
 
-    private void generateList(final LocalDate beginDate, final LocalDate date) {
+    private void generateList(final LocalDate beginDate, final LocalDate date, String productName) {
         LocalDate calculationDate = date;
         while (calculationDate.toEpochDay() >= beginDate.toEpochDay()) {
             ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(calculationDate, 0);
+            productAvailabilityData.setProductName(productName);
             if (!list.contains(productAvailabilityData)) {
                 list.add(productAvailabilityData);
             }

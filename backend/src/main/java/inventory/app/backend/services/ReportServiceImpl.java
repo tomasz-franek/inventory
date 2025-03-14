@@ -1,16 +1,6 @@
 package inventory.app.backend.services;
 
-import inventory.app.api.model.ExpiredReportData;
-import inventory.app.api.model.InventoryReportData;
-import inventory.app.api.model.Item;
-import inventory.app.api.model.LastUsedData;
-import inventory.app.api.model.NextDayExpiredData;
-import inventory.app.api.model.PriceCategoryData;
-import inventory.app.api.model.ProductAvailabilityData;
-import inventory.app.api.model.ProductPriceHistoryData;
-import inventory.app.api.model.PurchasesData;
-import inventory.app.api.model.StorageReportDataRow;
-import inventory.app.api.model.StorageValueHistoryData;
+import inventory.app.api.model.*;
 import inventory.app.backend.entities.ItemEntity;
 import inventory.app.backend.mappers.ItemMapper;
 import inventory.app.backend.repositories.ItemRepository;
@@ -60,11 +50,12 @@ public class ReportServiceImpl implements ReportService {
     public List<ProductAvailabilityData> getProductAvailabilityForPeriod(Long idProduct, Integer period) {
         List<ItemEntity> itemsItemEntities = itemRepository.findByProductId(idProduct);
         List<Item> items = new ArrayList<>();
-        itemsItemEntities.forEach(itemEntity -> {
-            items.add(itemMapper.toDto(itemEntity));
-        });
-
-        ProductAvailability productAvailability = new ProductAvailability(ProductAvailability.Period.DAY, period);
+        itemsItemEntities.forEach(itemEntity -> items.add(itemMapper.toDto(itemEntity)));
+        String productName = "";
+        if (!items.isEmpty()) {
+            productName = items.getFirst().getName();
+        }
+        ProductAvailability productAvailability = new ProductAvailability(ProductAvailability.Period.DAY, period, productName);
         productAvailability.calculate(items);
         productAvailability.sortAscending();
         return productAvailability.getList();
