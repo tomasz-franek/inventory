@@ -64,7 +64,7 @@
 
   <div class="modal fade" id="move-inventory">
     <div class="modal-dialog col-3">
-      <form class="modal-content">
+      <div class="modal-content">
         <div class="modal-header">
           {{ 'MENU.MANAGEMENT.MOVE_TO_INV' | translate }}
           <span [textContent]="inventory.name"></span>
@@ -78,7 +78,7 @@
 
         <div class="modal-body">
           <select
-            [(ngModel)]="rowIdInventory"
+            formControlName="idInventory"
             class="form-select"
             name="rowIdInventory"
             required
@@ -95,12 +95,12 @@
           <div class="row">
             <label class="col-3 mb-2">
               {{ 'ITEMS' | translate }}
-              <span [textContent]="storage.selectedItems"></span>
+              <span [textContent]="formGroup.get('maxSelected')?.value"></span>
             </label>
             <input
-              [(ngModel)]="storage.selectedItems"
+              formControlName="selectedItems"
               class="form-range col-3"
-              max="{{ storage.ids.length }}"
+              max="{{ formGroup.get('maxSelected')?.value }}"
               min="1"
               name="used"
               id="used"
@@ -120,14 +120,14 @@
             <button
               (click)="addItemToInventory()"
               data-bs-dismiss="modal"
-              [disabled]="rowIdInventory === 0"
+              [disabled]="formGroup.invalid"
               class="ms-2 btn btn-outline-primary"
             >
               {{ 'SAVE' | translate }}
             </button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </form>

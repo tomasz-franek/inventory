@@ -42,7 +42,6 @@ export class ManageProductComponent implements OnInit {
   private _storeInventory$: Store<InventoryState> = inject(Store);
   private _storeItem$: Store<ItemState> = inject(Store);
   public items$!: Observable<Item[]>;
-  public storage: any = { selectedItems: 0, ids: [] };
   public rowIdInventory: number = 0;
   public inventory: any = {};
   private _formGroup: FormGroup;
@@ -54,6 +53,8 @@ export class ManageProductComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
       idInventory: [0, Validators.required],
+      selectedItems: [0, [Validators.required, Validators.min(1)]],
+      maxSelected: 0,
     });
   }
 
@@ -77,23 +78,28 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
-  selectItemRow(row: any) {
-    this.storage = row;
-    this.storage.selectedItems = 1;
+  selectItemRow(row: Item) {
+    this._formGroup.patchValue({
+      selectedItems: 1,
+      maxSelected: row.ids?.length,
+    });
   }
 
   backToDashboard() {
-    this.storage = { selectedItems: 0, ids: [] };
+    this._formGroup.patchValue({ selectedItems: 0, maxSelected: 0 });
   }
 
   addItemToInventory() {
     if (
       this.rowIdInventory != 0 &&
-      this.storage.selectedItems >= 1 &&
-      this.storage.selectedItems <= this.storage.ids.length &&
-      this.storage.selectedItems > 0
+      this._formGroup.value.selectedItems >= 1 &&
+      this._formGroup.value.selectedItems <= this._formGroup.value.ids.length &&
+      this._formGroup.value.selectedItems > 0
     ) {
-      //this.updateInventoryNumber(this.storage.ids[i], this.rowIdInventory);
+      this.updateInventoryNumber(
+        this._formGroup.value.selectedItems,
+        this.rowIdInventory
+      );
       this.ngOnInit();
     }
   }
