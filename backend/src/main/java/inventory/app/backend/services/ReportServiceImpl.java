@@ -139,8 +139,7 @@ public class ReportServiceImpl implements ReportService {
         List<Unit> units = new ArrayList<>();
         unitRepository.findAll().forEach(e -> units.add(unitMapper.toDto(e)));
         String filePath = generateShoppingPDF(list, units);
-        byte[] fileBytes = readFileBytes(filePath);
-        return fileBytes;
+        return readFileBytes(filePath);
     }
 
     @Override

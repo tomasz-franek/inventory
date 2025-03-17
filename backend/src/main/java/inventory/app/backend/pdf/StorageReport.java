@@ -51,7 +51,6 @@ public class StorageReport extends PdfDocumentBasic {
         addCell(table, "Count");
 
         if (reportData != null) {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Date currentDate = new Date();
 
             for (StorageReportDataRow row : reportData.getRows()) {
