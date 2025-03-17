@@ -28,7 +28,6 @@ import { SumStorageComponent } from './sum-storage/sum-storage.component';
 import { ValueHistoryComponent } from './value-history/value-history.component';
 import { PriceHistoryComponent } from './price-history/price-history.component';
 import { SumCategoriesComponent } from './sum-categories/sum-categories.component';
-import { DatabaseBackupComponent } from './database-backup/database-backup.component';
 import { InventoryAddComponent } from './inventory-add/inventory-add.component';
 import { UnitEffects } from './state/unit/unit.effects';
 import { PropertyEffects } from './state/property/property.effects';
@@ -214,11 +213,6 @@ export const appRoutes: Routes = [
     path: 'sum-categories',
     providers: [provideEffects(ReportEffects)],
     component: SumCategoriesComponent,
-  },
-  {
-    path: 'backup-db',
-    providers: [provideEffects(ProductEffects)],
-    component: DatabaseBackupComponent,
   },
   {
     path: 'user-properties',
