@@ -1,6 +1,17 @@
 package inventory.app.backend.services;
 
-import inventory.app.api.model.*;
+
+import inventory.app.api.model.ExpiredReportData;
+import inventory.app.api.model.InventoryReportData;
+import inventory.app.api.model.Item;
+import inventory.app.api.model.LastUsedData;
+import inventory.app.api.model.NextDayExpiredData;
+import inventory.app.api.model.PriceCategoryData;
+import inventory.app.api.model.ProductAvailabilityData;
+import inventory.app.api.model.ProductPriceHistoryData;
+import inventory.app.api.model.PurchasesData;
+import inventory.app.api.model.StorageReportDataRow;
+import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.entities.ItemEntity;
 import inventory.app.backend.mappers.ItemMapper;
 import inventory.app.backend.repositories.ItemRepository;

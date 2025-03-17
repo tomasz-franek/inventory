@@ -137,13 +137,14 @@ class ReportControllerTest {
     @Test
     void getProductAvailabilityForPeriod_Should_ReturnResponse_When_MethodIsCalledWithProductIdAndPeriod()
             throws Exception {
+        int days = 60;
         mockMvc.perform(
-                        get(REPORT_ENDPOINT_PATH + "availability/{idProduct}/{period}", 1, 60)
+                        get(REPORT_ENDPOINT_PATH + "availability/{idProduct}/{period}", 1, days)
                                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(equalTo(125))));
+                .andExpect(jsonPath("$", hasSize(equalTo(days + 1))));
     }
 
     @Test

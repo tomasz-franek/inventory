@@ -48,12 +48,13 @@ public class ProductAvailability {
 
     private void processItem(Item item, LocalDate date, LocalDate beginDate) {
         while (date.toEpochDay() >= beginDate.toEpochDay()) {
-            ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(date, 0);
-            int index = list.indexOf(productAvailabilityData);
-            if (index > -1) {
-                ProductAvailabilityData product = list.get(index);
+            LocalDate finalDate = date;
+            ProductAvailabilityData product = list.stream().filter(
+                    p -> p.getAvailabilityDate().equals(finalDate)).findFirst().orElse(null);
+            if (product != null) {
                 processProductAvailabilityData(item, date, product);
             } else {
+                ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(date, 0, productName);
                 if (null == item.getEndDate() || item.getEndDate().toEpochDay() > date.toEpochDay()) {
                     productAvailabilityData.setCount(1);
                 }
@@ -79,8 +80,7 @@ public class ProductAvailability {
     private void generateList(final LocalDate beginDate, final LocalDate date) {
         LocalDate calculationDate = date;
         while (calculationDate.toEpochDay() >= beginDate.toEpochDay()) {
-            ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(calculationDate, 0);
-            productAvailabilityData.setProductName(productName);
+            ProductAvailabilityData productAvailabilityData = new ProductAvailabilityData(calculationDate, 0, productName);
             if (!list.contains(productAvailabilityData)) {
                 list.add(productAvailabilityData);
             }
