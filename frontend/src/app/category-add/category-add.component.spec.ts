@@ -8,6 +8,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { mockRoute } from '../mocks/activated-route-mock';
 import { initialCategoryState } from '../state/category/category.reducer';
+import { editCategorySelector } from '../state/category/category.selectors';
 
 describe('CategoryAddComponent', () => {
   let component: CategoryAddComponent;
@@ -20,7 +21,20 @@ describe('CategoryAddComponent', () => {
       providers: [
         FormBuilder,
         ReactiveFormsModule,
-        provideMockStore({ initialState: initialCategoryState }),
+        provideMockStore({
+          initialState: initialCategoryState,
+          selectors: [
+            {
+              selector: editCategorySelector,
+              value: {
+                name: '',
+                active: false,
+                optLock: 0,
+                idCategory: 1,
+              },
+            },
+          ],
+        }),
         { provide: ActivatedRoute, useValue: mockRoute },
       ],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

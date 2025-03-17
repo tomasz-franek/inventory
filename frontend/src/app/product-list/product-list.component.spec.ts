@@ -6,6 +6,8 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
 import { initialCategoryState } from '../state/category/category.reducer';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { mockRoute } from '../mocks/activated-route-mock';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -18,6 +20,7 @@ describe('ProductListComponent', () => {
         FormBuilder,
         ReactiveFormsModule,
         provideMockStore({ initialState: initialCategoryState }),
+        { provide: ActivatedRoute, useValue: mockRoute },
       ],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
