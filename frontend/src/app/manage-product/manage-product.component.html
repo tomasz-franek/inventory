@@ -7,7 +7,6 @@
   </div>
   <div class="mb-2">
     <select
-      (change)="selectItemRow(inventory.idInventory)"
       formControlName="idInventory"
       class="form-select col-3 mb-2"
       required
@@ -25,6 +24,7 @@
       (click)="addAllToInventory()"
       id="moveInventory"
       class="mb-2 btn btn-outline-primary"
+      [disabled]="formGroup.invalid"
     >
       {{ 'MOVE_INVENTORY' | translate }}
     </button>
@@ -32,32 +32,32 @@
   <div>
     <table class="table inventory-table table-striped table-condensed">
       <thead>
-        <tr>
-          <th class="text-bold text-center">ID</th>
-          <th class="text-bold text-center">{{ 'NAME' | translate }}</th>
-          <th class="text-bold text-center">{{ 'ITEMS' | translate }}</th>
-          <th class="text-bold text-center">{{ 'ACTION' | translate }}</th>
-        </tr>
+      <tr>
+        <th class="text-bold text-center">ID</th>
+        <th class="text-bold text-center">{{ 'NAME' | translate }}</th>
+        <th class="text-bold text-center">{{ 'ITEMS' | translate }}</th>
+        <th class="text-bold text-center">{{ 'ACTION' | translate }}</th>
+      </tr>
       </thead>
       <tbody>
       <tr *ngFor="let row of items$ | async; let rowNr = index">
-          <td [textContent]="rowNr + 1" class="text-center"></td>
-          <td [textContent]="row.name" class="text-left"></td>
-          <td [textContent]="row.ids?.length" class="text-center"></td>
-          <td class="text-center">
-            <button
-              (click)="selectItemRow(row)"
-              class="btn btn-outline-primary"
-              data-bs-target="#move-inventory"
-              id="edit"
-              data-bs-toggle="modal"
-              title="{{ 'EDIT' | translate }}"
-            >
-              <i class="bi-pencil"></i>
-              {{ 'EDIT' | translate }}
-            </button>
-          </td>
-        </tr>
+        <td [textContent]="rowNr + 1" class="text-center"></td>
+        <td [textContent]="row.productName" class="text-left"></td>
+        <td [textContent]="row.ids.length" class="text-center"></td>
+        <td class="text-center">
+          <button
+            (click)="selectItemRow(row)"
+            class="btn btn-outline-primary"
+            data-bs-target="#move-inventory"
+            id="edit"
+            data-bs-toggle="modal"
+            title="{{ 'EDIT' | translate }}"
+          >
+            <i class="bi-pencil"></i>
+            {{ 'EDIT' | translate }}
+          </button>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -95,13 +95,13 @@
           <div class="row">
             <label class="col-3 mb-2">
               {{ 'ITEMS' | translate }}
-              <span [textContent]="formGroup.get('maxSelected')?.value"></span>
+              <span [textContent]="formGroup.get('selectedItems')?.value"></span>
             </label>
             <input
               formControlName="selectedItems"
               class="form-range col-3"
               max="{{ formGroup.get('maxSelected')?.value }}"
-              min="1"
+              min="0"
               name="used"
               id="used"
               step="1"

@@ -9,7 +9,6 @@ import {
   InventoriesService,
   Inventory,
   InventoryReportData,
-  Item,
   ItemConsume,
   ItemsService,
   LastUsedData,
@@ -29,6 +28,7 @@ import {
   Shopping,
   ShoppingService,
   Storage,
+  StorageItem,
   StorageReportDataRow,
   StoragesService,
   StorageValueHistoryData,
@@ -164,7 +164,7 @@ export class ApiService {
     return this.shoppingService.deleteShopping(idShopping);
   }
 
-  getItemsWithoutInventory(): Observable<Item[]> {
+  getItemsWithoutInventory(): Observable<StorageItem[]> {
     return this.dictionaryService.itemsWithoutInventory();
   }
 

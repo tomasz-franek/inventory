@@ -23,8 +23,8 @@ public class DictionaryServiceImpl implements DictionaryService {
     public List<StorageItem> itemsWithoutInventory() {
         List<StorageItem> items = new ArrayList<>();
         itemRepository.itemsWithoutInventory().forEach(item -> {
-            if (item.getId() != null) {
-                StorageItem row = getRow(items, item.getId());
+            if (item.getStorage() != null) {
+                StorageItem row = getRow(items, item.getStorage().getId());
                 row.setProductName(item.getStorage().getProduct().getName());
                 row.getIds().add(item.getId());
                 row.setValidDate(item.getValidDate());
@@ -34,9 +34,16 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     private StorageItem getRow(List<StorageItem> list, Long idStorage) {
-        return list.stream().filter(i -> i.getIdStorage().equals(idStorage))
+        StorageItem item = list.stream().filter(i -> i.getIdStorage().equals(idStorage))
                 .findFirst()
-                .orElse(getStorageItem(list, idStorage));
+                .orElse(null);
+        if (item == null) {
+            item = new StorageItem();
+            item.setIdStorage(idStorage);
+            list.add(item);
+            return item;
+        }
+        return item;
     }
 
     private static StorageItem getStorageItem(List<StorageItem> list, Long idStorage) {

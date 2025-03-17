@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AsyncPipe, NgForOf } from '@angular/common';
-import { Inventory, Item } from '../api';
+import { Inventory, StorageItem } from '../api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
@@ -41,8 +41,7 @@ export class ManageProductComponent implements OnInit {
   public inventories$!: Observable<Inventory[]>;
   private _storeInventory$: Store<InventoryState> = inject(Store);
   private _storeItem$: Store<ItemState> = inject(Store);
-  public items$!: Observable<Item[]>;
-  public rowIdInventory: number = 0;
+  public items$!: Observable<StorageItem[]>;
   public inventory: any = {};
   private _formGroup: FormGroup;
 
@@ -52,9 +51,10 @@ export class ManageProductComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      idInventory: [0, Validators.required],
+      idInventory: [0, [Validators.required, Validators.min(1)]],
       selectedItems: [0, [Validators.required, Validators.min(1)]],
       maxSelected: 0,
+      ids: [],
     });
   }
 
@@ -68,20 +68,24 @@ export class ManageProductComponent implements OnInit {
   addAllToInventory() {
     this.items$.subscribe((data) => {
       data.forEach((element) => {
-        if (element.idItem != undefined) {
-          this.updateInventoryNumber(
-            element.idItem,
-            this._formGroup.value.idInventory
-          );
+        if (element.idStorage != undefined) {
+          element.ids.forEach((idItem) => {
+            this.updateInventoryNumber(
+              idItem,
+              this._formGroup.value.idInventory
+            );
+          });
         }
       });
     });
+    this.ngOnInit();
   }
 
-  selectItemRow(row: Item) {
+  selectItemRow(row: StorageItem) {
     this._formGroup.patchValue({
-      selectedItems: 1,
-      maxSelected: row.ids?.length,
+      selectedItems: 0,
+      maxSelected: row.ids.length,
+      ids: row.ids,
     });
   }
 
@@ -91,15 +95,18 @@ export class ManageProductComponent implements OnInit {
 
   addItemToInventory() {
     if (
-      this.rowIdInventory != 0 &&
-      this._formGroup.value.selectedItems >= 1 &&
-      this._formGroup.value.selectedItems <= this._formGroup.value.ids.length &&
+      this._formGroup.value.idInventory > 0 &&
+      this._formGroup.value.selectedItems <=
+        this._formGroup.value.maxSelected &&
       this._formGroup.value.selectedItems > 0
     ) {
-      this.updateInventoryNumber(
-        this._formGroup.value.selectedItems,
-        this.rowIdInventory
-      );
+      for (let i = 0; i < this._formGroup.value.selectedItems; i++) {
+        this.updateInventoryNumber(
+          this._formGroup.value.ids[i],
+          this.formGroup.value.idInventory
+        );
+      }
+
       this.ngOnInit();
     }
   }

@@ -1,10 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ConsumeProduct, Item } from '../../api';
+import { ConsumeProduct, Item, StorageItem } from '../../api';
 import { Features } from '../../../features';
 
 export interface ItemState {
   items: Item[];
-  itemsWithoutInventoryList: Item[];
+  itemsWithoutInventoryList: StorageItem[];
   consumeProductList: ConsumeProduct[];
 }
 
