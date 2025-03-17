@@ -66,6 +66,7 @@ export class AvailabilityComponent implements OnInit {
   public chartData: any[] = [];
   private options: EChartsOption | null = null;
   private _formGroup: FormGroup;
+  private _productNames: string[] = [];
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
@@ -93,6 +94,7 @@ export class AvailabilityComponent implements OnInit {
     this._chart$?.clear();
     this.chartData = [];
     this.legend = [];
+    this._productNames = [];
     this.prepareChartOptions([], [], this.legend);
     if (this.options != null) {
       this._chart$?.setOption(this.options);
@@ -111,7 +113,12 @@ export class AvailabilityComponent implements OnInit {
       this._storeReport$
         .select(getProductAvailabilityList)
         .subscribe((data: ProductAvailabilityData[]) => {
-          if (data.length > 0) {
+          if (
+            data.length > 0 &&
+            data[0].productName != undefined &&
+            this._productNames.indexOf(data[0].productName) == -1
+          ) {
+            this._productNames.push(data[0].productName);
             let chartData: any[] = data;
             let series = {
               name: data[0].productName,
@@ -119,6 +126,9 @@ export class AvailabilityComponent implements OnInit {
               data: chartData.map((item) => {
                 return item.count;
               }),
+              tooltip: {
+                formatter: data[0].productName + ' ' + data[0].count,
+              },
             };
             this.chartData.push(series);
             this.legend.push(data[0].productName || '');
