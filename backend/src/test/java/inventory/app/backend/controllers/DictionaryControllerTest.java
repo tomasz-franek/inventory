@@ -38,7 +38,7 @@ class DictionaryControllerTest {
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
                 .andExpect(jsonPath("$[0].productName").value("Sugar"))
                 .andExpect(jsonPath("$[0].ids").isArray())
-                .andExpect(jsonPath("$[0].ids", hasSize(equalTo(1))));
+                .andExpect(jsonPath("$[0].ids", hasSize(equalTo(2))));
     }
 
     @Test
