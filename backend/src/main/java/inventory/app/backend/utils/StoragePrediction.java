@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,28 @@ public class StoragePrediction {
 
         preparePredictionMap(storageList);
         removeEmptyItems();
+    }
+
+    public void calculate(Long idProduct, int count) {
+
+        productRepository.findById(idProduct).ifPresent(productEntity -> {
+            productList = new ArrayList<>();
+            productList.add(productMapper.toDto(productEntity));
+            List<Storage> storageList = new ArrayList<>();
+            storageRepository.findAll().forEach(s ->
+                    storageList.add(storageMapper.toDto(s)));
+            Storage storage = new Storage();
+            storage.setCount(BigDecimal.valueOf(count));
+            storage.setIdProduct(idProduct);
+            storage.setIdStorage(-1L);
+            storage.setUsed(BigDecimal.ZERO);
+            storage.setItems(count);
+            storage.setInsertDate(LocalDate.now());
+            storageList.add(storage);
+            preparePredictionMap(storageList);
+            removeEmptyItems();
+        });
+
     }
 
     private void removeEmptyItems() {

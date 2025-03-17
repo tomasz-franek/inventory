@@ -123,4 +123,37 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
             "ORDER BY p.name, s.validDate")
     List<DataRowElement> getValidInventoryReport();
 
+    @Query("SELECT new inventory.app.backend.utils.DataRowElement(" +
+            "   p.id, " +
+            "   null, " +
+            "   p.name, " +
+            "   s.validDate, " +
+            "   count(i.id) " +
+            ") " +
+            "FROM ItemEntity i " +
+            "JOIN i.storage s " +
+            "JOIN s.product p " +
+            "WHERE s.endDate IS NULL " +
+            "AND i.endDate IS NULL " +
+            "AND s.validDate < now() " +
+            "GROUP BY p.id, p.name, s.validDate " +
+            "ORDER BY p.name, s.validDate")
+    List<DataRowElement> getExpiredProducts();
+
+
+    @Query("SELECT new inventory.app.backend.utils.DataRowElement(" +
+            "   p.id, " +
+            "   null, " +
+            "   p.name, " +
+            "   s.validDate, " +
+            "   count(i.id) " +
+            ") " +
+            "FROM ItemEntity i " +
+            "JOIN i.storage s " +
+            "JOIN s.product p " +
+            "WHERE s.endDate IS NULL " +
+            "AND i.endDate IS NULL " +
+            "GROUP BY p.id, p.name, s.validDate " +
+            "ORDER BY p.name, s.validDate")
+    List<DataRowElement> getInventoryReportData();
 }
