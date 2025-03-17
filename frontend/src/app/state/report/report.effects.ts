@@ -5,6 +5,7 @@ import { catchError, concatMap, map, mergeMap } from 'rxjs';
 import {
   filterProductPrediction,
   readProductAvailabilityForPeriod,
+  reportPdfDownloadSuccess,
   retrieveExpiredInventoryReportData,
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportData,
@@ -21,6 +22,9 @@ import {
   retrieveProductPriceHistory,
   retrieveProductPriceHistoryDataSuccess,
   retrieveReportDataError,
+  retrieveReportPdfExpired,
+  retrieveReportPdfInventory,
+  retrieveReportPdfShopping,
   retrieveStorageValueHistory,
   retrieveStorageValueHistoryDataSuccess,
   retrieveSumPricesByCategory,
@@ -240,6 +244,57 @@ export class ReportEffects {
           map((data) => {
             return retrieveValidInventorySuccess({
               validInventory: data,
+            });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+  loadReportPdfShopping$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveReportPdfShopping),
+      mergeMap((action) => {
+        return this._apiService$.reportPdfShopping().pipe(
+          map((data) => {
+            return reportPdfDownloadSuccess({
+              blob: data,
+            });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+  loadReportPdfExpired$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveReportPdfExpired),
+      mergeMap((action) => {
+        return this._apiService$.reportPdfExpired().pipe(
+          map((data) => {
+            return reportPdfDownloadSuccess({
+              blob: data,
+            });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrieveReportDataError({ error })];
+      })
+    )
+  );
+  loadReportPdfInventory$ = createEffect(() =>
+    inject(Actions).pipe(
+      ofType(retrieveReportPdfInventory),
+      mergeMap((action) => {
+        return this._apiService$.reportPdfInventory().pipe(
+          map((data) => {
+            return reportPdfDownloadSuccess({
+              blob: data,
             });
           })
         );

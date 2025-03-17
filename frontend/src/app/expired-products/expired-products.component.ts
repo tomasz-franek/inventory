@@ -10,6 +10,7 @@ import {
   ReportState,
 } from '../state/report/report.selectors';
 import { retrieveExpiredInventoryReportData } from '../state/report/report.action';
+import { PdfReportsEnum } from '../../objects/definedValues';
 
 @Component({
   selector: 'app-expired-products',
@@ -28,18 +29,6 @@ export class ExpiredProductsComponent implements OnInit {
       retrieveExpiredInventoryReportData({ idInventory: 0 })
     );
     this.expired$ = this._storeReport$.select(getExpiredProductList);
-    // this.properties = JSON.parse(localStorage.getItem('properties') || '{}');
-    // this.dataService.readExpired().subscribe({
-    //   next: (response: Expired[]) => {
-    //     this.expired = response;
-    //   },
-    //   error: (error: HttpErrorResponse) => {
-    //     this.alertService.error(error.statusText);
-    //   },
-    //   complete: () => {
-    //     this.completeProgress();
-    //   },
-    // });
   }
 
   countItems(elements: ValidExpiredData[] | undefined): number {
@@ -50,4 +39,6 @@ export class ExpiredProductsComponent implements OnInit {
       return sum + (e.count != undefined ? e.count : 0);
     }, 0);
   }
+
+  protected readonly PdfReportsEnum = PdfReportsEnum;
 }

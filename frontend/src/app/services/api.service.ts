@@ -269,4 +269,16 @@ export class ApiService {
   readProductPrice(idProduct: number): Observable<ProductPrice> {
     return this.dictionaryService.getProductPrice(idProduct);
   }
+
+  reportPdfShopping(): Observable<Blob> {
+    return this.reportService.reportPdfShopping();
+  }
+
+  reportPdfExpired(): Observable<Blob> {
+    return this.reportService.reportPdfExpired();
+  }
+
+  reportPdfInventory(): Observable<Blob> {
+    return this.reportService.reportPdfInventory();
+  }
 }

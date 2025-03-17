@@ -21,6 +21,7 @@ import {
 } from '../state/unit/unit.selectors';
 import { retrieveUnitList } from '../state/unit/unit.action';
 import { DownloadFileComponent } from '../download-file/download-file.component';
+import { PdfReportsEnum } from '../../objects/definedValues';
 
 @Component({
   selector: 'app-shopping-list',
@@ -76,4 +77,6 @@ export class ShoppingListComponent implements OnInit {
       this._storeShopping$.dispatch(deleteShopping({ idShopping }));
     }
   }
+
+  protected readonly PdfReportsEnum = PdfReportsEnum;
 }

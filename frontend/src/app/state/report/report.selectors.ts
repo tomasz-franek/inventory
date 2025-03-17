@@ -31,6 +31,7 @@ export interface ReportState {
   selectedValidInventory: StorageReportDataRow[];
   selectedProductId: number;
   selectedCategoryId: number;
+  blob: Blob | null;
 }
 
 const selectReportFutureState = createFeatureSelector<ReportState>(
@@ -99,4 +100,9 @@ export const getValidInventory = createSelector(
 export const getSelectedValidInventory = createSelector(
   selectReportFutureState,
   (state) => state.selectedValidInventory
+);
+
+export const getBlob = createSelector(
+  selectReportFutureState,
+  (state) => state.blob
 );

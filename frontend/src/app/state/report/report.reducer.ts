@@ -2,6 +2,7 @@ import { ReportState } from './report.selectors';
 import { createReducer, on } from '@ngrx/store';
 import {
   filterProductPrediction,
+  reportPdfDownloadSuccess,
   retrieveExpiredInventoryReportDataSuccess,
   retrieveInventoryReportDataSuccess,
   retrieveLastUsedReportDataSuccess,
@@ -35,6 +36,7 @@ export const initialReportState: ReportState = {
   selectedValidInventory: [],
   selectedProductId: 0,
   selectedCategoryId: 0,
+  blob: null,
 };
 
 export const reportReducer = createReducer(
@@ -106,5 +108,8 @@ export const reportReducer = createReducer(
             : true)
       ),
     };
+  }),
+  on(reportPdfDownloadSuccess, (state, action): ReportState => {
+    return { ...state, blob: action.blob };
   })
 );

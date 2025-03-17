@@ -142,3 +142,20 @@ export const filterProductPrediction = createAction(
 export const selectValidInventoryByCategoryAndProduct = createAction(
   '[Report] Selected Inventory By Category And Product'
 );
+
+export const retrieveReportPdfShopping = createAction(
+  '[Report] Retrieve PDF Shopping'
+);
+
+export const reportPdfDownloadSuccess = createAction(
+  '[Report] Retrieve PDF Download Success',
+  props<{ blob: Blob }>()
+);
+
+export const retrieveReportPdfExpired = createAction(
+  '[Report] Retrieve PDF Expired Expired'
+);
+
+export const retrieveReportPdfInventory = createAction(
+  '[Report] Retrieve PDF Inventory'
+);

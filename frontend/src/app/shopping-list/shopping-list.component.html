@@ -15,6 +15,7 @@
       {{ 'ADD' | translate }}
     </button>
     <app-download-file [documentName]="'shopping.pdf'" [title]="'GET_PDF'" class="col-3"
+                       [documentType]="PdfReportsEnum.STORAGE"
                        [url]="'report/pdf/shopping'"></app-download-file>
   </div>
   <div class="row">

@@ -34,4 +34,9 @@ public interface ReportService {
 
     List<StorageReportDataRow> getValidInventoryReport();
 
+    byte[] reportPdfShopping() throws Exception;
+
+    byte[] reportPdfExpired() throws Exception;
+
+    byte[] reportPdfInventory() throws Exception;
 }

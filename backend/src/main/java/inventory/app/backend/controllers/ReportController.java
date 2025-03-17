@@ -15,6 +15,10 @@ import inventory.app.api.model.StorageValueHistoryData;
 import inventory.app.backend.services.ReportService;
 import inventory.app.backend.utils.StoragePrediction;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -92,5 +96,53 @@ public class ReportController implements ReportApi {
     @Override
     public ResponseEntity<List<ExpiredReportData>> getExpiredReportData() {
         return ResponseEntity.ok(reportService.getExpiredInventoryReportData(null));
+    }
+
+    @Override
+    public ResponseEntity<Resource> reportPdfShopping() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.add("Content-Disposition", String.format("attachment; file=%s", "shopping.pdf"));
+        try {
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentType(new MediaType("application", "pdf"))
+                    .body(new ByteArrayResource(reportService.reportPdfShopping()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Resource> reportPdfExpired() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.add("Content-Disposition", String.format("attachment; file=%s", "expired.pdf"));
+        try {
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentType(new MediaType("application", "pdf"))
+                    .body(new ByteArrayResource(reportService.reportPdfExpired()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Resource> reportPdfInventory() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.add("Content-Disposition", String.format("attachment; file=%s", "inventory.pdf"));
+        try {
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentType(new MediaType("application", "pdf"))
+                    .body(new ByteArrayResource(reportService.reportPdfInventory()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

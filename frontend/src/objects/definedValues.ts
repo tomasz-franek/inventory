@@ -20,3 +20,9 @@ export enum chartColorsEnum {
   royal = 'rgb(65,105,225)',
   chocolate = 'rgb(210,105,30)',
 }
+
+export enum PdfReportsEnum {
+  STORAGE = 'STORAGE',
+  EXPIRED = 'EXPIRED',
+  INVENTORY = 'INVENTORY',
+}

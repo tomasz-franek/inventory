@@ -37,6 +37,7 @@ import {
   setReportCategoryId,
   setReportProductId,
 } from '../state/report/report.action';
+import { PdfReportsEnum } from '../../objects/definedValues';
 
 @Component({
   selector: 'app-manage-inventory',
@@ -107,4 +108,6 @@ export class ManageInventoryComponent implements OnInit {
     this._storeReport$.dispatch(selectValidInventoryByCategoryAndProduct());
     this._inventory$ = this._storeReport$.select(getSelectedValidInventory);
   }
+
+  protected readonly PdfReportsEnum = PdfReportsEnum;
 }
