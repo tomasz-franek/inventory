@@ -163,6 +163,7 @@
             </button>
             <button
               (click)="addDay(-1)"
+              [disabled]="disabledButtonPrevious"
               class="btn btn-outline-primary col-2 ms-2"
               id="prevDate"
             >
@@ -170,6 +171,7 @@
             </button>
             <button
               (click)="addDay(1)"
+              [disabled]="disabledButtonNext"
               class="btn btn-outline-primary col-2 ms-2"
               id="nextDate"
             >

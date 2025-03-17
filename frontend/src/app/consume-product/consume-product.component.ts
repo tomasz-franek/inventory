@@ -85,6 +85,8 @@ export class ConsumeProductComponent implements OnInit {
   public properties: Property = { idProperty: 0, idUser: 0, currency: '' };
   protected today: Date = new Date();
   private _formGroup: FormGroup;
+  protected disabledButtonNext = true;
+  protected disabledButtonPrevious = true;
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
@@ -155,13 +157,16 @@ export class ConsumeProductComponent implements OnInit {
   addDay(number: number) {
     if (this._formGroup.get('endDate') != null) {
       let newDate: Date = new Date(this._formGroup.value.endDate);
+      this.disabledButtonNext = newDate.getDate() > new Date().getDate() - 2;
       newDate.setDate(newDate.getDate() + number);
       this._formGroup.patchValue({ endDate: newDate });
     }
   }
 
   currentDate() {
-    this._formGroup.patchValue({ endDate: new Date() });
+    this._formGroup.patchValue({ endDate: new Date(), used: 100 });
+    this.disabledButtonPrevious = false;
+    this.disabledButtonNext = false;
   }
 
   updateFilterProducts($event: any) {
@@ -207,6 +212,9 @@ export class ConsumeProductComponent implements OnInit {
       this._formGroup.get('endDate')?.setValidators([Validators.required]);
     } else {
       this._formGroup.get('endDate')?.setValidators(null);
+      this._formGroup.patchValue({ endDate: null });
+      this.disabledButtonNext = true;
+      this.disabledButtonPrevious = true;
     }
     this._formGroup.get('endDate')?.updateValueAndValidity();
   }
