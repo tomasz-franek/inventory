@@ -755,7 +755,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Item'
+                  $ref: '#/components/schemas/StorageItem'
+
   /dictionary/consumeProducts/{idInventory}/{idCategory}:
     get:
       summary: read Products ready to be consumed
@@ -1702,3 +1703,23 @@ components:
           type: number
         averagePrice:
           type: number
+    StorageItem:
+      type: object
+      required:
+        - idStorage
+        - productName
+        - ids
+      properties:
+        idStorage:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        ids:
+          type: array
+          items:
+            type: integer
+            format: int64
+        validDate:
+          type: string
+          format: date

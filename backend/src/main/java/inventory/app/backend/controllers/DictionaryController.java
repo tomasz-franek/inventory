@@ -2,8 +2,8 @@ package inventory.app.backend.controllers;
 
 import inventory.app.api.DictionaryApi;
 import inventory.app.api.model.ConsumeProduct;
-import inventory.app.api.model.Item;
 import inventory.app.api.model.ProductPrice;
+import inventory.app.api.model.StorageItem;
 import inventory.app.backend.services.DictionaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class DictionaryController implements DictionaryApi {
     private final DictionaryService dictionaryService;
 
     @Override
-    public ResponseEntity<List<Item>> itemsWithoutInventory() {
+    public ResponseEntity<List<StorageItem>> itemsWithoutInventory() {
         return ResponseEntity.ok(dictionaryService.itemsWithoutInventory());
     }
 

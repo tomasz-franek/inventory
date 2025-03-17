@@ -1,8 +1,8 @@
 package inventory.app.backend.services;
 
 import inventory.app.api.model.ConsumeProduct;
-import inventory.app.api.model.Item;
 import inventory.app.api.model.ProductPrice;
+import inventory.app.api.model.StorageItem;
 import inventory.app.backend.mappers.ItemMapper;
 import inventory.app.backend.repositories.ItemRepository;
 import inventory.app.backend.repositories.ProductRepository;
@@ -20,12 +20,30 @@ public class DictionaryServiceImpl implements DictionaryService {
     private final ItemMapper itemMapper;
 
     @Override
-    public List<Item> itemsWithoutInventory() {
-        List<Item> items = new ArrayList<>();
-        itemRepository.itemsWithoutInventory().forEach(
-                i -> items.add(itemMapper.toDto(i))
-        );
+    public List<StorageItem> itemsWithoutInventory() {
+        List<StorageItem> items = new ArrayList<>();
+        itemRepository.itemsWithoutInventory().forEach(item -> {
+            if (item.getId() != null) {
+                StorageItem row = getRow(items, item.getId());
+                row.setProductName(item.getStorage().getProduct().getName());
+                row.getIds().add(item.getId());
+                row.setValidDate(item.getValidDate());
+            }
+        });
         return items;
+    }
+
+    private StorageItem getRow(List<StorageItem> list, Long idStorage) {
+        return list.stream().filter(i -> i.getIdStorage().equals(idStorage))
+                .findFirst()
+                .orElse(getStorageItem(list, idStorage));
+    }
+
+    private static StorageItem getStorageItem(List<StorageItem> list, Long idStorage) {
+        StorageItem item = new StorageItem();
+        item.setIdStorage(idStorage);
+        list.add(item);
+        return item;
     }
 
     @Override

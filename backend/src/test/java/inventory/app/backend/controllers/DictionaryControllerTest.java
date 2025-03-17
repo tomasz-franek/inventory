@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -35,8 +36,9 @@ class DictionaryControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$[0].name").value("Sugar"))
-                .andExpect(jsonPath("$[0].idStorage").value("3"));
+                .andExpect(jsonPath("$[0].productName").value("Sugar"))
+                .andExpect(jsonPath("$[0].ids").isArray())
+                .andExpect(jsonPath("$[0].ids", hasSize(equalTo(1))));
     }
 
     @Test
