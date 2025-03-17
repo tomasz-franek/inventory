@@ -1,19 +1,19 @@
 package inventory.app.backend.services;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import inventory.app.api.model.Category;
+import inventory.app.api.model.Product;
+import inventory.app.api.model.ResponseId;
 import inventory.app.backend.entities.CategoryEntity;
 import inventory.app.backend.entities.ProductEntity;
 import inventory.app.backend.exceptions.NotFoundEntityException;
 import inventory.app.backend.exceptions.ValidationException;
 import inventory.app.backend.mappers.ProductMapper;
-import inventory.app.api.model.Category;
-import inventory.app.api.model.Product;
-import inventory.app.api.model.ResponseId;
 import inventory.app.backend.repositories.CategoryRepository;
 import inventory.app.backend.repositories.ProductRepository;
 import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.Validators;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +87,11 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = productRepository.findById(productId).orElseThrow(
                 () -> new NotFoundEntityException(product.getClass(), productId));
 
+        CategoryEntity categoryEntity = categoryRepository.findById(product.getIdCategory()).orElseThrow(
+                () -> new NotFoundEntityException(Category.class, product.getIdCategory())
+        );
         mapper.updateProductEntityWithProduct(productEntity, product);
+        productEntity.setCategory(categoryEntity);
 
         validators.validate(validationResult,
                 validators.validateTextDataLength(productEntity),
