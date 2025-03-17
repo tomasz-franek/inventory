@@ -1133,6 +1133,49 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PurchasesData'
+  /report/pdf/shopping:
+    get:
+      summary: get Pdf document with Shopping list
+      operationId: reportPdfShopping
+      tags:
+        - report
+      responses:
+        '200':
+          description: A PDF file with Shopping list
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  /report/pdf/expired:
+    get:
+      summary: get Pdf document with expired Product list
+      operationId: reportPdfExpired
+      tags:
+        - report
+      responses:
+        '200':
+          description: A PDF file with expired Product list
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  /report/pdf/inventory:
+    get:
+      summary: get Pdf document with not used Product list
+      operationId: reportPdfInventory
+      tags:
+        - report
+      responses:
+        '200':
+          description: A PDF file with not used Product list
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+
 components:
   schemas:
     Inventory:
@@ -1371,6 +1414,9 @@ components:
         optLock:
           type: integer
           format: int32
+        useBeforeDate:
+          type: string
+          format: date
         price:
           $ref: '#/components/schemas/Price'
 
