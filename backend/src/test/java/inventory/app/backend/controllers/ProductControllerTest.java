@@ -110,12 +110,37 @@ class ProductControllerTest {
                                         {
                                             "name":"Bean",
                                             "active":1,
-                                            "optLock":0
+                                            "optLock":0,
+                                            "idCategory": 1
                                         }
                                         """)
                                 .accept(APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void updateProduct_Should_ReturnError_When_IdCategoryIsNull()
+            throws Exception {
+        mockMvc.perform(
+                        patch(PRODUCTS_ENDPOINT_PATH + "/{productId}",
+                                CORRECT_ID)
+                                .content("""
+                                        {
+                                            "name":"Bean",
+                                            "active":1,
+                                            "optLock":0,
+                                            "idCategory": null
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0].message").value(
+                        "CategoryId is null"));
     }
 
     @Test
@@ -149,7 +174,8 @@ class ProductControllerTest {
                                                 {
                                                     "name":"%s",
                                                     "active":1,
-                                                    "optLock":0
+                                                    "optLock":0,
+                                                    "idCategory": 1
                                                 }
                                                 """,
                                         StringUtils.repeat('1', 1000)
@@ -172,7 +198,7 @@ class ProductControllerTest {
                                 .content(String.format("""
                                                 {
                                                     "name":"%s",
-                                                    "idCategory":1,
+                                                    "idCategory": 1,
                                                     "active":1,
                                                     "optLock":0
                                                 }
@@ -200,6 +226,7 @@ class ProductControllerTest {
                                                 {
                                                     "name":null,
                                                     "active":null,
+                                                    "idCategory": 1,
                                                     "optLock":0
                                                 }
                                                 """)

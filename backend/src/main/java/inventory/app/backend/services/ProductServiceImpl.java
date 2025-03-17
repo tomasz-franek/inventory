@@ -87,16 +87,21 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = productRepository.findById(productId).orElseThrow(
                 () -> new NotFoundEntityException(product.getClass(), productId));
 
-        CategoryEntity categoryEntity = categoryRepository.findById(product.getIdCategory()).orElseThrow(
-                () -> new NotFoundEntityException(Category.class, product.getIdCategory())
-        );
         mapper.updateProductEntityWithProduct(productEntity, product);
-        productEntity.setCategory(categoryEntity);
 
+        if (product.getIdCategory() != null) {
+            CategoryEntity categoryEntity = categoryRepository.findById(product.getIdCategory()).orElseThrow(
+                    () -> new NotFoundEntityException(Category.class, product.getIdCategory())
+            );
+            productEntity.setCategory(categoryEntity);
+        } else {
+            validationResult.addError(contextSupplier.get(), "CategoryId is null");
+        }
         validators.validate(validationResult,
                 validators.validateTextDataLength(productEntity),
                 validators.validateValuesInNotNullColumns(productEntity, contextSupplier)
         );
+
 
         if (validationResult.isFailing()) {
             throw new ValidationException("Validation productEntity error ", validationResult);
