@@ -268,7 +268,7 @@ describe('CategoryEffects', () => {
   });
 
   describe('editCategory$', () => {
-    it('should navigate to categories component', () => {
+    it('should navigate to category-add component', () => {
       // given
       const category = {
         idCategory: 2,
