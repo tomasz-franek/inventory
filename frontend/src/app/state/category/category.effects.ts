@@ -6,6 +6,7 @@ import {
   navigateToCategoryList,
   navigateToCategoryNew,
   retrieveCategoryList,
+  retrievedCategoryActionError,
   retrievedCategoryActionSuccess,
   retrievedCategoryListActionError,
   retrievedCategoryListActionSuccess,
@@ -78,7 +79,10 @@ export class CategoryEffects {
             });
           })
         )
-      )
+      ),
+      catchError((error: any) => {
+        return [retrievedCategoryActionError({ error })];
+      })
     );
   });
 

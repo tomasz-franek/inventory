@@ -38,6 +38,13 @@ export const retrievedCategoryListActionError = createAction(
   }>()
 );
 
+export const retrievedCategoryActionError = createAction(
+  '[Category] Retrieve Category Error',
+  props<{
+    error: HttpErrorResponse;
+  }>()
+);
+
 export const loadCategoryAction = createAction(
   '[Category] Load Category',
   props<{ id: number }>()

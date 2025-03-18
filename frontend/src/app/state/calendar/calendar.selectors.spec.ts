@@ -1,7 +1,7 @@
 import { EventInput } from '@fullcalendar/core';
 import { CalendarState, getEventsList } from './calendar.selectors';
 
-fdescribe('CalendarSelectors', () => {
+describe('CalendarSelectors', () => {
   let mockEvents = [
     { idEvent: 1, name: 'name1' },
     { idEvent: 2, name: 'name2' },
