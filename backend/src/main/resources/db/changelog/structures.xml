@@ -22,7 +22,7 @@
             <column name="description" type="VARCHAR(200)">
             </column>
             <column name="active" type="boolean" defaultValue="true"/>
-            <column name="opt_lock" type="int">
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="inventory_optlock"/>
             </column>
         </createTable>
@@ -42,7 +42,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="active" type="boolean" defaultValue="true"/>
-            <column name="opt_lock" type="int">
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="category_optlock"/>
             </column>
         </createTable>
@@ -70,10 +70,10 @@
             </column>
             <column name="active" type="boolean" defaultValue="true"/>
             <column name="fragile" type="boolean" defaultValue="false"/>
-            <column name="limit_max" type="int" defaultValue="365"/>
-            <column name="limit_med" type="int" defaultValue="180"/>
-            <column name="limit_min" type="int" defaultValue="90"/>
-            <column name="opt_lock" type="int">
+            <column name="limit_max" type="INT" defaultValue="365"/>
+            <column name="limit_med" type="INT" defaultValue="180"/>
+            <column name="limit_min" type="INT" defaultValue="90"/>
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="product_optlock"/>
             </column>
         </createTable>
@@ -96,7 +96,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="rounding" type="INTEGER" defaultValue="0"/>
-            <column name="opt_lock" type="int">
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="unit_optlock"/>
             </column>
         </createTable>
@@ -126,22 +126,22 @@
                              referencedColumnNames="id"
                 />
             </column>
-            <column name="items" type="integer">
+            <column name="items" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="insert_date" type="date">
+            <column name="insert_date" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="valid_date" type="date"/>
-            <column name="count" type="decimal(10,4)"/>
-            <column name="used" type="decimal(10,4)" defaultValue="0.0">
+            <column name="valid_date" type="DATE"/>
+            <column name="count" type="DECIMAL(10,4)"/>
+            <column name="used" type="DECIMAL(10,4)" defaultValue="0.0">
                 <constraints nullable="false"/>
             </column>
-            <column name="end_date" type="date"/>
-            <column name="price" type="decimal(10,4)" defaultValue="0.0">
+            <column name="end_date" type="DATE"/>
+            <column name="price" type="DECIMAL(10,4)" defaultValue="0.0">
                 <constraints nullable="false"/>
             </column>
-            <column name="opt_lock" type="int">
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="storage_optlock"/>
             </column>
         </createTable>
@@ -171,15 +171,15 @@
                              referencedColumnNames="id"
                 />
             </column>
-            <column name="insert_date" type="date">
+            <column name="insert_date" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="valid_date" type="date"/>
-            <column name="used" type="decimal(10,4)" defaultValue="0.0">
+            <column name="valid_date" type="DATE"/>
+            <column name="used" type="DECIMAL(10,4)" defaultValue="0.0">
                 <constraints nullable="false"/>
             </column>
-            <column name="end_date" type="date"/>
-            <column name="opt_lock" type="int">
+            <column name="end_date" type="DATE"/>
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="item_optlock"/>
             </column>
         </createTable>
@@ -209,8 +209,8 @@
                              referencedColumnNames="id"
                 />
             </column>
-            <column name="count" type="decimal(10,4)"/>
-            <column name="opt_lock" type="int">
+            <column name="count" type="DECIMAL(10,4)"/>
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="unit_default_optlock"/>
             </column>
         </createTable>
@@ -229,10 +229,10 @@
             <column name="name" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
-            <column name="items" type="integer">
+            <column name="items" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="count" type="decimal(10,4)"/>
+            <column name="count" type="DECIMAL(10,4)"/>
             <column name="unit_id" type="BIGINT">
                 <constraints foreignKeyName="shopping_unit_fk"
                              referencedTableName="unit"
@@ -247,7 +247,7 @@
                              referencedColumnNames="id"
                 />
             </column>
-            <column name="opt_lock" type="int">
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="shoping_optlock"/>
             </column>
         </createTable>
@@ -271,7 +271,7 @@
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="opt_lock" type="int">
+            <column name="opt_lock" type="INT">
                 <constraints notNullConstraintName="property_optlock"/>
             </column>
         </createTable>
