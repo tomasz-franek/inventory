@@ -6,6 +6,7 @@ import {
   navigateToInventoryEdit,
   navigateToInventoryList,
   navigateToInventoryNew,
+  retrievedInventoryActionError,
   retrievedInventoryActionSuccess,
   retrievedInventoryListActionError,
   retrievedInventoryListActionSuccess,
@@ -79,7 +80,10 @@ export class InventoryEffects {
             });
           })
         )
-      )
+      ),
+      catchError((error: any) => {
+        return [retrievedInventoryActionError({ error })];
+      })
     );
   });
 

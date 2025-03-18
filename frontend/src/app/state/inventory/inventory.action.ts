@@ -38,6 +38,13 @@ export const retrievedInventoryActionSuccess = createAction(
   '[Inventory] Load Inventory Success Action',
   props<{ inventory: Inventory }>()
 );
+
+export const retrievedInventoryActionError = createAction(
+  '[Inventory] Load Inventory Error Action',
+  props<{
+    error: HttpErrorResponse;
+  }>()
+);
 export const navigateToInventoryEdit = createAction(
   '[Inventory] Navigate Inventory Edit',
   props<{ inventory: Inventory }>()

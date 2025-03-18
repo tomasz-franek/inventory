@@ -11,14 +11,17 @@ export interface InventoryState {
 const selectInventoriesFutureState = createFeatureSelector<InventoryState>(
   Features.inventories
 );
+
 export const getInventoriesList = createSelector(
   selectInventoriesFutureState,
   (state) => state.inventories
 );
+
 export const selectActiveInventory = createSelector(
   selectInventoriesFutureState,
   (state) => state.active
 );
+
 export const filterInventories = createSelector(
   selectInventoriesFutureState,
   selectActiveInventory,
@@ -30,10 +33,12 @@ export const filterInventories = createSelector(
     }
   }
 );
+
 export const selectInventoryById = (id: number) =>
   createSelector(selectInventoriesFutureState, (appState) =>
     appState.inventories.find((inventory) => inventory.idInventory === id)
   );
+
 export const newInventorySelector = createSelector(
   selectInventoriesFutureState,
   () => {
