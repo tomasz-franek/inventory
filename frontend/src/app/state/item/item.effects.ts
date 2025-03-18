@@ -103,7 +103,7 @@ export class ItemsEffects {
         return this._apiService$
           .updateItemByInventoryId(action.idItem, action.idInventory)
           .pipe(
-            concatMap((data) => {
+            concatMap(() => {
               return [saveItemSuccess()];
             })
           );
@@ -114,12 +114,12 @@ export class ItemsEffects {
     )
   );
 
-  consumeItem$ = createEffect(() =>
+  consume$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(consumeItem),
       mergeMap((action) => {
         return this._apiService$.consumeItem(action.itemToConsume).pipe(
-          map((data) => {
+          map(() => {
             return consumeItemSuccess();
           })
         );
