@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Product, ProductPrice } from '../../api';
 import { Features } from '../../../features';
-import { setActiveCategory } from '../category/category.action';
+import { selectActiveCategory } from '../category/category.selectors';
 
 export interface ProductState {
   products: Product[];
@@ -42,17 +42,17 @@ export const filterProducts = createSelector(
 
 export const filterProductByCategory = createSelector(
   selectProductsFutureState,
-  setActiveCategory,
-  (state) => {
+  selectActiveCategory,
+  (state, active) => {
     if (state.idCategory != 0) {
       return state.products.filter(
         (product) =>
           product.idCategory == state.idCategory &&
-          (state.active ? state.active == product.active : true)
+          (active ? active == product.active : true)
       );
     } else {
       return state.products.filter((product) =>
-        state.active ? state.active == product.active : true
+        active ? active == product.active : true
       );
     }
   }
