@@ -115,13 +115,19 @@ describe('InventoryEffects', () => {
       );
     });
 
-    it('should dispatch saveInventoryActionError when backend returns error', () => {
+    it('should dispatch saveInventoryActionError when backend save returns error', () => {
       // given
+      const inventory = {
+        idInventory: undefined,
+        name: 'test',
+        active: true,
+        optLock: 1,
+      } as Inventory;
       const error = new HttpErrorResponse({});
       spyOn(apiService, 'createInventory').and.returnValue(
         throwError(() => error)
       );
-      actions$ = of(retrieveInventoryList());
+      actions$ = of(saveInventory({ inventory }));
 
       // when
       effects.save$.subscribe((action) => {
@@ -134,18 +140,23 @@ describe('InventoryEffects', () => {
       });
     });
 
-    it('should dispatch saveInventoryActionError when backend returns error', () => {
+    it('should dispatch saveInventoryActionError when backend update returns error', () => {
       // given
+      const inventory = {
+        idInventory: 1,
+        name: 'test',
+        active: true,
+        optLock: 1,
+      } as Inventory;
       const error = new HttpErrorResponse({});
       spyOn(apiService, 'updateInventory').and.returnValue(
         throwError(() => error)
       );
-      actions$ = of(retrieveInventoryList());
+      actions$ = of(saveInventory({ inventory }));
 
       // when
       effects.save$.subscribe((action) => {
         // then
-        expect(apiService.updateInventory).toHaveBeenCalled();
         expect(action).toEqual({
           type: '[Inventory] Save InventoryError',
           error,

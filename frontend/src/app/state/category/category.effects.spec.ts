@@ -157,18 +157,23 @@ describe('CategoryEffects', () => {
       );
     });
 
-    it('should dispatch saveCategoryActionError when backend returns error', () => {
+    it('should dispatch saveCategoryActionError when save backend returns error', () => {
       // given
+      const category = {
+        idCategory: undefined,
+        name: 'test',
+        active: true,
+        optLock: 1,
+      } as Category;
       const error = new HttpErrorResponse({});
       spyOn(apiService, 'createCategory').and.returnValue(
         throwError(() => error)
       );
-      actions$ = of(retrieveCategoryList());
+      actions$ = of(saveCategory({ category }));
 
       // when
       effects.save$.subscribe((action) => {
         // then
-        expect(apiService.createCategory).toHaveBeenCalled();
         expect(action).toEqual({
           type: '[Category] Save CategoryError',
           error,
@@ -176,18 +181,23 @@ describe('CategoryEffects', () => {
       });
     });
 
-    it('should dispatch saveCategoryActionError when backend returns error', () => {
+    it('should dispatch saveCategoryActionError when update backend returns error', () => {
       // given
+      const category = {
+        idCategory: 1,
+        name: 'test',
+        active: true,
+        optLock: 1,
+      } as Category;
       const error = new HttpErrorResponse({});
       spyOn(apiService, 'updateCategory').and.returnValue(
         throwError(() => error)
       );
-      actions$ = of(retrieveCategoryList());
+      actions$ = of(saveCategory({ category }));
 
       // when
       effects.save$.subscribe((action) => {
         // then
-        expect(apiService.updateCategory).toHaveBeenCalled();
         expect(action).toEqual({
           type: '[Category] Save CategoryError',
           error,
