@@ -23,7 +23,7 @@ spring:
         enable_lazy_load_no_trans: true
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
-    show-sql: true
+    #show-sql: true
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
