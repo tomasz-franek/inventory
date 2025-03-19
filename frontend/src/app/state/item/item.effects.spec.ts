@@ -171,7 +171,7 @@ describe('ItemEffects', () => {
     });
   });
   describe('loadConsumeProductListInventoryCategory$', () => {
-    it('should dispatch retrievedItemsListInventoryCategoryProductActionSuccess when load Items', () => {
+    it('should dispatch retrievedConsumeProductListActionSuccess when load Items', () => {
       //given
       let consumeProducts = [
         {
@@ -209,27 +209,23 @@ describe('ItemEffects', () => {
         });
       });
     });
-    it('should dispatch retrievedItemsListInventoryCategoryProductActionError', () => {
+    it('should dispatch retrievedConsumeProductListActionError', () => {
       //given
       const error = new HttpErrorResponse({});
       spyOn(
         apiService,
-        'getConsumeProductListInventoryCategoryProduct'
+        'getConsumeProductListInventoryCategory'
       ).and.returnValue(throwError(() => error));
       actions$ = of(
-        retrieveConsumeProductListInventoryCategoryProduct({
+        retrieveConsumeProductListInventoryCategory({
           idInventory: 1,
           idCategory: 8,
-          idProduct: 6,
         })
       );
 
       // when
       effects.loadConsumeProductListInventoryCategory$.subscribe((action) => {
         // then
-        expect(
-          apiService.getConsumeProductListInventoryCategoryProduct
-        ).toHaveBeenCalledWith(1, 8, 6);
         expect(action).toEqual({
           type: '[Item] Retrieved Consume Products Action Error',
           error,
@@ -238,7 +234,7 @@ describe('ItemEffects', () => {
     });
   });
   describe('updateItemInventory$', () => {
-    it('should dispatch retrievedItemsListInventoryCategoryProductActionSuccess', () => {
+    it('should dispatch saveItemSuccess', () => {
       //given
       spyOn(apiService, 'updateItemByInventoryId').and.returnValue(of({}));
       actions$ = of(
@@ -257,7 +253,7 @@ describe('ItemEffects', () => {
         });
       });
     });
-    it('should dispatch retrievedItemsListInventoryCategoryProductActionError', () => {
+    it('should dispatch saveItemActionError', () => {
       //given
       const error = new HttpErrorResponse({});
       spyOn(apiService, 'updateItemByInventoryId').and.returnValue(
