@@ -1447,7 +1447,6 @@ components:
       type: object
       required:
         - idUser
-        - idProperty
       properties:
         idProperty:
           type: integer
