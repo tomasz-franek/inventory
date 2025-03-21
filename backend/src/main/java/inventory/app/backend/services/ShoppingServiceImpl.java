@@ -1,6 +1,8 @@
 package inventory.app.backend.services;
 
+import inventory.app.api.model.Price;
 import inventory.app.api.model.Product;
+import inventory.app.api.model.ProductPrice;
 import inventory.app.api.model.ResponseId;
 import inventory.app.api.model.Shopping;
 import inventory.app.api.model.Unit;
@@ -36,6 +38,7 @@ public class ShoppingServiceImpl implements ShoppingService {
     private final ShoppingMapper mapper;
 
     private final Validators validators;
+    private final DictionaryService dictionaryService;
 
     @Override
     @Transactional(readOnly = true)
@@ -44,6 +47,18 @@ public class ShoppingServiceImpl implements ShoppingService {
         shoppingRepository.findAll().forEach(shoppingEntity ->
                 shopping.add(mapper.toDto(shoppingEntity))
         );
+        shopping.forEach(s -> {
+            ProductPrice productPrice = dictionaryService.getProductPrice(s.getIdProduct());
+            if (productPrice != null) {
+                Price price = new Price();
+                price.setLastPrice(productPrice.getLastPrice());
+                price.setMinPrice(productPrice.getMinPrice());
+                price.setMaxPrice(productPrice.getMaxPrice());
+                price.setAveragePrice(productPrice.getAveragePrice());
+                price.setAveragePrice(productPrice.getAveragePrice());
+                s.price(price);
+            }
+        });
         return shopping;
     }
 
