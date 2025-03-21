@@ -39,6 +39,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,11 +65,13 @@ public class ReportServiceImpl implements ReportService {
     private final StorageReport storageReport;
 
     @Override
+    @Transactional(readOnly = true)
     public List<InventoryReportData> getInventoryReportData(Long idInventory) {
         return storageRepository.getInventoryReportData(idInventory);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LastUsedData> getLastUsedInventoryReportData(Long idInventory) {
         Pageable last20Items =
                 PageRequest.of(0, 20, Sort.by("endDate").descending());
@@ -76,11 +79,13 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ExpiredReportData> getExpiredInventoryReportData(Long idInventory) {
         return storageRepository.getExpiredInventoryReportData(idInventory);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductAvailabilityData> getProductAvailabilityForPeriod(Long idProduct, Integer period) {
         List<ItemEntity> itemsItemEntities = itemRepository.findByProductId(idProduct);
         List<Item> items = new ArrayList<>();
@@ -96,12 +101,14 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<NextDayExpiredData> getNextDaysExpired(Integer days) {
         LocalDate lastDayDate = LocalDate.now().plusDays(days);
         return storageRepository.getNextDaysExpired(lastDayDate);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<StorageValueHistoryData> getStorageValueHistory(Integer days, Long idInventory) {
         List<StorageValueHistoryData> data = itemRepository.getStorageValueHistory(idInventory);
         data.sort(Comparator.comparing(StorageValueHistoryData::getOperationDate));
@@ -109,22 +116,26 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductPriceHistoryData> getProductPriceHistory(Long idProduct) {
         return productRepository.getProductPriceHistory(idProduct);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PriceCategoryData> getSumPricesByCategory() {
         return storageRepository.getSumPricesByCategory();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PurchasesData> getListRecentPurchases(Integer days, Long idInventory) {
         LocalDate lastDayDate = LocalDate.now().minusDays(days);
         return storageRepository.getListRecentPurchases(lastDayDate, idInventory);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<StorageReportDataRow> getValidInventoryReport() {
         List<DataRowElement> list = storageRepository.getValidInventoryReport();
         StorageReportData storageReportData = new StorageReportData();
@@ -133,6 +144,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public byte[] reportPdfShopping() throws Exception {
         List<Shopping> list = new ArrayList<>();
         shoppingRepository.findAll().forEach(e -> list.add(shoppingMapper.toDto(e)));
@@ -143,6 +155,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public byte[] reportPdfExpired() throws Exception {
         List<DataRowElement> list = storageRepository.getExpiredProducts();
         StorageReportData storageReportData = new StorageReportData();
@@ -152,6 +165,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public byte[] reportPdfInventory() throws Exception {
         List<DataRowElement> list = storageRepository.getInventoryReportData();
         StorageReportData storageReportData = new StorageReportData();

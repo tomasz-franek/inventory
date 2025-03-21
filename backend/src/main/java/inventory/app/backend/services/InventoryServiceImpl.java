@@ -1,17 +1,18 @@
 package inventory.app.backend.services;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import inventory.app.api.model.Inventory;
+import inventory.app.api.model.ResponseId;
 import inventory.app.backend.entities.InventoryEntity;
 import inventory.app.backend.exceptions.NotFoundEntityException;
 import inventory.app.backend.exceptions.ValidationException;
 import inventory.app.backend.mappers.InventoryMapper;
-import inventory.app.api.model.Inventory;
-import inventory.app.api.model.ResponseId;
 import inventory.app.backend.repositories.InventoryRepository;
 import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.ValidationResult.Context;
 import inventory.app.backend.validation.Validators;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class InventoryServiceImpl implements InventoryService {
     private final Validators validators;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Inventory> findAll() {
         List<Inventory> inventoryEntities = new ArrayList<>();
         inventoryRepository.findAll().forEach(inventoryEntity ->
@@ -84,6 +86,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Inventory get(Long inventoryId) {
         InventoryEntity inventoryEntity = inventoryRepository.findById(inventoryId).orElseThrow(
                 () -> new NotFoundEntityException(Inventory.class, inventoryId));

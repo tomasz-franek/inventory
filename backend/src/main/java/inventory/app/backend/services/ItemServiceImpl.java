@@ -18,6 +18,7 @@ import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -40,6 +41,7 @@ public class ItemServiceImpl implements ItemService {
     private final Validators validators;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Item> findAll() {
         List<Item> items = new ArrayList<>();
         itemRepository.findAll().forEach(itemEntity ->
@@ -49,6 +51,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Item getItem(Long idItem) {
         ItemEntity itemEntity = itemRepository.findById(idItem).orElseThrow(
                 () -> new NotFoundEntityException(Item.class, idItem));

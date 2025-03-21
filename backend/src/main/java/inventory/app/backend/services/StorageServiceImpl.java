@@ -17,6 +17,7 @@ import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class StorageServiceImpl implements StorageService {
     private final Validators validators;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Storage> findAll() {
         List<Storage> storages = new ArrayList<>();
         storageRepository.findAll().forEach(storageEntity ->
@@ -44,6 +46,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Storage get(Long storageId) {
         StorageEntity storageEntity = storageRepository.findById(storageId).orElseThrow(
                 () -> new NotFoundEntityException(Storage.class, storageId));

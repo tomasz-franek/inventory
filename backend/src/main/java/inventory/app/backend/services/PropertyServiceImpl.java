@@ -10,6 +10,7 @@ import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.function.Supplier;
 
@@ -21,6 +22,7 @@ public class PropertyServiceImpl implements PropertyService {
     private final Validators validators;
 
     @Override
+    @Transactional(readOnly = true)
     public Property getPropertyByUserId(Long idUser) {
         PropertyEntity propertyEntity = propertyRepository.findByIdUser(idUser)
                 .orElseThrow(() -> new NotFoundEntityException(Property.class, idUser));

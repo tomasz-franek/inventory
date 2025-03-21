@@ -1,16 +1,17 @@
 package inventory.app.backend.services;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import inventory.app.api.model.Category;
+import inventory.app.api.model.ResponseId;
 import inventory.app.backend.entities.CategoryEntity;
 import inventory.app.backend.exceptions.NotFoundEntityException;
 import inventory.app.backend.exceptions.ValidationException;
 import inventory.app.backend.mappers.CategoryMapper;
-import inventory.app.api.model.Category;
-import inventory.app.api.model.ResponseId;
 import inventory.app.backend.repositories.CategoryRepository;
 import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.Validators;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final Validators validators;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Category> findAll() {
         List<Category> categoryEntities = new ArrayList<>();
         categoryRepository.findAll().forEach(categoryEntity ->
@@ -83,6 +85,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Category get(Long categoryId) {
         CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new NotFoundEntityException(Category.class, categoryId));

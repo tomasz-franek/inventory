@@ -8,6 +8,7 @@ import inventory.app.backend.repositories.ItemRepository;
 import inventory.app.backend.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     private final ItemMapper itemMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<StorageItem> itemsWithoutInventory() {
         List<StorageItem> items = new ArrayList<>();
         itemRepository.itemsWithoutInventory().forEach(item -> {
@@ -33,6 +35,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         return items;
     }
 
+    @Transactional(readOnly = true)
     private StorageItem getRow(List<StorageItem> list, Long idStorage) {
         StorageItem item = list.stream().filter(i -> i.getIdStorage().equals(idStorage))
                 .findFirst()
@@ -46,6 +49,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         return item;
     }
 
+
     private static StorageItem getStorageItem(List<StorageItem> list, Long idStorage) {
         StorageItem item = new StorageItem();
         item.setIdStorage(idStorage);
@@ -54,11 +58,13 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ConsumeProduct> getConsumeProductListInventoryCategory(Long idInventory, Long idCategory, Long idProduct) {
         return itemRepository.getConsumeProductListInventoryCategory(idInventory, idCategory, idProduct);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ProductPrice getProductPrice(Long idProduct) {
         return productRepository.getProductPrice(idProduct);
     }

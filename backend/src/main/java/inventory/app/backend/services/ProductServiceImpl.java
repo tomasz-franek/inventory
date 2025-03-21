@@ -14,6 +14,7 @@ import inventory.app.backend.validation.ValidationResult;
 import inventory.app.backend.validation.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
     private final Validators validators;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Product> findAll() {
         List<Product> productEntities = new ArrayList<>();
         productRepository.findAll().forEach(productEntity ->
@@ -40,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Product get(Long productId) {
         ProductEntity productEntity = productRepository.findById(productId).orElseThrow(
                 () -> new NotFoundEntityException(Product.class, productId));
