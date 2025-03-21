@@ -159,12 +159,12 @@ export const appRoutes: Routes = [
   },
   {
     path: 'shopping-add',
-    providers: [provideEffects(ShoppingEffects, UnitEffects)],
+    providers: [provideEffects(ShoppingEffects, UnitEffects, ProductEffects)],
     component: ShoppingAddComponent,
   },
   {
     path: 'shopping-add/:id',
-    providers: [provideEffects(ShoppingEffects, UnitEffects)],
+    providers: [provideEffects(ShoppingEffects, UnitEffects, ProductEffects)],
     component: ShoppingAddComponent,
   },
   {

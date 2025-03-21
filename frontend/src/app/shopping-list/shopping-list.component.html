@@ -51,9 +51,12 @@
         <td *ngIf="row.price != undefined" class="text-center">{{ row.price.useBeforeDate }}</td>
         <td *ngIf="row.price == undefined" class="text-center">-</td>
           <td [textContent]="row.items" class="text-center"></td>
-          <td class="text-center">
+        <td class="text-center" *ngIf="row.count != undefined  && row.count>0">
             {{ row.count }} {{ (unitName(row.idUnit)|async)?.symbol }}
           </td>
+        <td class="text-center" *ngIf="row.count == undefined || row.count == 0">
+          -
+        </td>
           <td class="text-center">
             <button
               (click)="edit(row)"

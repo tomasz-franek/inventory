@@ -11,7 +11,6 @@ import {
   TranslateStore,
 } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TagInputModule } from 'ngx-chips';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts/core';
@@ -26,7 +25,6 @@ echarts.use([BarChart, GridComponent, CanvasRenderer]);
   imports: [
     BrowserAnimationsModule,
     AppRoutingModule,
-    TagInputModule,
     BsDatepickerModule,
     AppComponent,
     StoreModule,

@@ -21,7 +21,7 @@ export const getProductsList = createSelector(
 );
 export const selectProductById = (id: number) =>
   createSelector(selectProductsFutureState, (appState) =>
-    appState.products.find((product) => product.idProduct === id)
+    appState.products.find((product) => product.idProduct == id)
   );
 
 export const selectActiveProduct = createSelector(
