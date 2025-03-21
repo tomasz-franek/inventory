@@ -17,6 +17,16 @@ export const retrieveShoppingListActionError = createAction(
     error: HttpErrorResponse;
   }>()
 );
+
+export const deleteShoppingActionSuccess = createAction(
+  '[Shopping] Delete Shopping Success'
+);
+export const retrievedDeleteShoppingActionError = createAction(
+  '[Shopping] Delete Shopping Error',
+  props<{
+    error: HttpErrorResponse;
+  }>()
+);
 export const retrievedShoppingActionError = createAction(
   '[Shopping] Shopping Error',
   props<{
