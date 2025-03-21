@@ -26,6 +26,24 @@ export class StorageEffects {
   private _apiService$: ApiService = inject(ApiService);
   private router: Router = inject(Router);
 
+  loadStorages$ = createEffect(() => {
+    return inject(Actions).pipe(
+      ofType(retrieveStorageList),
+      mergeMap(() => {
+        return this._apiService$.getStorages().pipe(
+          map((data) => {
+            return retrievedStorageListActionSuccess({
+              storages: data,
+            });
+          })
+        );
+      }),
+      catchError((error: any) => {
+        return [retrievedStorageListActionError({ error })];
+      })
+    );
+  });
+
   saveStorage$ = createEffect(() => {
     return inject(Actions).pipe(
       ofType(saveStorage),
@@ -84,24 +102,6 @@ export class StorageEffects {
     },
     { dispatch: false }
   );
-
-  loadStorages$ = createEffect(() => {
-    return inject(Actions).pipe(
-      ofType(retrieveStorageList),
-      mergeMap(() => {
-        return this._apiService$.getStorages().pipe(
-          map((data) => {
-            return retrievedStorageListActionSuccess({
-              storages: data,
-            });
-          })
-        );
-      }),
-      catchError((error: any) => {
-        return [retrievedStorageListActionError({ error })];
-      })
-    );
-  });
 
   private _getCreateOrUpdateObservable(storage: Storage): Observable<any> {
     if (storage.idStorage !== null && storage.idStorage !== undefined) {
