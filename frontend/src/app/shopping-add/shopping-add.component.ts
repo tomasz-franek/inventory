@@ -22,7 +22,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { editShoppingSelector } from '../state/shopping/shopping.selectors';
 import {
-  getProductsList,
+  filterProducts,
   ProductState,
 } from '../state/product/product.selectors';
 import { retrieveProductList } from '../state/product/product.action';
@@ -99,7 +99,7 @@ export class ShoppingAddComponent implements OnInit {
     this._storeUnit$.dispatch(retrieveUnitList());
     this.units$ = this._storeUnit$.select(getUnitsList);
     this._storeProduct$.dispatch(retrieveProductList());
-    this._products$ = this._storeProduct$.select(getProductsList);
+    this._products$ = this._storeProduct$.select(filterProducts);
 
     if (id === null) {
       this._formGroup.patchValue({

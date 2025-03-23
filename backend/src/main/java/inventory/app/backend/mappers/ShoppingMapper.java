@@ -12,6 +12,7 @@ public interface ShoppingMapper {
   @Mapping(target = "idProduct", source = "product.id")
   @Mapping(target = "idUnit", source = "unit.id")
   @Mapping(target = "idShopping", source = "id")
+  @Mapping(target = "name", source = "product.name")
   Shopping toDto(ShoppingEntity entity);
 
   @NoIdMapping
