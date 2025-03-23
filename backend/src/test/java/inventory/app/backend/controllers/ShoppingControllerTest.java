@@ -190,6 +190,28 @@ class ShoppingControllerTest {
     }
 
     @Test
+    public void updateShopping_Should_ReturnError_When_MethodIsCalledWithWrongUnitId()
+            throws Exception {
+        mockMvc.perform(
+                        patch(SHOPPING_ENDPOINT_PATH + "/{shoppingId}",
+                                CORRECT_ID)
+                                .content("""
+                                        {
+                                            "name":"Wash powder",
+                                            "active":1,
+                                            "optLock":0,
+                                            "idUnit": 999
+                                        }
+                                        """)
+                                .accept(APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(
+                        "Unit with id = '999' not found."));
+    }
+
+    @Test
     public void saveShopping_Should_ReturnError_When_MethodIsCalledWithTooLongString()
             throws Exception {
         mockMvc.perform(

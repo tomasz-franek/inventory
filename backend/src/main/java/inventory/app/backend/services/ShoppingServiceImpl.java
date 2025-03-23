@@ -124,6 +124,12 @@ public class ShoppingServiceImpl implements ShoppingService {
                 validators.validateValuesInNotNullColumns(shoppingEntity, contextSupplier)
         );
 
+        if (shopping.getIdUnit() != null) {
+            UnitEntity unitEntity = unitRepository.findById(shopping.getIdUnit()).orElseThrow(
+                    () -> new NotFoundEntityException(Unit.class, shopping.getIdUnit()));
+            shoppingEntity.setUnit(unitEntity);
+        }
+
         if (validationResult.isFailing()) {
             throw new ValidationException("Validation shoppingEntity error ", validationResult);
         }
