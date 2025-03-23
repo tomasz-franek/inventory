@@ -11,11 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.oneOf;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -218,13 +216,12 @@ class ReportControllerTest {
     void getListRecentPurchases_Should_EmptyReturnResponse_When_MethodIsCalledWithWrongId()
             throws Exception {
         mockMvc.perform(
-                        get(REPORT_ENDPOINT_PATH + "listPurchases/{days}/{idInventory}", 120, 1)
+                        get(REPORT_ENDPOINT_PATH + "listPurchases/{days}", 120)
                                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(3))))
-                .andExpect(jsonPath("$[*].productName", everyItem(oneOf("Sugar", "Bean"))));
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(3))));
     }
 
     @Test

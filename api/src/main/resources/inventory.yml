@@ -1103,7 +1103,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PriceCategoryData'
-  /report/listPurchases/{days}/{idInventory}:
+  /report/listPurchases/{days}:
     get:
       summary: get Products bought in the last days
       operationId: getListRecentPurchases
@@ -1117,13 +1117,6 @@ paths:
           schema:
             type: integer
             format: int32
-        - name: idInventory
-          in: path
-          required: true
-          description: The ID of the Inventory
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: list of last bought Products

@@ -530,12 +530,12 @@ describe('ReportEffects', () => {
       spyOn(apiService, 'getListRecentPurchases').and.returnValue(
         of(purchasesData) as any
       );
-      actions$ = of(retrieveListPurchases({ days: 102, idInventory: 33 }));
+      actions$ = of(retrieveListPurchases({ days: 102 }));
 
       // when
       effects.loadListPurchases$.subscribe((action) => {
         // then
-        expect(apiService.getListRecentPurchases).toHaveBeenCalledWith(102, 33);
+        expect(apiService.getListRecentPurchases).toHaveBeenCalledWith(102);
         expect(action).toEqual({
           type: '[Report] Retrieve Last Purchases Success',
           purchasesData: purchasesData,
@@ -549,12 +549,12 @@ describe('ReportEffects', () => {
       spyOn(apiService, 'getListRecentPurchases').and.returnValue(
         throwError(() => error)
       );
-      actions$ = of(retrieveListPurchases({ days: 21, idInventory: 4 }));
+      actions$ = of(retrieveListPurchases({ days: 21 }));
 
       // when
       effects.loadListPurchases$.subscribe((action) => {
         // then
-        expect(apiService.getListRecentPurchases).toHaveBeenCalledWith(21, 4);
+        expect(apiService.getListRecentPurchases).toHaveBeenCalledWith(21);
         expect(action).toEqual({
           type: '[Report] Retrieve Inventory Report Error',
           error,

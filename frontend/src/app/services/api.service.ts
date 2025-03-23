@@ -244,11 +244,8 @@ export class ApiService {
     return this.reportService.getSumPricesByCategory();
   }
 
-  getListRecentPurchases(
-    days: number,
-    idInventory: number
-  ): Observable<PurchasesData[]> {
-    return this.reportService.getListRecentPurchases(days, idInventory);
+  getListRecentPurchases(days: number): Observable<PurchasesData[]> {
+    return this.reportService.getListRecentPurchases(days);
   }
 
   getValidInventoryReport(): Observable<StorageReportDataRow[]> {

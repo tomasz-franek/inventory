@@ -183,7 +183,7 @@
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
             <column name="product_id" value="5"/>
             <column name="unit_id" value="2"/>
-            <column name="items" value="2"/>
+            <column name="items" value="6"/>
             <column name="insert_date" valueDate="${yesterday}"/>
             <column name="valid_date" valueDate="${now}"/>
             <column name="count" value="2"/>
@@ -195,7 +195,7 @@
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
             <column name="product_id" value="5"/>
             <column name="unit_id" value="2"/>
-            <column name="items" value="2"/>
+            <column name="items" value="1"/>
             <column name="insert_date" value="now()"/>
             <column name="valid_date" valueDate="${yesterday}"/>
             <column name="end_date" valueDate="${yesterday}"/>
@@ -208,7 +208,7 @@
             <column name="id" valueComputed="nextval('${schemaName}.storage_seq')"/>
             <column name="product_id" value="5"/>
             <column name="unit_id" value="2"/>
-            <column name="items" value="2"/>
+            <column name="items" value="1"/>
             <column name="insert_date" valueDate="${yesterday}"/>
             <column name="valid_date" valueDate="${now}"/>
             <column name="count" value="2"/>

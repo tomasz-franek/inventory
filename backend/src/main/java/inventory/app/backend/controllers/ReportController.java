@@ -84,8 +84,8 @@ public class ReportController implements ReportApi {
     }
 
     @Override
-    public ResponseEntity<List<PurchasesData>> getListRecentPurchases(Integer days, Long idInventory) {
-        return ResponseEntity.ok(reportService.getListRecentPurchases(days, idInventory));
+    public ResponseEntity<List<PurchasesData>> getListRecentPurchases(Integer days) {
+        return ResponseEntity.ok(reportService.getListRecentPurchases(days));
     }
 
     @Override

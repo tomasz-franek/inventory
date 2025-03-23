@@ -108,7 +108,7 @@ export const retrieveSumPricesByCategoryDataSuccess = createAction(
 );
 export const retrieveListPurchases = createAction(
   '[Report] Retrieve Last Purchases',
-  props<{ days: number; idInventory: number }>()
+  props<{ days: number }>()
 );
 
 export const retrieveListPurchasesSuccess = createAction(

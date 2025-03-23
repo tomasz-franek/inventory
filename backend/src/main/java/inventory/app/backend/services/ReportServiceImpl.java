@@ -129,9 +129,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PurchasesData> getListRecentPurchases(Integer days, Long idInventory) {
+    public List<PurchasesData> getListRecentPurchases(Integer days) {
         LocalDate lastDayDate = LocalDate.now().minusDays(days);
-        return storageRepository.getListRecentPurchases(lastDayDate, idInventory);
+        return storageRepository.getListRecentPurchases(lastDayDate);
     }
 
     @Override

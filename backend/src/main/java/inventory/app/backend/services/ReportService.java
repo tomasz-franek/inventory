@@ -30,7 +30,7 @@ public interface ReportService {
 
     List<PriceCategoryData> getSumPricesByCategory();
 
-    List<PurchasesData> getListRecentPurchases(Integer days, Long idInventory);
+    List<PurchasesData> getListRecentPurchases(Integer days);
 
     List<StorageReportDataRow> getValidInventoryReport();
 

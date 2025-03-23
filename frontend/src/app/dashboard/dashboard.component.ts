@@ -107,9 +107,7 @@ export class DashboardComponent implements OnInit {
       this.loadListLastUsed(data);
     });
 
-    this._storeReport$.dispatch(
-      retrieveListPurchases({ days: 120, idInventory: 1 })
-    );
+    this._storeReport$.dispatch(retrieveListPurchases({ days: 120 }));
     this._storeReport$.select(getPurchasesData).subscribe((data) => {
       this.loadListPurchases(data);
     });

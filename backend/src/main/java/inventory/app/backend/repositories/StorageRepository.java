@@ -98,14 +98,10 @@ public interface StorageRepository extends CrudRepository<StorageEntity,Long>,
             "   cast (( s.items * s.price ) as BigDecimal ), " +
             "   s.id " +
             ") " +
-            "FROM ItemEntity i " +
-            "JOIN i.storage s " +
+            "FROM StorageEntity s " +
             "JOIN s.product p " +
-            "WHERE s.insertDate > :endDate " +
-            "AND (:idInventory IS NULL OR i.inventory.id = :idInventory OR i.inventory.id IS NULL ) ")
-    List<PurchasesData> getListRecentPurchases(
-            @Param("endDate") LocalDate endDate,
-            @Param("idInventory") Long idInventory);
+            "WHERE s.insertDate > :endDate ")
+    List<PurchasesData> getListRecentPurchases(@Param("endDate") LocalDate endDate);
 
     @Query("SELECT new inventory.app.backend.utils.DataRowElement(" +
             "   p.id, " +

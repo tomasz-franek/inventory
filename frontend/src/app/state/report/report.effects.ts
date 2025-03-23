@@ -220,15 +220,13 @@ export class ReportEffects {
     inject(Actions).pipe(
       ofType(retrieveListPurchases),
       mergeMap((action) => {
-        return this._apiService$
-          .getListRecentPurchases(action.days, action.idInventory)
-          .pipe(
-            map((data) => {
-              return retrieveListPurchasesSuccess({
-                purchasesData: data,
-              });
-            })
-          );
+        return this._apiService$.getListRecentPurchases(action.days).pipe(
+          map((data) => {
+            return retrieveListPurchasesSuccess({
+              purchasesData: data,
+            });
+          })
+        );
       }),
       catchError((error: any) => {
         return [retrieveReportDataError({ error })];
