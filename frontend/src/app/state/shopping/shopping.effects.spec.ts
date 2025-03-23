@@ -202,16 +202,22 @@ describe('ShoppingEffects', () => {
         optLock: 1,
       } as Shopping;
       spyOn(apiService, 'createShopping').and.returnValue(of(shopping) as any);
-      actions$ = of(saveShopping({ shopping }));
+      actions$ = hot('-a', {
+        a: saveShopping({ shopping }),
+      });
 
       // when
-      effects.saveShopping$.subscribe((action) => {
+      expect(effects.saveShopping$).toBeObservable(
         // then
-        expect(apiService.createShopping).toHaveBeenCalled();
-        expect(action).toEqual({
-          type: '[Shopping] Save ShoppingSuccess',
-        });
-      });
+        hot('-(bc)', {
+          b: {
+            type: '[Shopping] Save Shopping Success',
+          },
+          c: {
+            type: '[Shopping] Navigate to Shopping List',
+          },
+        })
+      );
     });
 
     it('should dispatch saveShoppingActionSuccess when update Shopping', () => {
@@ -223,16 +229,23 @@ describe('ShoppingEffects', () => {
         optLock: 1,
       } as Shopping;
       spyOn(apiService, 'updateShopping').and.returnValue(of(shopping) as any);
-      actions$ = of(saveShopping({ shopping }));
+
+      actions$ = hot('-a', {
+        a: saveShopping({ shopping }),
+      });
 
       // when
-      effects.saveShopping$.subscribe((action) => {
+      expect(effects.saveShopping$).toBeObservable(
         // then
-        expect(apiService.updateShopping).toHaveBeenCalled();
-        expect(action).toEqual({
-          type: '[Shopping] Save ShoppingSuccess',
-        });
-      });
+        hot('-(bc)', {
+          b: {
+            type: '[Shopping] Save Shopping Success',
+          },
+          c: {
+            type: '[Shopping] Navigate to Shopping List',
+          },
+        })
+      );
     });
 
     it('should dispatch saveShoppingActionError when backend returns error when save Shopping', () => {
@@ -254,7 +267,7 @@ describe('ShoppingEffects', () => {
         // then
         expect(apiService.createShopping).toHaveBeenCalledWith(shopping);
         expect(action).toEqual({
-          type: '[Shopping] Save ShoppingError',
+          type: '[Shopping] Save Shopping Error',
           error,
         });
       });
@@ -278,7 +291,7 @@ describe('ShoppingEffects', () => {
         // then
         expect(apiService.updateShopping).toHaveBeenCalled();
         expect(action).toEqual({
-          type: '[Shopping] Save ShoppingError',
+          type: '[Shopping] Save Shopping Error',
           error,
         });
       });

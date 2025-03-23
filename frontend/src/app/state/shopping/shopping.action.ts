@@ -68,10 +68,10 @@ export const deleteShopping = createAction(
 );
 
 export const saveShoppingActionSuccess = createAction(
-  '[Shopping] Save ShoppingSuccess'
+  '[Shopping] Save Shopping Success'
 );
 export const saveShoppingActionError = createAction(
-  '[Shopping] Save ShoppingError',
+  '[Shopping] Save Shopping Error',
   props<{
     error: HttpErrorResponse;
   }>()
