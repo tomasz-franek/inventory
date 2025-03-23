@@ -24,7 +24,6 @@ import { editShoppingSelector } from '../state/shopping/shopping.selectors';
 import {
   getProductsList,
   ProductState,
-  selectProductById,
 } from '../state/product/product.selectors';
 import { retrieveProductList } from '../state/product/product.action';
 
@@ -60,7 +59,9 @@ export class ShoppingAddComponent implements OnInit {
       count: 0,
       idUnit: 0,
       unitsCheckbox: false,
-      idProduct: 0,
+      productName: '',
+      idProduct: undefined,
+      idShopping: undefined,
     });
   }
 
@@ -73,29 +74,24 @@ export class ShoppingAddComponent implements OnInit {
   }
 
   saveStorage() {
-    this._storeProduct$
-      .select(selectProductById(this._formGroup.value.idProduct))
-      .subscribe((product) => {
-        if (
-          product != undefined &&
-          product.idProduct != undefined &&
-          product.name != undefined
-        ) {
-          const newShopping: Shopping = {
-            idProduct: product.idProduct,
-            name: product.name,
-            items: this._formGroup.value.items,
-            idUnit: this._formGroup.value.unitCheckbox
-              ? this._formGroup.value.idUnit
-              : null,
-            count: this._formGroup.value.unitCheckbox
-              ? this._formGroup.value.count
-              : 0,
-            optLock: 0,
-          };
-          this._storeStorage$.dispatch(saveShopping({ shopping: newShopping }));
-        }
-      });
+    if (this._formGroup.value.idProduct != null) {
+      const count: number = this._formGroup.value.count;
+      const idUnit: number | undefined =
+        Number(this._formGroup.value.idUnit) || undefined;
+      const newShopping: Shopping = {
+        idProduct: Number(this._formGroup.value.idProduct),
+        name: this._formGroup.value.productName,
+        items: this._formGroup.value.items,
+        idUnit: this._formGroup.value.unitsCheckbox ? idUnit : undefined,
+        count: this._formGroup.value.unitsCheckbox ? count : 0,
+        optLock: 0,
+        idShopping:
+          this._formGroup.value.idShopping != undefined
+            ? this._formGroup.value.idShopping
+            : undefined,
+      };
+      this._storeStorage$.dispatch(saveShopping({ shopping: newShopping }));
+    }
   }
 
   ngOnInit(): void {
@@ -106,30 +102,34 @@ export class ShoppingAddComponent implements OnInit {
     this._products$ = this._storeProduct$.select(getProductsList);
 
     if (id === null) {
-      this._formGroup = this.formBuilder.group({
+      this._formGroup.patchValue({
         items: 0,
         count: '',
         idUnit: 0,
         unitsCheckbox: false,
         idProduct: 0,
+        idShopping: undefined,
       });
     } else {
       this._storeUnit$.dispatch(loadShoppingAction({ id: Number(id) }));
       this._storeUnit$.select(editShoppingSelector).subscribe((shopping) => {
-        this._formGroup = this.formBuilder.group({
+        this._formGroup.patchValue({
           items: shopping.items,
           count: shopping.count,
           idUnit: shopping.idUnit,
           unitsCheckbox: shopping.idUnit != undefined && shopping.idUnit > 0,
+          productName: shopping.name,
           idProduct: shopping.idProduct,
+          idShopping: shopping.idShopping,
         });
+        document.getElementById('idProduct')?.setAttribute('disabled', 'true');
       });
     }
+    this.unitsCheckboxChange();
   }
 
   unitsCheckboxChange() {
     if (this._formGroup.value.unitsCheckbox) {
-      console.log('1');
       this._formGroup.get('idUnit')?.enable();
       this._formGroup.get('count')?.enable();
       this._formGroup
@@ -139,7 +139,6 @@ export class ShoppingAddComponent implements OnInit {
         .get('count')
         ?.setValidators([Validators.required, Validators.min(0.0001)]);
     } else {
-      console.log('2');
       this._formGroup.get('idUnit')?.disable();
       this._formGroup.get('count')?.disable();
       this._formGroup.get('idUnit')?.setValidators(null);

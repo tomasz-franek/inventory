@@ -104,7 +104,7 @@ export class ShoppingEffects {
         const shopping = Object.assign({}, action.shopping);
         return this._getCreateOrUpdateObservable(shopping).pipe(
           concatMap(() => {
-            return [saveShoppingActionSuccess()];
+            return [saveShoppingActionSuccess(), navigateToShoppingList()];
           }),
           catchError((error: any) => {
             return [saveShoppingActionError({ error })];
