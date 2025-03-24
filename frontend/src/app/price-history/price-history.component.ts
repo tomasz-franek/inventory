@@ -16,7 +16,6 @@ import {
 } from '../state/report/report.selectors';
 import { AsyncPipe, NgForOf } from '@angular/common';
 import { retrieveProductPriceHistory } from '../state/report/report.action';
-import { chartColorsEnum } from '../../objects/definedValues';
 import {
   CategoryScale,
   Chart,
@@ -28,6 +27,10 @@ import {
   TimeScale,
   Tooltip,
 } from 'chart.js';
+import { EChartsOption } from 'echarts';
+import * as echarts from 'echarts/core';
+import { EChartsType } from 'echarts/core';
+import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 
 Chart.register(
   LinearScale,
@@ -41,7 +44,14 @@ Chart.register(
 );
 @Component({
   selector: 'app-price-history',
-  imports: [ReactiveFormsModule, TranslatePipe, AsyncPipe, NgForOf],
+  imports: [
+    ReactiveFormsModule,
+    TranslatePipe,
+    AsyncPipe,
+    NgForOf,
+    NgxEchartsDirective,
+  ],
+  providers: [provideEchartsCore({ echarts })],
   templateUrl: './price-history.component.html',
   styleUrl: './price-history.component.css',
 })
@@ -59,7 +69,7 @@ export class PriceHistoryComponent implements OnInit {
   protected _products$!: Observable<Product[]>;
   private _storeReport$: Store<ReportState> = inject(Store);
   private config: any = undefined;
-  private chart: Chart | undefined = undefined;
+  public _chart$: EChartsType | undefined = undefined;
 
   private _formGroup: FormGroup;
 
@@ -114,7 +124,9 @@ export class PriceHistoryComponent implements OnInit {
     this.config.options.scales.xAxis.title.text =
       this.translate.instant('DATE');
     let ctx = document.getElementById('chart');
-    this.chart = new Chart(ctx as HTMLCanvasElement, this.config);
+    if (ctx) {
+      this._chart$ = echarts.init(ctx);
+    }
     this._storeProduct$.dispatch(retrieveProductList());
     this._products$ = this._storeProduct$.select(filterProducts);
     this.retrieveReportData();
@@ -137,20 +149,42 @@ export class PriceHistoryComponent implements OnInit {
   }
 
   prepareChart() {
-    const dataset = {
-      label:
-        this.translate.instant('PRODUCT_PRICE') +
-        ' ' +
-        this._formGroup.value.idProduct,
-      steppedLine: 'before',
-      pointRadius: 8,
-      pointHoverRadius: 12,
-      showLine: false,
-      borderColor: chartColorsEnum.green,
-      data: this._chartData$,
+    if (this._chartData$ == undefined) {
+      return;
+    }
+    let chartOption: EChartsOption = {
+      title: {
+        text:
+          this.translate.instant('SUM_VALUES') + ' ' + this.property.currency,
+      },
+      tooltip: {
+        trigger: 'axis',
+      },
+      xAxis: {
+        type: 'category',
+        data: this._chartData$.map(function (item: ProductPriceHistoryData) {
+          return item.operationDate;
+        }),
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      },
+      yAxis: {
+        type: 'value',
+        min: 0,
+      },
+      series: {
+        name: this.translate.instant('SUM_VALUES'),
+        type: 'line',
+        step: 'start',
+        data: this._chartData$.map(function (item: ProductPriceHistoryData) {
+          return item.price;
+        }),
+      },
     };
-    this.config.data.datasets = [];
-    this.config.data.datasets.push(dataset);
-    this.chart?.update();
+    this._chart$?.setOption(chartOption);
   }
 }

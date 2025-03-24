@@ -8,7 +8,7 @@
           <option *ngFor="let product of _products$|async" [ngValue]="product.idProduct">{{ product.name }}</option>
         </select>
       </div>
-      <canvas id="chart" height="300px" width="800px"></canvas>
+      <div echarts id="chart" style="min-width: 800px; min-height: 600px;"></div>
     </div>
   </div>
 </form>
