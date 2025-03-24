@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -51,10 +52,10 @@ export class ManageProductComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      idInventory: [0, [Validators.required, Validators.min(1)]],
-      selectedItems: [0, [Validators.required, Validators.min(1)]],
-      maxSelected: 0,
-      ids: [],
+      idInventory: new FormControl(0, [Validators.required, Validators.min(1)]),
+      selectedItems: new FormControl(0, []),
+      maxSelected: new FormControl(0, []),
+      ids: new FormControl([], []),
     });
   }
 
@@ -65,7 +66,7 @@ export class ManageProductComponent implements OnInit {
     this.items$ = this._storeItem$.select(getItemsWithInventoryList);
   }
 
-  addAllToInventory() {
+  addAllItemsToSelectedInventory() {
     this.items$.subscribe((data) => {
       data.forEach((element) => {
         if (element.idStorage != undefined) {
@@ -87,10 +88,17 @@ export class ManageProductComponent implements OnInit {
       maxSelected: row.ids.length,
       ids: row.ids,
     });
+    this._formGroup.controls['selectedItems'].addValidators([
+      Validators.required,
+      Validators.min(1),
+    ]);
+    this._formGroup.updateValueAndValidity();
   }
 
   backToDashboard() {
     this._formGroup.patchValue({ selectedItems: 0, maxSelected: 0 });
+    this._formGroup.controls['selectedItems'].clearValidators();
+    this._formGroup.updateValueAndValidity();
   }
 
   addItemToInventory() {
