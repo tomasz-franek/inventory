@@ -43,7 +43,8 @@ class ShoppingControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$[0].name").value("Wash powder"));
+                .andExpect(jsonPath("$[0].idProduct").value(1))
+                .andExpect(jsonPath("$[0].idShopping").value(1));
     }
 
     @Test
@@ -54,7 +55,9 @@ class ShoppingControllerTest {
                                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("Wash powder"))
+                .andExpect(jsonPath("$.idShopping").value(1))
+                .andExpect(jsonPath("$.idUnit").value(1))
+                .andExpect(jsonPath("$.idProduct").value(1))
                 .andExpect(jsonPath("$.items").value(2));
     }
 
