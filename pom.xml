@@ -22,7 +22,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 
-        <spring-boot.version>3.3.2</spring-boot.version>
+        <spring-boot.version>3.4.4</spring-boot.version>
         <springdoc.version>1.8.0</springdoc.version>
         <testcontainers.version>1.20.4</testcontainers.version>
     </properties>
