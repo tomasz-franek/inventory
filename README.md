@@ -2,7 +2,10 @@
 
 Application for managing a home goods inventory.
 
-Project under development, version Alfa planned for early April 2025
+## Requirements
+
+    - Angular 19
+    - Java 21
 
 ## Start backend
 
