@@ -1,18 +1,20 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" routerLink="dashboard">{{ 'APPLICATION_NAME' | translate }}</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+  <a class="navbar-brand" routerLink="dashboard">
+    {{ 'APPLICATION_NAME' | translate }}
+  </a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
       <div class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle"
@@ -27,15 +29,14 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="dictionaryDropdown">
           <a class="dropdown-item" routerLink="categories">
-              {{ 'MENU.DICTIONARY.CATEGORIES' | translate }}
-            </a>
+            {{ 'MENU.DICTIONARY.CATEGORIES' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="inventories">
-              {{ 'MENU.DICTIONARY.INVENTORIES' | translate }}
-            </a>
+            {{ 'MENU.DICTIONARY.INVENTORIES' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="products">
-              {{ 'MENU.DICTIONARY.PRODUCTS' | translate }}
-            </a>
-
+            {{ 'MENU.DICTIONARY.PRODUCTS' | translate }}
+          </a>
         </ul>
       </div>
       <div class="nav-item dropdown">
@@ -51,20 +52,20 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="dictionaryDropdown">
           <a class="dropdown-item" routerLink="storages">
-              {{ 'MENU.MANAGEMENT.STORAGES' | translate }}
-            </a>
+            {{ 'MENU.MANAGEMENT.STORAGES' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="manage-product">
-              {{ 'MENU.MANAGEMENT.MANAGE' | translate }}
-            </a>
+            {{ 'MENU.MANAGEMENT.MANAGE' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="manage-inventory">
-              {{ 'MENU.MANAGEMENT.INVENTORY' | translate }}
-            </a>
+            {{ 'MENU.MANAGEMENT.INVENTORY' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="consume-product">
-              {{ 'MENU.MANAGEMENT.CONSUME' | translate }}
-            </a>
+            {{ 'MENU.MANAGEMENT.CONSUME' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="shopping">
-              {{ 'MENU.MANAGEMENT.SHOPPING' | translate }}
-            </a>
+            {{ 'MENU.MANAGEMENT.SHOPPING' | translate }}
+          </a>
         </ul>
       </div>
       <div class="nav-item dropdown">
@@ -80,32 +81,32 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="reportsDropdown">
           <a class="dropdown-item" routerLink="expired-products">
-              {{ 'MENU.REPORTS.EXPIRED' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.EXPIRED' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="last-used">
-              {{ 'MENU.REPORTS.USED' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.USED' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="product-prediction">
-              {{ 'MENU.REPORTS.PREDICTION' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.PREDICTION' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="availability">
-              {{ 'MENU.REPORTS.AVAILABILITY' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.AVAILABILITY' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="next-expired">
-              {{ 'MENU.REPORTS.NEXT_DAY_EXPIRED' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.NEXT_DAY_EXPIRED' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="sum-storage">
-              {{ 'MENU.REPORTS.SUM_VALUES' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.SUM_VALUES' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="value-history">
-              {{ 'MENU.REPORTS.STORAGE_HISTORY' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.STORAGE_HISTORY' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="price-history">
-              {{ 'MENU.REPORTS.PRICE_HISTORY' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.PRICE_HISTORY' | translate }}
+          </a>
           <a class="dropdown-item" routerLink="sum-categories">
-              {{ 'MENU.REPORTS.SUM_CATEGORIES' | translate }}
-            </a>
+            {{ 'MENU.REPORTS.SUM_CATEGORIES' | translate }}
+          </a>
         </ul>
       </div>
       <div class="nav-item dropdown">
@@ -121,10 +122,10 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="propertiesDropdown">
           <a class="dropdown-item" routerLink="user-properties">
-              {{ 'MENU.PROPERTIES.USER_PROPERTIES' | translate }}
+            {{ 'MENU.PROPERTIES.USER_PROPERTIES' | translate }}
           </a>
         </ul>
       </div>
-      </ul>
-    </div>
+    </ul>
+  </div>
 </nav>

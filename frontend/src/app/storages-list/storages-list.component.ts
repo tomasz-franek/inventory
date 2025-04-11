@@ -19,7 +19,6 @@ import {
   filterCategories,
 } from '../state/category/category.selectors';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -188,7 +187,7 @@ export class StoragesListComponent implements OnInit {
   }
 
   public updatedPriceValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
+    return (): ValidationErrors | null => {
       const idProduct = this._formGroup.controls['idProduct'].value;
       const idStorage = this._formGroup.controls['idStorage'].value;
       const price = this._formGroup.controls['price'].value;

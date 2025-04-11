@@ -11,17 +11,15 @@ import {
 } from '../state/product/product.action';
 import { Observable } from 'rxjs';
 import {
-  filterProducts,
   filterProductByCategory,
-  getProductsList,
+  filterProducts,
   ProductState,
 } from '../state/product/product.selectors';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   CategoryState,
-  getCategoriesList,
+  filterCategories,
   selectCategoryById,
-  filterCategories
 } from '../state/category/category.selectors';
 import { retrieveCategoryList } from '../state/category/category.action';
 import { ActiveColor } from '../utils/active-color';

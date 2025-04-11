@@ -1,26 +1,28 @@
 <div class="container">
   <div class="row">
-    <h3><i class="bi bi-clock-history"></i> {{ 'MENU.REPORTS.USED'|translate }}</h3>
+    <h3>
+      <i class="bi bi-clock-history"></i>
+      {{ 'MENU.REPORTS.USED' | translate }}
+    </h3>
   </div>
   <table class="table inventory-table table-striped table-condensed" id="table">
     <thead>
-    <tr>
-      <th class="text-bold text-center">ID</th>
-      <th class="text-bold text-center">
-        {{ 'NAME'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'DATE'|translate }}
-      </th>
-    </tr>
+      <tr>
+        <th class="text-bold text-center">ID</th>
+        <th class="text-bold text-center">
+          {{ 'NAME' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'DATE' | translate }}
+        </th>
+      </tr>
     </thead>
     <tbody>
-
-    <tr *ngFor="let row of items$ | async; let rowNr = index">
-      <td [textContent]="rowNr + 1" class="text-center"></td>
-      <td [textContent]="row.productName" class="text-left"></td>
-      <td [textContent]="row.endDate" class="text-center"></td>
-    </tr>
+      <tr *ngFor="let row of items$ | async; let rowNr = index">
+        <td [textContent]="rowNr + 1" class="text-center"></td>
+        <td [textContent]="row.productName" class="text-left"></td>
+        <td [textContent]="row.endDate" class="text-center"></td>
+      </tr>
     </tbody>
   </table>
 </div>

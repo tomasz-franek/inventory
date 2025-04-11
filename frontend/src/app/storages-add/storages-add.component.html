@@ -62,7 +62,7 @@
             bsDatepicker
             class="form-control"
             placeholder="{{ 'BUY_DATE' | translate }}"
-            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
             type="text"
           />
         </div>
@@ -73,7 +73,7 @@
             bsDatepicker
             class="form-control"
             placeholder="{{ 'VALID_DATE' | translate }}"
-            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD'}"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
             type="text"
           />
         </div>
@@ -111,10 +111,7 @@
         (change)="changeUnit($event)"
       >
         <option [value]="0" selected>{{ 'SELECT' | translate }}</option>
-        <option
-          *ngFor="let unit of units$ | async"
-          [value]="unit.idUnit"
-        >
+        <option *ngFor="let unit of units$ | async" [value]="unit.idUnit">
           {{ unit.name }}
         </option>
       </select>
@@ -150,7 +147,7 @@
               {{ 'MOVE_INVENTORY' | translate }}
             </option>
             <option
-              *ngFor="let inventory of inventories$|async"
+              *ngFor="let inventory of inventories$ | async"
               [value]="inventory.idInventory"
             >
               {{ inventory.name }}

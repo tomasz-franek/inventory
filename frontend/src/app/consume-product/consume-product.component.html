@@ -17,7 +17,7 @@
           {{ 'FILTER' | translate }} {{ 'INVENTORY' | translate }}
         </option>
         <option
-          *ngFor="let filterInventory of _inventories$|async"
+          *ngFor="let filterInventory of _inventories$ | async"
           [value]="filterInventory.idInventory"
         >
           {{ filterInventory.name }}
@@ -53,7 +53,7 @@
           {{ 'FILTER' | translate }} {{ 'PRODUCT' | translate }}
         </option>
         <option
-          *ngFor="let filterProduct of _products$|async"
+          *ngFor="let filterProduct of _products$ | async"
           [value]="filterProduct.idProduct"
         >
           {{ filterProduct.name }}
@@ -76,7 +76,7 @@
         </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let row of _consumeProducts$|async; let rowNr = index">
+        <tr *ngFor="let row of _consumeProducts$ | async; let rowNr = index">
           <td [textContent]="rowNr + 1" class="text-center"></td>
           <td [textContent]="row.productName" class="text-left"></td>
           <td [textContent]="row.insertDate" class="text-center"></td>
@@ -122,99 +122,99 @@
   </div>
   <div class="modal fade" id="consumeProduct">
     <div class="modal-dialog col-6 modal-content">
-        <div class="modal-header">
-          {{ 'MENU.MANAGEMENT.CONSUME' | translate }}
-          <strong class="ms-2">
-            <span
-              [textContent]="getProductName()"
-              id="modalProductName"
-            ></span>
-          </strong>
-          <button
-            aria-label="Close"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            id="closeModal"
-            type="button"
-          ></button>
+      <div class="modal-header">
+        {{ 'MENU.MANAGEMENT.CONSUME' | translate }}
+        <strong class="ms-2">
+          <span [textContent]="getProductName()" id="modalProductName"></span>
+        </strong>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          id="closeModal"
+          type="button"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <label class="col-2">{{ 'END_DATE' | translate }}</label>
+        <div class="row mb-2">
+          <input
+            formControlName="endDate"
+            (bsValueChange)="onChangeEndDate($event)"
+            [bsConfig]="{
+              dateInputFormat: 'YYYY-MM-DD',
+              showTodayButton: true,
+            }"
+            autocomplete="off"
+            bsDatepicker
+            class="form-control"
+            placeholder="{{ 'END_DATE' | translate }}"
+            type="text"
+            [maxDate]="today"
+          />
         </div>
-        <div class="modal-body">
-          <label class="col-2">{{ 'END_DATE' | translate }}</label>
-          <div class="row mb-2">
-            <input
-              formControlName="endDate"
-              (bsValueChange)="onChangeEndDate($event)"
-              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD',showTodayButton:true}"
-              autocomplete="off"
-              bsDatepicker
-              class="form-control"
-              placeholder="{{ 'END_DATE' | translate }}"
-              type="text"
-              [maxDate]="today"
-            />
-          </div>
-          <div class="row">
-            <button
-              (click)="currentDate()"
-              class="btn btn-outline-primary col-2"
-              id="currentDate"
-            >
-              <i class="bi bi-calendar"></i>
-            </button>
-            <button
-              (click)="addDay(-1)"
-              [disabled]="disabledButtonPrevious"
-              class="btn btn-outline-primary col-2 ms-2"
-              id="prevDate"
-            >
-              <i class="bi bi-dash"></i>
-            </button>
-            <button
-              (click)="addDay(1)"
-              [disabled]="disabledButtonNext"
-              class="btn btn-outline-primary col-2 ms-2"
-              id="nextDate"
-            >
-              <i class="bi - bi-plus"></i>
-            </button>
-          </div>
-          <div class="row mb-2">
-            <label class="col-6">
-              {{ 'USED' | translate }}
-              <span [textContent]="formGroup.value.used + '%'"></span>
-            </label>
-            <input
-              (input)="changeValueUsed()"
-              formControlName="used"
-              class="col-6"
-              id="used"
-              max="100"
-              [min]="formGroup.get('sliderMin')||0"
-              name="used"
-              step="1"
-              type="range"
-            />
-          </div>
-        </div>
-        <div class="modal-footer">
+        <div class="row">
           <button
-            class="btn btn-outline-danger me-2"
-            data-bs-dismiss="modal"
-            id="back"
+            (click)="currentDate()"
+            class="btn btn-outline-primary col-2"
+            id="currentDate"
           >
-            <i class="bi bi-arrow-left"></i>
-            {{ 'BACK' | translate }}
+            <i class="bi bi-calendar"></i>
           </button>
           <button
-            (click)="consumeItem()"
-            class="btn btn-outline-primary"
-            data-bs-dismiss="modal"
-            id="consumeButton"
-            [disabled]="formGroup.invalid"
+            (click)="addDay(-1)"
+            [disabled]="disabledButtonPrevious"
+            class="btn btn-outline-primary col-2 ms-2"
+            id="prevDate"
           >
-            {{ 'CONSUME' | translate }}
+            <i class="bi bi-dash"></i>
+          </button>
+          <button
+            (click)="addDay(1)"
+            [disabled]="disabledButtonNext"
+            class="btn btn-outline-primary col-2 ms-2"
+            id="nextDate"
+          >
+            <i class="bi - bi-plus"></i>
           </button>
         </div>
+        <div class="row mb-2">
+          <label class="col-6">
+            {{ 'USED' | translate }}
+            <span [textContent]="formGroup.value.used + '%'"></span>
+          </label>
+          <input
+            (input)="changeValueUsed()"
+            formControlName="used"
+            class="col-6"
+            id="used"
+            max="100"
+            [min]="formGroup.get('sliderMin') || 0"
+            name="used"
+            step="1"
+            type="range"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-outline-danger me-2"
+          data-bs-dismiss="modal"
+          id="back"
+        >
+          <i class="bi bi-arrow-left"></i>
+          {{ 'BACK' | translate }}
+        </button>
+        <button
+          (click)="consumeItem()"
+          class="btn btn-outline-primary"
+          data-bs-dismiss="modal"
+          id="consumeButton"
+          [disabled]="formGroup.invalid"
+        >
+          {{ 'CONSUME' | translate }}
+        </button>
+      </div>
     </div>
   </div>
 </form>

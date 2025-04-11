@@ -17,7 +17,7 @@
           {{ 'FILTER' | translate }} {{ 'CATEGORY' | translate }}
         </option>
         <option
-          *ngFor="let filterCategory of _categories$|async"
+          *ngFor="let filterCategory of _categories$ | async"
           [value]="filterCategory.idCategory"
         >
           {{ filterCategory.name }}
@@ -35,7 +35,7 @@
           {{ 'FILTER' | translate }} {{ 'PRODUCT' | translate }}
         </option>
         <option
-          *ngFor="let filterProduct of _products$ |async"
+          *ngFor="let filterProduct of _products$ | async"
           [value]="filterProduct.idProduct"
         >
           {{ filterProduct.name }}
@@ -43,42 +43,49 @@
       </select>
     </div>
     <div class="col-4">
-      <app-download-file [documentName]="'inventory.pdf'" [title]="'GET_PDF'" [documentType]="PdfReportsEnum.INVENTORY"
-                         [url]="'report/pdf/storage'"></app-download-file>
+      <app-download-file
+        [documentName]="'inventory.pdf'"
+        [title]="'GET_PDF'"
+        [documentType]="PdfReportsEnum.INVENTORY"
+        [url]="'report/pdf/storage'"
+      ></app-download-file>
     </div>
   </div>
-    <table class="table inventory-table table-striped table-condensed">
-      <thead>
-        <tr>
-          <th class="text-bold text-center">ID</th>
-          <th class="text-bold text-center">{{ 'NAME' | translate }}</th>
-          <th class="text-bold text-center">{{ 'ITEMS' | translate }}</th>
-          <th class="text-bold text-center">{{ 'VALID_DATE' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let row of _inventory$|async; let rowNr = index">
-          <td
-            [textContent]="rowNr + 1"
-            style="vertical-align: middle"
-            class="text-center"></td>
-          <td
-            [textContent]="row.productName"
-            style="vertical-align: middle"
-            class="text-left"></td>
-          <td
-            [textContent]="countItems(row.validList)"
-            style="vertical-align: middle"
-            class="text-center"></td>
-          <td class="text-left">
-            <div *ngFor="let valid of row.validList" class="table-condensed">
-              <b><span class="me-3" [textContent]="valid.count"></span></b><span *ngIf="valid.validDate"
-                                                                                 class=" text-center">
-                <span [textContent]="valid.validDate"></span>
-              </span>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <table class="table inventory-table table-striped table-condensed">
+    <thead>
+      <tr>
+        <th class="text-bold text-center">ID</th>
+        <th class="text-bold text-center">{{ 'NAME' | translate }}</th>
+        <th class="text-bold text-center">{{ 'ITEMS' | translate }}</th>
+        <th class="text-bold text-center">{{ 'VALID_DATE' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of _inventory$ | async; let rowNr = index">
+        <td
+          [textContent]="rowNr + 1"
+          style="vertical-align: middle"
+          class="text-center"
+        ></td>
+        <td
+          [textContent]="row.productName"
+          style="vertical-align: middle"
+          class="text-left"
+        ></td>
+        <td
+          [textContent]="countItems(row.validList)"
+          style="vertical-align: middle"
+          class="text-center"
+        ></td>
+        <td class="text-left">
+          <div *ngFor="let valid of row.validList" class="table-condensed">
+            <b><span class="me-3" [textContent]="valid.count"></span></b>
+            <span *ngIf="valid.validDate" class="text-center">
+              <span [textContent]="valid.validDate"></span>
+            </span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </form>

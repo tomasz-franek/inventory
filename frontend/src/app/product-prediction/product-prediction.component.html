@@ -1,48 +1,75 @@
 <form [formGroup]="formGroup">
   <div class="row mb-2">
-    <h3><i class="bi bi-life-preserver"></i> {{ 'MENU.REPORTS.PREDICTION'|translate }}</h3>
+    <h3>
+      <i class="bi bi-life-preserver"></i>
+      {{ 'MENU.REPORTS.PREDICTION' | translate }}
+    </h3>
   </div>
   <div class="row mb-2">
     <div class="col-3">
-      <label class="text-right">{{ 'FILTER'|translate }}</label>
+      <label class="text-right">{{ 'FILTER' | translate }}</label>
     </div>
     <div class="col-3">
-      <select (change)="filterPeriodEvent($event)" formControlName="time" class="form-select" required>
-        <option *ngFor="let period of periods" [value]="period.value">{{ period.label|translate }}</option>
+      <select
+        (change)="filterPeriodEvent($event)"
+        formControlName="time"
+        class="form-select"
+        required
+      >
+        <option *ngFor="let period of periods" [value]="period.value">
+          {{ period.label | translate }}
+        </option>
       </select>
     </div>
   </div>
   <table class="table inventory-table table-striped table-condensed">
     <thead>
-    <tr>
-      <th class="text-bold text-center">ID</th>
-      <th class="text-bold text-center">
-        {{ 'NAME'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'BUY_DATE'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'AVAILABLE'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'AVAILABILITY_DATE'|translate }}
-      </th>
-      <th class="text-bold text-center">{{ 'ACTION'|translate }}</th>
-
-    </tr>
+      <tr>
+        <th class="text-bold text-center">ID</th>
+        <th class="text-bold text-center">
+          {{ 'NAME' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'BUY_DATE' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'AVAILABLE' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'AVAILABILITY_DATE' | translate }}
+        </th>
+        <th class="text-bold text-center">{{ 'ACTION' | translate }}</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let row of predictions$|async; let rowNr = index" [ngStyle]="{'background-color':rowColor(row)}">
-      <td [textContent]="rowNr + 1" class="text-center"></td>
-      <td [textContent]="row.productName" class="text-left"></td>
-      <td [textContent]="row.minimalProductBuyingDate" class="text-center"></td>
-      <td [textContent]="row.available | number:'1.2-2'" class="text-center"></td>
-      <td [textContent]="row.predictedAvailabilityDate| date:'yyyy-MM-dd'" class="text-center"></td>
-      <td class="text-center">
-        <button (click)="addToShopping(row)" class="btn btn-outline-primary"
-                title="{{'MENU.MANAGEMENT.SHOPPING'|translate}}"><i class="bi bi-basket"></i></button>
-      </td>
-    </tr>
+      <tr
+        *ngFor="let row of predictions$ | async; let rowNr = index"
+        [ngStyle]="{ 'background-color': rowColor(row) }"
+      >
+        <td [textContent]="rowNr + 1" class="text-center"></td>
+        <td [textContent]="row.productName" class="text-left"></td>
+        <td
+          [textContent]="row.minimalProductBuyingDate"
+          class="text-center"
+        ></td>
+        <td
+          [textContent]="row.available | number: '1.2-2'"
+          class="text-center"
+        ></td>
+        <td
+          [textContent]="row.predictedAvailabilityDate | date: 'yyyy-MM-dd'"
+          class="text-center"
+        ></td>
+        <td class="text-center">
+          <button
+            (click)="addToShopping(row)"
+            class="btn btn-outline-primary"
+            title="{{ 'MENU.MANAGEMENT.SHOPPING' | translate }}"
+          >
+            <i class="bi bi-basket"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </form>

@@ -86,7 +86,7 @@ export class ShoppingEffects {
       ofType(deleteShopping),
       mergeMap((action: any) => {
         return this._apiService$.deleteShopping(action.idShopping).pipe(
-          concatMap((data) => {
+          concatMap(() => {
             return [deleteShoppingActionSuccess(), retrieveShoppingList()];
           })
         );

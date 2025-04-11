@@ -95,7 +95,7 @@ export const reportReducer = createReducer(
       ),
     };
   }),
-  on(selectValidInventoryByCategoryAndProduct, (state, action): ReportState => {
+  on(selectValidInventoryByCategoryAndProduct, (state): ReportState => {
     return {
       ...state,
       selectedValidInventory: state.validInventory.filter(

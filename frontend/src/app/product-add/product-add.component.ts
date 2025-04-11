@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -70,7 +69,7 @@ export class ProductAddComponent implements OnInit {
   }
 
   public limitsValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
+    return (): ValidationErrors | null => {
       const controlMin = this._formGroup.controls['limitMin'].value;
       const controlMed = this._formGroup.controls['limitMed'].value;
       const controlMax = this._formGroup.controls['limitMax'].value;
@@ -106,7 +105,7 @@ export class ProductAddComponent implements OnInit {
     this._storeCategory$.select(getCategoriesList);
     const id = this.routerId;
     if (id === null) {
-      this._storeProduct$.select(newProductSelector).subscribe((product) => {
+      this._storeProduct$.select(newProductSelector).subscribe(() => {
         this._formGroup.patchValue({
           id: undefined,
           name: '',

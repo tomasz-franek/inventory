@@ -237,7 +237,7 @@ export class ReportEffects {
   loadValidInventoryData$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(retrieveValidInventoryData),
-      mergeMap((action) => {
+      mergeMap(() => {
         return this._apiService$.getValidInventoryReport().pipe(
           map((data) => {
             return retrieveValidInventorySuccess({
@@ -254,7 +254,7 @@ export class ReportEffects {
   loadReportPdfShopping$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(retrieveReportPdfShopping),
-      mergeMap((action) => {
+      mergeMap(() => {
         return this._apiService$.reportPdfShopping().pipe(
           map((data) => {
             return reportPdfDownloadSuccess({
@@ -271,7 +271,7 @@ export class ReportEffects {
   loadReportPdfExpired$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(retrieveReportPdfExpired),
-      mergeMap((action) => {
+      mergeMap(() => {
         return this._apiService$.reportPdfExpired().pipe(
           map((data) => {
             return reportPdfDownloadSuccess({
@@ -288,7 +288,7 @@ export class ReportEffects {
   loadReportPdfInventory$ = createEffect(() =>
     inject(Actions).pipe(
       ofType(retrieveReportPdfInventory),
-      mergeMap((action) => {
+      mergeMap(() => {
         return this._apiService$.reportPdfInventory().pipe(
           map((data) => {
             return reportPdfDownloadSuccess({

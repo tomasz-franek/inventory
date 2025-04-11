@@ -1,40 +1,63 @@
 <form [formGroup]="formGroup">
   <div class="row">
-    <h3><i class="bi bi-clock-history"></i> {{ 'MENU.REPORTS.NEXT_DAY_EXPIRED'|translate }}</h3>
+    <h3>
+      <i class="bi bi-clock-history"></i>
+      {{ 'MENU.REPORTS.NEXT_DAY_EXPIRED' | translate }}
+    </h3>
   </div>
   <div class="col-3 mb-2">
-    <select (change)="updateDays()" formControlName="days" class="form-select" id="days">
-      <option *ngFor="let period of periods" [value]="period.value">{{ period.label|translate }}</option>
+    <select
+      (change)="updateDays()"
+      formControlName="days"
+      class="form-select"
+      id="days"
+    >
+      <option *ngFor="let period of periods" [value]="period.value">
+        {{ period.label | translate }}
+      </option>
     </select>
   </div>
   <table class="table inventory-table table-striped table-condensed" id="table">
     <thead>
-    <tr>
-      <th class="text-bold text-center">ID</th>
-      <th class="text-bold text-center">
-        {{ 'INVENTORY'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'NAME'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'VALID_DATE'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'USED'|translate }}
-      </th>
-    </tr>
+      <tr>
+        <th class="text-bold text-center">ID</th>
+        <th class="text-bold text-center">
+          {{ 'INVENTORY' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'NAME' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'VALID_DATE' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'USED' | translate }}
+        </th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let row of items$ |async; let rowNr = index">
-      <td [textContent]="rowNr + 1" class="text-center"></td>
-      <td [textContent]="row.inventoryName" style="vertical-align: middle" class="text-center"></td>
-      <td [textContent]="row.productName" style="vertical-align: middle" class="text-center"></td>
-      <td [textContent]="row.validDate" style="vertical-align: middle" class="text-center"></td>
-      <td class="text-center">{{ row.used| number:'1.2-2' }} %
-        <progress max="100" value="{{row.used}}"></progress>
-      </td>
-    </tr>
+      <tr *ngFor="let row of items$ | async; let rowNr = index">
+        <td [textContent]="rowNr + 1" class="text-center"></td>
+        <td
+          [textContent]="row.inventoryName"
+          style="vertical-align: middle"
+          class="text-center"
+        ></td>
+        <td
+          [textContent]="row.productName"
+          style="vertical-align: middle"
+          class="text-center"
+        ></td>
+        <td
+          [textContent]="row.validDate"
+          style="vertical-align: middle"
+          class="text-center"
+        ></td>
+        <td class="text-center">
+          {{ row.used | number: '1.2-2' }} %
+          <progress max="100" value="{{ row.used }}"></progress>
+        </td>
+      </tr>
     </tbody>
   </table>
 </form>

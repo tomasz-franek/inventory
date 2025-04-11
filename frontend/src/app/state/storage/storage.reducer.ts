@@ -52,7 +52,7 @@ export const storageReducer = createReducer(
       selectedStorages: action.storages,
     };
   }),
-  on(selectStorageByCategoryAndProduct, (state, action): any => {
+  on(selectStorageByCategoryAndProduct, (state): any => {
     return {
       ...state,
       selectedStorages: state.storages.filter(
@@ -85,7 +85,7 @@ export const storageReducer = createReducer(
   on(setStorageUnitId, (state, action): any => {
     return { ...state, selectedUnitId: action.idUnit };
   }),
-  on(saveStorageActionSuccess, (state, action): any => {
+  on(saveStorageActionSuccess, (state): any => {
     return { ...state };
   })
 );

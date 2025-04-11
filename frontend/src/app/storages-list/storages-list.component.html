@@ -108,7 +108,7 @@
             <span
               id="productName"
               [ngClass]="ActiveColor.activeTextColor(row.used < 100)"
-              [textContent]="(getProductName(row.idProduct)|async)?.name"
+              [textContent]="(getProductName(row.idProduct) | async)?.name"
             ></span>
           </td>
           <td [textContent]="row.insertDate" class="text-center"></td>
@@ -141,52 +141,56 @@
 
   <div class="modal fade" id="editStorage">
     <div class="modal-dialog modal-content col-3">
-        <div class="modal-header">
-          {{ 'EDIT' | translate }}&nbsp;
-          <strong>
-            <span id="name" [textContent]="formGroup.get('productName')?.value"></span>
-          </strong>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
+      <div class="modal-header">
+        {{ 'EDIT' | translate }}&nbsp;
+        <strong>
+          <span
+            id="name"
+            [textContent]="formGroup.get('productName')?.value"
+          ></span>
+        </strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
 
-        <div class="modal-body">
-          <div class="row">
-            <label class="col-2">{{ 'PRICE' | translate }}</label>
-            <input
-              formControlName="price"
-              (change)="updatePrice($event)"
-              class="form-control"
-              id="price"
-              type="number"
-              min="0.01"
-              name="price"
-              placeholder="{{ 'PRICE' | translate }}"
-              step="0.01"
-            />
-          </div>
-          <div class="modal-footer">
-            <button
-              (click)="clearEditStore()"
-              class="btn btn-outline-danger"
-              data-bs-dismiss="modal"
-            >
-              <i class="bi bi-arrow-left"></i>
-              {{ 'BACK' | translate }}
-            </button>
-            <button
-              class="btn btn-outline-primary"
-              data-bs-dismiss="modal"
-              (click)="updateStorage()"
-              [disabled]="formGroup.invalid">
-              {{ 'SAVE' | translate }}
-            </button>
-          </div>
+      <div class="modal-body">
+        <div class="row">
+          <label class="col-2">{{ 'PRICE' | translate }}</label>
+          <input
+            formControlName="price"
+            (change)="updatePrice($event)"
+            class="form-control"
+            id="price"
+            type="number"
+            min="0.01"
+            name="price"
+            placeholder="{{ 'PRICE' | translate }}"
+            step="0.01"
+          />
         </div>
+        <div class="modal-footer">
+          <button
+            (click)="clearEditStore()"
+            class="btn btn-outline-danger"
+            data-bs-dismiss="modal"
+          >
+            <i class="bi bi-arrow-left"></i>
+            {{ 'BACK' | translate }}
+          </button>
+          <button
+            class="btn btn-outline-primary"
+            data-bs-dismiss="modal"
+            (click)="updateStorage()"
+            [disabled]="formGroup.invalid"
+          >
+            {{ 'SAVE' | translate }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </form>

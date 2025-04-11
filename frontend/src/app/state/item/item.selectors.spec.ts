@@ -34,7 +34,6 @@ describe('ItemSelectors', () => {
       inventoryName: 'inventoryName2',
     },
   ];
-  let mock = { idInventory: 103, name: 'name21' } as Item;
   let initialState = {
     items: mockItems,
     itemsWithoutInventoryList: mockStorageItems,

@@ -1,3 +1,9 @@
-<button (click)="getPdf()" class="ms-2 btn btn-default btn-outline-primary" id="getPdf"
-        title="{{title|translate}}"><i class="bi bi-download me-2"></i> {{title|translate}}
+<button
+  (click)="getPdf()"
+  class="ms-2 btn btn-default btn-outline-primary"
+  id="getPdf"
+  title="{{ title | translate }}"
+>
+  <i class="bi bi-download me-2"></i>
+  {{ title | translate }}
 </button>

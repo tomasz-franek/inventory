@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   AsyncPipe,
@@ -43,7 +43,7 @@ import { saveShopping } from '../state/shopping/shopping.action';
   templateUrl: './product-prediction.component.html',
   styleUrl: './product-prediction.component.css',
 })
-export class ProductPredictionComponent {
+export class ProductPredictionComponent implements OnInit {
   public predictions$!: Observable<ProductPredictionData[]>;
   private _storeReport$: Store<ReportState> = inject(Store);
   private _storeShopping$: Store<ShoppingState> = inject(Store);

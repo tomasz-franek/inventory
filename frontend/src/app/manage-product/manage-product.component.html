@@ -14,7 +14,7 @@
     >
       <option [value]="0">{{ 'SELECT' | translate }}</option>
       <option
-        *ngFor="let inventory of inventories$|async"
+        *ngFor="let inventory of inventories$ | async"
         [value]="inventory.idInventory"
       >
         {{ inventory.name }}
@@ -32,32 +32,32 @@
   <div>
     <table class="table inventory-table table-striped table-condensed">
       <thead>
-      <tr>
-        <th class="text-bold text-center">ID</th>
-        <th class="text-bold text-center">{{ 'NAME' | translate }}</th>
-        <th class="text-bold text-center">{{ 'ITEMS' | translate }}</th>
-        <th class="text-bold text-center">{{ 'ACTION' | translate }}</th>
-      </tr>
+        <tr>
+          <th class="text-bold text-center">ID</th>
+          <th class="text-bold text-center">{{ 'NAME' | translate }}</th>
+          <th class="text-bold text-center">{{ 'ITEMS' | translate }}</th>
+          <th class="text-bold text-center">{{ 'ACTION' | translate }}</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let row of items$ | async; let rowNr = index">
-        <td [textContent]="rowNr + 1" class="text-center"></td>
-        <td [textContent]="row.productName" class="text-left"></td>
-        <td [textContent]="row.ids.length" class="text-center"></td>
-        <td class="text-center">
-          <button
-            (click)="selectItemRow(row)"
-            class="btn btn-outline-primary"
-            data-bs-target="#move-inventory"
-            id="edit"
-            data-bs-toggle="modal"
-            title="{{ 'EDIT' | translate }}"
-          >
-            <i class="bi-pencil"></i>
-            {{ 'EDIT' | translate }}
-          </button>
-        </td>
-      </tr>
+        <tr *ngFor="let row of items$ | async; let rowNr = index">
+          <td [textContent]="rowNr + 1" class="text-center"></td>
+          <td [textContent]="row.productName" class="text-left"></td>
+          <td [textContent]="row.ids.length" class="text-center"></td>
+          <td class="text-center">
+            <button
+              (click)="selectItemRow(row)"
+              class="btn btn-outline-primary"
+              data-bs-target="#move-inventory"
+              id="edit"
+              data-bs-toggle="modal"
+              title="{{ 'EDIT' | translate }}"
+            >
+              <i class="bi-pencil"></i>
+              {{ 'EDIT' | translate }}
+            </button>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -86,7 +86,7 @@
           >
             <option [value]="0">{{ 'SELECT' | translate }}</option>
             <option
-              *ngFor="let inventory of inventories$|async"
+              *ngFor="let inventory of inventories$ | async"
               [value]="inventory.idInventory"
             >
               {{ inventory.name }}
@@ -95,7 +95,9 @@
           <div class="row">
             <label class="col-3 mb-2">
               {{ 'ITEMS' | translate }}
-              <span [textContent]="formGroup.get('selectedItems')?.value"></span>
+              <span
+                [textContent]="formGroup.get('selectedItems')?.value"
+              ></span>
             </label>
             <input
               formControlName="selectedItems"

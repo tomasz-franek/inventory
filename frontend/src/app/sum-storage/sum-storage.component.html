@@ -1,80 +1,118 @@
 <form [formGroup]="formGroup">
   <div class="row">
-    <h3><i class="bi bi-emoji-neutral"></i> {{ 'MENU.REPORTS.SUM_VALUES'|translate }}</h3>
+    <h3>
+      <i class="bi bi-emoji-neutral"></i>
+      {{ 'MENU.REPORTS.SUM_VALUES' | translate }}
+    </h3>
   </div>
   <div class="row mb-2">
     <div class="col-3">
-      <select (change)="updateCategory()" formControlName="idCategory" class="form-select" id="category">
-        <option [value]="0">{{ 'FILTER'|translate }} {{ 'CATEGORY'|translate }}</option>
-        <option *ngFor="let filterCategory of _categories$ |async "
-                [value]="filterCategory.idCategory">{{ filterCategory.name }}
+      <select
+        (change)="updateCategory()"
+        formControlName="idCategory"
+        class="form-select"
+        id="category"
+      >
+        <option [value]="0">
+          {{ 'FILTER' | translate }} {{ 'CATEGORY' | translate }}
+        </option>
+        <option
+          *ngFor="let filterCategory of _categories$ | async"
+          [value]="filterCategory.idCategory"
+        >
+          {{ filterCategory.name }}
         </option>
       </select>
     </div>
 
     <div class="col-3">
-      <select (change)="updateListProducts()" formControlName="idProduct" class="form-select" id="product">
-        <option [value]="0">{{ 'FILTER'|translate }} {{ 'PRODUCT'|translate }}</option>
-        <option *ngFor="let filterProduct of _products$ | async"
-                [value]="filterProduct.idProduct">{{ filterProduct.name }}
+      <select
+        (change)="updateListProducts()"
+        formControlName="idProduct"
+        class="form-select"
+        id="product"
+      >
+        <option [value]="0">
+          {{ 'FILTER' | translate }} {{ 'PRODUCT' | translate }}
+        </option>
+        <option
+          *ngFor="let filterProduct of _products$ | async"
+          [value]="filterProduct.idProduct"
+        >
+          {{ filterProduct.name }}
         </option>
       </select>
     </div>
   </div>
   <table class="table inventory-table table-striped table-condensed" id="table">
     <thead>
-    <tr>
-      <th class="text-bold text-center">ID</th>
-      <th class="text-bold text-center">
-        {{ 'NAME'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'ITEMS'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'PRICE'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'USED'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'TOTAL_PRICE'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'USED_PRICE'|translate }}
-      </th>
-      <th class="text-bold text-center">
-        {{ 'NOT_USED_PRICE'|translate }}
-      </th>
-    </tr>
+      <tr>
+        <th class="text-bold text-center">ID</th>
+        <th class="text-bold text-center">
+          {{ 'NAME' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'ITEMS' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'PRICE' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'USED' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'TOTAL_PRICE' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'USED_PRICE' | translate }}
+        </th>
+        <th class="text-bold text-center">
+          {{ 'NOT_USED_PRICE' | translate }}
+        </th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let row of _storages$; let rowNr = index">
-      <td [textContent]="rowNr + 1" class="text-center"></td>
-      <td class="text-left"><span [ngClass]="ActiveColor.fullUsedColor(row.used)"
-                                  [textContent]="row.productName"></span></td>
-      <td [textContent]="row.items" class="text-center"></td>
-      <td class="text-center"> {{ row.price | number :'1.2-2' }} {{ property.currency }}</td>
-      <td class="text-center" style="alignment: center">
-        <span> {{ row.used | number: '1.2-2' }}% </span>
-        <progress max="100" value="{{row.used}}"></progress>
-      </td>
-      <td class="text-right">{{ row.totalPrice | number : '1.2-2' }} {{ property.currency }}</td>
-      <td class="text-right">{{ row.usedPrice | number : '1.2-2' }} {{ property.currency }}</td>
-      <td class="text-right">{{ row.notUsedPrice | number : '1.2-2' }} {{ property.currency }}</td>
-    </tr>
-    <tr>
-      <td class="text-right text-bold" colspan="5">Sum :</td>
-      <td class="text-right text-right text-bold">{{ sum('totalPrice') | number: '1.2-2' }}
-        {{ property.currency }}
-      </td>
-      <td class="text-right text-right text-bold">{{ sum('usedPrice') | number: '1.2-2' }}
-        {{ property.currency }}
-      </td>
-      <td class="text-right text-right text-bold">{{ sum('notUsedPrice') | number: '1.2-2' }}
-        {{ property.currency }}
-      </td>
-    </tr>
+      <tr *ngFor="let row of _storages$; let rowNr = index">
+        <td [textContent]="rowNr + 1" class="text-center"></td>
+        <td class="text-left">
+          <span
+            [ngClass]="ActiveColor.fullUsedColor(row.used)"
+            [textContent]="row.productName"
+          ></span>
+        </td>
+        <td [textContent]="row.items" class="text-center"></td>
+        <td class="text-center">
+          {{ row.price | number: '1.2-2' }} {{ property.currency }}
+        </td>
+        <td class="text-center" style="alignment: center">
+          <span>{{ row.used | number: '1.2-2' }}%</span>
+          <progress max="100" value="{{ row.used }}"></progress>
+        </td>
+        <td class="text-right">
+          {{ row.totalPrice | number: '1.2-2' }} {{ property.currency }}
+        </td>
+        <td class="text-right">
+          {{ row.usedPrice | number: '1.2-2' }} {{ property.currency }}
+        </td>
+        <td class="text-right">
+          {{ row.notUsedPrice | number: '1.2-2' }} {{ property.currency }}
+        </td>
+      </tr>
+      <tr>
+        <td class="text-right text-bold" colspan="5">Sum :</td>
+        <td class="text-right text-right text-bold">
+          {{ sum('totalPrice') | number: '1.2-2' }}
+          {{ property.currency }}
+        </td>
+        <td class="text-right text-right text-bold">
+          {{ sum('usedPrice') | number: '1.2-2' }}
+          {{ property.currency }}
+        </td>
+        <td class="text-right text-right text-bold">
+          {{ sum('notUsedPrice') | number: '1.2-2' }}
+          {{ property.currency }}
+        </td>
+      </tr>
     </tbody>
   </table>
 </form>
