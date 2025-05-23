@@ -48,8 +48,6 @@ export const appConfig: ApplicationConfig = {
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
       connectInZone: true, // If set to true, the connection is established within the Angular zone
     }),
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(),
     provideTranslateService({
       loader: {
         provide: TranslateLoader,
