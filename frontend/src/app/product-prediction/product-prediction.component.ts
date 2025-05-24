@@ -12,6 +12,7 @@ import { ProductPredictionData, Shopping } from '../api';
 import { Observable } from 'rxjs';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -53,8 +54,8 @@ export class ProductPredictionComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      period: reportPeriods[0].value,
-      time: 60,
+      period: new FormControl(reportPeriods[0].value, []),
+      time: new FormControl(60, []),
     });
   }
 
@@ -70,9 +71,9 @@ export class ProductPredictionComponent implements OnInit {
   }
 
   filterPeriodEvent($event: any) {
-    this._formGroup.value.time = $event.target.value || 60;
+    this._formGroup.patchValue({ time: $event.target.value || 60 });
     this._storeReport$.dispatch(
-      filterProductPrediction({ days: this._formGroup.value.time })
+      filterProductPrediction({ days: this._formGroup.get('time')?.value })
     );
     this.filterPeriod();
   }

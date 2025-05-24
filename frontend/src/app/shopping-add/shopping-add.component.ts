@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -55,13 +56,13 @@ export class ShoppingAddComponent implements OnInit {
   ) {
     this.placeholder = this.translate.instant('ADD_TAG');
     this._formGroup = this.formBuilder.group({
-      items: [0, [Validators.required, Validators.min(1)]],
-      count: 0,
-      idUnit: 0,
-      unitsCheckbox: false,
-      productName: '',
-      idProduct: undefined,
-      idShopping: undefined,
+      items: new FormControl(0, [Validators.required, Validators.min(1)]),
+      count: new FormControl(0, []),
+      idUnit: new FormControl(0, []),
+      unitsCheckbox: new FormControl(false, []),
+      productName: new FormControl('', []),
+      idProduct: new FormControl(undefined, []),
+      idShopping: new FormControl(undefined, []),
     });
   }
 
@@ -74,20 +75,22 @@ export class ShoppingAddComponent implements OnInit {
   }
 
   saveStorage() {
-    if (this._formGroup.value.idProduct != null) {
-      const count: number = this._formGroup.value.count;
+    if (this._formGroup.get('idProduct')?.value != null) {
+      const count: number = this._formGroup.get('count')?.value;
       const idUnit: number | undefined =
-        Number(this._formGroup.value.idUnit) || undefined;
+        Number(this._formGroup.get('idUnit')?.value) || undefined;
       const newShopping: Shopping = {
-        idProduct: Number(this._formGroup.value.idProduct),
-        name: this._formGroup.value.productName,
-        items: this._formGroup.value.items,
-        idUnit: this._formGroup.value.unitsCheckbox ? idUnit : undefined,
-        count: this._formGroup.value.unitsCheckbox ? count : 0,
+        idProduct: Number(this._formGroup.get('idProduct')?.value),
+        name: this._formGroup.get('productName')?.value,
+        items: this._formGroup.get('items')?.value,
+        idUnit: this._formGroup.get('unitsCheckbox')?.value
+          ? idUnit
+          : undefined,
+        count: this._formGroup.get('unitsCheckbox')?.value ? count : 0,
         optLock: 0,
         idShopping:
-          this._formGroup.value.idShopping != undefined
-            ? this._formGroup.value.idShopping
+          this._formGroup.get('idShopping')?.value != undefined
+            ? this._formGroup.get('idShopping')?.value
             : undefined,
       };
       this._storeStorage$.dispatch(saveShopping({ shopping: newShopping }));
@@ -129,7 +132,7 @@ export class ShoppingAddComponent implements OnInit {
   }
 
   unitsCheckboxChange() {
-    if (this._formGroup.value.unitsCheckbox) {
+    if (this._formGroup.get('unitsCheckbox')?.value) {
       this._formGroup.get('idUnit')?.enable();
       this._formGroup.get('count')?.enable();
       this._formGroup

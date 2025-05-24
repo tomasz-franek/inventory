@@ -4,6 +4,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Category } from '../api';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -38,10 +39,10 @@ export class CategoryAddComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this._formGroup = this.formBuilder.group({
-      name: ['', Validators.required],
-      active: [1, Validators.required],
-      id: [],
-      optLock: [],
+      name: new FormControl('', [Validators.required]),
+      active: new FormControl(1, [Validators.required]),
+      id: new FormControl(null, []),
+      optLock: new FormControl(null, []),
     });
   }
 
@@ -51,10 +52,10 @@ export class CategoryAddComponent implements OnInit {
       this._storeCategory$.select(newCategorySelector).subscribe((category) => {
         this.category$ = category;
         this._formGroup = this.formBuilder.group({
-          id: undefined,
-          name: ['', Validators.required],
-          active: [true, Validators.required],
-          optLock: [0],
+          id: new FormControl(undefined, []),
+          name: new FormControl('', [Validators.required]),
+          active: new FormControl(true, [Validators.required]),
+          optLock: new FormControl(0, [Validators.required]),
         });
       });
     } else {
@@ -64,10 +65,12 @@ export class CategoryAddComponent implements OnInit {
         .subscribe((category) => {
           this.category$ = category;
           this._formGroup = this.formBuilder.group({
-            id: this.category$.idCategory,
-            name: [this.category$.name, Validators.required],
-            active: [this.category$.active, Validators.required],
-            optLock: [this.category$.optLock],
+            id: new FormControl(this.category$.idCategory, []),
+            name: new FormControl(this.category$.name, [Validators.required]),
+            active: new FormControl(this.category$.active, [
+              Validators.required,
+            ]),
+            optLock: new FormControl(this.category$.optLock, []),
           });
         });
     }
@@ -84,10 +87,10 @@ export class CategoryAddComponent implements OnInit {
   save() {
     const updatedCategory: Category = {
       ...this.category$,
-      name: this._formGroup.value.name,
-      active: this._formGroup.value.active,
+      name: this._formGroup.get('name')?.value,
+      active: this._formGroup.get('active')?.value,
     };
-    if (this._formGroup.value.id !== undefined) {
+    if (this._formGroup.get('id')?.value !== undefined) {
       this._storeCategory$.dispatch(
         saveCategory({ category: updatedCategory })
       );

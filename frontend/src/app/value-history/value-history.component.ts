@@ -1,5 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { reportPeriods } from '../../objects/definedValues';
 import * as echarts from 'echarts/core';
@@ -50,7 +55,7 @@ export class ValueHistoryComponent implements OnInit {
     private translate: TranslateService
   ) {
     this._formGroup = this.formBuilder.group({
-      days: this.days,
+      days: new FormControl(this.days, []),
     });
   }
 

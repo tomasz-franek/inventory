@@ -1,7 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AsyncPipe, DecimalPipe, NgForOf } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { reportPeriods } from '../../objects/definedValues';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -34,7 +39,7 @@ export class NextDaysExpiredComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      days: this.days,
+      days: new FormControl(this.days, []),
     });
   }
 
@@ -48,7 +53,7 @@ export class NextDaysExpiredComponent implements OnInit {
 
   updateDays() {
     this._storeReport$.dispatch(
-      retrieveNexDaysExpiredData({ days: this._formGroup.value.days })
+      retrieveNexDaysExpiredData({ days: this._formGroup.get('days')?.value })
     );
     this.items$ = this._storeReport$.select(getNextDaysExpiredList);
     // this.startProgress();

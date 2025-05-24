@@ -73,7 +73,7 @@ export class ManageProductComponent implements OnInit {
           element.ids.forEach((idItem) => {
             this.updateInventoryNumber(
               idItem,
-              this._formGroup.value.idInventory
+              this._formGroup.get('idInventory')?.value
             );
           });
         }
@@ -103,14 +103,14 @@ export class ManageProductComponent implements OnInit {
 
   addItemToInventory() {
     if (
-      this._formGroup.value.idInventory > 0 &&
-      this._formGroup.value.selectedItems <=
-        this._formGroup.value.maxSelected &&
-      this._formGroup.value.selectedItems > 0
+      this._formGroup.get('idInventory')?.value > 0 &&
+      this._formGroup.get('selectedItems')?.value <=
+        this._formGroup.get('maxSelected')?.value &&
+      this._formGroup.get('selectedItems')?.value > 0
     ) {
-      for (let i = 0; i < this._formGroup.value.selectedItems; i++) {
+      for (let i = 0; i < this._formGroup.get('selectedItems')?.value; i++) {
         this.updateInventoryNumber(
-          this._formGroup.value.ids[i],
+          this._formGroup.get('ids')?.value[i],
           this.formGroup.value.idInventory
         );
       }

@@ -10,6 +10,7 @@ import {
 } from '../api';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -110,17 +111,17 @@ export class StoragesAddComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      idStorage: 0,
-      idProduct: [0, [Validators.required, Validators.min(1)]],
-      idCategory: 0,
-      idUnit: null,
-      buyDate: [null, [Validators.required]],
-      validDate: null,
-      count: 0,
-      items: ['', [Validators.required, Validators.min(1)]],
-      idInventory: 0,
-      price: 0,
-      unitsCheckbox: false,
+      idStorage: new FormControl(0, []),
+      idProduct: new FormControl(0, [Validators.required, Validators.min(1)]),
+      idCategory: new FormControl(0, []),
+      idUnit: new FormControl(null, []),
+      buyDate: new FormControl(null, [Validators.required]),
+      validDate: new FormControl(null, []),
+      count: new FormControl(0, []),
+      items: new FormControl('', [Validators.required, Validators.min(1)]),
+      idInventory: new FormControl(0, []),
+      price: new FormControl(0, []),
+      unitsCheckbox: new FormControl(false, []),
     });
   }
 
@@ -233,27 +234,31 @@ export class StoragesAddComponent implements OnInit {
 
   saveStorageActon(update: boolean) {
     let insertDate = formatDate(
-      this._formGroup.value.buyDate,
+      this._formGroup.get('buyDate')?.value,
       'yyyy-MM-dd',
       'en-US'
     );
     let validDate =
-      this._formGroup.value.validDate !== undefined
-        ? formatDate(this._formGroup.value.validDate, 'yyyy-MM-dd', 'en-US')
+      this._formGroup.get('validDate')?.value !== undefined
+        ? formatDate(
+            this._formGroup.get('validDate')?.value,
+            'yyyy-MM-dd',
+            'en-US'
+          )
         : undefined;
     const newStorage: Storage = {
-      idProduct: this._formGroup.value.idProduct,
+      idProduct: this._formGroup.get('idProduct')?.value,
       insertDate: insertDate,
       validDate: validDate,
-      items: this._formGroup.value.items,
-      count: this._formGroup.value.count,
-      idUnit: this._formGroup.value.idUnit,
+      items: this._formGroup.get('items')?.value,
+      count: this._formGroup.get('count')?.value,
+      idUnit: this._formGroup.get('idUnit')?.value,
       idInventory:
-        this.formGroup.value.idInventory > 0
-          ? this._formGroup.value.idInventory
+        this.formGroup.get('idInventory')?.value > 0
+          ? this._formGroup.get('idInventory')?.value
           : undefined,
       optLock: 0,
-      price: this._formGroup.value.price,
+      price: this._formGroup.get('price')?.value,
       used: 0,
     };
     this._storeStorage$.dispatch(saveStorage({ storage: newStorage }));

@@ -23,7 +23,12 @@ import {
 } from '../state/category/category.selectors';
 import { retrieveCategoryList } from '../state/category/category.action';
 import { ActiveColor } from '../utils/active-color';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -44,9 +49,9 @@ export class ProductListComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this._formGroup = this.formBuilder.group({
-      categories: [],
-      idCategory: 0,
-      onlyActive: true,
+      categories: new FormControl('', []),
+      idCategory: new FormControl(0, []),
+      onlyActive: new FormControl(true, []),
     });
   }
 
@@ -61,7 +66,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     this._storeProduct$.dispatch(retrieveProductList());
     this._storeProduct$.dispatch(
-      setActiveProduct({ active: this._formGroup.value.onlyActive })
+      setActiveProduct({ active: this._formGroup.get('onlyActive')?.value })
     );
     this.products$ = this._storeProduct$.select(filterProducts);
     this._storeCategory$.dispatch(retrieveCategoryList());
@@ -82,7 +87,7 @@ export class ProductListComponent implements OnInit {
   filterActive($event: any) {
     this._formGroup.patchValue({ onlyActive: $event.target.checked });
     this._storeProduct$.dispatch(
-      setActiveProduct({ active: this._formGroup.value.onlyActive })
+      setActiveProduct({ active: this._formGroup.get('onlyActive')?.value })
     );
     this.products$ = this._storeProduct$.select(filterProductByCategory);
   }

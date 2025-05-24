@@ -1,5 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Product, ProductPriceHistoryData } from '../api';
 import { Property } from '../api/model/property';
@@ -78,8 +83,8 @@ export class PriceHistoryComponent implements OnInit {
     private translate: TranslateService
   ) {
     this._formGroup = this.formBuilder.group({
-      idProduct: 0,
-      productName: '',
+      idProduct: new FormControl(0, []),
+      productName: new FormControl('', []),
     });
     this.config = {
       type: 'line',
@@ -138,12 +143,12 @@ export class PriceHistoryComponent implements OnInit {
     );
     this._storeReport$.select(getProductHistoryData).subscribe((data) => {
       this._chartData$ = data;
-      if (this._formGroup.value.idProduct > 0) this.prepareChart();
+      if (this._formGroup.get('idProduct')?.value > 0) this.prepareChart();
     });
   }
 
   updateDiagram() {
-    if (this._formGroup.value.idProduct > 0) {
+    if (this._formGroup.get('idProduct')?.value > 0) {
       this.retrieveReportData();
     }
   }

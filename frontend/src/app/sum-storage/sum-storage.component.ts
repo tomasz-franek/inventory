@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -70,8 +71,8 @@ export class SumStorageComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      idCategory: 0,
-      idProduct: 0,
+      idCategory: new FormControl(0, []),
+      idProduct: new FormControl(0, []),
     });
     this._storeStorage$.dispatch(setHideUsed({ hideUsed: true }));
   }
@@ -133,7 +134,7 @@ export class SumStorageComponent implements OnInit {
   }
 
   updateCategory() {
-    let idCategory = this._formGroup.value.idCategory;
+    let idCategory = this._formGroup.get('idCategory')?.value;
     this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
     this._storeStorage$.dispatch(setStorageCategoryId({ idCategory }));
     this._products$ = this._storeProduct$.select(filterProductByCategory);
@@ -142,11 +143,15 @@ export class SumStorageComponent implements OnInit {
 
   updateListProducts() {
     this._storeStorage$.dispatch(
-      setStorageProductId({ idProduct: this._formGroup.value.idProduct })
+      setStorageProductId({
+        idProduct: this._formGroup.get('idProduct')?.value,
+      })
     );
-    if (this._formGroup.value.idCategory > 0) {
+    if (this._formGroup.get('idCategory')?.value > 0) {
       this._storeStorage$.dispatch(
-        setStorageCategoryId({ idCategory: this._formGroup.value.idCategory })
+        setStorageCategoryId({
+          idCategory: this._formGroup.get('idCategory')?.value,
+        })
       );
     }
     this.filterStorages();

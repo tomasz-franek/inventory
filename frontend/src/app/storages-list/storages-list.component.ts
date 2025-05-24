@@ -20,6 +20,7 @@ import {
 } from '../state/category/category.selectors';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -71,13 +72,13 @@ export class StoragesListComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      idProduct: [0, [Validators.required, Validators.min(1)]],
-      idCategory: 0,
-      hideUsed: true,
-      price: [0, [Validators.required, Validators.min(0)]],
-      idStorage: [0, [Validators.required, Validators.min(1)]],
-      productName: '',
-      storage: undefined,
+      idProduct: new FormControl(0, [Validators.required, Validators.min(1)]),
+      idCategory: new FormControl(0, []),
+      hideUsed: new FormControl(true, []),
+      price: new FormControl(0, [Validators.required, Validators.min(0)]),
+      idStorage: new FormControl(0, [Validators.required, Validators.min(1)]),
+      productName: new FormControl('', []),
+      storage: new FormControl(undefined, []),
     });
     this._formGroup.setValidators(this.updatedPriceValidator());
   }
@@ -112,7 +113,7 @@ export class StoragesListComponent implements OnInit {
   }
 
   updateFilterProduct() {
-    let idProduct: number = this._formGroup.value.idProduct;
+    let idProduct: number = this._formGroup.get('idProduct')?.value;
     this._formGroup.patchValue({ idProduct });
     this._storeStorage$.dispatch(setStorageProductId({ idProduct }));
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
@@ -120,14 +121,14 @@ export class StoragesListComponent implements OnInit {
   }
 
   hideUsed() {
-    let hideUsed = this._formGroup.value.hideUsed;
+    let hideUsed = this._formGroup.get('hideUsed')?.value;
     this._storeStorage$.dispatch(setHideUsed({ hideUsed }));
     this._storeStorage$.dispatch(selectStorageByCategoryAndProduct());
     this.storages$ = this._storeStorage$.select(filterStorages);
   }
 
   updateFilterCategory() {
-    let idCategory: number = this._formGroup.value.idCategory;
+    let idCategory: number = this._formGroup.get('idCategory')?.value;
     this._storeStorage$.dispatch(setStorageCategoryId({ idCategory }));
     this._formGroup.patchValue({ idProduct: 0 });
     this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
@@ -156,8 +157,8 @@ export class StoragesListComponent implements OnInit {
 
   updateStorage() {
     let updatedStorage = {
-      ...this._formGroup.value.storage,
-      price: this._formGroup.value.price,
+      ...this._formGroup.get('storage')?.value,
+      price: this._formGroup.get('price')?.value,
     };
     this._storeStorage$.dispatch(saveStorage({ storage: updatedStorage }));
     this._storeStorage$.dispatch(retrieveStorageList());
@@ -188,9 +189,9 @@ export class StoragesListComponent implements OnInit {
 
   public updatedPriceValidator(): ValidatorFn {
     return (): ValidationErrors | null => {
-      const idProduct = this._formGroup.controls['idProduct'].value;
-      const idStorage = this._formGroup.controls['idStorage'].value;
-      const price = this._formGroup.controls['price'].value;
+      const idProduct = this._formGroup.get('idProduct')?.value;
+      const idStorage = this._formGroup.get('idStorage')?.value;
+      const price = this._formGroup.get('price')?.value;
       if (price <= 0.0) {
         return { valid: false };
       }

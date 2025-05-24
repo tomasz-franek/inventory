@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -53,15 +54,15 @@ export class ProductAddComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this._formGroup = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(1)]],
-      active: [1, Validators.required],
-      fragile: [0, Validators.required],
-      idCategory: [0, [Validators.required, Validators.min(1)]],
-      limitMin: ['', [Validators.required, Validators.min(1)]],
-      limitMed: ['', [Validators.required, Validators.min(1)]],
-      limitMax: ['', [Validators.required, Validators.min(1)]],
-      id: undefined,
-      optLock: 0,
+      name: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      active: new FormControl(1, [Validators.required]),
+      fragile: new FormControl(0, [Validators.required]),
+      idCategory: new FormControl(0, [Validators.required, Validators.min(1)]),
+      limitMin: new FormControl('', [Validators.required, Validators.min(1)]),
+      limitMed: new FormControl('', [Validators.required, Validators.min(1)]),
+      limitMax: new FormControl('', [Validators.required, Validators.min(1)]),
+      id: new FormControl(undefined, []),
+      optLock: new FormControl(0, []),
     });
     this._storeCategory$.dispatch(retrieveCategoryList());
     this.categories$ = this._storeCategory$.select(getCategoriesList);
@@ -70,9 +71,9 @@ export class ProductAddComponent implements OnInit {
 
   public limitsValidator(): ValidatorFn {
     return (): ValidationErrors | null => {
-      const controlMin = this._formGroup.controls['limitMin'].value;
-      const controlMed = this._formGroup.controls['limitMed'].value;
-      const controlMax = this._formGroup.controls['limitMax'].value;
+      const controlMin = this._formGroup.get('limitMin')?.value;
+      const controlMed = this._formGroup.get('limitMed')?.value;
+      const controlMax = this._formGroup.get('limitMax')?.value;
       if (controlMin > controlMed) {
         return { valueWrong: true };
       }
@@ -88,15 +89,15 @@ export class ProductAddComponent implements OnInit {
 
   save() {
     const updatedProduct: Product = {
-      name: this._formGroup.value.name,
-      active: this._formGroup.value.active,
-      idCategory: this._formGroup.value.idCategory,
-      idProduct: this._formGroup.value.id,
-      fragile: this._formGroup.value.fragile,
-      optLock: this._formGroup.value.optLock,
-      limitMed: this._formGroup.value.limitMed,
-      limitMax: this._formGroup.value.limitMax,
-      limitMin: this._formGroup.value.limitMin,
+      name: this._formGroup.get('name')?.value,
+      active: this._formGroup.get('active')?.value,
+      idCategory: this._formGroup.get('idCategory')?.value,
+      idProduct: this._formGroup.get('id')?.value,
+      fragile: this._formGroup.get('fragile')?.value,
+      optLock: this._formGroup.get('optLock')?.value,
+      limitMed: this._formGroup.get('limitMed')?.value,
+      limitMax: this._formGroup.get('limitMax')?.value,
+      limitMin: this._formGroup.get('limitMin')?.value,
     };
     this._storeProduct$.dispatch(saveProduct({ product: updatedProduct }));
   }
@@ -121,7 +122,7 @@ export class ProductAddComponent implements OnInit {
     } else {
       this._storeProduct$.dispatch(loadProductAction({ id: Number(id) }));
       this._storeProduct$.select(editProductSelector).subscribe((product) => {
-        this._formGroup = this.formBuilder.group({
+        this._formGroup.patchValue({
           id: product.idProduct,
           idCategory: product.idCategory,
           name: product.name,

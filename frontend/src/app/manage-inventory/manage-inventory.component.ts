@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -60,17 +61,17 @@ export class ManageInventoryComponent implements OnInit {
   private _storeReport$: Store<ReportState> = inject(Store);
   public _products$!: Observable<Product[]>;
   public _categories$!: Observable<Category[]>;
-  private readonly _manageInventory: FormGroup;
+  private readonly _formGroup: FormGroup;
 
-  get manageInventory(): FormGroup {
-    return this._manageInventory;
+  get formGroup(): FormGroup {
+    return this._formGroup;
   }
 
   constructor(private formBuilder: FormBuilder) {
-    this._manageInventory = this.formBuilder.group({
-      idInventory: [0, Validators.required],
-      idCategory: 0,
-      idProduct: [0, Validators.required],
+    this._formGroup = this.formBuilder.group({
+      idInventory: new FormControl(0, [Validators.required]),
+      idCategory: new FormControl(0, []),
+      idProduct: new FormControl(0, [Validators.required]),
     });
   }
 
@@ -93,15 +94,14 @@ export class ManageInventoryComponent implements OnInit {
 
   updateFilterProduct(event: any) {
     let idProduct: number = Number(event.target.value);
-    this._manageInventory.value.idProduct = idProduct;
+    this._formGroup.patchValue({ idProduct });
     this._storeReport$.dispatch(setReportProductId({ idProduct }));
     this._storeReport$.dispatch(selectValidInventoryByCategoryAndProduct());
   }
 
   updateFilterCategory(event: any) {
     let idCategory: number = Number(event.target.value);
-    this._manageInventory.value.idCategory = idCategory;
-    this._manageInventory.value.idProduct = 0;
+    this._formGroup.patchValue({ idCategory, idProduct: 0 });
     this._storeProduct$.dispatch(setProductCategoryId({ idCategory }));
     this._products$ = this._storeProduct$.select(filterProductByCategory);
     this._storeReport$.dispatch(setReportCategoryId({ idCategory }));

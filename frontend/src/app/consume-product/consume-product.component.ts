@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -90,14 +91,14 @@ export class ConsumeProductComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      idInventory: 0,
-      idCategory: 0,
-      idProduct: [0, [Validators.required, Validators.min(1)]],
-      idItem: 0,
-      sliderMin: 0,
-      used: [0, [Validators.required, Validators.min(1)]],
-      endDate: '',
-      productName: '',
+      idInventory: new FormControl(0, []),
+      idCategory: new FormControl(0, []),
+      idProduct: new FormControl(0, [Validators.required, Validators.min(1)]),
+      idItem: new FormControl(0, []),
+      sliderMin: new FormControl(0, []),
+      used: new FormControl(0, [Validators.required, Validators.min(1)]),
+      endDate: new FormControl('', []),
+      productName: new FormControl('', []),
     });
   }
 
@@ -116,22 +117,22 @@ export class ConsumeProductComponent implements OnInit {
 
   loadConsumeProductList(): void {
     if (
-      this._formGroup.value.idCategory > 0 &&
-      this._formGroup.value.idInventory > 0
+      this._formGroup.get('idCategory')?.value > 0 &&
+      this._formGroup.get('idInventory')?.value > 0
     ) {
-      if (this._formGroup.value.idProduct > 0) {
+      if (this._formGroup.get('idProduct')?.value > 0) {
         this._storeItem$.dispatch(
           retrieveConsumeProductListInventoryCategoryProduct({
-            idInventory: this._formGroup.value.idInventory,
-            idCategory: this._formGroup.value.idCategory,
-            idProduct: this._formGroup.value.idProduct,
+            idInventory: this._formGroup.get('idInventory')?.value,
+            idCategory: this._formGroup.get('idCategory')?.value,
+            idProduct: this._formGroup.get('idProduct')?.value,
           })
         );
       } else {
         this._storeItem$.dispatch(
           retrieveConsumeProductListInventoryCategory({
-            idInventory: this._formGroup.value.idInventory,
-            idCategory: this._formGroup.value.idCategory,
+            idInventory: this._formGroup.get('idInventory')?.value,
+            idCategory: this._formGroup.get('idCategory')?.value,
           })
         );
       }
@@ -143,20 +144,20 @@ export class ConsumeProductComponent implements OnInit {
 
   consumeItem() {
     let itemToConsume: ItemConsume = {
-      endDate: this._formGroup.value.endDate,
-      idItem: this._formGroup.value.idItem,
-      used: this._formGroup.value.used,
+      endDate: this._formGroup.get('endDate')?.value,
+      idItem: this._formGroup.get('idItem')?.value,
+      used: this._formGroup.get('used')?.value,
     };
     this._storeItem$.dispatch(consumeItem({ itemToConsume }));
   }
 
   onChangeEndDate(value: Date): void {
-    this._formGroup.value.endDate = value;
+    this._formGroup.patchValue({ endDate: value });
   }
 
   addDay(number: number) {
     if (this._formGroup.get('endDate') != null) {
-      let newDate: Date = new Date(this._formGroup.value.endDate);
+      let newDate: Date = new Date(this._formGroup.get('endDate')?.value);
       this.disabledButtonNext = newDate.getDate() > new Date().getDate() - 2;
       newDate.setDate(newDate.getDate() + number);
       this._formGroup.patchValue({ endDate: newDate });
@@ -175,7 +176,7 @@ export class ConsumeProductComponent implements OnInit {
   }
 
   updateFilterInventory($event: any) {
-    this._formGroup.value.idInventory = Number($event.target.value);
+    this._formGroup.patchValue({ idInventory: Number($event.target.value) });
     this.loadConsumeProductList();
   }
 
@@ -231,6 +232,6 @@ export class ConsumeProductComponent implements OnInit {
   }
 
   getProductName(): string {
-    return this._formGroup.value.productName || '';
+    return this._formGroup.get('productName')?.value || '';
   }
 }

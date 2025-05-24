@@ -7,6 +7,7 @@ import { AsyncPipe, NgForOf } from '@angular/common';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -70,9 +71,9 @@ export class AvailabilityComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      period: this.initialDays,
-      idProduct: 0,
-      product: null,
+      period: new FormControl(this.initialDays, []),
+      idProduct: new FormControl(0, []),
+      product: new FormControl(null, []),
     });
   }
 
@@ -102,12 +103,12 @@ export class AvailabilityComponent implements OnInit {
   }
 
   updateDiagram($event: any) {
-    this._formGroup.value.idProduct = $event.target.value;
-    if (this._formGroup.value.idProduct > 0) {
+    this._formGroup.patchValue({ idProduct: $event.target.value });
+    if (this._formGroup.get('idProduct')?.value > 0) {
       this._storeReport$.dispatch(
         readProductAvailabilityForPeriod({
-          idProduct: this._formGroup.value.idProduct,
-          period: this._formGroup.value.period,
+          idProduct: this._formGroup.get('idProduct')?.value,
+          period: this._formGroup.get('period')?.value,
         })
       );
       this._storeReport$

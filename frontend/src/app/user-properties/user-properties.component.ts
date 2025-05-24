@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { systemCurrencies } from '../../objects/definedValues';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -33,21 +34,21 @@ export class UserPropertiesComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this._formGroup = this.formBuilder.group({
-      language: ['', Validators.required],
-      currency: ['', Validators.required],
-      idProperty: 0,
-      idUser: 0,
+      language: new FormControl('', [Validators.required]),
+      currency: new FormControl('', [Validators.required]),
+      idProperty: new FormControl(0, []),
+      idUser: new FormControl(0, []),
     });
   }
 
   updateProperties() {
     const updatedProperty: Property = {
-      idProperty: this._formGroup.value.idProperty,
-      idUser: this._formGroup.value.idUser,
-      language: this._formGroup.value.language,
-      currency: this._formGroup.value.currency,
+      idProperty: this._formGroup.get('idProperty')?.value,
+      idUser: this._formGroup.get('idUser')?.value,
+      language: this._formGroup.get('language')?.value,
+      currency: this._formGroup.get('currency')?.value,
     };
-    if (this._formGroup.value.idUser !== undefined) {
+    if (this._formGroup.get('idUser')?.value !== undefined) {
       this._storeProperty$.dispatch(
         saveProperty({ property: updatedProperty })
       );
@@ -62,7 +63,7 @@ export class UserPropertiesComponent implements OnInit {
     this._storeProperty$.dispatch(retrievePropertyForUser({ idUser: 1 }));
 
     this._storeProperty$.select(getProperty).subscribe((property) => {
-      this._formGroup.setValue({
+      this._formGroup.patchValue({
         language: property.language,
         currency: property.currency,
         idProperty: property.idProperty,

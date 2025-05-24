@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -36,11 +37,14 @@ export class InventoryAddComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this._formGroup = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(1)]],
-      description: ['', [Validators.required, Validators.minLength(1)]],
-      active: [1, Validators.required],
-      id: [],
-      optLock: [],
+      name: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
+      active: new FormControl(1, [Validators.required]),
+      id: new FormControl('', []),
+      optLock: new FormControl('', []),
     });
   }
 
@@ -50,11 +54,11 @@ export class InventoryAddComponent implements OnInit {
       this._store$.select(newInventorySelector).subscribe((inventory) => {
         this.inventory$ = inventory;
         this._formGroup = this.formBuilder.group({
-          id: undefined,
-          name: ['', Validators.required],
-          description: ['', Validators.required],
-          active: [true, Validators.required],
-          optLock: [0],
+          id: new FormControl(undefined, []),
+          name: new FormControl('', [Validators.required]),
+          description: new FormControl('', [Validators.required]),
+          active: new FormControl(true, [Validators.required]),
+          optLock: new FormControl(0, []),
         });
       });
     } else {
@@ -62,11 +66,17 @@ export class InventoryAddComponent implements OnInit {
       this._store$.select(editInventorySelector).subscribe((inventory) => {
         this.inventory$ = inventory;
         this._formGroup = this.formBuilder.group({
-          id: this.inventory$.idInventory,
-          name: [this.inventory$.name, Validators.required],
-          description: [this.inventory$.description, Validators.required],
-          active: [this.inventory$.active, Validators.required],
-          optLock: [this.inventory$.optLock, Validators.required],
+          id: new FormControl(this.inventory$.idInventory, []),
+          name: new FormControl(this.inventory$.name, [Validators.required]),
+          description: new FormControl(this.inventory$.description, [
+            Validators.required,
+          ]),
+          active: new FormControl(this.inventory$.active, [
+            Validators.required,
+          ]),
+          optLock: new FormControl(this.inventory$.optLock, [
+            Validators.required,
+          ]),
         });
       });
     }
@@ -83,11 +93,11 @@ export class InventoryAddComponent implements OnInit {
   save() {
     const updatedInventory: Inventory = {
       ...this.inventory$,
-      name: this._formGroup.value.name,
-      active: this._formGroup.value.active,
-      description: this._formGroup.value.description,
+      name: this._formGroup.get('name')?.value,
+      active: this._formGroup.get('active')?.value,
+      description: this._formGroup.get('description')?.value,
     };
-    if (this._formGroup.value.id !== undefined) {
+    if (this._formGroup.get('id')?.value !== undefined) {
       this._store$.dispatch(saveInventory({ inventory: updatedInventory }));
     }
   }
