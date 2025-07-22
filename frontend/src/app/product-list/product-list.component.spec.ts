@@ -8,6 +8,8 @@ import { initialCategoryState } from '../state/category/category.reducer';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { mockRoute } from '../mocks/activated-route-mock';
+import { filterProducts } from '../state/product/product.selectors';
+import { filterCategories } from '../state/category/category.selectors';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -19,7 +21,13 @@ describe('ProductListComponent', () => {
       providers: [
         FormBuilder,
         ReactiveFormsModule,
-        provideMockStore({ initialState: initialCategoryState }),
+        provideMockStore({
+          initialState: initialCategoryState,
+          selectors: [
+            { selector: filterProducts, value: [] },
+            { selector: filterCategories, value: [] },
+          ],
+        }),
         { provide: ActivatedRoute, useValue: mockRoute },
       ],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

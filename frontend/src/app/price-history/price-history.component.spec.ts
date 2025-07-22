@@ -6,6 +6,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
 import { initialCategoryState } from '../state/category/category.reducer';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { filterProducts } from '../state/product/product.selectors';
 
 describe('PriceHistoryComponent', () => {
   let component: PriceHistoryComponent;
@@ -17,7 +18,10 @@ describe('PriceHistoryComponent', () => {
       providers: [
         FormBuilder,
         ReactiveFormsModule,
-        provideMockStore({ initialState: initialCategoryState }),
+        provideMockStore({
+          initialState: initialCategoryState,
+          selectors: [{ selector: filterProducts, value: [] }],
+        }),
       ],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

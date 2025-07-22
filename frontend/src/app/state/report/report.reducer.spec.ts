@@ -33,20 +33,120 @@ import {
 describe('ReportReducer', () => {
   const mockInitialState = (): ReportState => {
     return {
-      expired: [],
-      inventory: [],
-      lastUsed: [],
-      productPrediction: [],
-      filteredProductPredictions: [],
+      expired: [
+        {
+          idProduct: 1,
+          productName: 'a',
+          items: 2,
+          validList: [{ validDate: '', count: 2 }],
+          validDate: '22',
+        },
+      ],
+      inventory: [{ idProduct: 2, productName: 'a', items: 2, validDate: '' }],
+      lastUsed: [{ idProduct: 2, productName: 'a', endDate: '3' }],
+      productPrediction: [
+        {
+          idProduct: 2,
+          productName: 'a',
+          predictedAvailabilityEpoch: 2,
+          predictedAvailabilityDate: '',
+          minimalProductBuyingDate: '',
+          limitMin: 2,
+          limitMed: 3,
+          limitMax: 3,
+          countUsed: 4,
+          countItems: 4,
+          available: 5,
+        },
+      ],
+      filteredProductPredictions: [
+        {
+          idProduct: 1,
+          productName: 'a',
+          predictedAvailabilityEpoch: 1,
+          predictedAvailabilityDate: '',
+          minimalProductBuyingDate: '3',
+          available: 4,
+          countUsed: 5,
+          countItems: 5,
+          limitMax: 5,
+          limitMin: 5,
+          limitMed: 9,
+        },
+      ],
       productPredictionDays: 22,
-      availabilityData: [],
-      nextDaysExpired: [],
-      valueHistoryData: [],
-      priceHistoryData: [],
-      sumPriceCategoryData: [],
-      purchasesData: [],
-      validInventory: [],
-      selectedValidInventory: [],
+      availabilityData: [
+        {
+          productName: 'xx',
+          availabilityDate: 'ed',
+          count: 4,
+        },
+      ],
+      nextDaysExpired: [
+        {
+          idProduct: 1,
+          productName: '',
+          inventoryName: '',
+          validDate: '',
+          used: 1,
+        },
+      ],
+      valueHistoryData: [
+        {
+          price: 44,
+          idItem: 44,
+          operationDate: '444',
+        },
+      ],
+      priceHistoryData: [
+        {
+          price: 44,
+          operationDate: '',
+        },
+      ],
+      sumPriceCategoryData: [
+        {
+          idCategory: 44,
+          categoryName: '',
+          value: 44,
+        },
+      ],
+      purchasesData: [
+        {
+          insertDate: '',
+          productName: '',
+          items: 87,
+          price: 87,
+          priceSum: 87,
+          idStorage: 87,
+        },
+      ],
+      validInventory: [
+        {
+          productName: '',
+          idProduct: 87,
+          idCategory: 87,
+          validList: [
+            {
+              validDate: '',
+              count: 87,
+            },
+          ],
+        },
+      ],
+      selectedValidInventory: [
+        {
+          productName: '',
+          idProduct: 87,
+          idCategory: 87,
+          validList: [
+            {
+              validDate: '',
+              count: 87,
+            },
+          ],
+        },
+      ],
       selectedProductId: 2,
       selectedCategoryId: 2,
       blob: null,

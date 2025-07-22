@@ -11,18 +11,57 @@ describe('ReportSelectors', () => {
     blob: null,
     validInventory: [],
     inventory: [],
-    lastUsed: [],
+    lastUsed: [{ idProduct: 2, productName: 'a', endDate: '3' }],
     selectedCategoryId: 3,
-    availabilityData: [],
-    filteredProductPredictions: [],
-    nextDaysExpired: [],
-    priceHistoryData: [],
+    availabilityData: [
+      {
+        productName: 'xx',
+        availabilityDate: 'ed',
+        count: 4,
+      },
+    ],
+    filteredProductPredictions: [
+      {
+        idProduct: 1,
+        productName: 'a',
+        predictedAvailabilityEpoch: 1,
+        predictedAvailabilityDate: '',
+        minimalProductBuyingDate: '3',
+        available: 4,
+        countUsed: 5,
+        countItems: 5,
+        limitMax: 5,
+        limitMin: 5,
+        limitMed: 9,
+      },
+    ],
+    nextDaysExpired: [
+      {
+        idProduct: 1,
+        productName: '',
+        inventoryName: '',
+        validDate: '',
+        used: 1,
+      },
+    ],
+    priceHistoryData: [
+      {
+        price: 44,
+        operationDate: '',
+      },
+    ],
     productPrediction: [],
     purchasesData: [],
     productPredictionDays: 3,
     selectedProductId: 33,
     selectedValidInventory: [],
-    valueHistoryData: [],
+    valueHistoryData: [
+      {
+        price: 44,
+        idItem: 44,
+        operationDate: '444',
+      },
+    ],
     sumPriceCategoryData: [],
   } as ReportState;
 

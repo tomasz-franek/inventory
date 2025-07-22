@@ -8,6 +8,10 @@ import { initialCategoryState } from '../state/category/category.reducer';
 import { ActivatedRoute } from '@angular/router';
 import { mockRoute } from '../mocks/activated-route-mock';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { getProductsList } from '../state/product/product.selectors';
+import { filterCategories } from '../state/category/category.selectors';
+import { getUnitsList } from '../state/unit/unit.selectors';
+import { getInventoriesList } from '../state/inventory/inventory.selectors';
 
 describe('StoragesAddComponent', () => {
   let component: StoragesAddComponent;
@@ -19,7 +23,15 @@ describe('StoragesAddComponent', () => {
       providers: [
         FormBuilder,
         ReactiveFormsModule,
-        provideMockStore({ initialState: initialCategoryState }),
+        provideMockStore({
+          initialState: initialCategoryState,
+          selectors: [
+            { selector: getProductsList, value: [] },
+            { selector: filterCategories, value: [] },
+            { selector: getUnitsList, value: [] },
+            { selector: getInventoriesList, value: [] },
+          ],
+        }),
         { provide: ActivatedRoute, useValue: mockRoute },
       ],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

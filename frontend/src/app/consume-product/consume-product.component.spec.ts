@@ -6,6 +6,9 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { initialCategoryState } from '../state/category/category.reducer';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { filterProducts } from '../state/product/product.selectors';
+import { filterCategories } from '../state/category/category.selectors';
+import { filterInventories } from '../state/inventory/inventory.selectors';
 
 describe('ConsumeProductComponent', () => {
   let component: ConsumeProductComponent;
@@ -17,7 +20,14 @@ describe('ConsumeProductComponent', () => {
       providers: [
         FormBuilder,
         ReactiveFormsModule,
-        provideMockStore({ initialState: initialCategoryState }),
+        provideMockStore({
+          initialState: initialCategoryState,
+          selectors: [
+            { selector: filterProducts, value: [] },
+            { selector: filterCategories, value: [] },
+            { selector: filterInventories, value: [] },
+          ],
+        }),
       ],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

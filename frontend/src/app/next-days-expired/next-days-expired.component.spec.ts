@@ -4,8 +4,9 @@ import { NextDaysExpiredComponent } from './next-days-expired.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
-import { initialCategoryState } from '../state/category/category.reducer';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { initialReportState } from '../state/report/report.reducer';
+import { getNextDaysExpiredList } from '../state/report/report.selectors';
 
 describe('NextDaysExpiredComponent', () => {
   let component: NextDaysExpiredComponent;
@@ -17,7 +18,10 @@ describe('NextDaysExpiredComponent', () => {
       providers: [
         FormBuilder,
         ReactiveFormsModule,
-        provideMockStore({ initialState: initialCategoryState }),
+        provideMockStore({
+          initialState: initialReportState,
+          selectors: [{ selector: getNextDaysExpiredList, value: [] }],
+        }),
       ],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

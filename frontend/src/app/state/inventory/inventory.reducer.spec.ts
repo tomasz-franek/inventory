@@ -11,7 +11,15 @@ import { Inventory } from '../../api';
 describe('InventoryReducer', () => {
   const mockInitialState = (): InventoryState => {
     return {
-      inventories: [],
+      inventories: [
+        {
+          idInventory: 2,
+          name: '',
+          description: '',
+          active: false,
+          optLock: 2,
+        },
+      ],
       inventoryEdit: {
         idInventory: undefined,
         name: '',

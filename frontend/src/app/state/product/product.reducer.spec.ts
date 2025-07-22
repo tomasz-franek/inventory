@@ -29,7 +29,16 @@ describe('ProductReducer', () => {
         optLock: 12,
         fragile: false,
       },
-      products: [],
+      products: [
+        {
+          idProduct: 12,
+          idCategory: 4,
+          name: 'Product 1',
+          active: true,
+          optLock: 12,
+          fragile: false,
+        },
+      ],
     } as ProductState;
   };
 
