@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Product, Shopping, Unit } from '../api';
 import { Store } from '@ngrx/store';
@@ -30,13 +30,7 @@ import { retrieveProductList } from '../state/product/product.action';
 
 @Component({
   selector: 'app-shopping-add',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    TranslatePipe,
-    AsyncPipe,
-    NgForOf,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, TranslatePipe, AsyncPipe],
   templateUrl: './shopping-add.component.html',
   styleUrl: './shopping-add.component.css',
 })

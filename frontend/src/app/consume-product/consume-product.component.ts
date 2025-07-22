@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AsyncPipe, DecimalPipe, NgForOf, NgStyle } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgStyle } from '@angular/common';
 import {
   Category,
   ConsumeProduct,
@@ -62,7 +62,6 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     FormsModule,
     TranslatePipe,
     DecimalPipe,
-    NgForOf,
     NgStyle,
     BsDatepickerDirective,
     AsyncPipe,

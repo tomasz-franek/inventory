@@ -1,12 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import {
-  AsyncPipe,
-  DatePipe,
-  DecimalPipe,
-  NgForOf,
-  NgStyle,
-} from '@angular/common';
+import { AsyncPipe, DatePipe, DecimalPipe, NgStyle } from '@angular/common';
 import { reportPeriods } from '../../objects/definedValues';
 import { ProductPredictionData, Shopping } from '../api';
 import { Observable } from 'rxjs';
@@ -39,7 +33,6 @@ import { saveShopping } from '../state/shopping/shopping.action';
     NgStyle,
     FormsModule,
     ReactiveFormsModule,
-    NgForOf,
   ],
   templateUrl: './product-prediction.component.html',
   styleUrl: './product-prediction.component.css',

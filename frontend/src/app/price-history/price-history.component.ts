@@ -19,7 +19,7 @@ import {
   getProductHistoryData,
   ReportState,
 } from '../state/report/report.selectors';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { retrieveProductPriceHistory } from '../state/report/report.action';
 import {
   CategoryScale,
@@ -47,15 +47,10 @@ Chart.register(
   LineController,
   LineElement
 );
+
 @Component({
   selector: 'app-price-history',
-  imports: [
-    ReactiveFormsModule,
-    TranslatePipe,
-    AsyncPipe,
-    NgForOf,
-    NgxEchartsDirective,
-  ],
+  imports: [ReactiveFormsModule, TranslatePipe, AsyncPipe, NgxEchartsDirective],
   providers: [provideEchartsCore({ echarts })],
   templateUrl: './price-history.component.html',
   styleUrl: './price-history.component.css',

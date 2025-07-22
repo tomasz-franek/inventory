@@ -3,7 +3,7 @@ import { Product, ProductAvailabilityData } from '../api';
 import { EChartsOption } from 'echarts';
 import { reportPeriods } from '../../objects/definedValues';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import {
   FormBuilder,
@@ -46,7 +46,6 @@ echarts.use([
   selector: 'app-availability',
   imports: [
     TranslatePipe,
-    NgForOf,
     NgxEchartsDirective,
     FormsModule,
     ReactiveFormsModule,

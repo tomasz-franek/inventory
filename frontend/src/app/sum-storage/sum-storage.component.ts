@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AsyncPipe, DecimalPipe, NgClass, NgForOf } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgClass } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Category, Product } from '../api';
 import { Property } from '../api/model/property';
@@ -46,7 +46,6 @@ import { InventoryStore } from '../../objects/store';
     FormsModule,
     TranslatePipe,
     ReactiveFormsModule,
-    NgForOf,
     DecimalPipe,
     AsyncPipe,
     NgClass,

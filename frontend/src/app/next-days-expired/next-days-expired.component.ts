@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AsyncPipe, DecimalPipe, NgForOf } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import {
   FormBuilder,
   FormControl,
@@ -19,13 +19,7 @@ import { retrieveNexDaysExpiredData } from '../state/report/report.action';
 
 @Component({
   selector: 'app-next-days-expired',
-  imports: [
-    TranslatePipe,
-    NgForOf,
-    ReactiveFormsModule,
-    DecimalPipe,
-    AsyncPipe,
-  ],
+  imports: [TranslatePipe, ReactiveFormsModule, DecimalPipe, AsyncPipe],
   templateUrl: './next-days-expired.component.html',
   styleUrl: './next-days-expired.component.css',
 })

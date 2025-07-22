@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AsyncPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import {
   ExpiredReportData,
   LastUsedData,
@@ -52,14 +52,7 @@ import { createEvent } from '../state/calendar/calendar.action';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [
-    FullCalendarModule,
-    TranslatePipe,
-    NgForOf,
-    DecimalPipe,
-    NgIf,
-    AsyncPipe,
-  ],
+  imports: [FullCalendarModule, TranslatePipe, DecimalPipe, AsyncPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -87,14 +80,12 @@ export class DashboardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this._events$ = this._storeCalendar$.select(getEventsList);
-
     this._storeShopping$.dispatch(retrieveShoppingList());
     this.shopping$ = this._storeShopping$.select(getShoppingList);
+    this.units$ = this._storeUnit$.select(getUnitsList);
+    this._events$ = this._storeCalendar$.select(getEventsList);
 
     this._storeUnit$.dispatch(retrieveUnitList());
-    this.units$ = this._storeUnit$.select(getUnitsList);
-
     this._storeReport$.dispatch(retrieveNexDaysExpiredData({ days: 180 }));
     this._storeReport$
       .select(getNextDaysExpiredList)

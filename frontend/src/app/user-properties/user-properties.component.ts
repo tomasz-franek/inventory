@@ -9,7 +9,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { NgForOf } from '@angular/common';
 import { Store } from '@ngrx/store';
 import {
   getProperty,
@@ -23,7 +22,7 @@ import { Property } from '../api';
 
 @Component({
   selector: 'app-user-properties',
-  imports: [FormsModule, TranslatePipe, NgForOf, ReactiveFormsModule],
+  imports: [FormsModule, TranslatePipe, ReactiveFormsModule],
   templateUrl: './user-properties.component.html',
   styleUrl: './user-properties.component.css',
 })

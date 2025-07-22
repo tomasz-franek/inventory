@@ -6,7 +6,7 @@ import {
   retrieveCategoryList,
   setActiveCategory,
 } from '../state/category/category.action';
-import { CommonModule, NgForOf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -19,7 +19,7 @@ import { ActiveColor } from '../utils/active-color';
 @Component({
   selector: 'app-category-list',
   styleUrl: './category-list.component.css',
-  imports: [NgForOf, CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './category-list.component.html',
 })
 export class CategoryListComponent implements OnInit {

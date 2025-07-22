@@ -3,7 +3,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { DownloadFileComponent } from '../download-file/download-file.component';
 import { ExpiredReportData, ValidExpiredData } from '../api';
 import { Observable } from 'rxjs';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import {
   getExpiredProductList,
@@ -14,7 +14,7 @@ import { PdfReportsEnum } from '../../objects/definedValues';
 
 @Component({
   selector: 'app-expired-products',
-  imports: [TranslatePipe, DownloadFileComponent, NgForOf, AsyncPipe, NgIf],
+  imports: [TranslatePipe, DownloadFileComponent, AsyncPipe],
   templateUrl: './expired-products.component.html',
   styleUrl: './expired-products.component.css',
 })

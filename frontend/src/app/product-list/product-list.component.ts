@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { AsyncPipe, NgClass, NgForOf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Category, Product } from '../api';
 import { Store } from '@ngrx/store';
 import {
@@ -33,7 +33,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
-  imports: [NgForOf, AsyncPipe, TranslatePipe, NgClass, ReactiveFormsModule],
+  imports: [AsyncPipe, TranslatePipe, NgClass, ReactiveFormsModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })

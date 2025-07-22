@@ -28,7 +28,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { AsyncPipe, DecimalPipe, NgClass, NgForOf } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgClass } from '@angular/common';
 import {
   retrieveProductList,
   setProductCategoryId,
@@ -53,7 +53,6 @@ import { ActiveColor } from '../utils/active-color';
     FormsModule,
     NgClass,
     DecimalPipe,
-    NgForOf,
     AsyncPipe,
     ReactiveFormsModule,
   ],

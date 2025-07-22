@@ -1,253 +1,248 @@
-<form *ngIf="formGroup" [formGroup]="formGroup">
-  <div class="row mb-2">
-    <div class="col-8">
-      <label class="col-6">{{ 'CATEGORY' | translate }}</label>
-      <label class="col-6">{{ 'PRODUCT' | translate }}</label>
+<form [formGroup]="formGroup">
+    <div class="row mb-2">
+        <div class="col-8">
+            <label class="col-6">{{ 'CATEGORY' | translate }}</label>
+            <label class="col-6">{{ 'PRODUCT' | translate }}</label>
+        </div>
+        <div class="row mb-2">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-6">
+                        <select
+                                (change)="changeCategory($event)"
+                                formControlName="idCategory"
+                                class="form-select"
+                                id="category"
+                        >
+                            <option [value]="0">
+                                {{ 'SELECT' | translate }} {{ 'CATEGORY' | translate }}
+                            </option>
+                            @for (category of categories$ | async; track category.idCategory) {
+                                <option [value]="category.idCategory">
+                                    {{ category.name }}
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select
+                                (change)="changeProduct($event)"
+                                formControlName="idProduct"
+                                class="form-select"
+                                id="product"
+                        >
+                            <option [value]="0">
+                                {{ 'SELECT' | translate }} {{ 'PRODUCT' | translate }}
+                            </option>
+                            @for (product of products$ | async; track product.idProduct) {
+                                <option [value]="product.idProduct">
+                                    {{ product.name }}
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row mb-2">
-      <div class="col-8">
-        <div class="row">
-          <div class="col-6">
-            <select
-              (change)="changeCategory($event)"
-              formControlName="idCategory"
-              class="form-select"
-              id="category"
-            >
-              <option [value]="0">
-                {{ 'SELECT' | translate }} {{ 'CATEGORY' | translate }}
-              </option>
-              <option
-                *ngFor="let category of categories$ | async"
-                [value]="category.idCategory"
-              >
-                {{ category.name }}
-              </option>
-            </select>
-          </div>
-          <div class="col-6">
-            <select
-              (change)="changeProduct($event)"
-              formControlName="idProduct"
-              class="form-select"
-              id="product"
-            >
-              <option [value]="0">
-                {{ 'SELECT' | translate }} {{ 'PRODUCT' | translate }}
-              </option>
-              <option
-                *ngFor="let product of products$ | async"
-                [value]="product.idProduct"
-              >
-                {{ product.name }}
-              </option>
-            </select>
-          </div>
+        <div class="col-8">
+            <div class="row">
+                <label class="col-6">{{ 'BUY_DATE' | translate }}</label>
+                <label class="col-6">{{ 'VALID_DATE' | translate }}</label>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <input
+                            formControlName="buyDate"
+                            [maxDate]="today"
+                            (bsValueChange)="onBuyDateChange()"
+                            bsDatepicker
+                            class="form-control"
+                            placeholder="{{ 'BUY_DATE' | translate }}"
+                            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                            type="text"
+                    />
+                </div>
+                <div class="col-6">
+                    <input
+                            formControlName="validDate"
+                            (bsValueChange)="onValidDateChanged($event)"
+                            bsDatepicker
+                            class="form-control"
+                            placeholder="{{ 'VALID_DATE' | translate }}"
+                            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                            type="text"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="row mb-2">
-    <div class="col-8">
-      <div class="row">
-        <label class="col-6">{{ 'BUY_DATE' | translate }}</label>
-        <label class="col-6">{{ 'VALID_DATE' | translate }}</label>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <input
-            formControlName="buyDate"
-            [maxDate]="today"
-            (bsValueChange)="onBuyDateChange()"
-            bsDatepicker
-            class="form-control"
-            placeholder="{{ 'BUY_DATE' | translate }}"
-            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-            type="text"
-          />
-        </div>
-        <div class="col-6">
-          <input
-            formControlName="validDate"
-            (bsValueChange)="onValidDateChanged($event)"
-            bsDatepicker
-            class="form-control"
-            placeholder="{{ 'VALID_DATE' | translate }}"
-            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-            type="text"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mb-2">
-    <label class="col-6">
-      {{ 'UNIT' | translate }}
-      <input
-        (change)="updateCheckbox()"
-        formControlName="unitsCheckbox"
-        class="checkbox"
-        id="unit"
-        type="checkbox"
-      />
-    </label>
-  </div>
-  <div class="row mb-2">
-    <div class="col-2 mb-2">
-      <input
-        formControlName="count"
-        class="input"
-        id="count"
-        name="count"
-        placeholder="{{ 'UNIT' | translate }}"
-        step="0.0001"
-        type="number"
-      />
-    </div>
-    <div class="col-2">
-      <select
-        formControlName="idUnit"
-        class="form-select"
-        (change)="changeUnit($event)"
-      >
-        <option [value]="0" selected>{{ 'SELECT' | translate }}</option>
-        <option *ngFor="let unit of units$ | async" [value]="unit.idUnit">
-          {{ unit.name }}
-        </option>
-      </select>
-    </div>
-  </div>
-  <div class="row mb-2">
-    <div>
-      <div class="row">
-        <label class="col-2">{{ 'ITEMS' | translate }}</label>
+    <div class="row mb-2">
         <label class="col-6">
-          {{ 'MOVE_INVENTORY' | translate }} {{ 'NOT_REQUIRED' | translate }}
+            {{ 'UNIT' | translate }}
+            <input
+                    (change)="updateCheckbox()"
+                    formControlName="unitsCheckbox"
+                    class="checkbox"
+                    id="unit"
+                    type="checkbox"
+            />
         </label>
-      </div>
-      <div class="row">
-        <div class="col col-2">
-          <input
-            formControlName="items"
-            class="input"
-            id="items"
-            max="50"
-            min="1"
-            type="number"
-          />
-        </div>
-        <div class="col-6">
-          <select
-            formControlName="idInventory"
-            (change)="changeInventory($event)"
-            class="form-select"
-            id="moveInventory"
-          >
-            <option [value]="0" selected>
-              {{ 'MOVE_INVENTORY' | translate }}
-            </option>
-            <option
-              *ngFor="let inventory of inventories$ | async"
-              [value]="inventory.idInventory"
-            >
-              {{ inventory.name }}
-            </option>
-          </select>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="row">
-    <label class="col-8">
-      {{ 'PRICE' | translate }}
-      <span *ngIf="productPrice$.idProduct != 0" id="minPrice">
-        {{ 'MIN' | translate }} : {{ productPrice$.minPrice | number: '1.2-2' }}
-      </span>
-      <button
-        (click)="setPrice(productPrice$.minPrice)"
-        *ngIf="productPrice$.idProduct != 0"
-        class="btn btn-outline-primary me-2 ms-2"
-        id="minPriceButton"
-        type="button"
-      >
-        <i class="bi bi-arrow-down"></i>
-      </button>
-      <span *ngIf="productPrice$.idProduct != 0" id="avgPrice">
-        , {{ 'AVG' | translate }} :
-        {{ productPrice$.averagePrice | number: '1.2-2' }}
-      </span>
-      <button
-        (click)="setPrice(productPrice$.averagePrice)"
-        *ngIf="productPrice$.idProduct != 0"
-        class="btn btn-outline-primary me-2 ms-2"
-        id="avgPriceButton"
-        type="button"
-      >
-        <i class="bi bi-arrow-down"></i>
-      </button>
-      <span *ngIf="productPrice$.idProduct != 0" id="maxPrice">
-        , {{ 'MAX' | translate }} :
-        {{ productPrice$.maxPrice | number: '1.2-2' }}
-      </span>
-      <button
-        (click)="setPrice(productPrice$.maxPrice)"
-        *ngIf="productPrice$.idProduct != 0"
-        class="btn btn-outline-primary me-2 ms-2"
-        id="maxPriceButton"
-        type="button"
-      >
-        <i class="bi bi-arrow-down"></i>
-      </button>
-      <span *ngIf="productPrice$.idProduct != 0" id="lastPrice">
-        , {{ 'LAST' | translate }} :
-        {{ productPrice$.lastPrice | number: '1.2-2' }}
-      </span>
-      <button
-        (click)="setPrice(productPrice$.lastPrice)"
-        *ngIf="productPrice$.idProduct != 0"
-        class="btn btn-outline-primary me-2 ms-2"
-        id="lastPriceButton"
-        type="button"
-      >
-        <i class="bi bi-arrow-down"></i>
-      </button>
-      <input
-        formControlName="price"
-        (change)="onBuyDateChange()"
-        class="input col-6 form-control mt-2"
-        id="price"
-        name="price"
-        placeholder="{{ 'PRICE' | translate }}"
-        step="0.01"
-        type="number"
-      />
-    </label>
-  </div>
-  <div class="row mt-2">
-    <button
-      (click)="close()"
-      class="col col-2 btn btn-outline-danger me-2"
-      id="back"
-    >
-      <i class="bi bi-arrow-left"></i>
-      {{ 'BACK' | translate }}
-    </button>
-    <button
-      (click)="saveStorageActon(false)"
-      [disabled]="formGroup.invalid"
-      class="col col-2 btn btn-outline-primary me-2"
-      id="save"
-    >
-      {{ 'SAVE' | translate }}
-    </button>
-    <button
-      (click)="saveStorageActon(true)"
-      [disabled]="formGroup.invalid"
-      class="col col-2 btn btn btn-outline-primary me-2"
-      id="saveAndAdd"
-    >
-      <i class="bi bi-plus-circle"></i>
-      {{ 'SAVE_AND_ADD' | translate }}
-    </button>
-  </div>
+    <div class="row mb-2">
+        <div class="col-2 mb-2">
+            <input
+                    formControlName="count"
+                    class="input"
+                    id="count"
+                    name="count"
+                    placeholder="{{ 'UNIT' | translate }}"
+                    step="0.0001"
+                    type="number"
+            />
+        </div>
+        <div class="col-2">
+            <select
+                    formControlName="idUnit"
+                    class="form-select"
+                    (change)="changeUnit($event)"
+            >
+                <option [value]="0" selected>{{ 'SELECT' | translate }}</option>
+                @for (unit of units$ | async; track unit.idUnit) {
+                    <option [value]="unit.idUnit">
+                        {{ unit.name }}
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div>
+            <div class="row">
+                <label class="col-2">{{ 'ITEMS' | translate }}</label>
+                <label class="col-6">
+                    {{ 'MOVE_INVENTORY' | translate }} {{ 'NOT_REQUIRED' | translate }}
+                </label>
+            </div>
+            <div class="row">
+                <div class="col col-2">
+                    <input
+                            formControlName="items"
+                            class="input"
+                            id="items"
+                            max="50"
+                            min="1"
+                            type="number"
+                    />
+                </div>
+                <div class="col-6">
+                    <select
+                            formControlName="idInventory"
+                            (change)="changeInventory($event)"
+                            class="form-select"
+                            id="moveInventory"
+                    >
+                        <option [value]="0" selected>
+                            {{ 'MOVE_INVENTORY' | translate }}
+                        </option>
+                        @for (inventory of inventories$|async; track inventory.idInventory) {
+                            <option [value]="inventory.idInventory">
+                                {{ inventory.name }}
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-8">
+            {{ 'PRICE' | translate }}
+            @if (productPrice$.idProduct != 0) {
+                <span id="minPrice">
+                    {{ 'MIN' | translate }} : {{ productPrice$.minPrice | number: '1.2-2' }}
+                </span>
+                <button
+                        (click)="setPrice(productPrice$.minPrice)"
+                        class="btn btn-outline-primary me-2 ms-2"
+                        id="minPriceButton"
+                        type="button"
+                >
+                    <i class="bi bi-arrow-down"></i>
+                </button>
+                <span id="avgPrice">
+                    , {{ 'AVG' | translate }} : {{ productPrice$.averagePrice | number: '1.2-2' }}
+                </span>
+
+                <button
+                        (click)="setPrice(productPrice$.averagePrice)"
+                        class="btn btn-outline-primary me-2 ms-2"
+                        id="avgPriceButton"
+                        type="button"
+                >
+                    <i class="bi bi-arrow-down"></i>
+                </button>
+                <span id="maxPrice">
+                    , {{ 'MAX' | translate }} : {{ productPrice$.maxPrice | number: '1.2-2' }}
+                </span>
+                <button
+                        (click)="setPrice(productPrice$.maxPrice)"
+                        class="btn btn-outline-primary me-2 ms-2"
+                        id="maxPriceButton"
+                        type="button"
+                >
+                    <i class="bi bi-arrow-down"></i>
+                </button>
+                <span id="lastPrice">
+                    , {{ 'LAST' | translate }} : {{ productPrice$.lastPrice | number: '1.2-2' }}
+                </span>
+                <button
+                        (click)="setPrice(productPrice$.lastPrice)"
+                        class="btn btn-outline-primary me-2 ms-2"
+                        id="lastPriceButton"
+                        type="button"
+                >
+                    <i class="bi bi-arrow-down"></i>
+                </button>
+            }
+            <input
+                    formControlName="price"
+                    (change)="onBuyDateChange()"
+                    class="input col-6 form-control mt-2"
+                    id="price"
+                    name="price"
+                    placeholder="{{ 'PRICE' | translate }}"
+                    step="0.01"
+                    type="number"
+            />
+        </label>
+    </div>
+    <div class="row mt-2">
+        <button
+                (click)="close()"
+                class="col col-2 btn btn-outline-danger me-2"
+                id="back"
+        >
+            <i class="bi bi-arrow-left"></i>
+            {{ 'BACK' | translate }}
+        </button>
+        <button
+                (click)="saveStorageActon(false)"
+                [disabled]="formGroup.invalid"
+                class="col col-2 btn btn-outline-primary me-2"
+                id="save"
+        >
+            {{ 'SAVE' | translate }}
+        </button>
+        <button
+                (click)="saveStorageActon(true)"
+                [disabled]="formGroup.invalid"
+                class="col col-2 btn btn btn-outline-primary me-2"
+                id="saveAndAdd"
+        >
+            <i class="bi bi-plus-circle"></i>
+            {{ 'SAVE_AND_ADD' | translate }}
+        </button>
+    </div>
 </form>

@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Inventory, StorageItem } from '../api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -28,13 +28,7 @@ import {
 
 @Component({
   selector: 'app-manage-product',
-  imports: [
-    TranslatePipe,
-    FormsModule,
-    NgForOf,
-    AsyncPipe,
-    ReactiveFormsModule,
-  ],
+  imports: [TranslatePipe, FormsModule, AsyncPipe, ReactiveFormsModule],
   templateUrl: './manage-product.component.html',
   styleUrl: './manage-product.component.css',
 })

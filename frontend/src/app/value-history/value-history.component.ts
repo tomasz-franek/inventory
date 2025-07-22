@@ -19,7 +19,6 @@ import {
   ReportState,
 } from '../state/report/report.selectors';
 import { retrieveStorageValueHistory } from '../state/report/report.action';
-import { NgForOf } from '@angular/common';
 import {
   GridComponent,
   TitleComponent,
@@ -28,9 +27,10 @@ import {
 import { CanvasRenderer } from 'echarts/renderers';
 
 echarts.use([GridComponent, CanvasRenderer, TitleComponent, TooltipComponent]);
+
 @Component({
   selector: 'app-value-history',
-  imports: [ReactiveFormsModule, TranslatePipe, NgxEchartsDirective, NgForOf],
+  imports: [ReactiveFormsModule, TranslatePipe, NgxEchartsDirective],
   providers: [provideEchartsCore({ echarts })],
   templateUrl: './value-history.component.html',
   styleUrl: './value-history.component.css',

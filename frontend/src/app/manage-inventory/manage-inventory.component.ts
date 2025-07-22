@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Category, Product, ProductValid, StorageReportDataRow } from '../api';
 import { DownloadFileComponent } from '../download-file/download-file.component';
 import { Observable } from 'rxjs';
@@ -45,8 +45,6 @@ import { PdfReportsEnum } from '../../objects/definedValues';
   imports: [
     TranslatePipe,
     FormsModule,
-    NgForOf,
-    NgIf,
     DownloadFileComponent,
     ReactiveFormsModule,
     AsyncPipe,

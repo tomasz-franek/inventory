@@ -15,13 +15,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  AsyncPipe,
-  CommonModule,
-  formatDate,
-  NgForOf,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe, CommonModule, formatDate } from '@angular/common';
 import {
   BsDatepickerDirective,
   BsDatepickerModule,
@@ -71,8 +65,6 @@ import { TranslatePipe } from '@ngx-translate/core';
     CommonModule,
     BsDatepickerModule,
     TranslatePipe,
-    NgForOf,
-    NgIf,
     AsyncPipe,
     ReactiveFormsModule,
     BsDatepickerDirective,

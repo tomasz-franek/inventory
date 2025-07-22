@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { AsyncPipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Property, Shopping, Unit } from '../api';
 import {
@@ -25,14 +25,7 @@ import { PdfReportsEnum } from '../../objects/definedValues';
 
 @Component({
   selector: 'app-shopping-list',
-  imports: [
-    NgForOf,
-    TranslatePipe,
-    AsyncPipe,
-    DecimalPipe,
-    NgIf,
-    DownloadFileComponent,
-  ],
+  imports: [TranslatePipe, AsyncPipe, DecimalPipe, DownloadFileComponent],
   templateUrl: './shopping-list.component.html',
   styleUrl: './shopping-list.component.css',
 })

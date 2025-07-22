@@ -1,113 +1,112 @@
 <form [formGroup]="formGroup">
-  <div class="row mb-2">
-    <fieldset class="fieldset">
-      <div class="row mb-2">
-        <label class="form-label col-2">{{ 'NAME' | translate }}</label>
-        <input
-          formControlName="name"
-          class="input col-3"
-          maxlength="45"
-          minlength="1"
-          placeholder="{{ 'NAME' | translate }}"
-          required
-          type="text"
-        />
-      </div>
-      <div class="row mb-2">
-        <label class="form-label col-2">{{ 'CATEGORY' | translate }}</label>
-        <div class="col-3">
-          <select
-            formControlName="idCategory"
-            class="form-select"
-            required
-            id="category"
-            name="idCategory"
-          >
-            <option [value]="0">{{ 'SELECT' | translate }}</option>
-            <option
-              *ngFor="let category of categories$ | async"
-              [value]="category.idCategory"
-            >
-              {{ category.name }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="row mb-2">
-        <label class="form-label col-2">{{ 'ACTIVE' | translate }}</label>
-        <div class="col-2">
-          <input
-            formControlName="active"
-            class="checkbox"
-            type="checkbox"
-            id="active"
-          />
-        </div>
-      </div>
-      <div class="row mb-2">
-        <label class="form-label col-2">{{ 'FRAGILE' | translate }}</label>
-        <div class="col-2">
-          <input
-            formControlName="fragile"
-            class="checkbox"
-            type="checkbox"
-            id="fragile"
-          />
-        </div>
-      </div>
-      <div class="row mb-2">
-        <label class="form-label col-2">{{ 'DAYS.MIN' | translate }}</label>
-        <input
-          formControlName="limitMin"
-          class="input col-3"
-          required
-          type="number"
-          id="minDays"
-          [min]="0"
-        />
-      </div>
-      <div class="row mb-2">
-        <label class="form-label col-2">{{ 'DAYS.MED' | translate }}</label>
-        <input
-          formControlName="limitMed"
-          class="input col-3"
-          required
-          type="number"
-          id="medDays"
-          [min]="0"
-        />
-      </div>
-      <div class="row mb-2">
-        <label class="form-label col-2">{{ 'DAYS.MAX' | translate }}</label>
-        <input
-          formControlName="limitMax"
-          class="input col-3"
-          name="limitMax"
-          required
-          type="number"
-          id="maxDays"
-          [min]="0"
-        />
-      </div>
-      <div class="row mb-2">
-        <button
-          (click)="backToProducts()"
-          class="btn btn-outline-danger col-2 me-2"
-          id="back"
-        >
-          <i class="bi bi-arrow-left"></i>
-          {{ 'BACK' | translate }}
-        </button>
-        <button
-          (click)="save()"
-          class="ms-2 btn btn-outline-primary col-2 me-2"
-          id="save"
-          [disabled]="formGroup.invalid"
-        >
-          <i class="bi bi-save"></i>
-          {{ 'SAVE' | translate }}
-        </button>
-      </div>
-    </fieldset>
-  </div>
+    <div class="row mb-2">
+        <fieldset class="fieldset">
+            <div class="row mb-2">
+                <label class="form-label col-2">{{ 'NAME' | translate }}</label>
+                <input
+                        formControlName="name"
+                        class="input col-3"
+                        maxlength="45"
+                        minlength="1"
+                        placeholder="{{ 'NAME' | translate }}"
+                        required
+                        type="text"
+                />
+            </div>
+            <div class="row mb-2">
+                <label class="form-label col-2">{{ 'CATEGORY' | translate }}</label>
+                <div class="col-3">
+                    <select
+                            formControlName="idCategory"
+                            class="form-select"
+                            required
+                            id="category"
+                            name="idCategory"
+                    >
+                        <option [value]="0">{{ 'SELECT' | translate }}</option>
+                        @for (category of categories$ | async; track category.idCategory) {
+                            <option [value]="category.idCategory">
+                                {{ category.name }}
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="form-label col-2">{{ 'ACTIVE' | translate }}</label>
+                <div class="col-2">
+                    <input
+                            formControlName="active"
+                            class="checkbox"
+                            type="checkbox"
+                            id="active"
+                    />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="form-label col-2">{{ 'FRAGILE' | translate }}</label>
+                <div class="col-2">
+                    <input
+                            formControlName="fragile"
+                            class="checkbox"
+                            type="checkbox"
+                            id="fragile"
+                    />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="form-label col-2">{{ 'DAYS.MIN' | translate }}</label>
+                <input
+                        formControlName="limitMin"
+                        class="input col-3"
+                        required
+                        type="number"
+                        id="minDays"
+                        [min]="0"
+                />
+            </div>
+            <div class="row mb-2">
+                <label class="form-label col-2">{{ 'DAYS.MED' | translate }}</label>
+                <input
+                        formControlName="limitMed"
+                        class="input col-3"
+                        required
+                        type="number"
+                        id="medDays"
+                        [min]="0"
+                />
+            </div>
+            <div class="row mb-2">
+                <label class="form-label col-2">{{ 'DAYS.MAX' | translate }}</label>
+                <input
+                        formControlName="limitMax"
+                        class="input col-3"
+                        name="limitMax"
+                        required
+                        type="number"
+                        id="maxDays"
+                        [min]="0"
+                />
+            </div>
+            <div class="row mb-2">
+                <button
+                        (click)="backToProducts()"
+                        class="btn btn-outline-danger col-2 me-2"
+                        id="back"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                    {{ 'BACK' | translate }}
+                </button>
+                <button
+                        (click)="save()"
+                        class="ms-2 btn btn-outline-primary col-2 me-2"
+                        id="save"
+                        [disabled]="formGroup.invalid"
+                >
+                    <i class="bi bi-save"></i>
+                    {{ 'SAVE' | translate }}
+                </button>
+            </div>
+        </fieldset>
+    </div>
 </form>

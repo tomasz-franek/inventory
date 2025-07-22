@@ -17,7 +17,7 @@ import {
   navigateToProductList,
   saveProduct,
 } from '../state/product/product.action';
-import { AsyncPipe, NgForOf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   CategoryState,
   getCategoriesList,
@@ -33,13 +33,7 @@ import { retrieveCategoryList } from '../state/category/category.action';
 
 @Component({
   selector: 'app-product-add',
-  imports: [
-    ReactiveFormsModule,
-    TranslatePipe,
-    FormsModule,
-    NgForOf,
-    AsyncPipe,
-  ],
+  imports: [ReactiveFormsModule, TranslatePipe, FormsModule, AsyncPipe],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css',
 })
@@ -83,6 +77,7 @@ export class ProductAddComponent implements OnInit {
       return null;
     };
   }
+
   backToProducts() {
     this._storeProduct$.dispatch(navigateToProductList());
   }
