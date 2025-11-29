@@ -12,8 +12,8 @@
   <artifactId>frontend</artifactId>
 
   <properties>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.source>25</maven.compiler.source>
+    <maven.compiler.target>25</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <build.frontend.skip>false</build.frontend.skip>
     <node.version>v23.7.0</node.version>
