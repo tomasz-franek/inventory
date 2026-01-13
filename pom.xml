@@ -22,7 +22,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 
-      <spring-boot.version>3.5.7</spring-boot.version>
+        <spring-boot.version>4.0.1</spring-boot.version>
         <springdoc.version>1.8.0</springdoc.version>
         <testcontainers.version>1.20.6</testcontainers.version>
     </properties>
@@ -113,13 +113,11 @@
                         </excludes>
                     </configuration>
                 </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.14.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -146,5 +144,6 @@
                 </configuration>
             </plugin>
         </plugins>
+        </pluginManagement>
     </build>
 </project>
