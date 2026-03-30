@@ -16,8 +16,8 @@
     <maven.compiler.target>25</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <build.frontend.skip>false</build.frontend.skip>
-    <node.version>v23.7.0</node.version>
-    <npm.version>8.19.3</npm.version>
+    <node.version>v24.14.1</node.version>
+    <npm.version>11.12.1</npm.version>
   </properties>
 
   <build>
